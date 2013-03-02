@@ -1,0 +1,15 @@
+{application, peculium, [
+    {description, "An Experimental Erlang Bitcoin Client"},
+    {vsn, "0.1.0"},
+    {registered, []},
+    {applications, [
+        crypto,
+        gproc,
+        kernel,
+        lager,
+        ranch,
+        stdlib
+    ]},
+    {mod, { peculium_app, []}},
+    {env, []}
+]}.

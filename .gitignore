@@ -1,0 +1,5 @@
+*.app
+*.beam
+README.html
+deps/
+rel/peculium/
