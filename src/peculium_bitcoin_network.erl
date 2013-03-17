@@ -2,7 +2,7 @@
 
 -export([magic_value/1, stringify/1]).
 
--include_lib("peculium/include/peculium_bitcoin_protocol.hrl").
+-include_lib("peculium/include/peculium.hrl").
 
 -ifdef(TEST).
 -include_lib("eunit/include/eunit.hrl").

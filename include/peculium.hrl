@@ -1,9 +1,15 @@
+-define(PECULIUM_VERSION, <<"0.1.0">>).
+-define(PECULIUM_USER_AGENT, [<<"peculium/", ?PECULIUM_VERSION>>]).
+
+-type bitcoin_unit_atom() :: megabitcoin | kilobitcoin | hectobitcoin | decabitcoin
+                           | bitcoin | decibitcoin | centibitcoin | millibitcoin
+                           | microbitcoin | satoshi.
+
 -type uint8_t()  :: 0..255.
 -type uint16_t() :: 0..65535.
 -type uint32_t() :: 0..4294967295.
 -type uint64_t() :: 0..18446744073709551615.
 
-%% Erlang doesn't support -xxx..yyy ranges :-(
 -type int8_t()  :: integer().
 -type int16_t() :: integer().
 -type int32_t() :: integer().
@@ -28,5 +34,4 @@
     checksum :: bitcoin_checksum()
 }).
 
--record(bitcoin_message, {
-}).
+-record(bitcoin_message, {}).

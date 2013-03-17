@@ -1,2 +1,0 @@
--define(PECULIUM_VERSION, <<"0.1.0">>).
--define(PECULIUM_USER_AGENT, [<<"peculium/", ?PECULIUM_VERSION>>]).

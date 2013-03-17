@@ -2,7 +2,7 @@
 
 -export([factor/1, convert/3, stringify/1]).
 
--include_lib("peculium/include/peculium_bitcoin.hrl").
+-include_lib("peculium/include/peculium.hrl").
 
 -spec factor(bitcoin_unit_atom()) -> float().
 factor(X) ->
