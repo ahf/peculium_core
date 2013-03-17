@@ -8,7 +8,8 @@
         kernel,
         lager,
         ranch,
-        stdlib
+        stdlib,
+        ucrypto
     ]},
     {mod, { peculium_app, []}},
     {env, []}
