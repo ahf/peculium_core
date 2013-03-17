@@ -1,5 +1,6 @@
 *.app
 *.beam
+.eunit/
 README.html
 deps/
 rel/peculium/
