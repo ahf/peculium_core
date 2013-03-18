@@ -156,7 +156,8 @@ decode_message_frame(_Network, <<RawCommand:12/binary, Size:32/little-unsigned-i
         _Otherwise ->
             {error, insufficient_data}
     end;
-decode_message_frame(_Network, X) ->
+
+decode_message_frame(_Network, _X) ->
     {error, insufficient_data}.
 
 decode_message_payload(verack, <<>>) ->
