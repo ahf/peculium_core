@@ -82,6 +82,42 @@ decode_one_dynamic_vector(X, Count, Fun) ->
             throw({error, Reason})
     end.
 
+-spec decode_transaction_input_vector(binary()) -> {ok, [bitcoin_transaction_input()], binary()}.
+decode_transaction_input_vector(X) ->
+    case t:var_int(X) of
+        {ok, Count, Rest} ->
+            decode_dynamic_vector(Rest, Count, fun t:transaction_input/1);
+        Error ->
+            Error
+    end.
+
+-spec decode_transaction_output_vector(binary()) -> {ok, [bitcoin_transaction_output()], binary()}.
+decode_transaction_output_vector(X) ->
+    case t:var_int(X) of
+        {ok, Count, Rest} ->
+            decode_dynamic_vector(Rest, Count, fun t:transaction_outpoint/1);
+        Error ->
+            Error
+    end.
+
+decode_transaction(<<Version:4/binary, X/binary>>) ->
+    case decode_transaction_input_vector(X) of
+        {ok, TransactionInputs, Rest} ->
+            case decode_transaction_output_vector(Rest) of
+                {ok, TransactionOutputs, <<LockTime:4/binary, Rest1/binary>>} ->
+                    {ok, #bitcoin_tx_message {
+                        version = t:uint32_t(Version),
+                        transaction_inputs = TransactionInputs,
+                        transaction_outputs = TransactionOutputs,
+                        lock_time = t:uint32_t(LockTime)
+                    }, Rest1};
+                Error ->
+                    Error
+            end;
+        Error ->
+            Error
+    end.
+
 -spec decode(binary()) -> {ok}.
 decode(X) ->
     decode_one_message(X).
@@ -304,6 +340,35 @@ decode_message_payload(getheaders, <<RawVersion:4/binary, X/binary>>) ->
                         block_locator_hashes = BlockLocatorHashes,
                         hash_stop = HashStop
                     } };
+                Error ->
+                    Error
+            end;
+        Error ->
+            Error
+    end;
+
+decode_message_payload(tx, X) ->
+    case decode_transaction(X) of
+        {ok, Message, <<>>} ->
+            {ok, Message};
+        Error ->
+            Error
+    end;
+
+decode_message_payload(block, <<Version:4/binary, PreviousBlock:32/binary, MerkleRoot:32/binary, Timestamp:4/binary, Bits:4/binary, Nonce:4/binary, X/binary>>) ->
+    case t:var_int(X) of
+        {ok, Count, Rest} ->
+            case decode_dynamic_vector(Rest, Count, fun decode_transaction/1) of
+                {ok, Transactions, <<>>} ->
+                    {ok, #bitcoin_block_message {
+                        version = t:uint32_t(Version),
+                        previous_block = PreviousBlock,
+                        merkle_root = MerkleRoot,
+                        timestamp = t:uint32_t(Timestamp),
+                        bits = t:uint32_t(Bits),
+                        nonce = t:uint32_t(Nonce),
+                        transactions = Transactions
+                    }};
                 Error ->
                     Error
             end;
