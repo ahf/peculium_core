@@ -10,6 +10,11 @@ start() ->
 
 -spec start(normal | {takeover, node()} | {failover, node()}, term()) -> {ok, pid()}.
 start(_, _) ->
+    {ok, _} = ranch:start_listener(peculium_listener, 100,
+        ranch_tcp, [{port, 5555}],
+        peculium_peer, []),
+
+    lager:set_loglevel(lager_console_backend, debug),
     peculium_sup:start_link().
 
 -spec stop([]) -> ok.
