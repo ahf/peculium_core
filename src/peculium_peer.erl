@@ -36,15 +36,14 @@
 -record(state, {
     listener :: pid(),
     socket :: inet:socket(),
-    continuation :: binary(),
-    transport :: atom()
+    continuation :: binary()
 }).
 
 start_link() ->
     gen_server:start_link(?MODULE, [], []).
 
-start_link(ListenerPid, Socket, Transport, Options) ->
-    gen_server:start_link(?MODULE, [ListenerPid, Socket, Transport, Options], []).
+start_link(ListenerPid, Socket, _Transport, Options) ->
+    gen_server:start_link(?MODULE, [ListenerPid, Socket, Options], []).
 
 connect(Server, Address, Port) ->
     gen_server:call(Server, {connect, Address, Port}).
@@ -53,21 +52,19 @@ init([]) ->
     {ok, #state {
         listener = undefined,
         socket = undefined,
-        transport = gen_tcp,
         continuation = <<>>
     } };
 
-init([ListenerPid, Socket, Transport, _Options]) ->
+init([ListenerPid, Socket, _Options]) ->
     %% Note: The timeout.
     {ok, #state {
         listener = ListenerPid,
         socket = Socket,
-        transport = Transport,
         continuation = <<>>
     }, 0}.
 
-handle_call({connect, Address, Port}, _From, #state { transport = Transport } = State) ->
-    case Transport:connect(Address, Port, [binary, {packet, 0}, {active, once}]) of
+handle_call({connect, Address, Port}, _From, State) ->
+    case gen_tcp:connect(Address, Port, [binary, {packet, 0}, {active, once}]) of
         {ok, Socket} ->
             {reply, ok, State#state { socket = Socket } };
         {error, Reason} ->
