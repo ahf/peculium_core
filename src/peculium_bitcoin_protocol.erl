@@ -135,8 +135,8 @@ decode_magic_value(<<11, 17, 9, 7, Rest/binary>>) ->
     decode_message_frame(testnet3, Rest);
 decode_magic_value(<<Magic:4/binary, Rest/binary>>) ->
     {error, {invalid_magic_value, Magic}, Rest};
-decode_magic_value(X) ->
-    {error, insufficient_data, X}.
+decode_magic_value(_X) ->
+    {error, insufficient_data}.
 
 -spec decode_message_frame(bitcoin_network_atom(), binary()) -> any().
 decode_message_frame(_Network, <<RawCommand:12/binary, Size:32/little-unsigned-integer, _Checksum:4/binary, Rest/binary>> = X) ->
@@ -149,15 +149,15 @@ decode_message_frame(_Network, <<RawCommand:12/binary, Size:32/little-unsigned-i
                 {error, Error} ->
                     {error, Error, X};
                 _Otherwise ->
-                    {error, insufficient_data, X}
+                    {error, insufficient_data}
             end;
         {error, Error} ->
             {error, Error, X};
         _Otherwise ->
-            {error, insufficient_data, X}
+            {error, insufficient_data}
     end;
 decode_message_frame(_Network, X) ->
-    {error, insufficient_data, X}.
+    {error, insufficient_data}.
 
 decode_message_payload(verack, <<>>) ->
     {ok, #bitcoin_verack_message {} };
