@@ -8,7 +8,9 @@
         kernel,
         lager,
         ranch,
+        sasl,
         stdlib,
+        syntax_tools,
         ucrypto
     ]},
     {mod, { peculium_app, []}},
