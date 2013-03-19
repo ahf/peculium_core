@@ -63,12 +63,18 @@ init([ListenerPid, Socket, _Options]) ->
         continuation = <<>>
     }, 0}.
 
-handle_call({connect, Address, Port}, _From, State) ->
-    case gen_tcp:connect(Address, Port, [binary, {packet, 0}, {active, once}]) of
-        {ok, Socket} ->
-            {reply, ok, State#state { socket = Socket } };
-        {error, Reason} ->
-            {stop, Reason}
+handle_call({connect, Address, Port}, _From, #state { socket = OldSocket } = State) ->
+    case OldSocket of
+        undefined ->
+            case gen_tcp:connect(Address, Port, [binary, {packet, 0}, {active, once}]) of
+                {ok, Socket} ->
+                    ok = gen_tcp:send(Socket, peculium_bitcoin_messages:version(mainnet, {{127,0,0,1}, 8000}, {Address, Port})),
+                    {reply, ok, State#state { socket = Socket } };
+                {error, Reason} ->
+                    {stop, Reason}
+            end;
+        _Otherwise ->
+            {reply, {error, already_connected}, State}
     end;
 handle_call(stop, _From, State) ->
     {stop, normal, stopped, State};
