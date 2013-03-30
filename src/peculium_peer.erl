@@ -27,9 +27,16 @@
 -behaviour(gen_server).
 -behaviour(ranch_protocol).
 
+-include_lib("peculium/include/peculium.hrl").
+
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 -export([start_link/0, start_link/4]).
 -export([connect/3]).
+-export([test_connect/0]).
+
+test_connect() ->
+    {ok, Peer} = start_link(),
+    connect(Peer, {127,0,0,1}, 8333).
 
 -define(SERVER, ?MODULE).
 
@@ -45,8 +52,8 @@ start_link() ->
 start_link(ListenerPid, Socket, _Transport, Options) ->
     gen_server:start_link(?MODULE, [ListenerPid, Socket, Options], []).
 
-connect(Server, Address, Port) ->
-    gen_server:call(Server, {connect, Address, Port}).
+connect(Peer, Address, Port) ->
+    gen_server:call(Peer, {connect, Address, Port}).
 
 init([]) ->
     {ok, #state {
@@ -69,6 +76,7 @@ handle_call({connect, Address, Port}, _From, #state { socket = OldSocket } = Sta
             case gen_tcp:connect(Address, Port, [binary, {packet, 0}, {active, once}]) of
                 {ok, Socket} ->
                     ok = gen_tcp:send(Socket, peculium_bitcoin_messages:version(mainnet, {{127,0,0,1}, 8000}, {Address, Port})),
+                    ok = gen_tcp:send(Socket, peculium_bitcoin_messages:getaddr(mainnet)),
                     {reply, ok, State#state { socket = Socket } };
                 {error, Reason} ->
                     {stop, Reason}
@@ -87,12 +95,10 @@ handle_cast(_Message, State) ->
 
 handle_info(timeout, #state { listener = ListenerPid, socket = Socket } = State) ->
     ok = ranch:accept_ack(ListenerPid),
-    ok = inet:setopts(Socket, [{active, once}]),
+    ack_socket(Socket),
     {noreply, State};
 handle_info({tcp, Socket, Packet}, #state { socket = Socket } = State) ->
-    lager:info("Packet: ~p", [Packet]),
-    ok = inet:setopts(Socket, [{active, once}]),
-    {noreply, State};
+    handle_transport_packet(State, Packet);
 handle_info({tcp_closed, Socket}, #state { socket = Socket } = State) ->
     {stop, closed, State};
 handle_info({tcp_error, Socket, Reason}, #state { socket = Socket} = State) ->
@@ -105,3 +111,49 @@ terminate(_Reason, _State) ->
 
 code_change(_OldVersion, State, _Extra) ->
     {ok, State}.
+
+ack_socket(Socket) ->
+    inet:setopts(Socket, [{active, once}]).
+
+handle_transport_packet(#state { socket = Socket, continuation = Cont } = State, Packet) ->
+    ack_socket(Socket),
+    case process_stream_chunk(Cont, Packet) of
+        {ok, NewCont} ->
+            {noreply, State#state { continuation = NewCont }};
+        {messages, Messages, NewCont} ->
+            process_messages(State#state { continuation = NewCont }, Messages)
+    end.
+
+process_stream_chunk(Cont, Packet) ->
+    process_stream_chunk(Cont, Packet, []).
+
+process_stream_chunk(Cont, Packet, Messages) ->
+    Data = <<Cont/binary, Packet/binary>>,
+    case peculium_bitcoin_protocol:decode(Data) of
+        {ok, Message, <<>>} ->
+            {messages, lists:reverse([Message | Messages]), <<>>};
+        {ok, Message, Rest} ->
+            process_stream_chunk(<<>>, Rest, [Message | Messages]);
+        {error, insufficient_data} ->
+            {ok, Data}
+    end.
+
+process_messages(State, [#bitcoin_message { header = #bitcoin_message_header { network = Network, length = Length, valid = Valid }, body = Body } = Message | Messages]) ->
+    lager:debug("Received ~p on ~p (~b bytes)", [element(1, Body), Network, Length]),
+    NewState = case Valid of
+        true ->
+            process_one_message(State, Message);
+        false ->
+            lager:debug("Ignoring invalid message: ~p", [Message]),
+            State
+    end,
+    process_messages(NewState, Messages);
+process_messages(State, []) ->
+    {noreply, State}.
+
+process_one_message(State, #bitcoin_message { header = #bitcoin_message_header { network = Network }, body = #bitcoin_inv_message { inventory = Invs } }) ->
+    ok = gen_tcp:send(State#state.socket, peculium_bitcoin_messages:getdata(Network, Invs)),
+    State;
+
+process_one_message(State, _) ->
+    State.

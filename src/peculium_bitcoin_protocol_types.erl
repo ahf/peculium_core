@@ -27,7 +27,7 @@
 -export([int8_t/1, int16_t/1, int32_t/1, int64_t/1]).
 -export([uint8_t/1, uint16_t/1, uint32_t/1, uint64_t/1]).
 -export([var_int/1, var_string/1]).
--export([net_addr/1, map_to_v6/1]).
+-export([net_addr/1, net_addr/2, net_addr/3]).
 -export([bool/1]).
 -export([inv/1, block_header/1, outpoint/1]).
 -export([transaction_input/1, transaction_outpoint/1]).
@@ -128,7 +128,10 @@ var_string(X) when is_binary(X) ->
             end;
         Error ->
             Error
-    end.
+    end;
+var_string(String) when is_list(String) ->
+    {ok, VarInt} = var_int(string:len(String)),
+    [VarInt, String].
 
 -spec map_to_v6(inet:ip_address()) -> {ok, inet:ip6_address()} | {error, any()}.
 map_to_v6({A, B, C, D}) ->
@@ -155,17 +158,29 @@ net_addr(<<Time:4/binary, Services:8/binary, Address:16/binary, Port:2/binary>>)
 net_addr(<<X:26/binary>>) ->
     net_addr(<<0, 0, 0, 0, X/binary>>).
 
+net_addr(Address, Port) ->
+    {ok, V6MappedAddress} = map_to_v6(Address),
+    EncodedAddress = [<<X:8/big-unit:2>> || X <- tuple_to_list(V6MappedAddress)],
+    [uint64_t(60001), EncodedAddress, <<Port:16/big-unsigned-integer>>].
+
+net_addr(Timestamp, Address, Port) ->
+    [uint32_t(Timestamp) | net_addr(Address, Port)].
+
 -spec bool(uint8_t()) -> boolean().
 bool(X) ->
     uint8_t(X) =/= 0.
 
 -spec inv(binary()) -> {ok, bitcoin_inv()}.
 inv(<<Type:4/binary, Hash:32/binary>>) ->
-    {ok, Type} = peculium_bitcoin_protocol_utilities:inv_to_atom(uint32_t(Type)),
+    {ok, TypeAtom} = peculium_bitcoin_protocol_utilities:inv_to_atom(uint32_t(Type)),
     {ok, #bitcoin_inv {
-        type = Type,
+        type = TypeAtom,
         hash = Hash
-    } }.
+    } };
+
+inv(#bitcoin_inv { type = Type, hash = Hash }) ->
+    {ok, IntType} = peculium_bitcoin_protocol_utilities:atom_to_inv(Type),
+    [uint32_t(IntType), Hash].
 
 -spec block_header(binary()) -> {ok, bitcoin_block_header()}.
 block_header(<<RawVersion:4/binary, PreviousBlock:32/binary, MerkleRoot:32/binary, RawTimestamp:4/binary, RawBits:4/binary, RawNonce:4/binary, RawTransactionCount:1/binary>>) ->

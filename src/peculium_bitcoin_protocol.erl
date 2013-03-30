@@ -86,7 +86,7 @@ decode_one_dynamic_vector(X, Count, Fun) ->
 decode_transaction_input_vector(X) ->
     case t:var_int(X) of
         {ok, Count, Rest} ->
-            decode_dynamic_vector(Rest, Count, fun t:transaction_input/1);
+            decode_dynamic_vector(Rest, Count, fun peculium_bitcoin_protocol_types:transaction_input/1);
         Error ->
             Error
     end.
@@ -95,7 +95,7 @@ decode_transaction_input_vector(X) ->
 decode_transaction_output_vector(X) ->
     case t:var_int(X) of
         {ok, Count, Rest} ->
-            decode_dynamic_vector(Rest, Count, fun t:transaction_outpoint/1);
+            decode_dynamic_vector(Rest, Count, fun peculium_bitcoin_protocol_types:transaction_outpoint/1);
         Error ->
             Error
     end.
@@ -139,13 +139,22 @@ decode_magic_value(_X) ->
     {error, insufficient_data}.
 
 -spec decode_message_frame(bitcoin_network_atom(), binary()) -> any().
-decode_message_frame(_Network, <<RawCommand:12/binary, Size:32/little-unsigned-integer, _Checksum:4/binary, Rest/binary>> = X) ->
+decode_message_frame(Network, <<RawCommand:12/binary, Size:32/little-unsigned-integer, Checksum:4/binary, Rest/binary>> = X) ->
     {ok, Command} = u:command_to_atom(RawCommand),
     case Rest of
         <<Payload:Size/binary, Rest2/binary>> ->
             case decode_message_payload(Command, Payload) of
                 {ok, Message} ->
-                    {ok, Message, Rest2};
+                    {ok, #bitcoin_message {
+                        header = #bitcoin_message_header {
+                            network = Network,
+                            command = Command,
+                            length = Size,
+                            checksum = Checksum,
+                            valid = u:checksum(Payload) =:= Checksum
+                        },
+                        body = Message
+                    }, Rest2};
                 {error, Error} ->
                     {error, Error, X};
                 _Otherwise ->
@@ -225,10 +234,10 @@ decode_message_payload(inv, X) ->
             VectorSize = Count * ItemSize,
             case Rest of
                 <<InvVector:VectorSize/binary>> ->
-                    {ok, Inventory} = decode_vector(InvVector, ItemSize, fun t:inv/1),
+                    {ok, Inventory, <<>>} = decode_vector(InvVector, ItemSize, fun peculium_bitcoin_protocol_types:inv/1),
                     {ok, #bitcoin_inv_message {
                         inventory = Inventory
-                    } };
+                    }};
                 Error ->
                     Error
             end;
@@ -243,10 +252,10 @@ decode_message_payload(getdata, X) ->
             VectorSize = Count * ItemSize,
             case Rest of
                 <<InvVector:VectorSize/binary>> ->
-                    {ok, Inventory} = decode_vector(InvVector, ItemSize, fun t:inv/1),
+                    {ok, Inventory, <<>>} = decode_vector(InvVector, ItemSize, fun peculium_bitcoin_protocol_types:inv/1),
                     {ok, #bitcoin_getdata_message {
                         inventory = Inventory
-                    } };
+                    }};
                 Error ->
                     Error
             end;
@@ -261,10 +270,10 @@ decode_message_payload(notfound, X) ->
             VectorSize = Count * ItemSize,
             case Rest of
                 <<InvVector:VectorSize/binary>> ->
-                    {ok, Inventory} = decode_vector(InvVector, ItemSize, fun t:inv/1),
+                    {ok, Inventory, <<>>} = decode_vector(InvVector, ItemSize, fun peculium_bitcoin_protocol_types:inv/1),
                     {ok, #bitcoin_notfound_message {
                         inventory = Inventory
-                    } };
+                    }};
                 Error ->
                     Error
             end;
@@ -279,10 +288,10 @@ decode_message_payload(addr, X) ->
             VectorSize = Count * ItemSize,
             case Rest of
                 <<RawAddresses:VectorSize/binary>> ->
-                    {ok, Addresses} = decode_vector(RawAddresses, ItemSize, fun t:net_addr/1),
+                    {ok, Addresses, <<>>} = decode_vector(RawAddresses, ItemSize, fun peculium_bitcoin_protocol_types:net_addr/1),
                     {ok, #bitcoin_addr_message {
                         addresses = Addresses
-                    } };
+                    }};
                 Error ->
                     Error
             end;
@@ -297,10 +306,10 @@ decode_message_payload(headers, X) ->
             VectorSize = Count * ItemSize,
             case Rest of
                 <<RawHeaders:VectorSize/binary>> ->
-                    {ok, BlockHeaders} = decode_vector(RawHeaders, ItemSize, fun t:block_header/1),
+                    {ok, BlockHeaders, <<>>} = decode_vector(RawHeaders, ItemSize, fun peculium_bitcoin_protocol_types:block_header/1),
                     {ok, #bitcoin_headers_message {
                         headers = BlockHeaders
-                    } };
+                    }};
                 Error ->
                     Error
             end;
@@ -315,12 +324,12 @@ decode_message_payload(getblocks, <<RawVersion:4/binary, X/binary>>) ->
             VectorSize = Count * ItemSize,
             case Rest of
                 <<Hashes:VectorSize/binary, HashStop:32/binary>> ->
-                    {ok, BlockLocatorHashes} = decode_vector(Hashes, ItemSize, fun(<<Hash:32/binary>>) -> {ok, Hash} end),
+                    {ok, BlockLocatorHashes, <<>>} = decode_vector(Hashes, ItemSize, fun(<<Hash:32/binary>>) -> {ok, Hash} end),
                     {ok, #bitcoin_getblocks_message {
                         version = t:uint32_t(RawVersion),
                         block_locator_hashes = BlockLocatorHashes,
                         hash_stop = HashStop
-                    } };
+                    }};
                 Error ->
                     Error
             end;
@@ -335,12 +344,12 @@ decode_message_payload(getheaders, <<RawVersion:4/binary, X/binary>>) ->
             VectorSize = Count * ItemSize,
             case Rest of
                 <<Hashes:VectorSize/binary, HashStop:32/binary>> ->
-                    {ok, BlockLocatorHashes} = decode_vector(Hashes, ItemSize, fun(<<Hash:32/binary>>) -> {ok, Hash} end),
+                    {ok, BlockLocatorHashes, <<>>} = decode_vector(Hashes, ItemSize, fun(<<Hash:32/binary>>) -> {ok, Hash} end),
                     {ok, #bitcoin_getheaders_message {
                         version = t:uint32_t(RawVersion),
                         block_locator_hashes = BlockLocatorHashes,
                         hash_stop = HashStop
-                    } };
+                    }};
                 Error ->
                     Error
             end;

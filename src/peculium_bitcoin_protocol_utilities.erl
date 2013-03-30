@@ -6,6 +6,10 @@
 
 -include_lib("peculium/include/peculium.hrl").
 
+-spec checksum(iolist()) -> bitcoin_checksum().
+checksum(X) ->
+    binary_part(crypto:sha256(crypto:sha256(X)), {0, 4}).
+
 -spec inv_to_atom(integer()) -> {ok, bitcoin_inv_atom()} | {error, {invalid_inv_integer, any()}}.
 inv_to_atom(0) ->
     {ok, error};
@@ -66,7 +70,3 @@ command_to_atom(Command) ->
         Value ->
             {error, {invalid_command, Value}}
     end.
-
--spec checksum(binary()) -> bitcoin_checksum().
-checksum(X) when is_binary(X) ->
-    binary:part(crypto:sha256(crypto:sha256(X)), {0, 4}).

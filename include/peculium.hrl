@@ -105,7 +105,8 @@
     network :: bitcoin_network_atom(),
     command :: bitcoin_command_atom(),
     length :: uint32_t(),
-    checksum :: bitcoin_checksum()
+    checksum :: bitcoin_checksum(),
+    valid :: boolean()
 }).
 
 -type bitcoin_message_header() :: #bitcoin_message_header {}.
@@ -209,3 +210,23 @@
 }).
 
 -type bitcoin_block_message() :: #bitcoin_block_message {}.
+
+-record(bitcoin_message, {
+    header :: bitcoin_message_header(),
+    body :: bitcoin_verack_message()
+          | bitcoin_ping_message()
+          | bitcoin_getaddr_message()
+          | bitcoin_version_message()
+          | bitcoin_alert_message()
+          | bitcoin_inv_message()
+          | bitcoin_getdata_message()
+          | bitcoin_notfound_message()
+          | bitcoin_addr_message()
+          | bitcoin_headers_message()
+          | bitcoin_getblocks_message()
+          | bitcoin_getheaders_message()
+          | bitcoin_tx_message()
+          | bitcoin_block_message()
+}).
+
+-type bitcoin_message() :: #bitcoin_message {}.
