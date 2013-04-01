@@ -160,8 +160,6 @@ decode_message_frame(Network, <<RawCommand:12/binary, Size:32/little-unsigned-in
                 _Otherwise ->
                     {error, insufficient_data}
             end;
-        {error, Error} ->
-            {error, Error, X};
         _Otherwise ->
             {error, insufficient_data}
     end;
