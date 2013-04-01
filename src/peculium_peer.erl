@@ -32,18 +32,28 @@
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 -export([start_link/0, start_link/4]).
 -export([connect/3]).
--export([test_connect/0]).
+-export([test_connect/0, test_connect/1]).
 
 test_connect() ->
+    test_connect({127,0,0,1}).
+
+test_connect(Address) when is_tuple(Address) ->
     {ok, Peer} = start_link(),
-    connect(Peer, {127,0,0,1}, 8333).
+    connect(Peer, Address, 8333);
+
+test_connect(Address) when is_list(Address) ->
+    {ok, Ip} = inet_parse:address(Address),
+    test_connect(Ip).
 
 -define(SERVER, ?MODULE).
 
 -record(state, {
     listener :: pid(),
     socket :: inet:socket(),
-    continuation :: binary()
+    continuation :: binary(),
+    inbound = false :: boolean(),
+    sent = 0 :: non_neg_integer(),
+    received = 0 :: non_neg_integer()
 }).
 
 start_link() ->
@@ -53,7 +63,7 @@ start_link(ListenerPid, Socket, _Transport, Options) ->
     gen_server:start_link(?MODULE, [ListenerPid, Socket, Options], []).
 
 connect(Peer, Address, Port) ->
-    gen_server:call(Peer, {connect, Address, Port}).
+    gen_server:cast(Peer, {connect, Address, Port}).
 
 init([]) ->
     {ok, #state {
@@ -67,29 +77,29 @@ init([ListenerPid, Socket, _Options]) ->
     {ok, #state {
         listener = ListenerPid,
         socket = Socket,
-        continuation = <<>>
+        continuation = <<>>,
+        inbound = true
     }, 0}.
 
-handle_call({connect, Address, Port}, _From, #state { socket = OldSocket } = State) ->
-    case OldSocket of
-        undefined ->
-            case gen_tcp:connect(Address, Port, [binary, {packet, 0}, {active, once}]) of
-                {ok, Socket} ->
-                    ok = gen_tcp:send(Socket, peculium_bitcoin_messages:version(mainnet, {{127,0,0,1}, 8000}, {Address, Port})),
-                    ok = gen_tcp:send(Socket, peculium_bitcoin_messages:getaddr(mainnet)),
-                    {reply, ok, State#state { socket = Socket } };
-                {error, Reason} ->
-                    {stop, Reason}
-            end;
-        _Otherwise ->
-            {reply, {error, already_connected}, State}
-    end;
 handle_call(stop, _From, State) ->
     {stop, normal, stopped, State};
 handle_call(_Request, _From, State) ->
     Reply = ok,
     {reply, Reply, State}.
 
+handle_cast({connect, Address, Port}, #state { socket = OldSocket } = State) ->
+    case OldSocket of
+        undefined ->
+            case gen_tcp:connect(Address, Port, [binary, {packet, 0}, {active, once}]) of
+                {ok, Socket} ->
+                    State2 = send(State#state { socket = Socket }, version, [mainnet, {{127,0,0,1}, 8000}, {Address, Port}]),
+                    {noreply, State2};
+                {error, Reason} ->
+                    {stop, Reason, State}
+            end;
+        _Otherwise ->
+            {reply, {error, already_connected}, State}
+    end;
 handle_cast(_Message, State) ->
     {noreply, State}.
 
@@ -115,11 +125,11 @@ code_change(_OldVersion, State, _Extra) ->
 ack_socket(Socket) ->
     inet:setopts(Socket, [{active, once}]).
 
-handle_transport_packet(#state { socket = Socket, continuation = Cont } = State, Packet) ->
+handle_transport_packet(#state { socket = Socket, continuation = Cont, received = Received } = State, Packet) ->
     ack_socket(Socket),
     case process_stream_chunk(Cont, Packet) of
         {ok, NewCont} ->
-            {noreply, State#state { continuation = NewCont }};
+            {noreply, State#state { continuation = NewCont, received = byte_size(Packet) + Received }};
         {messages, Messages, NewCont} ->
             process_messages(State#state { continuation = NewCont }, Messages)
     end.
@@ -135,11 +145,11 @@ process_stream_chunk(Cont, Packet, Messages) ->
         {ok, Message, Rest} ->
             process_stream_chunk(<<>>, Rest, [Message | Messages]);
         {error, insufficient_data} ->
-            {ok, Data}
+            {messages, lists:reverse(Messages), Data}
     end.
 
 process_messages(State, [#bitcoin_message { header = #bitcoin_message_header { network = Network, length = Length, valid = Valid }, body = Body } = Message | Messages]) ->
-    lager:debug("Received ~p on ~p (~b bytes)", [element(1, Body), Network, Length]),
+    log(State, "Recieved ~p on ~p (~b bytes)", [element(1, Body), Network, Length]),
     NewState = case Valid of
         true ->
             process_one_message(State, Message);
@@ -152,8 +162,40 @@ process_messages(State, []) ->
     {noreply, State}.
 
 process_one_message(State, #bitcoin_message { header = #bitcoin_message_header { network = Network }, body = #bitcoin_inv_message { inventory = Invs } }) ->
-    ok = gen_tcp:send(State#state.socket, peculium_bitcoin_messages:getdata(Network, Invs)),
+    lists:foldl(fun (I, S) ->
+                send(S, getdata, [Network, [I]])
+    end, State, Invs);
+
+process_one_message(State, #bitcoin_message { header = #bitcoin_message_header { network = Network }, body = #bitcoin_block_message { previous_block = PreviousBlock } = Body }) ->
+    Hash = peculium_bitcoin_block:hash(Body),
+    case peculium_block_store:contains(Hash) of
+        true ->
+            ok;
+        false ->
+            peculium_block_store:add(Body)
+    end,
     State;
+
+process_one_message(State, #bitcoin_message { header = #bitcoin_message_header { network = Network }, body = #bitcoin_version_message {} }) ->
+    State2 = send(State, verack, [Network]),
+    send(State2, getaddr, [Network]);
+
+process_one_message(State, #bitcoin_message { header = #bitcoin_message_header { network = Network }, body = #bitcoin_verack_message {} }) ->
+    send(State, getblocks, [Network, [peculium_bitcoin_block:hash(peculium_bitcoin_block:genesis_block(mainnet))], <<0:256>>]);
 
 process_one_message(State, _) ->
     State.
+
+send(#state { socket = Socket, sent = Sent } = State, Message, Arguments) ->
+    Packet = peculium_bitcoin_messages:Message(Arguments),
+    PacketLength = iolist_size(Packet),
+    log(State, "Sending ~p (~b bytes)", [Message, PacketLength]),
+    ok = gen_tcp:send(Socket, Packet),
+    State#state { sent = Sent + PacketLength }.
+
+log(State, Format) ->
+    log(State, Format, []).
+
+log(State, Format, Arguments) ->
+    {ok, {Address, Port}} = inet:peername(State#state.socket),
+    lager:debug("[~s]:~b -> " ++ Format, [inet_parse:ntoa(Address), Port] ++ Arguments).
