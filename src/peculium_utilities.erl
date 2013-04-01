@@ -3,6 +3,7 @@
 -export([strip/2, timestamp/0]).
 -export([hex2bin/1, bin2hex/1]).
 -export([reverse/1]).
+-export([parallel_map/2]).
 
 -ifdef(TEST).
 -include_lib("eunit/include/eunit.hrl").
@@ -35,6 +36,23 @@ hex2bin([]) ->
 -spec bin2hex(binary()) -> string().
 bin2hex(Bin) when is_binary(Bin) ->
     lists:flatten([integer_to_list(X, 16) || <<X:4/integer>> <= Bin]).
+
+parallel_map(Fun, List) ->
+    Self = self(),
+    Pids = [spawn_link(fun() ->
+                parallel_map_fun(Self, Fun, X)
+            end) || X <- List],
+    parallel_map_gather_results(Pids).
+
+parallel_map_fun(Pid, Fun, X) ->
+    Pid ! {self(), Fun(X)}.
+
+parallel_map_gather_results([Pid | Rest]) ->
+    receive
+        {Pid, Value} -> [Value | parallel_map_gather_results(Rest)]
+    end;
+parallel_map_gather_results([]) ->
+    [].
 
 -ifdef(TEST).
 
