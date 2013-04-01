@@ -24,7 +24,7 @@
 
 -module(peculium_bitcoin_messages).
 
--export([verack/1, getaddr/1, ping/1, version/3, getdata/2, getblocks/3, getheaders/3]).
+-export([verack/1, getaddr/1, ping/1, version/1, getdata/1, getblocks/1, getheaders/1]).
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
@@ -46,26 +46,27 @@ encode(Network, Command, Payload) ->
 encode(MagicValue, Command, PayloadSize, Checksum, Payload) ->
     [MagicValue, Command, t:uint32_t(PayloadSize), Checksum, Payload].
 
-verack(Network) ->
+verack([Network]) ->
     encode(Network, verack).
 
-getaddr(Network) ->
+getaddr([Network]) ->
     encode(Network, getaddr).
 
-ping(Network) ->
+ping([Network]) ->
     encode(Network, ping).
 
-version(Network, {SourceAddress, SourcePort}, {DestinationAddress, DestinationPort}) ->
+version([Network, {SourceAddress, SourcePort}, {DestinationAddress, DestinationPort}]) ->
     encode(Network, version, [t:int32_t(60001), t:uint64_t(1), t:uint64_t(peculium_utilities:timestamp()), t:net_addr(DestinationAddress, DestinationPort), t:net_addr(SourceAddress, SourcePort), crypto:rand_bytes(8), t:var_string("Peculium"), t:int32_t(0)]).
 
-getdata(Network, Invs) ->
+getdata([Network, Invs]) ->
     {ok, Length} = t:var_int(length(Invs)),
-    encode(Network, getdata, [Length, lists:map(fun peculium_bitcoin_protocol_types:inv/1, Invs)]).
+    Data = lists:map(fun peculium_bitcoin_protocol_types:inv/1, Invs),
+    encode(Network, getdata, [Length, Data]).
 
-getblocks(Network, BlockLocator, BlockStop) ->
+getblocks([Network, BlockLocator, BlockStop]) ->
     {ok, Length} = t:var_int(length(BlockLocator)),
     encode(Network, getblocks, [t:int32_t(60001), Length, BlockLocator, BlockStop]).
 
-getheaders(Network, BlockLocator, BlockStop) ->
+getheaders([Network, BlockLocator, BlockStop]) ->
     {ok, Length} = t:var_int(length(BlockLocator)),
     encode(Network, getheaders, [t:int32_t(60001), Length, BlockLocator, BlockStop]).
