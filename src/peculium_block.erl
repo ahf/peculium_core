@@ -1,16 +1,22 @@
+%% @author Alexander Færøy <ahf@0x90.dk>
+%% @copyright 2013 Alexander Færøy
+%% @doc Bitcoin Block Utilities.
 -module(peculium_block).
 
--export([hash/1, genesis_block/1]).
+%% API.
+-export([hash/1, genesis_block/1, transactions/1]).
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
 
 -module_alias({t, peculium_bitcoin_protocol_types}).
 
+%% @doc Returns the little-endian encoded hash of a given block.
 -spec hash(bitcoin_block_message()) -> binary().
 hash(#bitcoin_block_message { version = Version, previous_block = PreviousBlock, merkle_root = MerkleRoot, timestamp = Timestamp, bits = Bits, nonce = Nonce }) ->
     peculium_utilities:reverse(crypto:sha256(crypto:sha256([t:uint32_t(Version), PreviousBlock, MerkleRoot, t:uint32_t(Timestamp), t:uint32_t(Bits), t:uint32_t(Nonce)]))).
 
+%% @doc Returns the Genesis block from a given network.
 -spec genesis_block(bitcoin_network_atom()) -> bitcoin_block_message().
 genesis_block(mainnet) ->
     Inputs = [#bitcoin_transaction_input {
@@ -44,3 +50,7 @@ genesis_block(mainnet) ->
             lock_time = 0
         }]
     }.
+
+%% @doc Returns a list of transactions from a given block.
+transactions(#bitcoin_block_message { transactions = Transactions }) ->
+    Transactions.

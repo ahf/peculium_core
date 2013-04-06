@@ -30,7 +30,7 @@
 -export([net_addr/1, net_addr/2, net_addr/3]).
 -export([bool/1]).
 -export([inv/1, block_header/1, outpoint/1]).
--export([transaction_input/1, transaction_outpoint/1]).
+-export([transaction_input/1, transaction_output/1]).
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("kernel/include/inet.hrl").
@@ -194,14 +194,18 @@ block_header(<<RawVersion:4/binary, PreviousBlock:32/binary, MerkleRoot:32/binar
         transaction_count = uint8_t(RawTransactionCount)
     } }.
 
--spec outpoint(binary()) -> {ok, bitcoin_outpoint()}.
+-spec outpoint(binary()) -> {ok, bitcoin_outpoint()};
+              (bitcoin_outpoint()) -> iolist().
 outpoint(<<Hash:32/binary, Index:4/binary>>) ->
     {ok, #bitcoin_outpoint {
         index = Index,
         hash = Hash
-    } }.
+    } };
+outpoint(#bitcoin_outpoint { index = Index, hash = Hash }) ->
+    [Hash, uint32_t(Index)].
 
--spec transaction_input(binary()) -> {ok, bitcoin_transaction_input()}.
+-spec transaction_input(binary()) -> {ok, bitcoin_transaction_input()};
+                       (bitcoin_transaction_input()) -> iolist().
 transaction_input(<<RawOutpoint:36/binary, X/binary>>) ->
     {ok, Outpoint} = outpoint(RawOutpoint),
     case var_int(X) of
@@ -218,10 +222,14 @@ transaction_input(<<RawOutpoint:36/binary, X/binary>>) ->
             end;
         Error ->
             Error
-    end.
+    end;
+transaction_input(#bitcoin_transaction_input { previous_output = PreviousOutput, script = Script, sequence = Sequence }) ->
+    {ok, ScriptLength} = var_int(byte_size(Script)),
+    [outpoint(PreviousOutput), ScriptLength, Script, uint32_t(Sequence)].
 
--spec transaction_outpoint(binary()) -> {ok, bitcoin_transaction_output()}.
-transaction_outpoint(<<Value:8/binary, X/binary>>) ->
+-spec transaction_output(binary()) -> {ok, bitcoin_transaction_output()};
+                        (bitcoin_transaction_output()) -> iolist().
+transaction_output(<<Value:8/binary, X/binary>>) ->
     case var_int(X) of
         {ok, Length, Rest} ->
             case Rest of
@@ -235,7 +243,10 @@ transaction_outpoint(<<Value:8/binary, X/binary>>) ->
             end;
         Error ->
             Error
-    end.
+    end;
+transaction_output(#bitcoin_transaction_output { value = Value, script = Script }) ->
+    {ok, ScriptLength} = var_int(byte_size(Script)),
+    [int64_t(Value), ScriptLength, Script].
 
 -ifdef(TEST).
 
