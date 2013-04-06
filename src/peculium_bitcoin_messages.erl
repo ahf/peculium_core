@@ -40,7 +40,7 @@ encode(Network, Command) ->
     encode(Network, Command, []).
 
 encode(Network, Command, Payload) ->
-    {ok, MagicValue} = peculium_bitcoin_network:magic_value(Network),
+    {ok, MagicValue} = peculium_network:magic_value(Network),
     encode(MagicValue, pad_command(Command), iolist_size(Payload), u:checksum(Payload), Payload).
 
 encode(MagicValue, Command, PayloadSize, Checksum, Payload) ->

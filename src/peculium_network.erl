@@ -22,7 +22,7 @@
 %% OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 %% OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
--module(peculium_bitcoin_network).
+-module(peculium_network).
 
 -export([magic_value/1, stringify/1]).
 
