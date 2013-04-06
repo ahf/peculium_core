@@ -22,7 +22,7 @@
 %% OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 %% OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
--module(peculium_bitcoin_messages).
+-module(peculium_messages).
 
 -export([verack/1, getaddr/1, ping/1, version/1, getdata/1, getblocks/1, getheaders/1]).
 

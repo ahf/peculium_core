@@ -187,7 +187,7 @@ process_one_message(State, _) ->
     State.
 
 send(#state { socket = Socket, sent = Sent } = State, Message, Arguments) ->
-    Packet = peculium_bitcoin_messages:Message(Arguments),
+    Packet = peculium_messages:Message(Arguments),
     PacketLength = iolist_size(Packet),
     log(State, "Sending ~p (~b bytes)", [Message, PacketLength]),
     ok = gen_tcp:send(Socket, Packet),
