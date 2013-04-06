@@ -1,4 +1,4 @@
--module(peculium_bitcoin_block).
+-module(peculium_block).
 
 -export([hash/1, genesis_block/1]).
 

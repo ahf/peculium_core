@@ -54,7 +54,7 @@ handle_call(_Request, _From, State) ->
     {reply, Reply, State}.
 
 handle_cast({add, Block}, State) ->
-    Hash = peculium_bitcoin_block:hash(Block),
+    Hash = peculium_block:hash(Block),
     lager:debug("Saving block: ~s", [peculium_utilities:bin2hex(Hash)]),
     case eleveldb:put(State#state.leveldb, Hash, term_to_binary(Block), []) of
         ok ->

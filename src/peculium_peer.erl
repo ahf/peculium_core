@@ -167,7 +167,7 @@ process_one_message(State, #bitcoin_message { header = #bitcoin_message_header {
     end, State, Invs);
 
 process_one_message(State, #bitcoin_message { header = #bitcoin_message_header { network = Network }, body = #bitcoin_block_message { previous_block = PreviousBlock } = Body }) ->
-    Hash = peculium_bitcoin_block:hash(Body),
+    Hash = peculium_block:hash(Body),
     case peculium_block_store:contains(Hash) of
         true ->
             ok;
@@ -181,7 +181,7 @@ process_one_message(State, #bitcoin_message { header = #bitcoin_message_header {
     send(State2, getaddr, [Network]);
 
 process_one_message(State, #bitcoin_message { header = #bitcoin_message_header { network = Network }, body = #bitcoin_verack_message {} }) ->
-    send(State, getblocks, [Network, [peculium_bitcoin_block:hash(peculium_bitcoin_block:genesis_block(mainnet))], <<0:256>>]);
+    send(State, getblocks, [Network, [peculium_block:hash(peculium_block:genesis_block(mainnet))], <<0:256>>]);
 
 process_one_message(State, _) ->
     State.
