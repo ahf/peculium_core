@@ -1,7 +1,16 @@
 Peculium - A Bit of Money
 =========================
 
-Peculium is a Bitcoin client implemented in the Erlang programming language.
+Peculium is an experimental Bitcoin client implemented in the Erlang programming language.
+
+Warning
+-------
+
+Peculium is **beta quality software** and needs proper testing. Do not move your
+entire Bitcoin fortune from your current client to Peculium.
+
+We will remove this warning once we believe this software is of good enough
+quality to be a replacement for the Satoshi client.
 
 Getting Started
 ---------------
