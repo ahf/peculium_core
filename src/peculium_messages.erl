@@ -29,8 +29,8 @@
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
 
--module_alias({t, peculium_bitcoin_protocol_types}).
--module_alias({u, peculium_bitcoin_protocol_utilities}).
+-module_alias({t, peculium_protocol_types}).
+-module_alias({u, peculium_protocol_utilities}).
 
 pad_command(Command) ->
     X = atom_to_binary(Command, utf8),
@@ -60,7 +60,7 @@ version([Network, {SourceAddress, SourcePort}, {DestinationAddress, DestinationP
 
 getdata([Network, Invs]) ->
     {ok, Length} = t:var_int(length(Invs)),
-    Data = lists:map(fun peculium_bitcoin_protocol_types:inv/1, Invs),
+    Data = lists:map(fun peculium_protocol_types:inv/1, Invs),
     encode(Network, getdata, [Length, Data]).
 
 getblocks([Network, BlockLocator, BlockStop]) ->

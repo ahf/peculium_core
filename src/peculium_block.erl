@@ -9,7 +9,7 @@
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
 
--module_alias({t, peculium_bitcoin_protocol_types}).
+-module_alias({t, peculium_protocol_types}).
 
 %% @doc Returns the little-endian encoded hash of a given block.
 -spec hash(bitcoin_block_message()) -> binary().

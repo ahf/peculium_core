@@ -22,7 +22,7 @@
 %% OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 %% OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
--module(peculium_bitcoin_protocol).
+-module(peculium_protocol).
 
 -export([decode/1]).
 -export([decode_vector/3, decode_dynamic_vector/3]).
@@ -30,8 +30,8 @@
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
 
--module_alias({t, peculium_bitcoin_protocol_types}).
--module_alias({u, peculium_bitcoin_protocol_utilities}).
+-module_alias({t, peculium_protocol_types}).
+-module_alias({u, peculium_protocol_utilities}).
 
 -ifdef(TEST).
 -include_lib("eunit/include/eunit.hrl").
@@ -86,7 +86,7 @@ decode_one_dynamic_vector(X, Count, Fun) ->
 decode_transaction_input_vector(X) ->
     case t:var_int(X) of
         {ok, Count, Rest} ->
-            decode_dynamic_vector(Rest, Count, fun peculium_bitcoin_protocol_types:transaction_input/1);
+            decode_dynamic_vector(Rest, Count, fun peculium_protocol_types:transaction_input/1);
         Error ->
             Error
     end.
@@ -95,7 +95,7 @@ decode_transaction_input_vector(X) ->
 decode_transaction_output_vector(X) ->
     case t:var_int(X) of
         {ok, Count, Rest} ->
-            decode_dynamic_vector(Rest, Count, fun peculium_bitcoin_protocol_types:transaction_outpoint/1);
+            decode_dynamic_vector(Rest, Count, fun peculium_protocol_types:transaction_outpoint/1);
         Error ->
             Error
     end.
@@ -232,7 +232,7 @@ decode_message_payload(inv, X) ->
             VectorSize = Count * ItemSize,
             case Rest of
                 <<InvVector:VectorSize/binary>> ->
-                    {ok, Inventory, <<>>} = decode_vector(InvVector, ItemSize, fun peculium_bitcoin_protocol_types:inv/1),
+                    {ok, Inventory, <<>>} = decode_vector(InvVector, ItemSize, fun peculium_protocol_types:inv/1),
                     {ok, #bitcoin_inv_message {
                         inventory = Inventory
                     }};
@@ -250,7 +250,7 @@ decode_message_payload(getdata, X) ->
             VectorSize = Count * ItemSize,
             case Rest of
                 <<InvVector:VectorSize/binary>> ->
-                    {ok, Inventory, <<>>} = decode_vector(InvVector, ItemSize, fun peculium_bitcoin_protocol_types:inv/1),
+                    {ok, Inventory, <<>>} = decode_vector(InvVector, ItemSize, fun peculium_protocol_types:inv/1),
                     {ok, #bitcoin_getdata_message {
                         inventory = Inventory
                     }};
@@ -268,7 +268,7 @@ decode_message_payload(notfound, X) ->
             VectorSize = Count * ItemSize,
             case Rest of
                 <<InvVector:VectorSize/binary>> ->
-                    {ok, Inventory, <<>>} = decode_vector(InvVector, ItemSize, fun peculium_bitcoin_protocol_types:inv/1),
+                    {ok, Inventory, <<>>} = decode_vector(InvVector, ItemSize, fun peculium_protocol_types:inv/1),
                     {ok, #bitcoin_notfound_message {
                         inventory = Inventory
                     }};
@@ -286,7 +286,7 @@ decode_message_payload(addr, X) ->
             VectorSize = Count * ItemSize,
             case Rest of
                 <<RawAddresses:VectorSize/binary>> ->
-                    {ok, Addresses, <<>>} = decode_vector(RawAddresses, ItemSize, fun peculium_bitcoin_protocol_types:net_addr/1),
+                    {ok, Addresses, <<>>} = decode_vector(RawAddresses, ItemSize, fun peculium_protocol_types:net_addr/1),
                     {ok, #bitcoin_addr_message {
                         addresses = Addresses
                     }};
@@ -304,7 +304,7 @@ decode_message_payload(headers, X) ->
             VectorSize = Count * ItemSize,
             case Rest of
                 <<RawHeaders:VectorSize/binary>> ->
-                    {ok, BlockHeaders, <<>>} = decode_vector(RawHeaders, ItemSize, fun peculium_bitcoin_protocol_types:block_header/1),
+                    {ok, BlockHeaders, <<>>} = decode_vector(RawHeaders, ItemSize, fun peculium_protocol_types:block_header/1),
                     {ok, #bitcoin_headers_message {
                         headers = BlockHeaders
                     }};

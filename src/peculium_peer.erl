@@ -139,7 +139,7 @@ process_stream_chunk(Cont, Packet) ->
 
 process_stream_chunk(Cont, Packet, Messages) ->
     Data = <<Cont/binary, Packet/binary>>,
-    case peculium_bitcoin_protocol:decode(Data) of
+    case peculium_protocol:decode(Data) of
         {ok, Message, <<>>} ->
             {messages, lists:reverse([Message | Messages]), <<>>};
         {ok, Message, Rest} ->

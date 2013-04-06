@@ -1,4 +1,4 @@
--module(peculium_bitcoin_protocol_utilities).
+-module(peculium_protocol_utilities).
 
 -export([inv_to_atom/1, atom_to_inv/1]).
 -export([command_to_atom/1]).

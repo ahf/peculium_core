@@ -22,7 +22,7 @@
 %% OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 %% OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
--module(peculium_bitcoin_protocol_types).
+-module(peculium_protocol_types).
 
 -export([int8_t/1, int16_t/1, int32_t/1, int64_t/1]).
 -export([uint8_t/1, uint16_t/1, uint32_t/1, uint64_t/1]).
@@ -172,14 +172,14 @@ bool(X) ->
 
 -spec inv(binary()) -> {ok, bitcoin_inv()}.
 inv(<<Type:4/binary, Hash:32/binary>>) ->
-    {ok, TypeAtom} = peculium_bitcoin_protocol_utilities:inv_to_atom(uint32_t(Type)),
+    {ok, TypeAtom} = peculium_protocol_utilities:inv_to_atom(uint32_t(Type)),
     {ok, #bitcoin_inv {
         type = TypeAtom,
         hash = Hash
     } };
 
 inv(#bitcoin_inv { type = Type, hash = Hash }) ->
-    {ok, IntType} = peculium_bitcoin_protocol_utilities:atom_to_inv(Type),
+    {ok, IntType} = peculium_protocol_utilities:atom_to_inv(Type),
     [uint32_t(IntType), Hash].
 
 -spec block_header(binary()) -> {ok, bitcoin_block_header()}.
