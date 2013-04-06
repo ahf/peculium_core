@@ -4,7 +4,8 @@
 -module(peculium_block).
 
 %% API.
--export([hash/1, genesis_block/1, transactions/1]).
+-export([hash/1, genesis_block/1]).
+-export([transactions/1, version/1, merkle_root/1]).
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
@@ -52,5 +53,16 @@ genesis_block(mainnet) ->
     }.
 
 %% @doc Returns a list of transactions from a given block.
+-spec transactions(bitcoin_block_message()) -> [bitcoin_tx_message()].
 transactions(#bitcoin_block_message { transactions = Transactions }) ->
     Transactions.
+
+%% @doc Returns the version of a given block.
+-spec version(bitcoin_block_message()) -> integer().
+version(#bitcoin_block_message { version = Version }) ->
+    Version.
+
+%% @doc Returns the root hash of the merkle tree of a given block.
+-spec merkle_root(bitcoin_block_message()) -> binary().
+merkle_root(#bitcoin_block_message { merkle_root = MerkleRoot }) ->
+    MerkleRoot.
