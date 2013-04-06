@@ -3,4 +3,5 @@
 .eunit/
 README.html
 deps/
+doc/
 rel/peculium/
