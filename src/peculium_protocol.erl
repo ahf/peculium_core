@@ -95,7 +95,7 @@ decode_transaction_input_vector(X) ->
 decode_transaction_output_vector(X) ->
     case t:var_int(X) of
         {ok, Count, Rest} ->
-            decode_dynamic_vector(Rest, Count, fun peculium_protocol_types:transaction_outpoint/1);
+            decode_dynamic_vector(Rest, Count, fun peculium_protocol_types:transaction_output/1);
         Error ->
             Error
     end.
