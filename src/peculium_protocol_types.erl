@@ -198,7 +198,7 @@ block_header(<<RawVersion:4/binary, PreviousBlock:32/binary, MerkleRoot:32/binar
               (bitcoin_outpoint()) -> iolist().
 outpoint(<<Hash:32/binary, Index:4/binary>>) ->
     {ok, #bitcoin_outpoint {
-        index = Index,
+        index = uint32_t(Index),
         hash = Hash
     } };
 outpoint(#bitcoin_outpoint { index = Index, hash = Hash }) ->
