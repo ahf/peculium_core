@@ -68,5 +68,5 @@ command_to_atom(Command) ->
         <<"version">> ->
             {ok, version};
         Value ->
-            {error, {invalid_command, Value}}
+            {error, {invalid_command_atom, Value}}
     end.
