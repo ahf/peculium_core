@@ -5,12 +5,15 @@
     {applications, [
         crypto,
         gproc,
+        hanoidb,
         kernel,
         lager,
         ranch,
         sasl,
         stdlib,
         syntax_tools,
+        triq,
+        upnp,
         ucrypto
     ]},
     {mod, { peculium_app, []}},
