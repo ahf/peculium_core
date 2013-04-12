@@ -5,9 +5,9 @@
 -export([reverse/1]).
 -export([parallel_map/2]).
 
--ifdef(TEST).
--include_lib("eunit/include/eunit.hrl").
--endif.
+-include_lib("peculium/include/peculium.hrl").
+
+-include("peculium_test.hrl").
 
 -spec reverse(binary()) -> binary().
 reverse(Binary) when is_binary(Binary) ->
@@ -25,17 +25,20 @@ timestamp() ->
     {MegaSeconds, Seconds, _MicroSeconds} = now(),
     MegaSeconds * 1000000 + Seconds.
 
--spec hex2bin(string()) -> binary().
+-spec hex2bin(string()) -> binary();
+             (binary()) -> binary().
 hex2bin([A, B | Rest]) ->
     <<(list_to_integer([A, B], 16)), (hex2bin(Rest))/binary>>;
 hex2bin([A]) ->
     <<(list_to_integer([A], 16))>>;
 hex2bin([]) ->
-    <<>>.
+    <<>>;
+hex2bin(X) when is_binary(X) ->
+    hex2bin(binary_to_list(X)).
 
--spec bin2hex(binary()) -> string().
+-spec bin2hex(binary()) -> binary().
 bin2hex(Bin) when is_binary(Bin) ->
-    lists:flatten([integer_to_list(X, 16) || <<X:4/integer>> <= Bin]).
+    list_to_binary(lists:flatten([integer_to_list(X, 16) || <<X:4/integer>> <= Bin])).
 
 parallel_map(Fun, List) ->
     Self = self(),
@@ -56,11 +59,13 @@ parallel_map_gather_results([]) ->
 
 -ifdef(TEST).
 
--spec test() -> any().
-
 -spec strip_test() -> any().
 strip_test() ->
     ?assertEqual(strip(<<1,2,3,4,0,0,0>>, <<0>>), <<1,2,3,4>>),
     ?assertEqual(strip(<<0,0,0,1,0,2,0,3,4,0,0,0>>, <<0>>), <<1,2,3,4>>).
+
+prop_inverse() ->
+    ?FORALL(X, binary(),
+        hex2bin(bin2hex(X)) == X).
 
 -endif.
