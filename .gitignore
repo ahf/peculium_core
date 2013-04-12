@@ -1,6 +1,7 @@
 *.app
 *.beam
 .eunit/
+.qc/
 README.html
 deps/
 doc/
