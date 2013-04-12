@@ -10,6 +10,8 @@
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
 
+-include("peculium_test.hrl").
+
 -module_alias({t, peculium_protocol_types}).
 
 %% @doc Returns the little-endian encoded hash of a given block.
@@ -65,4 +67,30 @@ version(#bitcoin_block_message { version = Version }) ->
 %% @doc Returns the root hash of the merkle tree of a given block.
 -spec merkle_root(bitcoin_block_message()) -> binary().
 merkle_root(#bitcoin_block_message { merkle_root = MerkleRoot }) ->
-    MerkleRoot.
+    peculium_utilities:reverse(MerkleRoot).
+
+-ifdef(TEST).
+
+-spec genesis_block_hash_test() -> any().
+genesis_block_hash_test() ->
+    ?assertEqual(hash(genesis_block(mainnet)), peculium_utilities:hex2bin("000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f")).
+
+-spec genesis_block_merkle_root_test() -> any().
+genesis_block_merkle_root_test() ->
+    Block = genesis_block(mainnet),
+    Transactions = transactions(Block),
+    MerkleTree = peculium_merkle_tree:from_transactions(Transactions),
+    ?assertEqual(peculium_merkle_tree:hash(MerkleTree), merkle_root(Block)).
+
+-spec genesis_block_merkle_root2_test() -> any().
+genesis_block_merkle_root2_test() ->
+    Block = genesis_block(mainnet),
+    Transactions = transactions(Block),
+    MerkleTree = peculium_merkle_tree:from_transactions(Transactions),
+    ?assertEqual(peculium_merkle_tree:hash(MerkleTree), peculium_utilities:hex2bin("4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b")).
+
+-spec genesis_block_version_test() -> any().
+genesis_block_version_test() ->
+    ?assertEqual(1, version(genesis_block(mainnet))).
+
+-endif.
