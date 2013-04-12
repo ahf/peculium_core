@@ -36,6 +36,8 @@ a lot of consideration and planning.
     be neat if we could get someone else to try to do an independent
     implementation.
 
-  Other possibly interesting research sub-projects:
+Other interesting research sub-projects:
 
   - Is it worth compressing the data in the protocol?
+
+  - Is it worth encrypting peer connections using SSL?
