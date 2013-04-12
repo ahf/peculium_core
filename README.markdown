@@ -41,3 +41,7 @@ Download our dependencies:
 And finally, build Peculium itself:
 
     $ make
+
+To get an Erlang console use:
+
+    $ make console
