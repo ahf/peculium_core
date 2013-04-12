@@ -8,10 +8,14 @@
 %% API.
 -export([encode/1, decode/1]).
 
+-include("peculium_test.hrl").
+
 -define(BASE58_TABLE, <<"123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz">>).
 
 %% @doc Encode a binary using Base58.
 -spec encode(binary()) -> binary().
+encode(<<>>) ->
+    <<>>;
 encode(<<0, Rest/binary>>) ->
     Result = encode(Rest),
     <<$1, Result/binary>>;
@@ -28,7 +32,9 @@ encode(N, Data) ->
     encode(N div 58, <<Symbol:8/unsigned, Data/binary>>).
 
 %% @doc Decode a Base58 binary.
--spec decode(binary()) -> {ok, binary()} | {error, {invalid_byte, any()}}.
+-spec decode(binary()) -> {ok, binary()} | {error, {invalid_byte, binary()}}.
+decode(<<>>) ->
+    {ok, <<>>};
 decode(<<$1, Rest/binary>>) ->
     case decode(Rest) of
         {ok, Data} ->
@@ -39,13 +45,13 @@ decode(<<$1, Rest/binary>>) ->
 decode(X) ->
     case decode(X, 0) of
         {ok, Data} ->
-            binary:encode_unsigned(Data);
+            {ok, binary:encode_unsigned(Data)};
         Error ->
             Error
     end.
 
 %% @private
--spec decode(binary(), non_neg_integer()) -> {ok, binary()} | {error, {invalid_byte, any()}}.
+-spec decode(binary(), non_neg_integer()) -> {ok, binary()} | {error, {invalid_byte, binary()}}.
 decode(<<>>, N) ->
     {ok, N};
 decode(<<Symbol:8/unsigned, Rest/binary>>, N) ->
@@ -62,11 +68,12 @@ symbol(Position) ->
     binary:at(?BASE58_TABLE, Position).
 
 %% @private
--spec position(byte()) -> {ok, non_neg_integer()} | {error, {not_found, any()}}.
+-spec position(byte()) -> {ok, non_neg_integer()} | {error, {invalid_byte, binary()}}.
 position(Symbol) ->
     position(Symbol, 0, ?BASE58_TABLE).
 
 %% @private.
+-spec position(byte(), non_neg_integer(), binary()) -> {ok, non_neg_integer()} | {error, {invalid_byte, binary()}}.
 position(Symbol, N, <<X:8/unsigned, Rest/binary>>) ->
     case X of
         Symbol ->
@@ -75,4 +82,13 @@ position(Symbol, N, <<X:8/unsigned, Rest/binary>>) ->
             position(Symbol, N + 1, Rest)
     end;
 position(Symbol, _, <<>>) ->
-    {error, {not_found, Symbol}}.
+    {error, {invalid_byte, <<Symbol>>}}.
+
+-ifdef(TEST).
+
+-spec prop_inverse() -> any().
+prop_inverse() ->
+    ?FORALL(X, binary(),
+        decode(encode(X)) == {ok, X}).
+
+-endif.

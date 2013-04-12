@@ -23,6 +23,9 @@ console: release
 eunit:
 	rebar skip_deps=true eunit
 
+quickcheck:
+	rebar skip_deps=true qc
+
 doc:
 	rebar skip_deps=true doc
 
@@ -39,7 +42,6 @@ dialyzer:
 
 clean_plt:
 	rm $PLT
-
 
 .PHONY: all get-deps compile clean eunit doc test \
 	    dialyzer check_plt build_plt clean_plt
