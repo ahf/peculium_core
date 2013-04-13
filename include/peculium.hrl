@@ -230,3 +230,12 @@
 }).
 
 -type bitcoin_message() :: #bitcoin_message {}.
+
+-record(block_index_entry, {
+    hash :: binary(),
+    height :: non_neg_integer(),
+    previous = undefined :: undefined | binary(),
+    next = undefined :: undefined | binary()
+}).
+
+-type block_index_entry() :: #block_index_entry {}.
