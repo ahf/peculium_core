@@ -5,7 +5,7 @@
 
 %% API.
 -export([hash/1, genesis_block/1]).
--export([transactions/1, version/1, merkle_root/1]).
+-export([transactions/1, previous/1, version/1, merkle_root/1]).
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
@@ -68,6 +68,11 @@ version(#bitcoin_block_message { version = Version }) ->
 -spec merkle_root(bitcoin_block_message()) -> binary().
 merkle_root(#bitcoin_block_message { merkle_root = MerkleRoot }) ->
     peculium_utilities:reverse(MerkleRoot).
+
+%% @doc Returns the hash of the previous block of a given block.
+-spec previous(bitcoin_block_message()) -> binary().
+previous(#bitcoin_block_message { previous_block = Previous }) ->
+    peculium_utilities:reverse(Previous).
 
 -ifdef(TEST).
 
