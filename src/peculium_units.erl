@@ -1,9 +1,16 @@
+%% @author Alexander Færøy <ahf@0x90.dk>
+%% @copyright 2013 Alexander Færøy
+%% @doc Utilities for converting between units.
 -module(peculium_units).
 
+%% API.
 -export([factor/1, convert/3, stringify/1]).
 
 -include_lib("peculium/include/peculium.hrl").
 
+-include("peculium_test.hrl").
+
+%% @doc Returns the factor of a given unit.
 -spec factor(bitcoin_unit_atom()) -> float().
 factor(X) ->
     case X of
@@ -29,10 +36,31 @@ factor(X) ->
             0.00000001
     end.
 
+%% @doc Convert a unit to a binary.
 -spec stringify(bitcoin_unit_atom()) -> binary().
 stringify(X) ->
     atom_to_binary(X, utf8).
 
--spec convert(number(), bitcoin_unit_atom(), bitcoin_unit_atom()) -> float().
-convert(Input, InputType, OutputType) ->
-    Input * 1 / factor(InputType) * factor(OutputType).
+%% @doc Convert a given number from the input unit to the output unit.
+-spec convert(Value :: float(), InputUnit :: bitcoin_unit_atom(), OutputUnit :: bitcoin_unit_atom()) -> float().
+convert(Value, InputUnit, OutputUnit) ->
+    Value * 1 / factor(InputUnit) * factor(OutputUnit).
+
+-ifdef(TEST).
+
+-spec compare(float(), float()) -> boolean().
+compare(A, B) ->
+    %% FIXME: Horror ahead.
+    As = lists:flatten(io_lib:format("~.12f", [A])),
+    Bs = lists:flatten(io_lib:format("~.12f", [B])),
+    As =:= Bs.
+
+prop_convert_integer_inverse() ->
+    ?FORALL({Value, InputUnit, OutputUnit}, {pos_integer(), peculium_triq_domains:bitcoin_unit_atom(), peculium_triq_domains:bitcoin_unit_atom()},
+        compare(convert(convert(Value, InputUnit, OutputUnit), OutputUnit, InputUnit), float(Value))).
+
+prop_convert_real_inverse() ->
+    ?FORALL({Value, InputUnit, OutputUnit}, {real(), peculium_triq_domains:bitcoin_unit_atom(), peculium_triq_domains:bitcoin_unit_atom()},
+        compare(convert(convert(Value, InputUnit, OutputUnit), OutputUnit, InputUnit), float(Value))).
+
+-endif.
