@@ -4,7 +4,7 @@
 -module(peculium_inv).
 
 %% API.
--export([type/1, hash/1]).
+-export([type/1, hash/1, is_transaction/1, is_block/1]).
 
 -include_lib("peculium/include/peculium.hrl").
 
@@ -17,3 +17,13 @@ type(#bitcoin_inv { type = Type }) ->
 -spec hash(bitcoin_inv()) -> binary().
 hash(#bitcoin_inv { hash = Hash }) ->
     Hash.
+
+%% @doc Checks if a given inv is a transaction.
+-spec is_transaction(bitcoin_inv()) -> boolean().
+is_transaction(Inv) ->
+    type(Inv) =:= tx.
+
+%% @doc Checks if a given inv is a block.
+-spec is_block(bitcoin_inv()) -> boolean().
+is_block(Inv) ->
+    type(Inv) =:= block.
