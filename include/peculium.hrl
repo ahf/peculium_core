@@ -239,3 +239,5 @@
 }).
 
 -type block_index_entry() :: #block_index_entry {}.
+
+-type block_locator() :: [binary()].
