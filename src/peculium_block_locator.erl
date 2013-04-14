@@ -4,14 +4,25 @@
 -module(peculium_block_locator).
 
 %% API.
--export([from_height/1]).
+-export([from_best_block/0, from_height/1]).
 
 -include_lib("peculium/include/peculium.hrl").
+
+%% @doc Create block locator from the best block.
+-spec from_best_block() -> block_locator().
+from_best_block() ->
+    {ok, Height} = peculium_block_index_srv:best_block_height(),
+    from_height(Height).
 
 %% @doc Create block locator object from a given height.
 -spec from_height(Height :: non_neg_integer()) -> {ok, block_locator()} | {error, any()}.
 from_height(Height) ->
-    from_height(Height, [], 1, 0).
+    Indices = from_height(Height, [], 1, 0),
+    MapFun = fun (X) ->
+                 {ok, Hash} = peculium_block_index_srv:height_to_hash(X),
+                 peculium_utilities:reverse(Hash)
+              end,
+    lists:map(MapFun, Indices).
 
 %% @private
 -spec from_height(Count :: non_neg_integer(), Result :: list(non_neg_integer()), Step :: non_neg_integer(), Count :: non_neg_integer()) -> [non_neg_integer()].
