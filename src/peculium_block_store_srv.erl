@@ -44,7 +44,7 @@ start_link() ->
 %% @private
 init([]) ->
     lager:info("Starting Block Store Server"),
-    {ok, HanoiDB} = hanoidb:open_link("/Users/ahf/peculium/", []),
+    {ok, HanoiDB} = hanoidb:open_link("/Users/ahf/peculium/", [{compress, none}, {merge_strategy, fast}, {sync_strategy, sync}]),
     {ok, #state {
         hanoidb = HanoiDB
     }}.

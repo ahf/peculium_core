@@ -1,5 +1,6 @@
 -module(peculium_utilities).
 
+-export([find_last/2]).
 -export([strip/2, timestamp/0]).
 -export([hex2bin/1, bin2hex/1]).
 -export([reverse/1]).
@@ -8,6 +9,16 @@
 -include_lib("peculium/include/peculium.hrl").
 
 -include("peculium_test.hrl").
+
+%% @doc Returns the last element of a given list that matches the given predicate.
+-spec find_last(Pred :: fun((X :: term()) -> boolean()), list(term())) -> term() | not_found.
+find_last(Pred, List) ->
+    case lists:filter(Pred, List) of
+        [] ->
+            not_found;
+        Result ->
+            lists:last(Result)
+    end.
 
 -spec reverse(binary()) -> binary().
 reverse(Binary) when is_binary(Binary) ->
