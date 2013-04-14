@@ -26,6 +26,8 @@ eunit:
 quickcheck:
 	rebar skip_deps=true qc
 
+qc: quickcheck
+
 doc:
 	rebar skip_deps=true doc
 
