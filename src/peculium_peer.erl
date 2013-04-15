@@ -171,16 +171,19 @@ process_messages(State, []) ->
     {noreply, State}.
 
 process_one_message(State, #bitcoin_message { header = #bitcoin_message_header { network = Network }, body = #bitcoin_inv_message { inventory = Invs } }) ->
-    LastBlockInv = peculium_utilities:find_last(fun peculium_inv:is_block/1, Invs),
-    lists:foldl(fun (Inv, StateCont) ->
-            StateCont2 = case Inv of
-                LastBlockInv ->
-                    send(StateCont, getblocks, [Network, peculium_block_locator:from_best_block(), <<0:256>>]);
-                _Otherwise ->
-                    StateCont
-            end,
-            send(StateCont2, getdata, [Network, [Inv]])
-        end, State, Invs);
+%%    LastBlockInv = peculium_utilities:find_last(fun peculium_inv:is_block/1, Invs),
+    State2 = send(State, getblocks, [Network, peculium_block_locator:from_best_block(), <<0:256>>]),
+    State3 = send(State2, getdata, [Network, peculium_inv:unknown_invs(Invs)]),
+    State3;
+%%    lists:foldl(fun (Inv, StateCont) ->
+%%            StateCont2 = case Inv of
+%%                LastBlockInv ->
+%%                    send(StateCont, getblocks, [Network, peculium_block_locator:from_best_block(), <<0:256>>]);
+%%                _Otherwise ->
+%%                    StateCont
+%%            end,
+%%            send(StateCont2, getdata, [Network, [Inv]])
+%%        end, State, Invs);
 
 process_one_message(State, #bitcoin_message { header = #bitcoin_message_header { network = Network }, body = #bitcoin_block_message { previous_block = PreviousBlock, transactions = Transactions } = Block }) ->
     peculium_block_index_srv:insert(Block),

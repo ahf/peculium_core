@@ -4,7 +4,7 @@
 -module(peculium_block_index_srv).
 
 %% API.
--export([start_link/0, insert/1, best_block_index/0, best_block_height/0, height_to_hash/1]).
+-export([start_link/0, insert/1, best_block_index/0, best_block_height/0, height_to_hash/1, exists/1]).
 
 %% Callbacks.
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
@@ -27,6 +27,11 @@
 %% @doc Start Block Index Server.
 start_link() ->
     gen_server:start_link({local, ?SERVER}, ?MODULE, [], []).
+
+%% @doc Check if a given hash exists in the index.
+-spec exists(Hash :: binary()) -> boolean().
+exists(Hash) ->
+    gen_server:call(?SERVER, {exists, Hash}).
 
 %% @doc Insert block into the block index.
 insert(Block) ->
@@ -90,6 +95,13 @@ handle_call({insert, Block}, _From, #state { height_map = HeightMap, block_index
         _Otherwise ->
             lager:debug("Orphan block: ~s", [peculium_utilities:bin2hex(BlockHash)]),
             {reply, error, State}
+    end;
+handle_call({exists, Hash}, _From, #state { block_index_map = Map } = State) ->
+    case ets:lookup(Map, Hash) of
+        [_] ->
+            {reply, true, State};
+        [] ->
+            {reply, false, State}
     end;
 handle_call(best_block_index, _From, #state { block_index_map = Map, best_block_hash = BestBlockHash } = State) ->
     case ets:lookup(Map, BestBlockHash) of
