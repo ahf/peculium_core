@@ -214,7 +214,7 @@ transaction_input(<<RawOutpoint:36/binary, X/binary>>) ->
                 <<Script:Length/binary, Sequence:4/binary, Rest1/binary>> ->
                     {ok, #bitcoin_transaction_input {
                         previous_output = Outpoint,
-                        script = Script,
+                        script = peculium_script:decode(Script),
                         sequence = uint32_t(Sequence)
                     }, Rest1};
                 Error ->
