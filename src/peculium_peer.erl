@@ -211,4 +211,4 @@ log(State, Format) ->
 
 log(State, Format, Arguments) ->
     {ok, {Address, Port}} = inet:peername(State#state.socket),
-    lager:debug("[~s]:~b -> " ++ Format, [inet_parse:ntoa(Address), Port] ++ Arguments).
+    lager:debug("[Peer]: [~s]:~b -> " ++ Format, [inet_parse:ntoa(Address), Port] ++ Arguments).

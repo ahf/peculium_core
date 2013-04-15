@@ -236,7 +236,7 @@ transaction_output(<<Value:8/binary, X/binary>>) ->
                 <<Script:Length/binary, Rest1/binary>> ->
                     {ok, #bitcoin_transaction_output {
                         value = int64_t(Value),
-                        script = Script
+                        script = peculium_script:decode(Script)
                     }, Rest1};
                 Error ->
                     Error
