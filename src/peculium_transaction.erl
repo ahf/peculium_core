@@ -6,7 +6,7 @@
 -module(peculium_transaction).
 
 %% API.
--export([hash/1, inputs/1, outputs/1, version/1, lock_time/1]).
+-export([hash/1, inputs/1, outputs/1, version/1, lock_time/1, is_coinbase/1]).
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
@@ -42,3 +42,9 @@ version(#bitcoin_tx_message { version = Version }) ->
 -spec lock_time(bitcoin_tx_message()) -> uint32_t().
 lock_time(#bitcoin_tx_message { lock_time = LockTime }) ->
     LockTime.
+
+%% @doc Check if a given transaction is a coinbase transaction.
+-spec is_coinbase(Transaction :: bitcoin_tx_message()) -> boolean().
+is_coinbase(Transaction) ->
+    Inputs = inputs(Transaction),
+    length(Inputs) =:= 1 andalso peculium_outpoint:hash(peculium_transaction_input:previous_output(hd(Inputs))) =:= <<0:256>>.
