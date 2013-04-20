@@ -35,7 +35,7 @@ exists(Hash) ->
 
 %% @doc Insert block into the block index.
 insert(Block) ->
-    gen_server:call(?SERVER, {insert, Block}).
+    gen_server:call(?SERVER, {insert, Block}, infinity).
 
 %% @doc Get best block index entry.
 best_block_index() ->
@@ -73,24 +73,26 @@ handle_call({insert, Block}, _From, #state { height_map = HeightMap, block_index
             %% Genesis block.
             ets:insert(Map, BlockIndexEntry#block_index_entry { height = 0, previous = undefined }),
             ets:insert(HeightMap, {0, BlockHash}),
-            %% peculium_block_store_srv:put(peculium_block:hash(Block), Block),
+            peculium_block_store_srv:put(peculium_block:hash(Block), Block),
             {reply, ok, State#state { best_block_hash = BlockHash }};
         PreviousBlockHash ->
             %% Continuation of the chain.
-            lager:debug("Continuation block: ~s", [peculium_utilities:bin2hex(BlockHash)]),
             [OldBlockIndexEntry] = ets:lookup(Map, PreviousBlockHash),
             Height = peculium_block_index:height(OldBlockIndexEntry) + 1,
+            lager:debug("Continuation block: ~s (~B)", [peculium_utilities:bin2hex(BlockHash), Height]),
             ets:insert(Map, [
+                %% Update next pointer for previous entry.
                 OldBlockIndexEntry#block_index_entry{
                     next = BlockHash
                 },
+                %% New block.
                 BlockIndexEntry#block_index_entry{
                     previous = PreviousBlockHash,
                     height = Height
                 }
             ]),
             ets:insert(HeightMap, {Height, BlockHash}),
-            %% peculium_block_store_srv:put(peculium_block:hash(Block), Block),
+            peculium_block_store_srv:put(peculium_block:hash(Block), Block),
             {reply, ok, State#state { best_block_hash = BlockHash }};
         _Otherwise ->
             lager:debug("Orphan block: ~s", [peculium_utilities:bin2hex(BlockHash)]),
