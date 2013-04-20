@@ -79,4 +79,9 @@ prop_inverse() ->
     ?FORALL(X, binary(),
         hex2bin(bin2hex(X)) == X).
 
+prop_parallel_map() ->
+    F = fun (X) -> X end,
+    ?FORALL(X, list(any()),
+        lists:map(F, X) == parallel_map(F, X)).
+
 -endif.
