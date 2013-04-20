@@ -30,7 +30,7 @@
 %% @end
 -spec from_transactions([bitcoin_tx_message(), ...]) -> merkle_tree_node().
 from_transactions(Transactions) ->
-    from_list(lists:map(fun peculium_transaction:hash/1, Transactions), fun (X) -> peculium_utilities:reverse(crypto:sha256(crypto:sha256(X))) end).
+    from_list(lists:map(fun peculium_transaction:hash/1, Transactions), fun peculium_crypto:hash/1).
 
 %% @doc Create a Merkle Tree from a list of leaves.
 %% This function takes a list of leaves and a hash function and returns the
@@ -115,6 +115,6 @@ merkle_root_test() ->
     C = <<99, 89, 240, 134, 129, 113, 177, 209, 148, 203, 238, 26, 242, 241, 110, 165, 152, 174, 143, 173, 102, 109, 155, 1, 44, 142, 210, 183, 154, 35, 110, 196>>,
     D = <<233, 166, 104, 69, 224, 93, 90, 188, 10, 208, 78, 200, 15, 119, 74, 126, 88, 92, 110, 141, 185, 117, 150, 45, 6, 154, 82, 33, 55, 184, 12, 29>>,
     R = <<243, 233, 71, 66, 172, 164, 181, 239, 133, 72, 141, 195, 124, 6, 195, 40, 34, 149, 255, 236, 150, 9, 148, 178, 192, 213, 172, 42, 37, 169, 87, 102>>,
-    ?assertEqual(hash(from_list([A, B, C, D], fun (X) -> peculium_utilities:reverse(crypto:sha256(crypto:sha256(X))) end)), R).
+    ?assertEqual(hash(from_list([A, B, C, D], fun peculium_crypto:hash/1)), R).
 
 -endif.

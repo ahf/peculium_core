@@ -17,7 +17,7 @@
 %% @doc Returns the little-endian encoded hash of a given block.
 -spec hash(bitcoin_block_message()) -> binary().
 hash(#bitcoin_block_message { version = Version, previous_block = PreviousBlock, merkle_root = MerkleRoot, timestamp = Timestamp, bits = Bits, nonce = Nonce }) ->
-    peculium_utilities:reverse(crypto:sha256(crypto:sha256([t:uint32_t(Version), PreviousBlock, MerkleRoot, t:uint32_t(Timestamp), t:uint32_t(Bits), t:uint32_t(Nonce)]))).
+    peculium_crypto:hash([t:uint32_t(Version), PreviousBlock, MerkleRoot, t:uint32_t(Timestamp), t:uint32_t(Bits), t:uint32_t(Nonce)]).
 
 %% @doc Returns the Genesis block from a given network.
 -spec genesis_block(bitcoin_network_atom()) -> bitcoin_block_message().

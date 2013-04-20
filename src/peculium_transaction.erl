@@ -21,7 +21,7 @@ hash(#bitcoin_tx_message { version = Version, transaction_inputs = Inputs, trans
     {ok, OutputsLength} = t:var_int(length(Outputs)),
     OutputsBin = lists:map(fun peculium_protocol_types:transaction_output/1, Outputs),
     Data = [t:uint32_t(Version), InputsLength, InputsBin, OutputsLength, OutputsBin, t:uint32_t(LockTime)],
-    peculium_utilities:reverse(crypto:sha256(crypto:sha256(Data))).
+    peculium_crypto:hash(Data).
 
 %% @doc Returns the transaction inputs of a given transaction.
 -spec inputs(bitcoin_tx_message()) -> [bitcoin_transaction_input()].
