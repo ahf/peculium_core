@@ -56,7 +56,7 @@ ping([Network]) ->
     encode(Network, ping).
 
 version([Network, {SourceAddress, SourcePort}, {DestinationAddress, DestinationPort}]) ->
-    {ok, BlockHeight} = peculium_block_index_srv:best_block_height(),
+    {ok, BlockHeight} = peculium_block_index:best_block_height(),
     encode(Network, version, [t:int32_t(60001), t:uint64_t(1), t:uint64_t(peculium_utilities:timestamp()), t:net_addr(DestinationAddress, DestinationPort), t:net_addr(SourceAddress, SourcePort), crypto:rand_bytes(8), t:var_string("Peculium"), t:int32_t(BlockHeight)]).
 
 getdata([Network, Invs]) ->

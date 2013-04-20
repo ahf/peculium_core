@@ -11,7 +11,7 @@
 %% @doc Create block locator from the best block.
 -spec from_best_block() -> block_locator().
 from_best_block() ->
-    {ok, Height} = peculium_block_index_srv:best_block_height(),
+    {ok, Height} = peculium_block_index:best_block_height(),
     from_height(Height).
 
 %% @doc Create block locator object from a given height.
@@ -19,7 +19,7 @@ from_best_block() ->
 from_height(Height) ->
     Indices = from_height(Height, [], 1, 0),
     MapFun = fun (X) ->
-                 {ok, Hash} = peculium_block_index_srv:height_to_hash(X),
+                 {ok, Hash} = peculium_block_index:height_to_hash(X),
                  peculium_utilities:reverse(Hash)
               end,
     lists:map(MapFun, Indices).

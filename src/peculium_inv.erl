@@ -38,7 +38,7 @@ unknown_invs(Invs) ->
 known(#bitcoin_inv { type = Type, hash = Hash }) ->
     case Type of
         block ->
-            peculium_block_index_srv:exists(Hash);
+            peculium_block_index:exists(Hash);
         tx ->
             %% FIXME: Once we have a transaction database, this should be changed.
             false

@@ -1,7 +1,7 @@
 %% @author Alexander Færøy <ahf@0x90.dk>
 %% @copyright 2013 Alexander Færøy
 %% @doc Bitcoin Block Store Server.
--module(peculium_block_store_srv).
+-module(peculium_block_store).
 
 %% API.
 -export([start_link/0, exists/1, put/2, delete/1, get/1]).
