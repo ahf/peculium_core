@@ -44,18 +44,14 @@ start_link() ->
 %% @private
 init([]) ->
     lager:info("Starting Block Store Server"),
-    {ok, Db} = eleveldb:open(peculium_config:block_store_dir(), [
-        {create_if_missing, true},
-        {compression, false},
-        {},
-    ]),
+    {ok, Db} = peculium_leveldb:open(peculium_config:block_store_dir(), 10000),
     {ok, #state {
         db = Db
     }}.
 
 %% @private
 handle_call({exists, Hash}, _from, #state { db = Db } = State) ->
-    case eleveldb:get(Db, Hash, []) of
+    case peculium_leveldb:get(Db, Hash) of
         {ok, _} ->
             {reply, true, State};
         not_found ->
@@ -63,10 +59,10 @@ handle_call({exists, Hash}, _from, #state { db = Db } = State) ->
     end;
 handle_call({put, Hash, Block}, _From, #state { db = Db } = State) ->
     lager:info("Adding ~s to block store", [binary_to_list(peculium_utilities:bin2hex(Hash))]),
-    eleveldb:put(Db, Hash, term_to_binary(Block), []),
+    peculium_leveldb:put(Db, Hash, term_to_binary(Block)),
     {reply, ok, State};
 handle_call({get, Hash}, _from, #state { db = Db } = State) ->
-    case eleveldb:get(Db, Hash, []) of
+    case peculium_leveldb:get(Db, Hash) of
         {ok, Block} ->
             {reply, {ok, binary_to_term(Block)}, State};
         not_found ->
@@ -78,7 +74,7 @@ handle_call(_Request, _From, State) ->
 
 %% @private
 handle_cast({delete, Hash}, #state { db = Db } = State) ->
-    eleveldb:delete(Db, Hash),
+    peculium_leveldb:delete(Db, Hash),
     {noreply, State};
 handle_cast(_Message, State) ->
     {noreply, State}.
