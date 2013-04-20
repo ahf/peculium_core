@@ -21,6 +21,7 @@ start_link() ->
 -spec init([]) -> {ok, {{one_for_one, non_neg_integer(), non_neg_integer()}, []}}.
 init(_State) ->
     {ok, {{one_for_one, 5, 10}, [
+        ?CHILD(peculium_config, worker)
         ?CHILD(peculium_block_index_srv, worker),
         ?CHILD(peculium_block_store_srv, worker)
     ]}}.
