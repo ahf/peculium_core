@@ -14,7 +14,7 @@
 -define(SERVER, ?MODULE).
 
 -record(state, {
-    hanoidb :: hanoidb:hanoidb()
+    db :: eleveldb:db_ref()
 }).
 
 %% @doc Check if a given block exists in the store.
@@ -25,7 +25,7 @@ exists(Hash) ->
 %% @doc Insert block.
 -spec put(Hash :: binary(), Block :: bitcoin_block_message()) -> ok.
 put(Hash, Block)->
-    gen_server:cast(?SERVER, {put, Hash, Block}).
+    gen_server:call(?SERVER, {put, Hash, Block}, infinity).
 
 %% @doc Delete block.
 -spec delete(Hash :: binary()) -> ok.
@@ -44,21 +44,29 @@ start_link() ->
 %% @private
 init([]) ->
     lager:info("Starting Block Store Server"),
-    {ok, HanoiDB} = hanoidb:open_link("/Users/ahf/peculium/", [{compress, none}, {merge_strategy, fast}, {sync_strategy, sync}]),
+    {ok, Db} = eleveldb:open(peculium_config:block_store_dir(), [
+        {create_if_missing, true},
+        {compression, false},
+        {},
+    ]),
     {ok, #state {
-        hanoidb = HanoiDB
+        db = Db
     }}.
 
 %% @private
-handle_call({exists, Hash}, _from, #state { hanoidb = HanoiDB } = State) ->
-    case hanoidb:get(HanoiDB, Hash) of
+handle_call({exists, Hash}, _from, #state { db = Db } = State) ->
+    case eleveldb:get(Db, Hash, []) of
         {ok, _} ->
             {reply, true, State};
         not_found ->
             {reply, false, State}
     end;
-handle_call({get, Hash}, _from, #state { hanoidb = HanoiDB } = State) ->
-    case hanoidb:get(HanoiDB, Hash) of
+handle_call({put, Hash, Block}, _From, #state { db = Db } = State) ->
+    lager:info("Adding ~s to block store", [binary_to_list(peculium_utilities:bin2hex(Hash))]),
+    eleveldb:put(Db, Hash, term_to_binary(Block), []),
+    {reply, ok, State};
+handle_call({get, Hash}, _from, #state { db = Db } = State) ->
+    case eleveldb:get(Db, Hash, []) of
         {ok, Block} ->
             {reply, {ok, binary_to_term(Block)}, State};
         not_found ->
@@ -69,12 +77,8 @@ handle_call(_Request, _From, State) ->
     {reply, Reply, State}.
 
 %% @private
-handle_cast({delete, Hash}, #state { hanoidb = HanoiDB } = State) ->
-    hanoidb:delete(HanoiDB, Hash),
-    {noreply, State};
-handle_cast({put, Hash, Block}, #state { hanoidb = HanoiDB } = State) ->
-    lager:info("Adding ~s to Block Store", [binary_to_list(peculium_utilities:bin2hex(Hash))]),
-    hanoidb:put(HanoiDB, Hash, term_to_binary(Block)),
+handle_cast({delete, Hash}, #state { db = Db } = State) ->
+    eleveldb:delete(Db, Hash),
     {noreply, State};
 handle_cast(_Message, State) ->
     {noreply, State}.
@@ -84,9 +88,8 @@ handle_info(_Info, State) ->
     {noreply, State}.
 
 %% @private
-terminate(_Reason, #state { hanoidb = HanoiDB }) ->
+terminate(_Reason, _State) ->
     lager:info("Stopping Block Store Server"),
-    hanoidb:close(HanoiDB),
     ok.
 
 %% @private

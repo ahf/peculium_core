@@ -4,8 +4,9 @@
     {registered, []},
     {applications, [
         crypto,
+        eleveldb,
+        folsom,
         gproc,
-        hanoidb,
         kernel,
         lager,
         ranch,
@@ -17,5 +18,7 @@
         ucrypto
     ]},
     {mod, { peculium_app, []}},
-    {env, []}
+    {env, [
+        {dotdir, "/Users/ahf/.peculium"}
+    ]}
 ]}.
