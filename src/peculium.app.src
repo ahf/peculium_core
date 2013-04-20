@@ -19,6 +19,7 @@
     ]},
     {mod, { peculium_app, []}},
     {env, [
-        {dotdir, "/Users/ahf/.peculium"}
+        {dotdir, "/Users/ahf/.peculium"},
+        {cache_size, 4194304}
     ]}
 ]}.

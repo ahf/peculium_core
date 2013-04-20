@@ -44,7 +44,7 @@ start_link() ->
 %% @private
 init([]) ->
     lager:info("Starting Block Store Server"),
-    {ok, Db} = peculium_leveldb:open(peculium_config:block_store_dir(), 10000),
+    {ok, Db} = peculium_leveldb:open(peculium_config:block_store_dir()),
     {ok, #state {
         db = Db
     }}.

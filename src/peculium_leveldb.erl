@@ -4,13 +4,13 @@
 -module(peculium_leveldb).
 
 %% API.
--export([open/2, close/1, put/3, get/2, delete/2]).
+-export([open/1, close/1, put/3, get/2, delete/2]).
 -export([open_options/1, read_options/0, write_options/0]).
 
 %% @doc Open LevelDB database.
--spec open(Path :: string(), CacheSize :: non_neg_integer()) -> {ok, eleveldb:db_ref()} | {error, any()}.
-open(Path, CacheSize) ->
-    eleveldb:open(Path, open_options(CacheSize)).
+-spec open(Path :: string()) -> {ok, eleveldb:db_ref()} | {error, any()}.
+open(Path) ->
+    eleveldb:open(Path, open_options(peculium_config:cache_size())).
 
 %% @doc Close LevelDB database.
 -spec close(Database :: eleveldb:db_ref()) -> ok | {error, any()}.
