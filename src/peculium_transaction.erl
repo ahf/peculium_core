@@ -6,7 +6,7 @@
 -module(peculium_transaction).
 
 %% API.
--export([hash/1]).
+-export([hash/1, inputs/1, outputs/1, version/1, lock_time/1]).
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
@@ -22,3 +22,23 @@ hash(#bitcoin_tx_message { version = Version, transaction_inputs = Inputs, trans
     OutputsBin = lists:map(fun peculium_protocol_types:transaction_output/1, Outputs),
     Data = [t:uint32_t(Version), InputsLength, InputsBin, OutputsLength, OutputsBin, t:uint32_t(LockTime)],
     peculium_utilities:reverse(crypto:sha256(crypto:sha256(Data))).
+
+%% @doc Returns the transaction inputs of a given transaction.
+-spec inputs(bitcoin_tx_message()) -> [bitcoin_transaction_input()].
+inputs(#bitcoin_tx_message { transaction_inputs = TransactionInputs }) ->
+    TransactionInputs.
+
+%% @doc Returns the transaction outputs of a given transaction.
+-spec outputs(bitcoin_tx_message()) -> [bitcoin_transaction_output()].
+outputs(#bitcoin_tx_message { transaction_outputs = TransactionOutputs }) ->
+    TransactionOutputs.
+
+%% @doc Returns the version of a given transaction.
+-spec version(bitcoin_tx_message()) -> uint32_t().
+version(#bitcoin_tx_message { version = Version }) ->
+    Version.
+
+%% @doc Returns the lock time of a given transaction.
+-spec lock_time(bitcoin_tx_message()) -> uint32_t().
+lock_time(#bitcoin_tx_message { lock_time = LockTime }) ->
+    LockTime.
