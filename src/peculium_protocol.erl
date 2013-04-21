@@ -25,7 +25,7 @@
 -module(peculium_protocol).
 
 -export([decode/1]).
--export([decode_vector/3, decode_dynamic_vector/3]).
+-export([decode_message_payload/2]).
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").

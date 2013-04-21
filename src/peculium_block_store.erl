@@ -44,6 +44,7 @@ start_link() ->
 %% @private
 init([]) ->
     lager:info("Starting Block Store Server"),
+    ok = filelib:ensure_dir(peculium_config:block_chain_dir() ++ "/"),
     {ok, Db} = peculium_leveldb:open(peculium_config:block_store_dir()),
     {ok, #state {
         db = Db
@@ -59,12 +60,12 @@ handle_call({exists, Hash}, _from, #state { db = Db } = State) ->
     end;
 handle_call({put, Hash, Block}, _From, #state { db = Db } = State) ->
     lager:info("Adding ~s to block store", [binary_to_list(peculium_utilities:bin2hex(Hash))]),
-    peculium_leveldb:put(Db, Hash, term_to_binary(Block)),
+    peculium_leveldb:put(Db, Hash, iolist_to_binary(peculium_protocol_types:block(Block))),
     {reply, ok, State};
 handle_call({get, Hash}, _from, #state { db = Db } = State) ->
     case peculium_leveldb:get(Db, Hash) of
         {ok, Block} ->
-            {reply, {ok, binary_to_term(Block)}, State};
+            {reply, peculium_protocol_types:block(Block), State};
         not_found ->
             {reply, {error, not_found}, State}
     end;
