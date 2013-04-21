@@ -31,6 +31,7 @@
 -export([bool/1]).
 -export([inv/1, block_header/1, outpoint/1]).
 -export([transaction_input/1, transaction_output/1]).
+-export([transaction/1, block/1]).
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("kernel/include/inet.hrl").
@@ -247,6 +248,24 @@ transaction_output(<<Value:8/binary, X/binary>>) ->
 transaction_output(#bitcoin_transaction_output { value = Value, script = Script }) ->
     {ok, ScriptLength} = var_int(byte_size(Script)),
     [int64_t(Value), ScriptLength, Script].
+
+transaction(#bitcoin_tx_message { version = Version, transaction_inputs = Inputs, transaction_outputs = Outputs, lock_time = LockTime }) ->
+    {ok, InputsLength} = var_int(length(Inputs)),
+    {ok, OutputsLength} = var_int(length(Outputs)),
+    [uint32_t(Version), InputsLength, lists:map(fun transaction_input/1, Inputs), OutputsLength, lists:map(fun transaction_output/1, Outputs), uint32_t(LockTime)].
+
+block(#bitcoin_block_message { version = Version, previous_block = PreviousBlock, merkle_root = MerkleRoot, timestamp = Timestamp, bits = Bits, nonce = Nonce, transactions = Transactions }) ->
+    {ok, TransactionsLength} = var_int(length(Transactions)),
+    [uint32_t(Version), PreviousBlock, MerkleRoot, uint32_t(Timestamp), uint32_t(Bits), uint32_t(Nonce), TransactionsLength, lists:map(fun transaction/1, Transactions)];
+block(X) ->
+    %% FIXME: We should move all the block encoding and decoding logic out of
+    %% peculium_protocol and into here.
+    case peculium_protocol:decode_message_payload(block, X) of
+        {ok, Block} ->
+            {ok, Block};
+        _Otherwise ->
+            {error, invalid_block}
+    end.
 
 -ifdef(TEST).
 
