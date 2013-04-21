@@ -24,7 +24,7 @@
 
 -module(peculium_messages).
 
--export([verack/1, getaddr/1, ping/1, version/1, getdata/1, getblocks/1, getheaders/1]).
+-export([verack/1, getaddr/1, ping/1, version/1, getdata/1, getblocks/1, getheaders/1, block/1]).
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
@@ -71,3 +71,6 @@ getblocks([Network, BlockLocator, BlockStop]) ->
 getheaders([Network, BlockLocator, BlockStop]) ->
     {ok, Length} = t:var_int(length(BlockLocator)),
     encode(Network, getheaders, [t:int32_t(60001), Length, BlockLocator, BlockStop]).
+
+block([Network, Version, PreviousBlock, MerkleRoot, Timestamp, Bits, Nonce, Transactions]) ->
+    encode(Network, block, [t:uint32_t(Version), PreviousBlock, MerkleRoot, t:uint32_t(Timestamp), t:uint32_t(Bits), t:uint32_t(Nonce), lists:map(fun peculium_protocol_types:transaction/1, Transactions)]).
