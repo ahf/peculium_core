@@ -19,7 +19,7 @@ new(Hash, Height, Previous, Next) ->
     }.
 
 %% @doc Create a new block index entry from a Block.
--spec from_block(Block :: bitcoin_block_message()) -> block_index_entry().
+-spec from_block(Block :: bitcoin_block()) -> block_index_entry().
 from_block(Block) ->
     #block_index_entry {
         hash = peculium_block:hash(Block),
@@ -69,7 +69,7 @@ height(#block_index_entry { height = Height }) ->
     Height.
 
 %% @doc Returns the block of a given block index entry.
--spec block(block_index_entry()) -> bitcoin_block_message().
+-spec block(block_index_entry()) -> bitcoin_block().
 block(#block_index_entry { hash = Hash }) ->
     {ok, Block} = peculium_block_store:get(Hash),
     Block.

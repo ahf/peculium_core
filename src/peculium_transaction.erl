@@ -14,8 +14,8 @@
 -module_alias({t, peculium_protocol_types}).
 
 %% @doc Returns the hash of a given transaction.
--spec hash(bitcoin_tx_message()) -> binary().
-hash(#bitcoin_tx_message { version = Version, transaction_inputs = Inputs, transaction_outputs = Outputs, lock_time = LockTime }) ->
+-spec hash(bitcoin_transaction()) -> binary().
+hash(#bitcoin_transaction { version = Version, transaction_inputs = Inputs, transaction_outputs = Outputs, lock_time = LockTime }) ->
     {ok, InputsLength} = t:var_int(length(Inputs)),
     InputsBin = lists:map(fun peculium_protocol_types:transaction_input/1, Inputs),
     {ok, OutputsLength} = t:var_int(length(Outputs)),
@@ -24,27 +24,27 @@ hash(#bitcoin_tx_message { version = Version, transaction_inputs = Inputs, trans
     peculium_crypto:hash(Data).
 
 %% @doc Returns the transaction inputs of a given transaction.
--spec inputs(bitcoin_tx_message()) -> [bitcoin_transaction_input()].
-inputs(#bitcoin_tx_message { transaction_inputs = TransactionInputs }) ->
+-spec inputs(bitcoin_transaction()) -> [bitcoin_transaction_input()].
+inputs(#bitcoin_transaction { transaction_inputs = TransactionInputs }) ->
     TransactionInputs.
 
 %% @doc Returns the transaction outputs of a given transaction.
--spec outputs(bitcoin_tx_message()) -> [bitcoin_transaction_output()].
-outputs(#bitcoin_tx_message { transaction_outputs = TransactionOutputs }) ->
+-spec outputs(bitcoin_transaction()) -> [bitcoin_transaction_output()].
+outputs(#bitcoin_transaction { transaction_outputs = TransactionOutputs }) ->
     TransactionOutputs.
 
 %% @doc Returns the version of a given transaction.
--spec version(bitcoin_tx_message()) -> uint32_t().
-version(#bitcoin_tx_message { version = Version }) ->
+-spec version(bitcoin_transaction()) -> uint32_t().
+version(#bitcoin_transaction { version = Version }) ->
     Version.
 
 %% @doc Returns the lock time of a given transaction.
--spec lock_time(bitcoin_tx_message()) -> uint32_t().
-lock_time(#bitcoin_tx_message { lock_time = LockTime }) ->
+-spec lock_time(bitcoin_transaction()) -> uint32_t().
+lock_time(#bitcoin_transaction { lock_time = LockTime }) ->
     LockTime.
 
 %% @doc Check if a given transaction is a coinbase transaction.
--spec is_coinbase(Transaction :: bitcoin_tx_message()) -> boolean().
+-spec is_coinbase(Transaction :: bitcoin_transaction()) -> boolean().
 is_coinbase(Transaction) ->
     Inputs = inputs(Transaction),
     length(Inputs) =:= 1 andalso peculium_outpoint:hash(peculium_transaction_input:previous_output(hd(Inputs))) =:= <<0:256>>.

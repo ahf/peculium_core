@@ -28,7 +28,7 @@
 %% This function takes a list of transactions and returns the root node of the
 %% Merkle tree.
 %% @end
--spec from_transactions([bitcoin_tx_message(), ...]) -> merkle_tree_node().
+-spec from_transactions([bitcoin_transaction(), ...]) -> merkle_tree_node().
 from_transactions(Transactions) ->
     from_list(lists:map(fun peculium_transaction:hash/1, Transactions), fun peculium_crypto:hash/1).
 

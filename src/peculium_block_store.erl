@@ -23,7 +23,7 @@ exists(Hash) ->
     gen_server:call(?SERVER, {exists, Hash}).
 
 %% @doc Insert block.
--spec put(Hash :: binary(), Block :: bitcoin_block_message()) -> ok.
+-spec put(Hash :: binary(), Block :: bitcoin_block()) -> ok.
 put(Hash, Block)->
     gen_server:call(?SERVER, {put, Hash, Block}, infinity).
 
@@ -33,7 +33,7 @@ delete(Hash) ->
     gen_server:cast(?SERVER, {delete, Hash}).
 
 %% @doc Get block.
--spec get(Hash :: binary()) -> {ok, bitcoin_block_message()} | {error, not_found}.
+-spec get(Hash :: binary()) -> {ok, bitcoin_block()} | {error, not_found}.
 get(Hash) ->
     gen_server:call(?SERVER, {get, Hash}).
 

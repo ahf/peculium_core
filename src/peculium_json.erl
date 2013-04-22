@@ -91,7 +91,7 @@ encode(#bitcoin_getheaders_message { version = Version, block_locator_hashes = B
         {<<"hash_stop">>, peculium_utilities:bin2hex(HashStop)}
     ];
 
-encode(#bitcoin_tx_message { version = Version, transaction_inputs = Inputs, transaction_outputs = Outputs, lock_time = LockTime }) ->
+encode(#bitcoin_transaction { version = Version, transaction_inputs = Inputs, transaction_outputs = Outputs, lock_time = LockTime }) ->
     [
         {<<"version">>, Version},
         {<<"transaction_inputs">>, lists:map(fun encode/1, Inputs)},
@@ -99,7 +99,7 @@ encode(#bitcoin_tx_message { version = Version, transaction_inputs = Inputs, tra
         {<<"lock_time">>, LockTime}
     ];
 
-encode(#bitcoin_block_message { version = Version, previous_block = PreviousBlock, merkle_root = MerkleRoot, timestamp = Timestamp, bits = Bits, nonce = Nonce, transactions = Transactions }) ->
+encode(#bitcoin_block { version = Version, previous_block = PreviousBlock, merkle_root = MerkleRoot, timestamp = Timestamp, bits = Bits, nonce = Nonce, transactions = Transactions }) ->
     [
         {<<"version">>, Version},
         {<<"previous_block">>, peculium_utilities:bin2hex(PreviousBlock)},

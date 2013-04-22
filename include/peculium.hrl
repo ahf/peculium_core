@@ -102,6 +102,27 @@
 
 -type bitcoin_block_header() :: #bitcoin_block_header {}.
 
+-record(bitcoin_transaction, {
+    version :: uint32_t(),
+    transaction_inputs :: [bitcoin_transaction_input()],
+    transaction_outputs :: [bitcoin_transaction_output()],
+    lock_time :: uint32_t()
+}).
+
+-type bitcoin_transaction() :: #bitcoin_transaction {}.
+
+-record(bitcoin_block, {
+    version :: uint32_t(),
+    previous_block :: binary(),
+    merkle_root :: binary(),
+    timestamp :: uint32_t(),
+    bits :: uint32_t(),
+    nonce :: uint32_t(),
+    transactions :: [bitcoin_transaction()]
+}).
+
+-type bitcoin_block() :: #bitcoin_block {}.
+
 -record(bitcoin_message_header, {
     network :: bitcoin_network_atom(),
     command :: bitcoin_command_atom(),
@@ -192,22 +213,13 @@
 -type bitcoin_getheaders_message() :: #bitcoin_getheaders_message {}.
 
 -record(bitcoin_tx_message, {
-    version :: uint32_t(),
-    transaction_inputs :: [bitcoin_transaction_input()],
-    transaction_outputs :: [bitcoin_transaction_output()],
-    lock_time :: uint32_t()
+    transaction :: bitcoin_transaction()
 }).
 
 -type bitcoin_tx_message() :: #bitcoin_tx_message {}.
 
 -record(bitcoin_block_message, {
-    version :: uint32_t(),
-    previous_block :: binary(),
-    merkle_root :: binary(),
-    timestamp :: uint32_t(),
-    bits :: uint32_t(),
-    nonce :: uint32_t(),
-    transactions :: [bitcoin_tx_message()]
+    block :: bitcoin_block()
 }).
 
 -type bitcoin_block_message() :: #bitcoin_block_message {}.

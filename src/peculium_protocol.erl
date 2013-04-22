@@ -105,7 +105,7 @@ decode_transaction(<<Version:4/binary, X/binary>>) ->
         {ok, TransactionInputs, Rest} ->
             case decode_transaction_output_vector(Rest) of
                 {ok, TransactionOutputs, <<LockTime:4/binary, Rest1/binary>>} ->
-                    {ok, #bitcoin_tx_message {
+                    {ok, #bitcoin_transaction {
                         version = t:uint32_t(Version),
                         transaction_inputs = TransactionInputs,
                         transaction_outputs = TransactionOutputs,
@@ -357,8 +357,10 @@ decode_message_payload(getheaders, <<RawVersion:4/binary, X/binary>>) ->
 
 decode_message_payload(tx, X) ->
     case decode_transaction(X) of
-        {ok, Message, <<>>} ->
-            {ok, Message};
+        {ok, Transaction, <<>>} ->
+            {ok, #bitcoin_tx_message {
+                transaction = Transaction
+            }};
         Error ->
             Error
     end;
@@ -369,13 +371,15 @@ decode_message_payload(block, <<Version:4/binary, PreviousBlock:32/binary, Merkl
             case decode_dynamic_vector(Rest, Count, fun decode_transaction/1) of
                 {ok, Transactions, <<>>} ->
                     {ok, #bitcoin_block_message {
-                        version = t:uint32_t(Version),
-                        previous_block = PreviousBlock,
-                        merkle_root = MerkleRoot,
-                        timestamp = t:uint32_t(Timestamp),
-                        bits = t:uint32_t(Bits),
-                        nonce = t:uint32_t(Nonce),
-                        transactions = Transactions
+                        block = #bitcoin_block {
+                            version = t:uint32_t(Version),
+                            previous_block = PreviousBlock,
+                            merkle_root = MerkleRoot,
+                            timestamp = t:uint32_t(Timestamp),
+                            bits = t:uint32_t(Bits),
+                            nonce = t:uint32_t(Nonce),
+                            transactions = Transactions
+                        }
                     }};
                 Error ->
                     Error
