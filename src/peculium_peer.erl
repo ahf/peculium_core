@@ -172,8 +172,8 @@ process_messages(State, []) ->
 
 process_one_message(State, #bitcoin_message { header = #bitcoin_message_header { network = Network }, body = #bitcoin_inv_message { inventory = Invs } }) ->
 %%    LastBlockInv = peculium_utilities:find_last(fun peculium_inv:is_block/1, Invs),
-    State2 = send(State, getblocks, [Network, peculium_block_locator:from_best_block(), <<0:256>>]),
-    State3 = send(State2, getdata, [Network, peculium_inv:unknown_invs(Invs)]),
+    State2 = send(State, getdata, [Network, peculium_inv:unknown_invs(Invs)]),
+    State3 = send(State2, getblocks, [Network, peculium_block_locator:from_best_block(), <<0:256>>]),
     State3;
 %%    lists:foldl(fun (Inv, StateCont) ->
 %%            StateCont2 = case Inv of
@@ -186,7 +186,7 @@ process_one_message(State, #bitcoin_message { header = #bitcoin_message_header {
 %%        end, State, Invs);
 
 process_one_message(State, #bitcoin_message { header = #bitcoin_message_header { network = Network }, body = #bitcoin_block_message { previous_block = PreviousBlock, transactions = Transactions } = Block }) ->
-    peculium_block_index_srv:insert(Block),
+    peculium_block_index:insert(Block),
     State;
 
 process_one_message(State, #bitcoin_message { header = #bitcoin_message_header { network = Network }, body = #bitcoin_version_message {} }) ->
@@ -206,9 +206,6 @@ send(#state { socket = Socket, sent = Sent } = State, Message, Arguments) ->
     ok = gen_tcp:send(Socket, Packet),
     State#state { sent = Sent + PacketLength }.
 
-log(State, Format) ->
-    log(State, Format, []).
-
 log(State, Format, Arguments) ->
     {ok, {Address, Port}} = inet:peername(State#state.socket),
-    lager:debug("[Peer]: [~s]:~b -> " ++ Format, [inet_parse:ntoa(Address), Port] ++ Arguments).
+    lager:debug("[Peer ~s (~b)] -> " ++ Format, [inet_parse:ntoa(Address), Port] ++ Arguments).
