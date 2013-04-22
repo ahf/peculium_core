@@ -33,14 +33,25 @@
 -module(peculium_difficulty).
 
 %% API.
--export([from_bits/1]).
+-export([from_bits/1, block_work/1]).
 
 -include_lib("peculium/include/peculium.hrl").
 
 %% @doc Calculates the difficulty from the compact bits representation.
--spec from_bits(uint32_t()) -> number().
+-spec from_bits(Bits :: uint32_t()) -> number().
 from_bits(Bits) ->
     max_difficulty() / difficulty(Bits).
+
+%% @doc Calculates the amount of block work from the compact bits representation.
+-spec block_work(Bits :: uint32_t()) -> number().
+block_work(Bits) ->
+    Target = from_bits(Bits),
+    case Target of
+        Target when Target < 0 ->
+            0;
+        _Otherwise ->
+            (1 bsl 256) / (Target + 1)
+    end.
 
 %% @private
 -spec difficulty(uint32_t()) -> number().

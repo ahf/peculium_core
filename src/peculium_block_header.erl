@@ -30,8 +30,8 @@
 
 %% API.
 -export([from_block/1]).
--export([version/1, previous/1, merkle_root/1, timestamp/1,
-        bits/1, nonce/1, transaction_count/1, difficulty/1]).
+-export([version/1, previous/1, merkle_root/1, timestamp/1, bits/1, nonce/1,
+        transaction_count/1, difficulty/1, block_work/1]).
 
 -include_lib("peculium/include/peculium.hrl").
 
@@ -87,3 +87,8 @@ transaction_count(#bitcoin_block_header { transaction_count = TransactionCount }
 -spec difficulty(bitcoin_block_header()) -> number().
 difficulty(#bitcoin_block_header { bits = Bits }) ->
     peculium_difficulty:from_bits(Bits).
+
+%% @doc Returns the block work for the given block header.
+-spec block_work(bitcoin_block_header()) -> number().
+block_work(#bitcoin_block_header { bits = Bits }) ->
+    peculium_difficulty:block_work(Bits).
