@@ -135,7 +135,7 @@ encode(#bitcoin_inv { type = Type, hash = Hash }) ->
         {<<"hash">>, peculium_utilities:bin2hex(Hash)}
     ];
 
-encode(#bitcoin_net_address { time = Time, services = Services, address = Address, port = Port }) ->
+encode(#bitcoin_network_address { time = Time, services = Services, address = Address, port = Port }) ->
     [
         {<<"time">>, Time},
         {<<"services">>, Services},

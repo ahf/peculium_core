@@ -148,9 +148,9 @@ unpack_address(<<>>) ->
 unpack_address(<<X:16/big, Rest/binary>>) ->
     [X | unpack_address(Rest)].
 
--spec net_addr(binary()) -> {ok, bitcoin_net_address()}.
+-spec net_addr(binary()) -> {ok, bitcoin_network_address()}.
 net_addr(<<Time:4/binary, Services:8/binary, Address:16/binary, Port:2/binary>>) ->
-    {ok, #bitcoin_net_address {
+    {ok, #bitcoin_network_address {
         time = uint32_t(Time),
         services = uint64_t(Services),
         address = list_to_tuple(unpack_address(Address)),

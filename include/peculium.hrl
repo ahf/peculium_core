@@ -81,14 +81,14 @@
 
 -type bitcoin_transaction_output() :: #bitcoin_transaction_output {}.
 
--record(bitcoin_net_address, {
+-record(bitcoin_network_address, {
     time :: uint32_t(),
     services :: uint64_t(),
     address :: inet:ip6_address(),
     port :: uint16_t()
 }).
 
--type bitcoin_net_address() :: #bitcoin_net_address {}.
+-type bitcoin_network_address() :: #bitcoin_network_address {}.
 
 -record(bitcoin_block_header, {
     version :: uint32_t(),
@@ -149,8 +149,8 @@
     version :: int32_t(),
     services :: uint64_t(),
     timestamp :: int64_t(),
-    to_address :: bitcoin_net_address(),
-    from_address :: bitcoin_net_address(),
+    to_address :: bitcoin_network_address(),
+    from_address :: bitcoin_network_address(),
     user_agent :: binary(),
     start_height :: int32_t(),
     relay :: boolean(),
@@ -185,7 +185,7 @@
 -type bitcoin_notfound_message() :: #bitcoin_notfound_message {}.
 
 -record(bitcoin_addr_message, {
-    addresses :: [bitcoin_net_address()]
+    addresses :: [bitcoin_network_address()]
 }).
 
 -type bitcoin_addr_message() :: #bitcoin_addr_message {}.

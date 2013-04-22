@@ -26,7 +26,7 @@
 %%% @author     Alexander Færøy <ahf@0x90.dk>
 %%% @doc        Bitcoin Network Address Utilities.
 %%% ----------------------------------------------------------------------------
--module(peculium_net_address).
+-module(peculium_network_address).
 
 %% API.
 -export([time/1, services/1, address/1, port/1]).
@@ -34,21 +34,21 @@
 -include_lib("peculium/include/peculium.hrl").
 
 %% @doc Returns the timestamp of a given network address.
--spec time(NetworkAddress :: bitcoin_net_address()) -> uint32_t().
-time(#bitcoin_net_address { time = Timestamp }) ->
+-spec time(NetworkAddress :: bitcoin_network_address()) -> uint32_t().
+time(#bitcoin_network_address { time = Timestamp }) ->
     Timestamp.
 
 %% @doc Returns the services value of a given network address.
--spec services(NetworkAddress :: bitcoin_net_address()) -> uint64_t().
-services(#bitcoin_net_address { services = Services }) ->
+-spec services(NetworkAddress :: bitcoin_network_address()) -> uint64_t().
+services(#bitcoin_network_address { services = Services }) ->
     Services.
 
 %% @doc Returns the address of a given network address.
--spec address(NetworkAddress :: bitcoin_net_address()) -> inet:ip6_address().
-address(#bitcoin_net_address { address = Address }) ->
+-spec address(NetworkAddress :: bitcoin_network_address()) -> inet:ip6_address().
+address(#bitcoin_network_address { address = Address }) ->
     Address.
 
 %% @doc Returns the port of a given network address.
--spec port(NetworkAddress :: bitcoin_net_address()) -> uint16_t().
-port(#bitcoin_net_address { port = Port }) ->
+-spec port(NetworkAddress :: bitcoin_network_address()) -> uint16_t().
+port(#bitcoin_network_address { port = Port }) ->
     Port.
