@@ -30,6 +30,8 @@
 
 %% API.
 -export([from_block/1]).
+-export([version/1, previous/1, merkle_root/1, timestamp/1,
+        bits/1, nonce/1, transaction_count/1]).
 
 -include_lib("peculium/include/peculium.hrl").
 
@@ -45,3 +47,38 @@ from_block(#bitcoin_block { version = Version, previous_block = PreviousBlock, m
         nonce = Nonce,
         transaction_count = 0
     }.
+
+%% @doc Returns the version of a given block header.
+-spec version(bitcoin_block_header()) -> uint32_t().
+version(#bitcoin_block_header { version = Version }) ->
+    Version.
+
+%% @doc Returns the hash of the previous block of a given block header.
+-spec previous(bitcoin_block_header()) -> binary().
+previous(#bitcoin_block_header { previous_block = PreviousBlock }) ->
+    peculium_utilities:reverse(PreviousBlock).
+
+%% @doc Returns the root hash of the merkle tree of a given block header.
+-spec merkle_root(bitcoin_block_header()) -> binary().
+merkle_root(#bitcoin_block_header { merkle_root = MerkleRoot }) ->
+    peculium_utilities:reverse(MerkleRoot).
+
+%% @doc Returns the timestamp of a given block header.
+-spec timestamp(bitcoin_block_header()) -> uint32_t().
+timestamp(#bitcoin_block_header { timestamp = Timestamp }) ->
+    Timestamp.
+
+%% @doc Returns the bits of a given block header.
+-spec bits(bitcoin_block_header()) -> uint32_t().
+bits(#bitcoin_block_header { bits = Bits }) ->
+    Bits.
+
+%% @doc Returns the nonce of a given block header.
+-spec nonce(bitcoin_block_header()) -> uint32_t().
+nonce(#bitcoin_block_header { nonce = Nonce }) ->
+    Nonce.
+
+%% @doc Returns the transaction count (always 0) of a given block header.
+-spec transaction_count(bitcoin_block_header()) -> uint8_t().
+transaction_count(#bitcoin_block_header { transaction_count = TransactionCount }) ->
+    TransactionCount.
