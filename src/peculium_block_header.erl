@@ -31,7 +31,7 @@
 %% API.
 -export([from_block/1]).
 -export([version/1, previous/1, merkle_root/1, timestamp/1,
-        bits/1, nonce/1, transaction_count/1]).
+        bits/1, nonce/1, transaction_count/1, difficulty/1]).
 
 -include_lib("peculium/include/peculium.hrl").
 
@@ -82,3 +82,8 @@ nonce(#bitcoin_block_header { nonce = Nonce }) ->
 -spec transaction_count(bitcoin_block_header()) -> uint8_t().
 transaction_count(#bitcoin_block_header { transaction_count = TransactionCount }) ->
     TransactionCount.
+
+%% @doc Returns the difficulty for the given block header.
+-spec difficulty(bitcoin_block_header()) -> number().
+difficulty(#bitcoin_block_header { bits = Bits }) ->
+    peculium_difficulty:from_bits(Bits).

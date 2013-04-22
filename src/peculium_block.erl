@@ -5,7 +5,8 @@
 
 %% API.
 -export([hash/1, genesis_block/1]).
--export([transactions/1, previous/1, version/1, merkle_root/1]).
+-export([transactions/1, previous/1, version/1,
+        merkle_root/1, difficulty/1]).
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
@@ -73,6 +74,11 @@ merkle_root(#bitcoin_block { merkle_root = MerkleRoot }) ->
 -spec previous(bitcoin_block()) -> binary().
 previous(#bitcoin_block { previous_block = Previous }) ->
     peculium_utilities:reverse(Previous).
+
+%% @doc Returns the difficulty for the given block.
+-spec difficulty(bitcoin_block()) -> number().
+difficulty(#bitcoin_block { bits = Bits }) ->
+    peculium_difficulty:from_bits(Bits).
 
 -ifdef(TEST).
 
