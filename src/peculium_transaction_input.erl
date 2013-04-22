@@ -9,7 +9,7 @@
 -include_lib("peculium/include/peculium.hrl").
 
 %% @doc Returns the previous output of a given transaction input.
--spec previous_output(TransactionInput :: bitcoin_transaction_input()) -> bitcoin_outpoint().
+-spec previous_output(TransactionInput :: bitcoin_transaction_input()) -> bitcoin_transaction_outpoint().
 previous_output(#bitcoin_transaction_input { previous_output = PreviousOutput }) ->
     PreviousOutput.
 

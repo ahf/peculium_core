@@ -24,7 +24,7 @@ hash(#bitcoin_block { version = Version, previous_block = PreviousBlock, merkle_
 genesis_block(mainnet) ->
     Inputs = [#bitcoin_transaction_input {
         sequence = 16#ffffffff,
-        previous_output = #bitcoin_outpoint {
+        previous_output = #bitcoin_transaction_outpoint {
             index = 16#ffffffff,
             hash = <<0:256>>
         },

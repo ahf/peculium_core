@@ -110,7 +110,7 @@ encode(#bitcoin_block { version = Version, previous_block = PreviousBlock, merkl
         {<<"transactions">>, lists:map(fun encode/1, Transactions)}
     ];
 
-encode(#bitcoin_outpoint { index = Index, hash = Hash }) ->
+encode(#bitcoin_transaction_outpoint { index = Index, hash = Hash }) ->
     [
         {<<"index">>, Index},
         {<<"hash">>, peculium_utilities:bin2hex(Hash)}

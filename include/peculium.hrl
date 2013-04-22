@@ -59,15 +59,15 @@
 
 -type bitcoin_checksum() :: <<_:32>>.
 
--record(bitcoin_outpoint, {
+-record(bitcoin_transaction_outpoint, {
     index :: uint32_t(),
     hash :: binary()
 }).
 
--type bitcoin_outpoint() :: #bitcoin_outpoint {}.
+-type bitcoin_transaction_outpoint() :: #bitcoin_transaction_outpoint {}.
 
 -record(bitcoin_transaction_input, {
-    previous_output :: bitcoin_outpoint(),
+    previous_output :: bitcoin_transaction_outpoint(),
     script :: binary(),
     sequence :: uint32_t()
 }).
