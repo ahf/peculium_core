@@ -59,7 +59,9 @@ test_connect(Address) when is_list(Address) ->
     continuation :: binary(),
     inbound = false :: boolean(),
     sent = 0 :: non_neg_integer(),
-    received = 0 :: non_neg_integer()
+    received = 0 :: non_neg_integer(),
+    sent_version :: undefined | bitcoin_version_message(),
+    received_version :: undefined | bitcoin_version_message()
 }).
 
 start_link() ->
@@ -81,7 +83,10 @@ init([]) ->
     {ok, #state {
         listener = undefined,
         socket = undefined,
-        continuation = <<>>
+        continuation = <<>>,
+        inbound = false,
+        sent_version = undefined,
+        received_version = undefined
     } };
 
 init([ListenerPid, Socket, _Options]) ->
@@ -90,7 +95,9 @@ init([ListenerPid, Socket, _Options]) ->
         listener = ListenerPid,
         socket = Socket,
         continuation = <<>>,
-        inbound = true
+        inbound = true,
+        sent_version = undefined,
+        received_version = undefined
     }, 0}.
 
 handle_call(_Request, _From, State) ->
@@ -194,9 +201,10 @@ process_one_message(State, #bitcoin_message { header = #bitcoin_message_header {
     peculium_block_index:insert(Block),
     State;
 
-process_one_message(State, #bitcoin_message { header = #bitcoin_message_header { network = Network }, body = #bitcoin_version_message {} }) ->
+process_one_message(State, #bitcoin_message { header = #bitcoin_message_header { network = Network }, body = #bitcoin_version_message {} = Version }) ->
     State2 = send(State, verack, [Network]),
-    send(State2, getaddr, [Network]);
+    State3 = send(State2, getaddr, [Network]),
+    State3#state { received_version = Version };
 
 process_one_message(State, #bitcoin_message { header = #bitcoin_message_header { network = Network }, body = #bitcoin_verack_message {} }) ->
     send(State, getblocks, [Network, peculium_block_locator:from_best_block(), <<0:256>>]);
