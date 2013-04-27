@@ -103,17 +103,17 @@ encode(#bitcoin_headers_message { headers = Headers }) ->
         {<<"headers">>, lists:map(fun encode/1, Headers)}
     ];
 
-encode(#bitcoin_getblocks_message { version = Version, block_locator_hashes = BlockLocatorHashes, hash_stop = HashStop }) ->
+encode(#bitcoin_getblocks_message { version = Version, block_locator = BlockLocatorHashes, hash_stop = HashStop }) ->
     [
         {<<"version">>, Version},
-        {<<"block_locator_hashes">>, lists:map(fun peculium_utilities:bin2hex/1, BlockLocatorHashes)},
+        {<<"block_locator">>, lists:map(fun peculium_utilities:bin2hex/1, BlockLocatorHashes)},
         {<<"hash_stop">>, peculium_utilities:bin2hex(HashStop)}
     ];
 
-encode(#bitcoin_getheaders_message { version = Version, block_locator_hashes = BlockLocatorHashes, hash_stop = HashStop }) ->
+encode(#bitcoin_getheaders_message { version = Version, block_locator = BlockLocatorHashes, hash_stop = HashStop }) ->
     [
         {<<"version">>, Version},
-        {<<"block_locator_hashes">>, lists:map(fun peculium_utilities:bin2hex/1, BlockLocatorHashes)},
+        {<<"block_locator">>, lists:map(fun peculium_utilities:bin2hex/1, BlockLocatorHashes)},
         {<<"hash_stop">>, peculium_utilities:bin2hex(HashStop)}
     ];
 

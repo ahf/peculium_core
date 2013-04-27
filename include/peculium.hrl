@@ -195,7 +195,7 @@
 
 -record(bitcoin_getblocks_message, {
     version :: uint32_t(),
-    block_locator_hashes :: [binary()],
+    block_locator :: block_locator(),
     hash_stop :: binary()
 }).
 
@@ -203,7 +203,7 @@
 
 -record(bitcoin_getheaders_message, {
     version :: uint32_t(),
-    block_locator_hashes :: [binary()],
+    block_locator :: block_locator(),
     hash_stop :: binary()
 }).
 
@@ -290,4 +290,4 @@
 
 -type block_index_entry() :: #block_index_entry {}.
 
--type block_locator() :: [binary()].
+-type block_locator() :: peculium_block_locator:block_locator().

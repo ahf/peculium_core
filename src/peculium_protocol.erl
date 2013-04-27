@@ -330,7 +330,7 @@ decode_message_payload(getblocks, <<RawVersion:4/binary, X/binary>>) ->
                     {ok, BlockLocatorHashes, <<>>} = decode_vector(Hashes, ItemSize, fun(<<Hash:32/binary>>) -> {ok, Hash} end),
                     {ok, #bitcoin_getblocks_message {
                         version = t:uint32_t(RawVersion),
-                        block_locator_hashes = BlockLocatorHashes,
+                        block_locator = BlockLocatorHashes,
                         hash_stop = HashStop
                     }};
                 Error ->
@@ -350,7 +350,7 @@ decode_message_payload(getheaders, <<RawVersion:4/binary, X/binary>>) ->
                     {ok, BlockLocatorHashes, <<>>} = decode_vector(Hashes, ItemSize, fun(<<Hash:32/binary>>) -> {ok, Hash} end),
                     {ok, #bitcoin_getheaders_message {
                         version = t:uint32_t(RawVersion),
-                        block_locator_hashes = BlockLocatorHashes,
+                        block_locator = BlockLocatorHashes,
                         hash_stop = HashStop
                     }};
                 Error ->

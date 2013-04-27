@@ -32,7 +32,10 @@
 %% API.
 -export([from_best_block/0, from_height/1]).
 
--include_lib("peculium/include/peculium.hrl").
+%% Types.
+-export_type([block_locator/0]).
+
+-type block_locator() :: [binary()].
 
 %% @doc Create block locator from the best block.
 -spec from_best_block() -> block_locator().
