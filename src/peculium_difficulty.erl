@@ -29,7 +29,6 @@
 %%% @reference  <a href="https://en.bitcoin.it/wiki/Difficulty">
 %%%                 Bitcoin Difficulty
 %%%             </a>
-%%%             <em>The Bitcoin community</em>.
 %%% ----------------------------------------------------------------------------
 -module(peculium_difficulty).
 

@@ -68,7 +68,7 @@ best_block_index() ->
     gen_server:call(?SERVER, best_block_index).
 
 %% @doc Get best block's height.
--spec best_block_index() -> non_neg_integer().
+-spec best_block_height() -> non_neg_integer().
 best_block_height() ->
     case best_block_index() of
         not_found ->

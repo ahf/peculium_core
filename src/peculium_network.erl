@@ -59,8 +59,6 @@ stringify(X) ->
 
 -ifdef(TEST).
 
--spec test() -> any().
-
 -spec magic_value_test() -> any().
 magic_value_test() ->
     ?assertEqual(magic_value(mainnet), {ok, <<16#F9, 16#BE, 16#B4, 16#D9>>}),

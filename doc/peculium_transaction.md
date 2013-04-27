@@ -9,8 +9,9 @@
        Bitcoin Transaction Utilities.
 __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 
-__References__* [Transactions](https://en.bitcoin.it/wiki/Transactions)
-_The Bitcoin community_.
+__References__* [
+Transactions
+](https://en.bitcoin.it/wiki/Transactions)
 ----------------------------------------------------------------------------
 
 <a name="index"></a>

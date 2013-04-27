@@ -28,8 +28,7 @@
 %%% @doc        Utilities for creating and interfacing with Merkle tree's.
 %%% @reference  <a href="http://www.google.com/patents?vid=4309569">
 %%%                 Merkle tree patent 4,309,569
-%%%             </a>,
-%%%             <em>Ralph C. Merkle</em>.
+%%%             </a>
 %%% ----------------------------------------------------------------------------
 -module(peculium_merkle_tree).
 
@@ -133,8 +132,6 @@ merkle_tree_node(A) ->
     }.
 
 -ifdef(TEST).
-
--spec test() -> any().
 
 -spec merkle_root_test() -> any().
 merkle_root_test() ->

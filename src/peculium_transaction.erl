@@ -26,8 +26,9 @@
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
 %%% @doc        Bitcoin Transaction Utilities.
-%%% @reference  <a href="https://en.bitcoin.it/wiki/Transactions">Transactions</a>
-%%%             <em>The Bitcoin community</em>.
+%%% @reference  <a href="https://en.bitcoin.it/wiki/Transactions">
+%%%                 Transactions
+%%%             </a>
 %%% ----------------------------------------------------------------------------
 -module(peculium_transaction).
 

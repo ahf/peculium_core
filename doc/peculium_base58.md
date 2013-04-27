@@ -12,7 +12,6 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 __References__* [
 Base58Check encoding
 ](https://en.bitcoin.it/wiki/Base58Check_encoding)
-_The Bitcoin community_.
 ----------------------------------------------------------------------------
 
 <a name="index"></a>

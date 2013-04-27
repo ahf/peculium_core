@@ -75,6 +75,7 @@ $ make console
 <tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_base58.md" class="module">peculium_base58</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_block.md" class="module">peculium_block</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_block_header.md" class="module">peculium_block_header</a></td></tr>
+<tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_block_index.md" class="module">peculium_block_index</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_block_index_entry.md" class="module">peculium_block_index_entry</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_block_locator.md" class="module">peculium_block_locator</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_block_store.md" class="module">peculium_block_store</a></td></tr>
@@ -84,7 +85,9 @@ $ make console
 <tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_inv.md" class="module">peculium_inv</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_json.md" class="module">peculium_json</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_leveldb.md" class="module">peculium_leveldb</a></td></tr>
+<tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_merkle_tree.md" class="module">peculium_merkle_tree</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_messages.md" class="module">peculium_messages</a></td></tr>
+<tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_network.md" class="module">peculium_network</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_network_address.md" class="module">peculium_network_address</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_peer.md" class="module">peculium_peer</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_protocol.md" class="module">peculium_protocol</a></td></tr>

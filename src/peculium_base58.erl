@@ -29,7 +29,6 @@
 %%% @reference  <a href="https://en.bitcoin.it/wiki/Base58Check_encoding">
 %%%                 Base58Check encoding
 %%%             </a>
-%%%             <em>The Bitcoin community</em>.
 %%% ----------------------------------------------------------------------------
 -module(peculium_base58).
 

@@ -12,7 +12,6 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 __References__* [
 Bitcoin Difficulty
 ](https://en.bitcoin.it/wiki/Difficulty)
-_The Bitcoin community_.
 ----------------------------------------------------------------------------
 
 <a name="index"></a>
