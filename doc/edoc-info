@@ -1,0 +1,14 @@
+%% encoding: UTF-8
+{application,peculium}.
+{packages,[]}.
+{modules,[peculium,peculium_app,peculium_base58,peculium_block,
+          peculium_block_header,peculium_block_index_entry,
+          peculium_block_locator,peculium_block_store,peculium_config,
+          peculium_crypto,peculium_difficulty,peculium_inv,peculium_json,
+          peculium_leveldb,peculium_messages,peculium_network_address,
+          peculium_peer,peculium_protocol,peculium_protocol_types,
+          peculium_protocol_utilities,peculium_script,peculium_sup,
+          peculium_transaction,peculium_transaction_input,
+          peculium_transaction_outpoint,peculium_transaction_output,
+          peculium_triq_domains,peculium_units,peculium_utilities,
+          peculium_version]}.

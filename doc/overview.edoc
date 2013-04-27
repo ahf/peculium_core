@@ -1,5 +1,9 @@
-Peculium - A Bit of Money
-=========================
+@author Alexander Færøy <ahf@0x90.dk>
+@copyright 2013 Fearless Hamster Solutions
+
+@title Peculium - An Erlang Bitcoin Client
+
+@doc
 
 Peculium is an experimental Bitcoin client implemented in the Erlang programming language.
 
@@ -27,7 +31,7 @@ manually install it using:
     $ cd rebar
     $ make
 
-Then copy the `rebar` executable into somewhere in your UNIX `$PATH`.
+Then copy the rebar executable into somewhere in your UNIX path.
 
 You should now be able to download Peculium and build it using:
 
@@ -45,3 +49,5 @@ And finally, build Peculium itself:
 To get an Erlang console use:
 
     $ make console
+
+@end
