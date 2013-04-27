@@ -23,9 +23,6 @@
 %%% OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 %%%
 
--define(PECULIUM_VERSION, <<"0.1.0">>).
--define(PECULIUM_USER_AGENT, [<<"peculium/", ?PECULIUM_VERSION>>]).
-
 -type bitcoin_unit_atom() :: megabitcoin | kilobitcoin | hectobitcoin | decabitcoin
                            | bitcoin | decibitcoin | centibitcoin | millibitcoin
                            | microbitcoin | satoshi.
