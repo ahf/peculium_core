@@ -22,44 +22,32 @@ Getting Started
 Make sure you have a working Erlang environment running on your machine. If you
 are a Mac OS X user using Homebrew, you can install the Erlang distribution using:
 
-<pre>
-    $ brew install erlang
-</pre>
+<pre>$ brew install erlang</pre>
 
 We are also depending on Basho's Rebar build-utility. You should be able to
 manually install it using:
 
-<pre>
-    $ git clone git://github.com/basho/rebar.git
-    $ cd rebar
-    $ make
-</pre>
+<pre>$ git clone git://github.com/basho/rebar.git
+$ cd rebar
+$ make</pre>
 
 Then copy the rebar executable into somewhere in your UNIX path.
 
 You should now be able to download Peculium and build it using:
 
-<pre>
-    $ git clone git://github.com/ahf/peculium.git
-    $ cd peculium
-</pre>
+<pre>$ git clone git://github.com/ahf/peculium.git
+$ cd peculium</pre>
 
 Download our dependencies:
 
-<pre>
-    $ make get-deps
-</pre>
+<pre>$ make get-deps</pre>
 
 And finally, build Peculium itself:
 
-<pre>
-    $ make
-</pre>
+<pre>$ make</pre>
 
 To get an Erlang console use:
 
-<pre>
-    $ make console
-</pre>
+<pre>$ make console</pre>
 
 @end
