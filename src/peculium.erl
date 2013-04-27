@@ -27,7 +27,7 @@
 %%% @author     Alexander Færøy <ahf@0x90.dk>
 %%% @doc        Peculium Version Information.
 %%% ----------------------------------------------------------------------------
--module(peculium_version).
+-module(peculium).
 
 %% API.
 -export([version/0, user_agent/0]).
