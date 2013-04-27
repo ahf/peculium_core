@@ -241,11 +241,51 @@
 
 -type bitcoin_message() :: #bitcoin_message {}.
 
+%% NOTE: We are going to keep one block_index_entry for every block in the
+%% block chain in memory all the time.
+%%
+%% We should probably apply the following optimizations in the future:
+%%
+%%   - Use references for our hash, previous hash and next hash to reduce the
+%%     runtime memory consumption with length(block chain) * 3 * 256-bit.
+%%
+%%     This is easily fixable, but remember to make sure that the on disk
+%%     format must contain the actual 256-bit hashes. The block index cache
+%%     should then do the mapping between a reference and our block hashes.
+%%
+%%     Remember: do not store references to disk. The Erlang reference counters
+%%     are reset during node restarts.
+%%
+%%     If you are new to hacking on Peculium, this could potentially become an
+%%     excellent first patch ;-)
+%%
 -record(block_index_entry, {
+    %% The hash of our block.
     hash :: binary(),
-    height :: non_neg_integer(),
+
+    %% The hash of the previous block. This is always set except for the
+    %% genesis block where this is set to undefined.
     previous = undefined :: undefined | binary(),
-    next = undefined :: undefined | binary()
+
+    %% The hash of the next block. This is always set unless the block is the
+    %% current head of a fork or the main chain.
+    next = undefined :: undefined | binary(),
+
+    %% The height of our block.
+    height :: undefined | non_neg_integer(),
+
+    %% The block header.
+    block_header :: bitcoin_block_header(),
+
+    %% Number of transactions in this block.
+    transaction_count :: non_neg_integer(),
+
+    %% Total number of transactions in the chain including the transactions in
+    %% this block.
+    total_transaction_count :: undefined | non_neg_integer(),
+
+    %% Total amount of work in the chain including the work in this block.
+    total_chain_work :: undefined | non_neg_integer()
 }).
 
 -type block_index_entry() :: #block_index_entry {}.

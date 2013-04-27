@@ -1,5 +1,6 @@
 %%%
-%%% Copyright (c) 2013 Fearless Hamster Solutions. All rights reserved.
+%%% Copyright (c) 2013 Fearless Hamster Solutions.
+%%% All rights reserved.
 %%%
 %%% Redistribution and use in source and binary forms, with or without
 %%% modification, are permitted provided that the following conditions are met:
@@ -29,7 +30,11 @@
 -module(peculium_block_index_entry).
 
 %% API.
--export([from_block/1, hash/1, previous/1, previous_index/1, next/1, next_index/1, height/1, block/1]).
+-export([from_block/1]).
+-export([hash/1, previous/1, previous_index/1, next/1,
+        next_index/1, height/1, block/1, block_header/1,
+        transaction_count/1, total_transaction_count/1,
+        total_chain_work/1, block_work/1]).
 
 -include_lib("peculium/include/peculium.hrl").
 
@@ -37,10 +42,31 @@
 -spec from_block(Block :: bitcoin_block()) -> block_index_entry().
 from_block(Block) ->
     #block_index_entry {
+        %% The hash of our block.
         hash = peculium_block:hash(Block),
-        height = undefined,
+
+        %% The hash of the previous block.
         previous = peculium_block:previous(Block),
-        next = undefined
+
+        %% The block header.
+        block_header = peculium_block_header:from_block(Block),
+
+        %% The number of transactions in this block.
+        transaction_count = length(peculium_block:transactions(Block)),
+
+        %% The hash of the next block is unknown until we are a member of the
+        %% block index.
+        next = undefined,
+
+        %% The block height is unknown until we become a member of the block
+        %% index.
+        height = undefined,
+
+        %% The total number of transactions is unknown.
+        total_transaction_count = undefined,
+
+        %% The total amount of work in the chain is unknown.
+        total_chain_work = undefined
     }.
 
 %% @doc Returns the hash of the block that the given block index entry points to.
@@ -88,3 +114,28 @@ height(#block_index_entry { height = Height }) ->
 block(#block_index_entry { hash = Hash }) ->
     {ok, Block} = peculium_block_store:get(Hash),
     Block.
+
+%% @doc Returns the block header of the given block index entry.
+-spec block_header(block_index_entry()) -> bitcoin_block_header().
+block_header(#block_index_entry { block_header = BlockHeader }) ->
+    BlockHeader.
+
+%% @doc Returns the transaction count of the given block index entry.
+-spec transaction_count(block_index_entry()) -> non_neg_integer().
+transaction_count(#block_index_entry { transaction_count = TransactionCount }) ->
+    TransactionCount.
+
+%% @doc Returns the total number of transactions in the block chain including this block.
+-spec total_transaction_count(block_index_entry()) -> non_neg_integer().
+total_transaction_count(#block_index_entry { total_transaction_count = TotalTransactionCount }) ->
+    TotalTransactionCount.
+
+%% @doc Returns the total amount of work in the chain including the work in this block.
+-spec total_chain_work(block_index_entry()) -> non_neg_integer().
+total_chain_work(#block_index_entry { total_chain_work = TotalChainWork }) ->
+    TotalChainWork.
+
+%% @doc Calculates the amount of work in the current block.
+-spec block_work(block_index_entry()) -> float().
+block_work(#block_index_entry { block_header = BlockHeader }) ->
+    peculium_block_header:block_work(BlockHeader).
