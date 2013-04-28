@@ -144,7 +144,7 @@ decode_message_payload(ping, <<>>) ->
     {ok, #ping_message {} };
 
 decode_message_payload(getaddr, <<>>) ->
-    {ok, #bitcoin_getaddr_message {} };
+    {ok, #getaddr_message {} };
 
 decode_message_payload(version, <<Version:4/binary, Services:8/binary, Timestamp:8/binary, RawToAddress:26/binary, RawFromAddress:26/binary, Nonce:8/binary, Rest/binary>>) ->
     {ok, FromAddress} = t:net_addr(RawFromAddress),

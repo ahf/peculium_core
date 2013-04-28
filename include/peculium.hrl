@@ -90,7 +90,7 @@
 
 -record(ping_message, {}).
 
--record(bitcoin_getaddr_message, {}).
+-record(getaddr_message, {}).
 
 -record(bitcoin_version_message, {
     version :: peculium_types:int32_t(),
@@ -153,7 +153,7 @@
     header :: peculium_types:message_header(),
     body :: peculium_types:verack_message()
           | peculium_types:ping_message()
-          | peculium_types:bitcoin_getaddr_message()
+          | peculium_types:getaddr_message()
           | peculium_types:bitcoin_version_message()
           | peculium_types:bitcoin_alert_message()
           | peculium_types:inv_message()
