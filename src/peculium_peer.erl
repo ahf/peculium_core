@@ -185,7 +185,7 @@ process_stream_chunk(Cont, Packet, Messages) ->
             {messages, lists:reverse(Messages), Data}
     end.
 
-process_messages(State, [#bitcoin_message { header = #bitcoin_message_header { network = Network, length = Length, valid = Valid }, body = Body } = Message | Messages]) ->
+process_messages(State, [#bitcoin_message { header = #message_header { network = Network, length = Length, valid = Valid }, body = Body } = Message | Messages]) ->
     log(State, "Received ~p on ~p (~b bytes)", [element(1, Body), Network, Length]),
     NewState = case Valid of
         true ->
@@ -198,7 +198,7 @@ process_messages(State, [#bitcoin_message { header = #bitcoin_message_header { n
 process_messages(State, []) ->
     {noreply, State}.
 
-process_one_message(State, #bitcoin_message { header = #bitcoin_message_header { network = Network }, body = #inv_message { inventory = Invs } }) ->
+process_one_message(State, #bitcoin_message { header = #message_header { network = Network }, body = #inv_message { inventory = Invs } }) ->
 %%    LastBlockInv = peculium_utilities:find_last(fun peculium_inv:is_block/1, Invs),
     State2 = send(State, getdata, [Network, peculium_inv:unknown_invs(Invs)]),
     State3 = send(State2, getblocks, [Network, peculium_block_locator:from_best_block(), <<0:256>>]),
@@ -217,12 +217,12 @@ process_one_message(State, #bitcoin_message { body = #block_message { block = Bl
     peculium_block_index:insert(Block),
     State;
 
-process_one_message(State, #bitcoin_message { header = #bitcoin_message_header { network = Network }, body = #bitcoin_version_message {} = Version }) ->
+process_one_message(State, #bitcoin_message { header = #message_header { network = Network }, body = #bitcoin_version_message {} = Version }) ->
     State2 = send(State, verack, [Network]),
     State3 = send(State2, getaddr, [Network]),
     State3#state { received_version = Version };
 
-process_one_message(State, #bitcoin_message { header = #bitcoin_message_header { network = Network }, body = #bitcoin_verack_message {} }) ->
+process_one_message(State, #bitcoin_message { header = #message_header { network = Network }, body = #bitcoin_verack_message {} }) ->
     send(State, getblocks, [Network, peculium_block_locator:from_best_block(), <<0:256>>]);
 
 process_one_message(State, _) ->

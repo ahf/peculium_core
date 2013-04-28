@@ -78,7 +78,7 @@
     transactions :: [peculium_types:transaction()]
 }).
 
--record(bitcoin_message_header, {
+-record(message_header, {
     network :: peculium_types:network_atom(),
     command :: peculium_types:command_atom(),
     length :: peculium_types:uint32_t(),
@@ -150,7 +150,7 @@
 }).
 
 -record(bitcoin_message, {
-    header :: peculium_types:bitcoin_message_header(),
+    header :: peculium_types:message_header(),
     body :: peculium_types:bitcoin_verack_message()
           | peculium_types:bitcoin_ping_message()
           | peculium_types:bitcoin_getaddr_message()

@@ -45,7 +45,7 @@ encode(#bitcoin_message { header = Header, body = Body }) ->
         {<<"body">>, encode(Body)}
     ];
 
-encode(#bitcoin_message_header { network = Network, command = Command, length = Length, checksum = Checksum, valid = Valid }) ->
+encode(#message_header { network = Network, command = Command, length = Length, checksum = Checksum, valid = Valid }) ->
     [
         {<<"network">>, atom_to_binary(Network, utf8)},
         {<<"command">>, atom_to_binary(Command, utf8)},
