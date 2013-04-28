@@ -82,7 +82,7 @@
     network :: peculium_types:network_atom(),
     command :: peculium_types:bitcoin_command_atom(),
     length :: peculium_types:uint32_t(),
-    checksum :: peculium_types:bitcoin_checksum(),
+    checksum :: peculium_types:checksum(),
     valid :: boolean()
 }).
 

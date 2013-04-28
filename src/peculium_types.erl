@@ -38,7 +38,7 @@
 -export_type([unit_atom/0, uint8_t/0, uint16_t/0, uint32_t/0,
         uint64_t/0, int8_t/0, int16_t/0, int32_t/0, int64_t/0,
         network_atom/0, bitcoin_command_atom/0, inv_atom/0,
-        inv_integer/0, inv/0, bitcoin_checksum/0,
+        inv_integer/0, inv/0, checksum/0,
         bitcoin_transaction_outpoint/0, bitcoin_transaction_input/0,
         bitcoin_transaction_output/0, network_address/0,
         bitcoin_block_header/0, bitcoin_transaction/0, bitcoin_block/0,
@@ -68,7 +68,7 @@
 -type int32_t() :: -16#80000000 .. 16#7fffffff.
 -type int64_t() :: -16#8000000000000000 .. 16#7fffffffffffffff.
 
--type bitcoin_checksum() :: <<_:32>>.
+-type checksum() :: <<_:32>>.
 
 -type block_locator() :: [binary()].
 

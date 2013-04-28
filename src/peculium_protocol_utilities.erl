@@ -40,7 +40,7 @@
         decode_vector/3, decode_dynamic_vector/3]).
 
 %% Types.
--type bitcoin_checksum() :: peculium_types:bitcoin_checksum().
+-type checksum() :: peculium_types:checksum().
 -type inv_atom() :: peculium_types:inv_atom().
 -type inv_integer() :: peculium_types:inv_integer().
 -type bitcoin_command_atom() :: peculium_types:bitcoin_command_atom().
@@ -49,7 +49,7 @@
 -type dynamic_vector_decode_fun() :: fun((Data :: binary()) -> {ok, Item :: any(), Rest :: binary()} | {error, any()}).
 
 %% @doc Returns the first four bytes of the double SHA256 checksum of the given Data.
--spec checksum(Data :: iolist()) -> bitcoin_checksum().
+-spec checksum(Data :: iolist()) -> checksum().
 checksum(Data) ->
     binary_part(crypto:sha256(crypto:sha256(Data)), {0, 4}).
 
