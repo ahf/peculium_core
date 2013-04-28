@@ -28,16 +28,58 @@
 %%% @copyright  2013 Fearless Hamster Solutions
 %%% @end
 %%% ----------------------------------------------------------------------------
-%%% @doc Type Domains for Triq.
+%%% @doc Triq Type Domains.
 %%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_triq).
 
 %% API.
--export([bitcoin_unit_atom/0]).
+-export([uint8_t/0, uint16_t/0, uint32_t/0, uint64_t/0, int8_t/0, int16_t/0,
+        int32_t/0, int64_t/0, bitcoin_unit_atom/0]).
 
 -include_lib("triq/include/triq.hrl").
 
+%% @doc The domain of the uint8_t type.
+-spec uint8_t() -> triq_dom:domains(any()).
+uint8_t() ->
+    choose(0, 16#ff).
+
+%% @doc The domain of the uint16_t type.
+-spec uint16_t() -> triq_dom:domains(any()).
+uint16_t() ->
+    choose(0, 16#ffff).
+
+%% @doc The domain of the uint32_t type.
+-spec uint32_t() -> triq_dom:domains(any()).
+uint32_t() ->
+    choose(0, 16#ffffffff).
+
+%% @doc The domain of the uint64_t type.
+-spec uint64_t() -> triq_dom:domains(any()).
+uint64_t() ->
+    choose(0, 16#ffffffffffffffff).
+
+%% @doc The domain of the int8_t type.
+-spec int8_t() -> triq_dom:domains(any()).
+int8_t() ->
+    choose(-16#80, 16#7f).
+
+%% @doc The domain of the int16_t type.
+-spec int16_t() -> triq_dom:domains(any()).
+int16_t() ->
+    choose(-16#8000, 16#7fff).
+
+%% @doc The domain of the uint32_t type.
+-spec int32_t() -> triq_dom:domains(any()).
+int32_t() ->
+    choose(-16#80000000, 16#7fffffff).
+
+%% @doc The domain of the uint64_t type.
+-spec int64_t() -> triq_dom:domains(any()).
+int64_t() ->
+    choose(-16#8000000000000000, 16#7fffffffffffffff).
+
+%% @doc The domain of the bitcoin unit atom type.
 -spec bitcoin_unit_atom() -> triq_dom:domain(any()).
 bitcoin_unit_atom() ->
     elements([satoshi, microbitcoin, millibitcoin, centibitcoin, decibitcoin, bitcoin, decabitcoin, hectobitcoin, kilobitcoin, megabitcoin]).
