@@ -61,9 +61,7 @@
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("kernel/include/inet.hrl").
 
--ifdef(TEST).
--include_lib("eunit/include/eunit.hrl").
--endif.
+-include("peculium_test.hrl").
 
 -spec int8_t(int8_t()) -> integer();
             (binary()) -> int8_t().
@@ -291,9 +289,3 @@ block(X) ->
         _Otherwise ->
             {error, invalid_block}
     end.
-
--ifdef(TEST).
-
--spec test() -> any().
-
--endif.

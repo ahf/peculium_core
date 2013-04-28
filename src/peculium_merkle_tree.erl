@@ -52,9 +52,7 @@
 
 -include_lib("peculium/include/peculium.hrl").
 
--ifdef(TEST).
--include_lib("eunit/include/eunit.hrl").
--endif.
+-include("peculium_test.hrl").
 
 %% @doc Create a Merkle tree from a list of transactions.
 %% This function takes a list of transactions and returns the root node of the

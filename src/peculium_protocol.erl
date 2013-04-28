@@ -49,9 +49,8 @@
 -module_alias({t, peculium_protocol_types}).
 -module_alias({u, peculium_protocol_utilities}).
 
--ifdef(TEST).
--include_lib("eunit/include/eunit.hrl").
--endif.
+%% Tests.
+-include("peculium_test.hrl").
 
 -spec decode_transaction_input_vector(binary()) -> {ok, [bitcoin_transaction_input()], binary()}.
 decode_transaction_input_vector(X) ->
@@ -361,9 +360,3 @@ decode_message_payload(block, <<Version:4/binary, PreviousBlock:32/binary, Merkl
 
 decode_message_payload(Command, X) ->
     {error, {invalid_command, Command}, X}.
-
--ifdef(TEST).
-
--spec test() -> any().
-
--endif.

@@ -41,9 +41,8 @@
 
 -include_lib("peculium/include/peculium.hrl").
 
--ifdef(TEST).
--include_lib("eunit/include/eunit.hrl").
--endif.
+%% Tests.
+-include("peculium_test.hrl").
 
 -spec magic_value(Network :: bitcoin_network_atom()) -> {ok, binary()} | {error, any()}.
 magic_value(mainnet) ->
