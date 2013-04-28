@@ -93,6 +93,18 @@ use:
 $ make doc
 ```
 
+Quirks
+------
+
+### Use NTP
+
+Like a lot of other software out there, the Bitcoin system depends upon having
+access to a correct time source. The Satoshi client tries to use the Bitcoin
+network to calculate an adjusted time whereas Peculium don't and depends upon
+its users keeping their time in sync themselves.
+If you do not keep your clock in sync odd things will happen. For instance,
+Peculium might start thinking that certain perfectly valid blocks are invalid
+because of this.
 
 
 ## Modules ##
