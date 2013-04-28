@@ -135,7 +135,7 @@
     hash_stop :: binary()
 }).
 
--record(bitcoin_getheaders_message, {
+-record(getheaders_message, {
     version :: peculium_types:uint32_t(),
     block_locator :: peculium_types:block_locator(),
     hash_stop :: binary()
@@ -162,7 +162,7 @@
           | peculium_types:addr_message()
           | peculium_types:headers_message()
           | peculium_types:getblocks_message()
-          | peculium_types:bitcoin_getheaders_message()
+          | peculium_types:getheaders_message()
           | peculium_types:bitcoin_tx_message()
           | peculium_types:block_message()
 }).
