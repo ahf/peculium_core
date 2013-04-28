@@ -58,15 +58,15 @@
                            | bitcoin | decibitcoin | centibitcoin | millibitcoin
                            | microbitcoin | satoshi.
 
--type uint8_t()  :: 0..255.
--type uint16_t() :: 0..65535.
--type uint32_t() :: 0..4294967295.
--type uint64_t() :: 0..18446744073709551615.
+-type uint8_t()  :: 0 .. 16#ff.
+-type uint16_t() :: 0 .. 16#ffff.
+-type uint32_t() :: 0 .. 16#ffffffff.
+-type uint64_t() :: 0 .. 16#ffffffffffffffff.
 
--type int8_t()  :: integer().
--type int16_t() :: integer().
--type int32_t() :: integer().
--type int64_t() :: integer().
+-type int8_t()  :: -16#80 .. 16#7f.
+-type int16_t() :: -16#8000 .. 16#7fff.
+-type int32_t() :: -16#80000000 .. 16#7fffffff.
+-type int64_t() :: -16#8000000000000000 .. 16#7fffffffffffffff.
 
 -type bitcoin_checksum() :: <<_:32>>.
 

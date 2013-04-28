@@ -309,7 +309,7 @@ block_locator() = [binary()]
 
 
 <pre><code>
-int16_t() = integer()
+int16_t() = -32768..32767
 </code></pre>
 
 
@@ -321,7 +321,7 @@ int16_t() = integer()
 
 
 <pre><code>
-int32_t() = integer()
+int32_t() = -2147483648..2147483647
 </code></pre>
 
 
@@ -333,7 +333,7 @@ int32_t() = integer()
 
 
 <pre><code>
-int64_t() = integer()
+int64_t() = -9223372036854775808..9223372036854775807
 </code></pre>
 
 
@@ -345,7 +345,7 @@ int64_t() = integer()
 
 
 <pre><code>
-int8_t() = integer()
+int8_t() = -128..127
 </code></pre>
 
 
