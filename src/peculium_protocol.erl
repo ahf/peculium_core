@@ -325,10 +325,10 @@ decode_message_payload(getheaders, <<RawVersion:4/binary, X/binary>>) ->
             Error
     end;
 
-decode_message_payload(tx, X) ->
+decode_message_payload(transaction, X) ->
     case decode_transaction(X) of
         {ok, Transaction, <<>>} ->
-            {ok, #tx_message {
+            {ok, #transaction_message {
                 transaction = Transaction
             }};
         Error ->

@@ -97,7 +97,7 @@ checksum() = &lt;&lt;_:32&gt;&gt;
 
 
 <pre><code>
-command_atom() = addr | alert | block | checkorder | getaddr | getblocks | getdata | getheaders | headers | inv | ping | submitorder | reply | tx | verack | version
+command_atom() = addr | alert | block | checkorder | getaddr | getblocks | getdata | getheaders | headers | inv | ping | submitorder | reply | transaction | verack | version
 </code></pre>
 
 
@@ -217,7 +217,7 @@ __abstract datatype__: `inv()`
 
 
 <pre><code>
-inv_atom() = error | tx | block
+inv_atom() = error | transaction | block
 </code></pre>
 
 
@@ -312,6 +312,14 @@ __abstract datatype__: `transaction_input()`
 
 
 
+### <a name="type-transaction_message">transaction_message()</a> ###
+
+
+__abstract datatype__: `transaction_message()`
+
+
+
+
 ### <a name="type-transaction_outpoint">transaction_outpoint()</a> ###
 
 
@@ -324,14 +332,6 @@ __abstract datatype__: `transaction_outpoint()`
 
 
 __abstract datatype__: `transaction_output()`
-
-
-
-
-### <a name="type-tx_message">tx_message()</a> ###
-
-
-__abstract datatype__: `tx_message()`
 
 
 

@@ -43,7 +43,7 @@
         message_header/0, verack_message/0, ping_message/0, getaddr_message/0,
         version_message/0, alert_message/0, inv_message/0, getdata_message/0,
         notfound_message/0, addr_message/0, headers_message/0,
-        getblocks_message/0, getheaders_message/0, tx_message/0,
+        getblocks_message/0, getheaders_message/0, transaction_message/0,
         block_message/0, message/0, block_index_entry/0, block_locator/0]).
 
 -include_lib("peculium/include/peculium.hrl").
@@ -73,9 +73,9 @@
 -type command_atom() :: addr | alert | block | checkorder
                               | getaddr | getblocks | getdata | getheaders
                               | headers | inv | ping | submitorder
-                              | reply | tx | verack | version.
+                              | reply | transaction | verack | version.
 
--type inv_atom() :: error | tx | block.
+-type inv_atom() :: error | transaction | block.
 -type inv_integer() :: 0 | 1 | 2.
 
 -opaque inv() :: #inv {}.
@@ -120,7 +120,7 @@
 
 -opaque getheaders_message() :: #getheaders_message {}.
 
--opaque tx_message() :: #tx_message {}.
+-opaque transaction_message() :: #transaction_message {}.
 
 -opaque block_message() :: #block_message {}.
 

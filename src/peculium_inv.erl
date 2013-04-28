@@ -57,7 +57,7 @@ hash(#inv { hash = Hash }) ->
 %% @doc Checks if a given inv is a transaction.
 -spec is_transaction(Inv :: inv()) -> boolean().
 is_transaction(Inv) ->
-    type(Inv) =:= tx.
+    type(Inv) =:= transaction.
 
 %% @doc Checks if a given inv is a block.
 -spec is_block(Inv :: inv()) -> boolean().
@@ -75,7 +75,7 @@ known(#inv { type = Type, hash = Hash }) ->
     case Type of
         block ->
             peculium_block_index:exists(Hash);
-        tx ->
+        transaction ->
             %% FIXME: Once we have a transaction database, this should be changed.
             false
     end.

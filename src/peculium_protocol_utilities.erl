@@ -58,7 +58,7 @@ checksum(Data) ->
 inv_to_atom(0) ->
     {ok, error};
 inv_to_atom(1) ->
-    {ok, tx};
+    {ok, transaction};
 inv_to_atom(2) ->
     {ok, block};
 inv_to_atom(X) ->
@@ -68,7 +68,7 @@ inv_to_atom(X) ->
 -spec atom_to_inv(Inv :: inv_atom()) -> {ok, inv_integer()} | {error, any()}.
 atom_to_inv(error) ->
     {ok, 0};
-atom_to_inv(tx) ->
+atom_to_inv(transaction) ->
     {ok, 1};
 atom_to_inv(block) ->
     {ok, 2};
@@ -108,7 +108,8 @@ command_to_atom(Command) ->
         <<"submitorder">> ->
             {ok, submitorder};
         <<"tx">> ->
-            {ok, tx};
+            %% NOTE: Renaming to 'transaction'.
+            {ok, transaction};
         <<"verack">> ->
             {ok, verack};
         <<"version">> ->
