@@ -63,7 +63,7 @@ encode(#ping_message {}) ->
 encode(#getaddr_message {}) ->
     null;
 
-encode(#bitcoin_version_message { version = Version, services = Services, timestamp = Timestamp, to_address = ToAddress, from_address = FromAddress, user_agent = UserAgent, start_height = StartHeight, relay = Relay, nonce = Nonce }) ->
+encode(#version_message { version = Version, services = Services, timestamp = Timestamp, to_address = ToAddress, from_address = FromAddress, user_agent = UserAgent, start_height = StartHeight, relay = Relay, nonce = Nonce }) ->
     [
         {<<"version">>, Version},
         {<<"services">>, Services},

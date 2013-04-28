@@ -49,7 +49,7 @@
 -export([test_connect/0, test_connect/1]).
 
 %% Types.
--type bitcoin_version_message() :: peculium_types:bitcoin_version_message().
+-type version_message() :: peculium_types:version_message().
 
 -include_lib("peculium/include/peculium.hrl").
 
@@ -76,8 +76,8 @@ test_connect(Address) when is_list(Address) ->
     inbound = false :: boolean(),
     sent = 0 :: non_neg_integer(),
     received = 0 :: non_neg_integer(),
-    sent_version :: undefined | bitcoin_version_message(),
-    received_version :: undefined | bitcoin_version_message()
+    sent_version :: undefined | version_message(),
+    received_version :: undefined | version_message()
 }).
 
 start_link() ->
@@ -217,7 +217,7 @@ process_one_message(State, #bitcoin_message { body = #block_message { block = Bl
     peculium_block_index:insert(Block),
     State;
 
-process_one_message(State, #bitcoin_message { header = #message_header { network = Network }, body = #bitcoin_version_message {} = Version }) ->
+process_one_message(State, #bitcoin_message { header = #message_header { network = Network }, body = #version_message {} = Version }) ->
     State2 = send(State, verack, [Network]),
     State3 = send(State2, getaddr, [Network]),
     State3#state { received_version = Version };

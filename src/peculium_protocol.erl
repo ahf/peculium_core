@@ -151,7 +151,7 @@ decode_message_payload(version, <<Version:4/binary, Services:8/binary, Timestamp
     {ok, ToAddress} = t:net_addr(RawToAddress),
     case t:var_string(Rest) of
         {ok, UserAgent, <<StartHeight:4/binary>>} ->
-            {ok, #bitcoin_version_message {
+            {ok, #version_message {
                 version = t:int32_t(Version),
                 services = t:int64_t(Services),
                 timestamp = t:int64_t(Timestamp),
@@ -164,7 +164,7 @@ decode_message_payload(version, <<Version:4/binary, Services:8/binary, Timestamp
             } };
 
         {ok, UserAgent, <<StartHeight:4/binary, Relay:1/binary>>} ->
-            {ok, #bitcoin_version_message {
+            {ok, #version_message {
                 version = t:int32_t(Version),
                 services = t:int64_t(Services),
                 timestamp = t:int64_t(Timestamp),

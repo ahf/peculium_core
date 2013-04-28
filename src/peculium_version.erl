@@ -43,47 +43,47 @@
 -type int32_t() :: peculium_types:int32_t().
 -type int64_t() :: peculium_types:int64_t().
 -type uint64_t() :: peculium_types:uint64_t().
--type bitcoin_version_message() :: peculium_types:bitcoin_version_message().
+-type version_message() :: peculium_types:version_message().
 -type network_address() :: peculium_types:network_address().
 
 -include_lib("peculium/include/peculium.hrl").
 
 %% @doc Returns the version of a given version message.
--spec version(VersionMessage :: bitcoin_version_message()) -> int32_t().
-version(#bitcoin_version_message { version = Version }) ->
+-spec version(VersionMessage :: version_message()) -> int32_t().
+version(#version_message { version = Version }) ->
     Version.
 
 %% @doc Returns the service bitset of a given version message.
--spec services(VersionMessage :: bitcoin_version_message()) -> uint64_t().
-services(#bitcoin_version_message { services = Services }) ->
+-spec services(VersionMessage :: version_message()) -> uint64_t().
+services(#version_message { services = Services }) ->
     Services.
 
 %% @doc Returns the timestamp of a given version message.
--spec timestamp(VersionMessage :: bitcoin_version_message()) -> int64_t().
-timestamp(#bitcoin_version_message { timestamp = Timestamp }) ->
+-spec timestamp(VersionMessage :: version_message()) -> int64_t().
+timestamp(#version_message { timestamp = Timestamp }) ->
     Timestamp.
 
 %% @doc Returns the address of the target client of a given version message.
--spec to_address(VersionMessage :: bitcoin_version_message()) -> network_address().
-to_address(#bitcoin_version_message { to_address = ToAddress }) ->
+-spec to_address(VersionMessage :: version_message()) -> network_address().
+to_address(#version_message { to_address = ToAddress }) ->
     ToAddress.
 
 %% @doc Returns the address of the sending client of a given version message.
--spec from_address(VersionMessage :: bitcoin_version_message()) -> network_address().
-from_address(#bitcoin_version_message { from_address = FromAddress }) ->
+-spec from_address(VersionMessage :: version_message()) -> network_address().
+from_address(#version_message { from_address = FromAddress }) ->
     FromAddress.
 
 %% @doc Returns the user agent of a given version message.
--spec user_agent(VersionMessage :: bitcoin_version_message()) -> binary().
-user_agent(#bitcoin_version_message { user_agent = UserAgent }) ->
+-spec user_agent(VersionMessage :: version_message()) -> binary().
+user_agent(#version_message { user_agent = UserAgent }) ->
     UserAgent.
 
 %% @doc Returns the start height of a given version message.
--spec start_height(VersionMessage :: bitcoin_version_message()) -> int32_t().
-start_height(#bitcoin_version_message { start_height = StartHeight }) ->
+-spec start_height(VersionMessage :: version_message()) -> int32_t().
+start_height(#version_message { start_height = StartHeight }) ->
     StartHeight.
 
 %% @doc Returns the nonce of a given version message.
--spec nonce(VersionMessage :: bitcoin_version_message()) -> binary().
-nonce(#bitcoin_version_message { nonce = Nonce }) ->
+-spec nonce(VersionMessage :: version_message()) -> binary().
+nonce(#version_message { nonce = Nonce }) ->
     Nonce.
