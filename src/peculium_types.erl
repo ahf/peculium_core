@@ -35,7 +35,7 @@
 -module(peculium_types).
 
 %% Types.
--export_type([bitcoin_unit_atom/0, uint8_t/0, uint16_t/0, uint32_t/0,
+-export_type([unit_atom/0, uint8_t/0, uint16_t/0, uint32_t/0,
         uint64_t/0, int8_t/0, int16_t/0, int32_t/0, int64_t/0,
         network_atom/0, bitcoin_command_atom/0, inv_atom/0,
         inv_integer/0, inv/0, bitcoin_checksum/0,
@@ -54,9 +54,9 @@
 
 -include_lib("peculium/include/peculium.hrl").
 
--type bitcoin_unit_atom() :: megabitcoin | kilobitcoin | hectobitcoin | decabitcoin
-                           | bitcoin | decibitcoin | centibitcoin | millibitcoin
-                           | microbitcoin | satoshi.
+-type unit_atom() :: megabitcoin | kilobitcoin | hectobitcoin | decabitcoin
+                   | bitcoin | decibitcoin | centibitcoin | millibitcoin
+                   | microbitcoin | satoshi.
 
 -type uint8_t()  :: 0 .. 16#ff.
 -type uint16_t() :: 0 .. 16#ffff.
