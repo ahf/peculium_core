@@ -28,13 +28,13 @@
     hash :: binary()
 }).
 
--record(bitcoin_transaction_outpoint, {
+-record(transaction_outpoint, {
     index :: peculium_types:uint32_t(),
     hash :: binary()
 }).
 
 -record(bitcoin_transaction_input, {
-    previous_output :: peculium_types:bitcoin_transaction_outpoint(),
+    previous_output :: peculium_types:transaction_outpoint(),
     script :: binary(),
     sequence :: peculium_types:uint32_t()
 }).

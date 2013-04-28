@@ -41,12 +41,12 @@
 %% Types.
 -type uint32_t() :: peculium_types:uint32_t().
 -type bitcoin_transaction_input() :: peculium_types:bitcoin_transaction_input().
--type bitcoin_transaction_outpoint() :: peculium_types:bitcoin_transaction_outpoint().
+-type transaction_outpoint() :: peculium_types:transaction_outpoint().
 
 -include_lib("peculium/include/peculium.hrl").
 
 %% @doc Returns the previous output of a given transaction input.
--spec previous_output(TransactionInput :: bitcoin_transaction_input()) -> bitcoin_transaction_outpoint().
+-spec previous_output(TransactionInput :: bitcoin_transaction_input()) -> transaction_outpoint().
 previous_output(#bitcoin_transaction_input { previous_output = PreviousOutput }) ->
     PreviousOutput.
 

@@ -54,7 +54,7 @@
 -type network_address() :: peculium_types:network_address().
 -type inv() :: peculium_types:inv().
 -type bitcoin_block_header() :: peculium_types:bitcoin_block_header().
--type bitcoin_transaction_outpoint() :: peculium_types:bitcoin_transaction_outpoint().
+-type transaction_outpoint() :: peculium_types:transaction_outpoint().
 -type bitcoin_transaction_input() :: peculium_types:bitcoin_transaction_input().
 -type bitcoin_transaction_output() :: peculium_types:bitcoin_transaction_output().
 
@@ -219,14 +219,14 @@ block_header(<<RawVersion:4/binary, PreviousBlock:32/binary, MerkleRoot:32/binar
         transaction_count = uint8_t(RawTransactionCount)
     } }.
 
--spec transaction_outpoint(binary()) -> {ok, bitcoin_transaction_outpoint()};
-                          (bitcoin_transaction_outpoint()) -> iolist().
+-spec transaction_outpoint(binary()) -> {ok, transaction_outpoint()};
+                          (transaction_outpoint()) -> iolist().
 transaction_outpoint(<<Hash:32/binary, Index:4/binary>>) ->
-    {ok, #bitcoin_transaction_outpoint {
+    {ok, #transaction_outpoint {
         index = uint32_t(Index),
         hash = Hash
     } };
-transaction_outpoint(#bitcoin_transaction_outpoint { index = Index, hash = Hash }) ->
+transaction_outpoint(#transaction_outpoint { index = Index, hash = Hash }) ->
     [Hash, uint32_t(Index)].
 
 -spec transaction_input(binary()) -> {ok, bitcoin_transaction_input()};

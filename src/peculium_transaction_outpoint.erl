@@ -40,16 +40,16 @@
 
 %% Types.
 -type uint32_t() :: peculium_types:uint32_t().
--type bitcoin_transaction_outpoint() :: peculium_types:bitcoin_transaction_outpoint().
+-type transaction_outpoint() :: peculium_types:transaction_outpoint().
 
 -include_lib("peculium/include/peculium.hrl").
 
 %% @doc Returns the index of a given outpoint.
--spec index(Outpoint :: bitcoin_transaction_outpoint()) -> uint32_t().
-index(#bitcoin_transaction_outpoint { index = Index }) ->
+-spec index(Outpoint :: transaction_outpoint()) -> uint32_t().
+index(#transaction_outpoint { index = Index }) ->
     Index.
 
 %% @doc Returns the hash of a given outpoint.
--spec hash(Outpoint :: bitcoin_transaction_outpoint()) -> binary().
-hash(#bitcoin_transaction_outpoint { hash = Hash }) ->
+-spec hash(Outpoint :: transaction_outpoint()) -> binary().
+hash(#transaction_outpoint { hash = Hash }) ->
     Hash.
