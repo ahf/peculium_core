@@ -67,7 +67,7 @@ $ make console
 Testing
 -------
 
-Peculium uses `EUnit` and `triq` for unit- and property-based testing. To run
+Peculium uses `EUnit` and `triq` for unit and property-based testing. To run
 the test suites use:
 
 ```
@@ -78,7 +78,7 @@ $ make qc
 Documentation
 -------------
 
-Every function in the Peculium source code must have a type-specifcation and a
+Every function in the Peculium source code must have a type-specification and a
 documentation entry. Peculium uses `edoc` for documentation and generates
 Github friendly markdown based on the output. To generate the documentation
 use:

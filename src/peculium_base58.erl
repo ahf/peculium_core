@@ -25,7 +25,30 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Base58 encoding and decoding utilities.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Base58 Encoding and Decoding Utilities.
+%%% Base58 is used in the Bitcoin stack to encode public and private keys in
+%%% human-typable strings. For instance, a Bitcoin address is a hash of the
+%%% public key with a checksum appended and then converted to Base58 encoding.
+%%%
+%%% The original Satoshi client source code discusses the reasoning behind the
+%%% Base58 encoding as the following:
+%%%
+%%%   - Avoid 0, O, I and l characters as they look the same in some fonts and
+%%%   could be used to trick people into transferring Bitcoins to the wrong
+%%%   address.
+%%%
+%%%   - A string with non-alphanumeric characters is not easily accepted as an
+%%%   account number.
+%%%
+%%%   - An email usually won't add a line-break unless there's punctuation to
+%%%   break it.
+%%%
+%%%   - Double clicking selects the whole word and not just a section of the
+%%%   word.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_base58).
 
@@ -36,8 +59,8 @@
 
 -define(BASE58_TABLE, <<"123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz">>).
 
-%% @doc Encode a binary using Base58.
--spec encode(binary()) -> binary().
+%% @doc Encode data using Base58.
+-spec encode(Data :: binary()) -> binary().
 encode(<<>>) ->
     <<>>;
 encode(<<0, Rest/binary>>) ->
@@ -55,8 +78,8 @@ encode(N, Data) ->
     Symbol = symbol(N rem 58),
     encode(N div 58, <<Symbol:8/unsigned, Data/binary>>).
 
-%% @doc Decode a Base58 binary.
--spec decode(binary()) -> {ok, binary()} | {error, {invalid_byte, binary()}}.
+%% @doc Decode Base58 data.
+-spec decode(Data :: binary()) -> {ok, binary()} | {error, {invalid_byte, binary()}}.
 decode(<<>>) ->
     {ok, <<>>};
 decode(<<$1, Rest/binary>>) ->
