@@ -86,7 +86,7 @@
     valid :: boolean()
 }).
 
--record(bitcoin_verack_message, {}).
+-record(verack_message, {}).
 
 -record(bitcoin_ping_message, {}).
 
@@ -151,7 +151,7 @@
 
 -record(bitcoin_message, {
     header :: peculium_types:message_header(),
-    body :: peculium_types:bitcoin_verack_message()
+    body :: peculium_types:verack_message()
           | peculium_types:bitcoin_ping_message()
           | peculium_types:bitcoin_getaddr_message()
           | peculium_types:bitcoin_version_message()

@@ -138,7 +138,7 @@ decode_message_frame(_Network, _X) ->
     {error, insufficient_data}.
 
 decode_message_payload(verack, <<>>) ->
-    {ok, #bitcoin_verack_message {} };
+    {ok, #verack_message {} };
 
 decode_message_payload(ping, <<>>) ->
     {ok, #bitcoin_ping_message {} };

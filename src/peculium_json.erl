@@ -54,7 +54,7 @@ encode(#message_header { network = Network, command = Command, length = Length, 
         {<<"valid">>, Valid}
     ];
 
-encode(#bitcoin_verack_message {}) ->
+encode(#verack_message {}) ->
     null;
 
 encode(#bitcoin_ping_message {}) ->

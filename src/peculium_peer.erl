@@ -222,7 +222,7 @@ process_one_message(State, #bitcoin_message { header = #message_header { network
     State3 = send(State2, getaddr, [Network]),
     State3#state { received_version = Version };
 
-process_one_message(State, #bitcoin_message { header = #message_header { network = Network }, body = #bitcoin_verack_message {} }) ->
+process_one_message(State, #bitcoin_message { header = #message_header { network = Network }, body = #verack_message {} }) ->
     send(State, getblocks, [Network, peculium_block_locator:from_best_block(), <<0:256>>]);
 
 process_one_message(State, _) ->
