@@ -257,7 +257,7 @@ decode_message_payload(addr, X) ->
             case Rest of
                 <<RawAddresses:VectorSize/binary>> ->
                     {ok, Addresses, <<>>} = u:decode_vector(RawAddresses, ItemSize, fun peculium_protocol_types:net_addr/1),
-                    {ok, #bitcoin_addr_message {
+                    {ok, #addr_message {
                         addresses = Addresses
                     }};
                 Error ->

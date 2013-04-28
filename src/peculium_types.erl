@@ -46,7 +46,7 @@
         ping_message/0, getaddr_message/0,
         version_message/0, alert_message/0,
         inv_message/0, getdata_message/0,
-        notfound_message/0, bitcoin_addr_message/0,
+        notfound_message/0, addr_message/0,
         bitcoin_headers_message/0, bitcoin_getblocks_message/0,
         bitcoin_getheaders_message/0, bitcoin_tx_message/0,
         block_message/0, bitcoin_message/0, block_index_entry/0,
@@ -116,7 +116,7 @@
 
 -opaque notfound_message() :: #notfound_message {}.
 
--opaque bitcoin_addr_message() :: #bitcoin_addr_message {}.
+-opaque addr_message() :: #addr_message {}.
 
 -opaque bitcoin_headers_message() :: #bitcoin_headers_message {}.
 

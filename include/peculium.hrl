@@ -121,7 +121,7 @@
     inventory :: [peculium_types:inv()]
 }).
 
--record(bitcoin_addr_message, {
+-record(addr_message, {
     addresses :: [peculium_types:network_address()]
 }).
 
@@ -159,7 +159,7 @@
           | peculium_types:inv_message()
           | peculium_types:getdata_message()
           | peculium_types:notfound_message()
-          | peculium_types:bitcoin_addr_message()
+          | peculium_types:addr_message()
           | peculium_types:bitcoin_headers_message()
           | peculium_types:bitcoin_getblocks_message()
           | peculium_types:bitcoin_getheaders_message()
