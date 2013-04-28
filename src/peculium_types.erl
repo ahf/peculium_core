@@ -70,7 +70,7 @@
 
 -type checksum() :: <<_:32>>.
 
--type block_locator() :: [binary()].
+-type block_locator() :: [checksum()].
 
 -type network_atom() :: mainnet | testnet | testnet3.
 
