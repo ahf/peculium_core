@@ -56,7 +56,7 @@ put(Database, Key, Value) ->
 %% @doc Delete element.
 -spec delete(Database :: eleveldb:db_ref(), Key :: binary()) -> ok | {error, any()}.
 delete(Database, Key) ->
-    eleveldb:delete(Database, Key).
+    eleveldb:delete(Database, Key, write_options()).
 
 %% @doc Get default database opening options.
 -spec open_options(CacheSize :: non_neg_integer()) -> eleveldb:open_options().

@@ -84,4 +84,4 @@ lock_time(#transaction { lock_time = LockTime }) ->
 -spec is_coinbase(Transaction :: transaction()) -> boolean().
 is_coinbase(Transaction) ->
     Inputs = inputs(Transaction),
-    length(Inputs) =:= 1 andalso peculium_outpoint:hash(peculium_transaction_input:previous_output(hd(Inputs))) =:= <<0:256>>.
+    length(Inputs) =:= 1 andalso peculium_transaction_outpoint:hash(peculium_transaction_input:previous_output(hd(Inputs))) =:= <<0:256>>.
