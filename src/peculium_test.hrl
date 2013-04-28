@@ -5,4 +5,8 @@
 
 -spec test() -> any().
 
+-spec property_test() -> any().
+property_test() ->
+    true == triq:check(?MODULE).
+
 -endif.
