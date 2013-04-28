@@ -25,9 +25,13 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Type domains for Triq.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
 %%% ----------------------------------------------------------------------------
--module(peculium_triq_domains).
+%%% @doc Type Domains for Triq.
+%%% @end
+%%% ----------------------------------------------------------------------------
+-module(peculium_triq).
 
 %% API.
 -export([bitcoin_unit_atom/0]).

@@ -11,5 +11,5 @@
           peculium_protocol_types,peculium_protocol_utilities,peculium_script,
           peculium_sup,peculium_transaction,peculium_transaction_input,
           peculium_transaction_outpoint,peculium_transaction_output,
-          peculium_triq_domains,peculium_types,peculium_units,
-          peculium_utilities,peculium_version]}.
+          peculium_triq,peculium_types,peculium_units,peculium_utilities,
+          peculium_version]}.

@@ -139,7 +139,7 @@ because of this.
 <tr><td><a href="peculium_transaction_input.md" class="module">peculium_transaction_input</a></td></tr>
 <tr><td><a href="peculium_transaction_outpoint.md" class="module">peculium_transaction_outpoint</a></td></tr>
 <tr><td><a href="peculium_transaction_output.md" class="module">peculium_transaction_output</a></td></tr>
-<tr><td><a href="peculium_triq_domains.md" class="module">peculium_triq_domains</a></td></tr>
+<tr><td><a href="peculium_triq.md" class="module">peculium_triq</a></td></tr>
 <tr><td><a href="peculium_types.md" class="module">peculium_types</a></td></tr>
 <tr><td><a href="peculium_units.md" class="module">peculium_units</a></td></tr>
 <tr><td><a href="peculium_utilities.md" class="module">peculium_utilities</a></td></tr>
