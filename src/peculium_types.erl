@@ -45,7 +45,7 @@
         message_header/0, verack_message/0,
         ping_message/0, getaddr_message/0,
         version_message/0, alert_message/0,
-        inv_message/0, bitcoin_getdata_message/0,
+        inv_message/0, getdata_message/0,
         bitcoin_notfound_message/0, bitcoin_addr_message/0,
         bitcoin_headers_message/0, bitcoin_getblocks_message/0,
         bitcoin_getheaders_message/0, bitcoin_tx_message/0,
@@ -112,7 +112,7 @@
 
 -opaque inv_message() :: #inv_message {}.
 
--opaque bitcoin_getdata_message() :: #bitcoin_getdata_message {}.
+-opaque getdata_message() :: #getdata_message {}.
 
 -opaque bitcoin_notfound_message() :: #bitcoin_notfound_message {}.
 

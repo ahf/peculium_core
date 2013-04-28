@@ -87,7 +87,7 @@ encode(#inv_message { inventory = Inventory }) ->
         {<<"inventory">>, lists:map(fun encode/1, Inventory)}
     ];
 
-encode(#bitcoin_getdata_message { inventory = Inventory }) ->
+encode(#getdata_message { inventory = Inventory }) ->
     [
         {<<"inventory">>, lists:map(fun encode/1, Inventory)}
     ];

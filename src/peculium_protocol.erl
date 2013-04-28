@@ -221,7 +221,7 @@ decode_message_payload(getdata, X) ->
             case Rest of
                 <<InvVector:VectorSize/binary>> ->
                     {ok, Inventory, <<>>} = u:decode_vector(InvVector, ItemSize, fun peculium_protocol_types:inv/1),
-                    {ok, #bitcoin_getdata_message {
+                    {ok, #getdata_message {
                         inventory = Inventory
                     }};
                 Error ->
