@@ -23,18 +23,6 @@
 %%% OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 %%% OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
--define(PECULIUM_UINT8_MIN_VALUE, 0).
--define(PECULIUM_UINT8_MAX_VALUE, 16#ff).
-
--define(PECULIUM_UINT16_MIN_VALUE, 0).
--define(PECULIUM_UINT16_MAX_VALUE, 16#ffff).
-
--define(PECULIUM_UINT32_MIN_VALUE, 0).
--define(PECULIUM_UINT32_MAX_VALUE, 16#ffffffff).
-
--define(PECULIUM_UINT64_MIN_VALUE, 0).
--define(PECULIUM_UINT64_MAX_VALUE, 16#ffffffffffffffff).
-
 -record(bitcoin_inv, {
     type :: peculium_types:bitcoin_inv_atom(),
     hash :: binary()
