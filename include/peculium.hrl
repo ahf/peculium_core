@@ -117,7 +117,7 @@
     inventory :: [peculium_types:inv()]
 }).
 
--record(bitcoin_notfound_message, {
+-record(notfound_message, {
     inventory :: [peculium_types:inv()]
 }).
 
@@ -158,7 +158,7 @@
           | peculium_types:alert_message()
           | peculium_types:inv_message()
           | peculium_types:getdata_message()
-          | peculium_types:bitcoin_notfound_message()
+          | peculium_types:notfound_message()
           | peculium_types:bitcoin_addr_message()
           | peculium_types:bitcoin_headers_message()
           | peculium_types:bitcoin_getblocks_message()

@@ -239,7 +239,7 @@ decode_message_payload(notfound, X) ->
             case Rest of
                 <<InvVector:VectorSize/binary>> ->
                     {ok, Inventory, <<>>} = u:decode_vector(InvVector, ItemSize, fun peculium_protocol_types:inv/1),
-                    {ok, #bitcoin_notfound_message {
+                    {ok, #notfound_message {
                         inventory = Inventory
                     }};
                 Error ->
