@@ -86,14 +86,14 @@ decode(<<$1, Rest/binary>>) ->
     case decode(Rest) of
         {ok, Data} ->
             {ok, <<0, Data/binary>>};
-        Error ->
+        {error, _} = Error ->
             Error
     end;
 decode(X) ->
     case decode(X, 0) of
         {ok, Data} ->
             {ok, binary:encode_unsigned(Data)};
-        Error ->
+        {error, _} = Error ->
             Error
     end.
 
@@ -105,7 +105,7 @@ decode(<<Symbol:8/unsigned, Rest/binary>>, N) ->
     case position(Symbol) of
         {ok, Position} ->
             decode(Rest, N * 58 + Position);
-        Error ->
+        {error, _} = Error ->
             Error
     end.
 
@@ -136,6 +136,11 @@ position(Symbol, _, <<>>) ->
 -spec prop_inverse() -> any().
 prop_inverse() ->
     ?FORALL(X, binary(),
-        decode(encode(X)) == {ok, X}).
+        decode(encode(X)) =:= {ok, X}).
+
+-spec prop_inverse2() -> any().
+prop_inverse2() ->
+    ?FORALL(X, binary(),
+        decode(encode(<<0, X/binary>>)) =:= {ok, <<0, X/binary>>}).
 
 -endif.
