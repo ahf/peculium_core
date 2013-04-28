@@ -57,7 +57,7 @@ encode(#message_header { network = Network, command = Command, length = Length, 
 encode(#verack_message {}) ->
     null;
 
-encode(#bitcoin_ping_message {}) ->
+encode(#ping_message {}) ->
     null;
 
 encode(#bitcoin_getaddr_message {}) ->

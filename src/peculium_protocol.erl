@@ -141,7 +141,7 @@ decode_message_payload(verack, <<>>) ->
     {ok, #verack_message {} };
 
 decode_message_payload(ping, <<>>) ->
-    {ok, #bitcoin_ping_message {} };
+    {ok, #ping_message {} };
 
 decode_message_payload(getaddr, <<>>) ->
     {ok, #bitcoin_getaddr_message {} };

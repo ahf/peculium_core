@@ -43,7 +43,7 @@
         transaction_output/0, network_address/0,
         block_header/0, transaction/0, block/0,
         message_header/0, verack_message/0,
-        bitcoin_ping_message/0, bitcoin_getaddr_message/0,
+        ping_message/0, bitcoin_getaddr_message/0,
         bitcoin_version_message/0, bitcoin_alert_message/0,
         inv_message/0, bitcoin_getdata_message/0,
         bitcoin_notfound_message/0, bitcoin_addr_message/0,
@@ -102,7 +102,7 @@
 
 -opaque verack_message() :: #verack_message {}.
 
--opaque bitcoin_ping_message() :: #bitcoin_ping_message {}.
+-opaque ping_message() :: #ping_message {}.
 
 -opaque bitcoin_getaddr_message() :: #bitcoin_getaddr_message {}.
 
