@@ -23,12 +23,12 @@ objects.
 
 
 
-### <a name="type-bitcoin_network_address">bitcoin_network_address()</a> ###
+### <a name="type-network_address">network_address()</a> ###
 
 
 
 <pre><code>
-bitcoin_network_address() = <a href="peculium_types.md#type-bitcoin_network_address">peculium_types:bitcoin_network_address()</a>
+network_address() = <a href="peculium_types.md#type-network_address">peculium_types:network_address()</a>
 </code></pre>
 
 
@@ -86,7 +86,7 @@ uint64_t() = <a href="peculium_types.md#type-uint64_t">peculium_types:uint64_t()
 
 
 <pre><code>
-address(NetworkAddress::<a href="#type-bitcoin_network_address">bitcoin_network_address()</a>) -&gt; <a href="inet.md#type-ip6_address">inet:ip6_address()</a>
+address(NetworkAddress::<a href="#type-network_address">network_address()</a>) -&gt; <a href="inet.md#type-ip6_address">inet:ip6_address()</a>
 </code></pre>
 
 <br></br>
@@ -99,7 +99,7 @@ Returns the address of a given network address.
 
 
 <pre><code>
-port(NetworkAddress::<a href="#type-bitcoin_network_address">bitcoin_network_address()</a>) -&gt; <a href="#type-uint16_t">uint16_t()</a>
+port(NetworkAddress::<a href="#type-network_address">network_address()</a>) -&gt; <a href="#type-uint16_t">uint16_t()</a>
 </code></pre>
 
 <br></br>
@@ -112,7 +112,7 @@ Returns the port of a given network address.
 
 
 <pre><code>
-services(NetworkAddress::<a href="#type-bitcoin_network_address">bitcoin_network_address()</a>) -&gt; <a href="#type-uint64_t">uint64_t()</a>
+services(NetworkAddress::<a href="#type-network_address">network_address()</a>) -&gt; <a href="#type-uint64_t">uint64_t()</a>
 </code></pre>
 
 <br></br>
@@ -125,7 +125,7 @@ Returns the services value of a given network address.
 
 
 <pre><code>
-time(NetworkAddress::<a href="#type-bitcoin_network_address">bitcoin_network_address()</a>) -&gt; <a href="#type-uint32_t">uint32_t()</a>
+time(NetworkAddress::<a href="#type-network_address">network_address()</a>) -&gt; <a href="#type-uint32_t">uint32_t()</a>
 </code></pre>
 
 <br></br>

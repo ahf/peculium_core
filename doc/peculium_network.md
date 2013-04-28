@@ -19,12 +19,12 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 
 
 
-### <a name="type-bitcoin_network_atom">bitcoin_network_atom()</a> ###
+### <a name="type-network_atom">network_atom()</a> ###
 
 
 
 <pre><code>
-bitcoin_network_atom() = <a href="peculium_types.md#type-bitcoin_network_atom">peculium_types:bitcoin_network_atom()</a>
+network_atom() = <a href="peculium_types.md#type-network_atom">peculium_types:network_atom()</a>
 </code></pre>
 
 
@@ -46,7 +46,7 @@ bitcoin_network_atom() = <a href="peculium_types.md#type-bitcoin_network_atom">p
 
 
 <pre><code>
-magic_value(Network::<a href="#type-bitcoin_network_atom">bitcoin_network_atom()</a>) -&gt; {ok, binary()} | {error, any()}
+magic_value(Network::<a href="#type-network_atom">network_atom()</a>) -&gt; {ok, binary()} | {error, any()}
 </code></pre>
 
 <br></br>
@@ -59,7 +59,7 @@ magic_value(Network::<a href="#type-bitcoin_network_atom">bitcoin_network_atom()
 
 
 <pre><code>
-stringify(Network::<a href="#type-bitcoin_network_atom">bitcoin_network_atom()</a>) -&gt; {ok, binary()} | {error, any()}
+stringify(Network::<a href="#type-network_atom">network_atom()</a>) -&gt; {ok, binary()} | {error, any()}
 </code></pre>
 
 <br></br>

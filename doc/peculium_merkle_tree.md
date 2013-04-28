@@ -23,18 +23,6 @@ objects.
 
 
 
-### <a name="type-bitcoin_transaction">bitcoin_transaction()</a> ###
-
-
-
-<pre><code>
-bitcoin_transaction() = <a href="peculium_types.md#type-bitcoin_transaction">peculium_types:bitcoin_transaction()</a>
-</code></pre>
-
-
-
-
-
 ### <a name="type-hash_function">hash_function()</a> ###
 
 
@@ -53,6 +41,18 @@ hash_function() = fun((binary()) -&gt; binary())
 
 <pre><code>
 merkle_tree_node() = #merkle_tree_node{} | binary() | undefined
+</code></pre>
+
+
+
+
+
+### <a name="type-transaction">transaction()</a> ###
+
+
+
+<pre><code>
+transaction() = <a href="peculium_types.md#type-transaction">peculium_types:transaction()</a>
 </code></pre>
 
 
@@ -89,7 +89,7 @@ root node of the Merkle tree.
 
 
 <pre><code>
-from_transactions(Transactions::[<a href="#type-bitcoin_transaction">bitcoin_transaction()</a>, ...]) -&gt; <a href="#type-merkle_tree_node">merkle_tree_node()</a>
+from_transactions(Transactions::[<a href="#type-transaction">transaction()</a>, ...]) -&gt; <a href="#type-merkle_tree_node">merkle_tree_node()</a>
 </code></pre>
 
 <br></br>

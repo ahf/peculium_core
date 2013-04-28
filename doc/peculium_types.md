@@ -20,266 +20,34 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 
 
 
-### <a name="type-bitcoin_addr_message">bitcoin_addr_message()</a> ###
+### <a name="type-addr_message">addr_message()</a> ###
 
 
-__abstract datatype__: `bitcoin_addr_message()`
+__abstract datatype__: `addr_message()`
 
 
 
 
-### <a name="type-bitcoin_alert_message">bitcoin_alert_message()</a> ###
+### <a name="type-alert_message">alert_message()</a> ###
 
 
-__abstract datatype__: `bitcoin_alert_message()`
+__abstract datatype__: `alert_message()`
 
 
 
 
-### <a name="type-bitcoin_block">bitcoin_block()</a> ###
+### <a name="type-block">block()</a> ###
 
 
-__abstract datatype__: `bitcoin_block()`
+__abstract datatype__: `block()`
 
 
 
 
-### <a name="type-bitcoin_block_header">bitcoin_block_header()</a> ###
+### <a name="type-block_header">block_header()</a> ###
 
 
-__abstract datatype__: `bitcoin_block_header()`
-
-
-
-
-### <a name="type-bitcoin_block_message">bitcoin_block_message()</a> ###
-
-
-__abstract datatype__: `bitcoin_block_message()`
-
-
-
-
-### <a name="type-bitcoin_checksum">bitcoin_checksum()</a> ###
-
-
-
-<pre><code>
-bitcoin_checksum() = &lt;&lt;_:32&gt;&gt;
-</code></pre>
-
-
-
-
-
-### <a name="type-bitcoin_command_atom">bitcoin_command_atom()</a> ###
-
-
-
-<pre><code>
-bitcoin_command_atom() = addr | alert | block | checkorder | getaddr | getblocks | getdata | getheaders | headers | inv | ping | submitorder | reply | tx | verack | version
-</code></pre>
-
-
-
-
-
-### <a name="type-bitcoin_getaddr_message">bitcoin_getaddr_message()</a> ###
-
-
-__abstract datatype__: `bitcoin_getaddr_message()`
-
-
-
-
-### <a name="type-bitcoin_getblocks_message">bitcoin_getblocks_message()</a> ###
-
-
-__abstract datatype__: `bitcoin_getblocks_message()`
-
-
-
-
-### <a name="type-bitcoin_getdata_message">bitcoin_getdata_message()</a> ###
-
-
-__abstract datatype__: `bitcoin_getdata_message()`
-
-
-
-
-### <a name="type-bitcoin_getheaders_message">bitcoin_getheaders_message()</a> ###
-
-
-__abstract datatype__: `bitcoin_getheaders_message()`
-
-
-
-
-### <a name="type-bitcoin_headers_message">bitcoin_headers_message()</a> ###
-
-
-__abstract datatype__: `bitcoin_headers_message()`
-
-
-
-
-### <a name="type-bitcoin_inv">bitcoin_inv()</a> ###
-
-
-__abstract datatype__: `bitcoin_inv()`
-
-
-
-
-### <a name="type-bitcoin_inv_atom">bitcoin_inv_atom()</a> ###
-
-
-
-<pre><code>
-bitcoin_inv_atom() = error | tx | block
-</code></pre>
-
-
-
-
-
-### <a name="type-bitcoin_inv_integer">bitcoin_inv_integer()</a> ###
-
-
-
-<pre><code>
-bitcoin_inv_integer() = 0 | 1 | 2
-</code></pre>
-
-
-
-
-
-### <a name="type-bitcoin_inv_message">bitcoin_inv_message()</a> ###
-
-
-__abstract datatype__: `bitcoin_inv_message()`
-
-
-
-
-### <a name="type-bitcoin_message">bitcoin_message()</a> ###
-
-
-__abstract datatype__: `bitcoin_message()`
-
-
-
-
-### <a name="type-bitcoin_message_header">bitcoin_message_header()</a> ###
-
-
-__abstract datatype__: `bitcoin_message_header()`
-
-
-
-
-### <a name="type-bitcoin_network_address">bitcoin_network_address()</a> ###
-
-
-__abstract datatype__: `bitcoin_network_address()`
-
-
-
-
-### <a name="type-bitcoin_network_atom">bitcoin_network_atom()</a> ###
-
-
-
-<pre><code>
-bitcoin_network_atom() = mainnet | testnet | testnet3
-</code></pre>
-
-
-
-
-
-### <a name="type-bitcoin_notfound_message">bitcoin_notfound_message()</a> ###
-
-
-__abstract datatype__: `bitcoin_notfound_message()`
-
-
-
-
-### <a name="type-bitcoin_ping_message">bitcoin_ping_message()</a> ###
-
-
-__abstract datatype__: `bitcoin_ping_message()`
-
-
-
-
-### <a name="type-bitcoin_transaction">bitcoin_transaction()</a> ###
-
-
-__abstract datatype__: `bitcoin_transaction()`
-
-
-
-
-### <a name="type-bitcoin_transaction_input">bitcoin_transaction_input()</a> ###
-
-
-__abstract datatype__: `bitcoin_transaction_input()`
-
-
-
-
-### <a name="type-bitcoin_transaction_outpoint">bitcoin_transaction_outpoint()</a> ###
-
-
-__abstract datatype__: `bitcoin_transaction_outpoint()`
-
-
-
-
-### <a name="type-bitcoin_transaction_output">bitcoin_transaction_output()</a> ###
-
-
-__abstract datatype__: `bitcoin_transaction_output()`
-
-
-
-
-### <a name="type-bitcoin_tx_message">bitcoin_tx_message()</a> ###
-
-
-__abstract datatype__: `bitcoin_tx_message()`
-
-
-
-
-### <a name="type-bitcoin_unit_atom">bitcoin_unit_atom()</a> ###
-
-
-
-<pre><code>
-bitcoin_unit_atom() = megabitcoin | kilobitcoin | hectobitcoin | decabitcoin | bitcoin | decibitcoin | centibitcoin | millibitcoin | microbitcoin | satoshi
-</code></pre>
-
-
-
-
-
-### <a name="type-bitcoin_verack_message">bitcoin_verack_message()</a> ###
-
-
-__abstract datatype__: `bitcoin_verack_message()`
-
-
-
-
-### <a name="type-bitcoin_version_message">bitcoin_version_message()</a> ###
-
-
-__abstract datatype__: `bitcoin_version_message()`
+__abstract datatype__: `block_header()`
 
 
 
@@ -297,9 +65,81 @@ __abstract datatype__: `block_index_entry()`
 
 
 <pre><code>
-block_locator() = [binary()]
+block_locator() = [<a href="#type-checksum">checksum()</a>]
 </code></pre>
 
+
+
+
+
+### <a name="type-block_message">block_message()</a> ###
+
+
+__abstract datatype__: `block_message()`
+
+
+
+
+### <a name="type-checksum">checksum()</a> ###
+
+
+
+<pre><code>
+checksum() = &lt;&lt;_:32&gt;&gt;
+</code></pre>
+
+
+
+
+
+### <a name="type-command_atom">command_atom()</a> ###
+
+
+
+<pre><code>
+command_atom() = addr | alert | block | checkorder | getaddr | getblocks | getdata | getheaders | headers | inv | ping | submitorder | reply | tx | verack | version
+</code></pre>
+
+
+
+
+
+### <a name="type-getaddr_message">getaddr_message()</a> ###
+
+
+__abstract datatype__: `getaddr_message()`
+
+
+
+
+### <a name="type-getblocks_message">getblocks_message()</a> ###
+
+
+__abstract datatype__: `getblocks_message()`
+
+
+
+
+### <a name="type-getdata_message">getdata_message()</a> ###
+
+
+__abstract datatype__: `getdata_message()`
+
+
+
+
+### <a name="type-getheaders_message">getheaders_message()</a> ###
+
+
+__abstract datatype__: `getheaders_message()`
+
+
+
+
+### <a name="type-headers_message">headers_message()</a> ###
+
+
+__abstract datatype__: `headers_message()`
 
 
 
@@ -352,6 +192,138 @@ int8_t() = -128..127
 
 
 
+### <a name="type-inv">inv()</a> ###
+
+
+__abstract datatype__: `inv()`
+
+
+
+
+### <a name="type-inv_atom">inv_atom()</a> ###
+
+
+
+<pre><code>
+inv_atom() = error | tx | block
+</code></pre>
+
+
+
+
+
+### <a name="type-inv_integer">inv_integer()</a> ###
+
+
+
+<pre><code>
+inv_integer() = 0 | 1 | 2
+</code></pre>
+
+
+
+
+
+### <a name="type-inv_message">inv_message()</a> ###
+
+
+__abstract datatype__: `inv_message()`
+
+
+
+
+### <a name="type-message">message()</a> ###
+
+
+__abstract datatype__: `message()`
+
+
+
+
+### <a name="type-message_header">message_header()</a> ###
+
+
+__abstract datatype__: `message_header()`
+
+
+
+
+### <a name="type-network_address">network_address()</a> ###
+
+
+__abstract datatype__: `network_address()`
+
+
+
+
+### <a name="type-network_atom">network_atom()</a> ###
+
+
+
+<pre><code>
+network_atom() = mainnet | testnet | testnet3
+</code></pre>
+
+
+
+
+
+### <a name="type-notfound_message">notfound_message()</a> ###
+
+
+__abstract datatype__: `notfound_message()`
+
+
+
+
+### <a name="type-ping_message">ping_message()</a> ###
+
+
+__abstract datatype__: `ping_message()`
+
+
+
+
+### <a name="type-transaction">transaction()</a> ###
+
+
+__abstract datatype__: `transaction()`
+
+
+
+
+### <a name="type-transaction_input">transaction_input()</a> ###
+
+
+__abstract datatype__: `transaction_input()`
+
+
+
+
+### <a name="type-transaction_outpoint">transaction_outpoint()</a> ###
+
+
+__abstract datatype__: `transaction_outpoint()`
+
+
+
+
+### <a name="type-transaction_output">transaction_output()</a> ###
+
+
+__abstract datatype__: `transaction_output()`
+
+
+
+
+### <a name="type-tx_message">tx_message()</a> ###
+
+
+__abstract datatype__: `tx_message()`
+
+
+
+
 ### <a name="type-uint16_t">uint16_t()</a> ###
 
 
@@ -396,4 +368,32 @@ uint64_t() = 0..18446744073709551615
 uint8_t() = 0..255
 </code></pre>
 
+
+
+
+
+### <a name="type-unit_atom">unit_atom()</a> ###
+
+
+
+<pre><code>
+unit_atom() = megabitcoin | kilobitcoin | hectobitcoin | decabitcoin | bitcoin | decibitcoin | centibitcoin | millibitcoin | microbitcoin | satoshi
+</code></pre>
+
+
+
+
+
+### <a name="type-verack_message">verack_message()</a> ###
+
+
+__abstract datatype__: `verack_message()`
+
+
+
+
+### <a name="type-version_message">version_message()</a> ###
+
+
+__abstract datatype__: `version_message()`
 

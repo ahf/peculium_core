@@ -26,6 +26,6 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 
 ### encode/1 ###
 
-`encode(Bitcoin_message) -> any()`
+`encode(Message) -> any()`
 
 Serialize Bitcoin message to JSON.

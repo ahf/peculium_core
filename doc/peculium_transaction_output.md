@@ -23,24 +23,24 @@ output objects.
 
 
 
-### <a name="type-bitcoin_transaction_output">bitcoin_transaction_output()</a> ###
-
-
-
-<pre><code>
-bitcoin_transaction_output() = <a href="peculium_types.md#type-bitcoin_transaction_output">peculium_types:bitcoin_transaction_output()</a>
-</code></pre>
-
-
-
-
-
 ### <a name="type-int64_t">int64_t()</a> ###
 
 
 
 <pre><code>
 int64_t() = <a href="peculium_types.md#type-int64_t">peculium_types:int64_t()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-transaction_output">transaction_output()</a> ###
+
+
+
+<pre><code>
+transaction_output() = <a href="peculium_types.md#type-transaction_output">peculium_types:transaction_output()</a>
 </code></pre>
 
 
@@ -62,7 +62,7 @@ int64_t() = <a href="peculium_types.md#type-int64_t">peculium_types:int64_t()</a
 
 
 <pre><code>
-script(TransactionOutput::<a href="#type-bitcoin_transaction_output">bitcoin_transaction_output()</a>) -&gt; binary()
+script(TransactionOutput::<a href="#type-transaction_output">transaction_output()</a>) -&gt; binary()
 </code></pre>
 
 <br></br>
@@ -75,7 +75,7 @@ Returns the script of a given transaction output.
 
 
 <pre><code>
-value(TransactionOutput::<a href="#type-bitcoin_transaction_output">bitcoin_transaction_output()</a>) -&gt; <a href="#type-int64_t">int64_t()</a>
+value(TransactionOutput::<a href="#type-transaction_output">transaction_output()</a>) -&gt; <a href="#type-int64_t">int64_t()</a>
 </code></pre>
 
 <br></br>

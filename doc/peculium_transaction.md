@@ -23,36 +23,36 @@ Transaction objects.
 
 
 
-### <a name="type-bitcoin_transaction">bitcoin_transaction()</a> ###
+### <a name="type-transaction">transaction()</a> ###
 
 
 
 <pre><code>
-bitcoin_transaction() = <a href="peculium_types.md#type-bitcoin_transaction">peculium_types:bitcoin_transaction()</a>
+transaction() = <a href="peculium_types.md#type-transaction">peculium_types:transaction()</a>
 </code></pre>
 
 
 
 
 
-### <a name="type-bitcoin_transaction_input">bitcoin_transaction_input()</a> ###
+### <a name="type-transaction_input">transaction_input()</a> ###
 
 
 
 <pre><code>
-bitcoin_transaction_input() = <a href="peculium_types.md#type-bitcoin_transaction_input">peculium_types:bitcoin_transaction_input()</a>
+transaction_input() = <a href="peculium_types.md#type-transaction_input">peculium_types:transaction_input()</a>
 </code></pre>
 
 
 
 
 
-### <a name="type-bitcoin_transaction_output">bitcoin_transaction_output()</a> ###
+### <a name="type-transaction_output">transaction_output()</a> ###
 
 
 
 <pre><code>
-bitcoin_transaction_output() = <a href="peculium_types.md#type-bitcoin_transaction_output">peculium_types:bitcoin_transaction_output()</a>
+transaction_output() = <a href="peculium_types.md#type-transaction_output">peculium_types:transaction_output()</a>
 </code></pre>
 
 
@@ -86,7 +86,7 @@ uint32_t() = <a href="peculium_types.md#type-uint32_t">peculium_types:uint32_t()
 
 
 <pre><code>
-hash(Transaction::<a href="#type-bitcoin_transaction">bitcoin_transaction()</a>) -&gt; binary()
+hash(Transaction::<a href="#type-transaction">transaction()</a>) -&gt; binary()
 </code></pre>
 
 <br></br>
@@ -99,7 +99,7 @@ Returns the hash of a given transaction.
 
 
 <pre><code>
-inputs(Transaction::<a href="#type-bitcoin_transaction">bitcoin_transaction()</a>) -&gt; [<a href="#type-bitcoin_transaction_input">bitcoin_transaction_input()</a>]
+inputs(Transaction::<a href="#type-transaction">transaction()</a>) -&gt; [<a href="#type-transaction_input">transaction_input()</a>]
 </code></pre>
 
 <br></br>
@@ -112,7 +112,7 @@ Returns the transaction inputs of a given transaction.
 
 
 <pre><code>
-is_coinbase(Transaction::<a href="#type-bitcoin_transaction">bitcoin_transaction()</a>) -&gt; boolean()
+is_coinbase(Transaction::<a href="#type-transaction">transaction()</a>) -&gt; boolean()
 </code></pre>
 
 <br></br>
@@ -125,7 +125,7 @@ Check if a given transaction is a coinbase transaction.
 
 
 <pre><code>
-lock_time(Transaction::<a href="#type-bitcoin_transaction">bitcoin_transaction()</a>) -&gt; <a href="#type-uint32_t">uint32_t()</a>
+lock_time(Transaction::<a href="#type-transaction">transaction()</a>) -&gt; <a href="#type-uint32_t">uint32_t()</a>
 </code></pre>
 
 <br></br>
@@ -138,7 +138,7 @@ Returns the lock time of a given transaction.
 
 
 <pre><code>
-outputs(Transaction::<a href="#type-bitcoin_transaction">bitcoin_transaction()</a>) -&gt; [<a href="#type-bitcoin_transaction_output">bitcoin_transaction_output()</a>]
+outputs(Transaction::<a href="#type-transaction">transaction()</a>) -&gt; [<a href="#type-transaction_output">transaction_output()</a>]
 </code></pre>
 
 <br></br>
@@ -151,7 +151,7 @@ Returns the transaction outputs of a given transaction.
 
 
 <pre><code>
-version(Transaction::<a href="#type-bitcoin_transaction">bitcoin_transaction()</a>) -&gt; <a href="#type-uint32_t">uint32_t()</a>
+version(Transaction::<a href="#type-transaction">transaction()</a>) -&gt; <a href="#type-uint32_t">uint32_t()</a>
 </code></pre>
 
 <br></br>

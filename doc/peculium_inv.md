@@ -22,24 +22,24 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 
 
 
-### <a name="type-bitcoin_inv">bitcoin_inv()</a> ###
+### <a name="type-inv">inv()</a> ###
 
 
 
 <pre><code>
-bitcoin_inv() = <a href="peculium_types.md#type-bitcoin_inv">peculium_types:bitcoin_inv()</a>
+inv() = <a href="peculium_types.md#type-inv">peculium_types:inv()</a>
 </code></pre>
 
 
 
 
 
-### <a name="type-bitcoin_inv_atom">bitcoin_inv_atom()</a> ###
+### <a name="type-inv_atom">inv_atom()</a> ###
 
 
 
 <pre><code>
-bitcoin_inv_atom() = <a href="peculium_types.md#type-bitcoin_inv_atom">peculium_types:bitcoin_inv_atom()</a>
+inv_atom() = <a href="peculium_types.md#type-inv_atom">peculium_types:inv_atom()</a>
 </code></pre>
 
 
@@ -61,7 +61,7 @@ bitcoin_inv_atom() = <a href="peculium_types.md#type-bitcoin_inv_atom">peculium_
 
 
 <pre><code>
-hash(Inv::<a href="#type-bitcoin_inv">bitcoin_inv()</a>) -&gt; binary()
+hash(Inv::<a href="#type-inv">inv()</a>) -&gt; binary()
 </code></pre>
 
 <br></br>
@@ -74,7 +74,7 @@ Returns the hash of a given inv.
 
 
 <pre><code>
-is_block(Inv::<a href="#type-bitcoin_inv">bitcoin_inv()</a>) -&gt; boolean()
+is_block(Inv::<a href="#type-inv">inv()</a>) -&gt; boolean()
 </code></pre>
 
 <br></br>
@@ -87,7 +87,7 @@ Checks if a given inv is a block.
 
 
 <pre><code>
-is_transaction(Inv::<a href="#type-bitcoin_inv">bitcoin_inv()</a>) -&gt; boolean()
+is_transaction(Inv::<a href="#type-inv">inv()</a>) -&gt; boolean()
 </code></pre>
 
 <br></br>
@@ -100,7 +100,7 @@ Checks if a given inv is a transaction.
 
 
 <pre><code>
-known(Inv::<a href="#type-bitcoin_inv">bitcoin_inv()</a>) -&gt; boolean()
+known(Inv::<a href="#type-inv">inv()</a>) -&gt; boolean()
 </code></pre>
 
 <br></br>
@@ -113,7 +113,7 @@ Check if we have the given object.
 
 
 <pre><code>
-type(Inv::<a href="#type-bitcoin_inv">bitcoin_inv()</a>) -&gt; <a href="#type-bitcoin_inv_atom">bitcoin_inv_atom()</a>
+type(Inv::<a href="#type-inv">inv()</a>) -&gt; <a href="#type-inv_atom">inv_atom()</a>
 </code></pre>
 
 <br></br>
@@ -126,7 +126,7 @@ Returns the type of a given inv.
 
 
 <pre><code>
-unknown(Inv::<a href="#type-bitcoin_inv">bitcoin_inv()</a>) -&gt; boolean()
+unknown(Inv::<a href="#type-inv">inv()</a>) -&gt; boolean()
 </code></pre>
 
 <br></br>
@@ -139,7 +139,7 @@ Check if we do not have the given object.
 
 
 <pre><code>
-unknown_invs(Invs::[<a href="#type-bitcoin_inv">bitcoin_inv()</a>]) -&gt; [<a href="#type-bitcoin_inv">bitcoin_inv()</a>]
+unknown_invs(Invs::[<a href="#type-inv">inv()</a>]) -&gt; [<a href="#type-inv">inv()</a>]
 </code></pre>
 
 <br></br>

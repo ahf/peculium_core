@@ -23,24 +23,24 @@ Transaction Input objects.
 
 
 
-### <a name="type-bitcoin_transaction_input">bitcoin_transaction_input()</a> ###
+### <a name="type-transaction_input">transaction_input()</a> ###
 
 
 
 <pre><code>
-bitcoin_transaction_input() = <a href="peculium_types.md#type-bitcoin_transaction_input">peculium_types:bitcoin_transaction_input()</a>
+transaction_input() = <a href="peculium_types.md#type-transaction_input">peculium_types:transaction_input()</a>
 </code></pre>
 
 
 
 
 
-### <a name="type-bitcoin_transaction_outpoint">bitcoin_transaction_outpoint()</a> ###
+### <a name="type-transaction_outpoint">transaction_outpoint()</a> ###
 
 
 
 <pre><code>
-bitcoin_transaction_outpoint() = <a href="peculium_types.md#type-bitcoin_transaction_outpoint">peculium_types:bitcoin_transaction_outpoint()</a>
+transaction_outpoint() = <a href="peculium_types.md#type-transaction_outpoint">peculium_types:transaction_outpoint()</a>
 </code></pre>
 
 
@@ -74,7 +74,7 @@ uint32_t() = <a href="peculium_types.md#type-uint32_t">peculium_types:uint32_t()
 
 
 <pre><code>
-previous_output(TransactionInput::<a href="#type-bitcoin_transaction_input">bitcoin_transaction_input()</a>) -&gt; <a href="#type-bitcoin_transaction_outpoint">bitcoin_transaction_outpoint()</a>
+previous_output(TransactionInput::<a href="#type-transaction_input">transaction_input()</a>) -&gt; <a href="#type-transaction_outpoint">transaction_outpoint()</a>
 </code></pre>
 
 <br></br>
@@ -87,7 +87,7 @@ Returns the previous output of a given transaction input.
 
 
 <pre><code>
-script(TransactionInput::<a href="#type-bitcoin_transaction_input">bitcoin_transaction_input()</a>) -&gt; binary()
+script(TransactionInput::<a href="#type-transaction_input">transaction_input()</a>) -&gt; binary()
 </code></pre>
 
 <br></br>
@@ -100,7 +100,7 @@ Returns the script of a given transaction input.
 
 
 <pre><code>
-sequence(TransactionInput::<a href="#type-bitcoin_transaction_input">bitcoin_transaction_input()</a>) -&gt; <a href="#type-uint32_t">uint32_t()</a>
+sequence(TransactionInput::<a href="#type-transaction_input">transaction_input()</a>) -&gt; <a href="#type-uint32_t">uint32_t()</a>
 </code></pre>
 
 <br></br>

@@ -23,36 +23,36 @@ block objects.
 
 
 
-### <a name="type-bitcoin_block">bitcoin_block()</a> ###
+### <a name="type-block">block()</a> ###
 
 
 
 <pre><code>
-bitcoin_block() = <a href="peculium_types.md#type-bitcoin_block">peculium_types:bitcoin_block()</a>
+block() = <a href="peculium_types.md#type-block">peculium_types:block()</a>
 </code></pre>
 
 
 
 
 
-### <a name="type-bitcoin_network_atom">bitcoin_network_atom()</a> ###
+### <a name="type-network_atom">network_atom()</a> ###
 
 
 
 <pre><code>
-bitcoin_network_atom() = <a href="peculium_types.md#type-bitcoin_network_atom">peculium_types:bitcoin_network_atom()</a>
+network_atom() = <a href="peculium_types.md#type-network_atom">peculium_types:network_atom()</a>
 </code></pre>
 
 
 
 
 
-### <a name="type-bitcoin_transaction">bitcoin_transaction()</a> ###
+### <a name="type-transaction">transaction()</a> ###
 
 
 
 <pre><code>
-bitcoin_transaction() = <a href="peculium_types.md#type-bitcoin_transaction">peculium_types:bitcoin_transaction()</a>
+transaction() = <a href="peculium_types.md#type-transaction">peculium_types:transaction()</a>
 </code></pre>
 
 
@@ -74,7 +74,7 @@ bitcoin_transaction() = <a href="peculium_types.md#type-bitcoin_transaction">pec
 
 
 <pre><code>
-block_work(Block::<a href="#type-bitcoin_block">bitcoin_block()</a>) -&gt; number()
+block_work(Block::<a href="#type-block">block()</a>) -&gt; number()
 </code></pre>
 
 <br></br>
@@ -87,7 +87,7 @@ Returns the block work of a given block.
 
 
 <pre><code>
-difficulty(Block::<a href="#type-bitcoin_block">bitcoin_block()</a>) -&gt; number()
+difficulty(Block::<a href="#type-block">block()</a>) -&gt; number()
 </code></pre>
 
 <br></br>
@@ -100,7 +100,7 @@ Returns the difficulty of a given block.
 
 
 <pre><code>
-genesis_block(Network::<a href="#type-bitcoin_network_atom">bitcoin_network_atom()</a>) -&gt; <a href="#type-bitcoin_block">bitcoin_block()</a>
+genesis_block(Network::<a href="#type-network_atom">network_atom()</a>) -&gt; <a href="#type-block">block()</a>
 </code></pre>
 
 <br></br>
@@ -113,7 +113,7 @@ Returns the Genesis block from a given network.
 
 
 <pre><code>
-hash(Block::<a href="#type-bitcoin_block">bitcoin_block()</a>) -&gt; binary()
+hash(Block::<a href="#type-block">block()</a>) -&gt; binary()
 </code></pre>
 
 <br></br>
@@ -126,7 +126,7 @@ Returns the little-endian encoded hash of a given block.
 
 
 <pre><code>
-merkle_root(Block::<a href="#type-bitcoin_block">bitcoin_block()</a>) -&gt; binary()
+merkle_root(Block::<a href="#type-block">block()</a>) -&gt; binary()
 </code></pre>
 
 <br></br>
@@ -139,7 +139,7 @@ Returns the root hash of the merkle tree of a given block.
 
 
 <pre><code>
-previous(Block::<a href="#type-bitcoin_block">bitcoin_block()</a>) -&gt; binary()
+previous(Block::<a href="#type-block">block()</a>) -&gt; binary()
 </code></pre>
 
 <br></br>
@@ -152,7 +152,7 @@ Returns the hash of the previous block of a given block.
 
 
 <pre><code>
-transactions(Block::<a href="#type-bitcoin_block">bitcoin_block()</a>) -&gt; [<a href="#type-bitcoin_transaction">bitcoin_transaction()</a>]
+transactions(Block::<a href="#type-block">block()</a>) -&gt; [<a href="#type-transaction">transaction()</a>]
 </code></pre>
 
 <br></br>
@@ -165,7 +165,7 @@ Returns a list of transactions of a given block.
 
 
 <pre><code>
-version(Block::<a href="#type-bitcoin_block">bitcoin_block()</a>) -&gt; integer()
+version(Block::<a href="#type-block">block()</a>) -&gt; integer()
 </code></pre>
 
 <br></br>

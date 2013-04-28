@@ -23,48 +23,24 @@ decoder.
 
 
 
-### <a name="type-bitcoin_checksum">bitcoin_checksum()</a> ###
+### <a name="type-checksum">checksum()</a> ###
 
 
 
 <pre><code>
-bitcoin_checksum() = <a href="peculium_types.md#type-bitcoin_checksum">peculium_types:bitcoin_checksum()</a>
+checksum() = <a href="peculium_types.md#type-checksum">peculium_types:checksum()</a>
 </code></pre>
 
 
 
 
 
-### <a name="type-bitcoin_command_atom">bitcoin_command_atom()</a> ###
+### <a name="type-command_atom">command_atom()</a> ###
 
 
 
 <pre><code>
-bitcoin_command_atom() = <a href="peculium_types.md#type-bitcoin_command_atom">peculium_types:bitcoin_command_atom()</a>
-</code></pre>
-
-
-
-
-
-### <a name="type-bitcoin_inv_atom">bitcoin_inv_atom()</a> ###
-
-
-
-<pre><code>
-bitcoin_inv_atom() = <a href="peculium_types.md#type-bitcoin_inv_atom">peculium_types:bitcoin_inv_atom()</a>
-</code></pre>
-
-
-
-
-
-### <a name="type-bitcoin_inv_integer">bitcoin_inv_integer()</a> ###
-
-
-
-<pre><code>
-bitcoin_inv_integer() = <a href="peculium_types.md#type-bitcoin_inv_integer">peculium_types:bitcoin_inv_integer()</a>
+command_atom() = <a href="peculium_types.md#type-command_atom">peculium_types:command_atom()</a>
 </code></pre>
 
 
@@ -77,6 +53,30 @@ bitcoin_inv_integer() = <a href="peculium_types.md#type-bitcoin_inv_integer">pec
 
 <pre><code>
 dynamic_vector_decode_fun() = fun((Data::binary()) -&gt; {ok, Item::any(), Rest::binary()} | {error, any()})
+</code></pre>
+
+
+
+
+
+### <a name="type-inv_atom">inv_atom()</a> ###
+
+
+
+<pre><code>
+inv_atom() = <a href="peculium_types.md#type-inv_atom">peculium_types:inv_atom()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-inv_integer">inv_integer()</a> ###
+
+
+
+<pre><code>
+inv_integer() = <a href="peculium_types.md#type-inv_integer">peculium_types:inv_integer()</a>
 </code></pre>
 
 
@@ -110,7 +110,7 @@ vector_decode_fun() = fun((Data::binary()) -&gt; {ok, Item::any()} | {error, any
 
 
 <pre><code>
-atom_to_inv(Inv::<a href="#type-bitcoin_inv_atom">bitcoin_inv_atom()</a>) -&gt; {ok, <a href="#type-bitcoin_inv_integer">bitcoin_inv_integer()</a>} | {error, any()}
+atom_to_inv(Inv::<a href="#type-inv_atom">inv_atom()</a>) -&gt; {ok, <a href="#type-inv_integer">inv_integer()</a>} | {error, any()}
 </code></pre>
 
 <br></br>
@@ -123,7 +123,7 @@ Returns an integer from a given inv atom.
 
 
 <pre><code>
-checksum(Data::iolist()) -&gt; <a href="#type-bitcoin_checksum">bitcoin_checksum()</a>
+checksum(Data::iolist()) -&gt; <a href="#type-checksum">checksum()</a>
 </code></pre>
 
 <br></br>
@@ -136,7 +136,7 @@ Returns the first four bytes of the double SHA256 checksum of the given Data.
 
 
 <pre><code>
-command_to_atom(Command::binary()) -&gt; {ok, <a href="#type-bitcoin_command_atom">bitcoin_command_atom()</a>} | {error, any()}
+command_to_atom(Command::binary()) -&gt; {ok, <a href="#type-command_atom">command_atom()</a>} | {error, any()}
 </code></pre>
 
 <br></br>
@@ -184,7 +184,7 @@ Decode a vector where the size of each item is known.
 
 
 <pre><code>
-inv_to_atom(InvInteger::integer()) -&gt; {ok, <a href="#type-bitcoin_inv_atom">bitcoin_inv_atom()</a>} | {error, any()}
+inv_to_atom(InvInteger::integer()) -&gt; {ok, <a href="#type-inv_atom">inv_atom()</a>} | {error, any()}
 </code></pre>
 
 <br></br>

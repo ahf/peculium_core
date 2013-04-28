@@ -23,12 +23,12 @@ Transaction Outpoint objects.
 
 
 
-### <a name="type-bitcoin_transaction_outpoint">bitcoin_transaction_outpoint()</a> ###
+### <a name="type-transaction_outpoint">transaction_outpoint()</a> ###
 
 
 
 <pre><code>
-bitcoin_transaction_outpoint() = <a href="peculium_types.md#type-bitcoin_transaction_outpoint">peculium_types:bitcoin_transaction_outpoint()</a>
+transaction_outpoint() = <a href="peculium_types.md#type-transaction_outpoint">peculium_types:transaction_outpoint()</a>
 </code></pre>
 
 
@@ -62,7 +62,7 @@ uint32_t() = <a href="peculium_types.md#type-uint32_t">peculium_types:uint32_t()
 
 
 <pre><code>
-hash(Outpoint::<a href="#type-bitcoin_transaction_outpoint">bitcoin_transaction_outpoint()</a>) -&gt; binary()
+hash(Outpoint::<a href="#type-transaction_outpoint">transaction_outpoint()</a>) -&gt; binary()
 </code></pre>
 
 <br></br>
@@ -75,7 +75,7 @@ Returns the hash of a given outpoint.
 
 
 <pre><code>
-index(Outpoint::<a href="#type-bitcoin_transaction_outpoint">bitcoin_transaction_outpoint()</a>) -&gt; <a href="#type-uint32_t">uint32_t()</a>
+index(Outpoint::<a href="#type-transaction_outpoint">transaction_outpoint()</a>) -&gt; <a href="#type-uint32_t">uint32_t()</a>
 </code></pre>
 
 <br></br>

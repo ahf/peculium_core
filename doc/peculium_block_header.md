@@ -23,24 +23,24 @@ objects.
 
 
 
-### <a name="type-bitcoin_block">bitcoin_block()</a> ###
+### <a name="type-block">block()</a> ###
 
 
 
 <pre><code>
-bitcoin_block() = <a href="peculium_types.md#type-bitcoin_block">peculium_types:bitcoin_block()</a>
+block() = <a href="peculium_types.md#type-block">peculium_types:block()</a>
 </code></pre>
 
 
 
 
 
-### <a name="type-bitcoin_block_header">bitcoin_block_header()</a> ###
+### <a name="type-block_header">block_header()</a> ###
 
 
 
 <pre><code>
-bitcoin_block_header() = <a href="peculium_types.md#type-bitcoin_block_header">peculium_types:bitcoin_block_header()</a>
+block_header() = <a href="peculium_types.md#type-block_header">peculium_types:block_header()</a>
 </code></pre>
 
 
@@ -86,7 +86,7 @@ uint8_t() = <a href="peculium_types.md#type-uint8_t">peculium_types:uint8_t()</a
 
 
 <pre><code>
-bits(BlockHeader::<a href="#type-bitcoin_block_header">bitcoin_block_header()</a>) -&gt; <a href="#type-uint32_t">uint32_t()</a>
+bits(BlockHeader::<a href="#type-block_header">block_header()</a>) -&gt; <a href="#type-uint32_t">uint32_t()</a>
 </code></pre>
 
 <br></br>
@@ -99,7 +99,7 @@ Returns the bits of a given block header.
 
 
 <pre><code>
-block_work(BlockHeader::<a href="#type-bitcoin_block_header">bitcoin_block_header()</a>) -&gt; number()
+block_work(BlockHeader::<a href="#type-block_header">block_header()</a>) -&gt; number()
 </code></pre>
 
 <br></br>
@@ -112,7 +112,7 @@ Returns the block work for the given block header.
 
 
 <pre><code>
-difficulty(BlockHeader::<a href="#type-bitcoin_block_header">bitcoin_block_header()</a>) -&gt; number()
+difficulty(BlockHeader::<a href="#type-block_header">block_header()</a>) -&gt; number()
 </code></pre>
 
 <br></br>
@@ -125,7 +125,7 @@ Returns the difficulty for the given block header.
 
 
 <pre><code>
-from_block(Block::<a href="#type-bitcoin_block">bitcoin_block()</a>) -&gt; <a href="#type-bitcoin_block_header">bitcoin_block_header()</a>
+from_block(Block::<a href="#type-block">block()</a>) -&gt; <a href="#type-block_header">block_header()</a>
 </code></pre>
 
 <br></br>
@@ -138,7 +138,7 @@ Create Bitcoin Block Header from a given Block.
 
 
 <pre><code>
-merkle_root(BlockHeader::<a href="#type-bitcoin_block_header">bitcoin_block_header()</a>) -&gt; binary()
+merkle_root(BlockHeader::<a href="#type-block_header">block_header()</a>) -&gt; binary()
 </code></pre>
 
 <br></br>
@@ -151,7 +151,7 @@ Returns the root hash of the merkle tree of a given block header.
 
 
 <pre><code>
-nonce(Blockheader::<a href="#type-bitcoin_block_header">bitcoin_block_header()</a>) -&gt; <a href="#type-uint32_t">uint32_t()</a>
+nonce(Blockheader::<a href="#type-block_header">block_header()</a>) -&gt; <a href="#type-uint32_t">uint32_t()</a>
 </code></pre>
 
 <br></br>
@@ -164,7 +164,7 @@ Returns the nonce of a given block header.
 
 
 <pre><code>
-previous(BlockHeader::<a href="#type-bitcoin_block_header">bitcoin_block_header()</a>) -&gt; binary()
+previous(BlockHeader::<a href="#type-block_header">block_header()</a>) -&gt; binary()
 </code></pre>
 
 <br></br>
@@ -177,7 +177,7 @@ Returns the hash of the previous block of a given block header.
 
 
 <pre><code>
-timestamp(BlockHeader::<a href="#type-bitcoin_block_header">bitcoin_block_header()</a>) -&gt; <a href="#type-uint32_t">uint32_t()</a>
+timestamp(BlockHeader::<a href="#type-block_header">block_header()</a>) -&gt; <a href="#type-uint32_t">uint32_t()</a>
 </code></pre>
 
 <br></br>
@@ -190,7 +190,7 @@ Returns the timestamp of a given block header.
 
 
 <pre><code>
-transaction_count(BlockHeader::<a href="#type-bitcoin_block_header">bitcoin_block_header()</a>) -&gt; <a href="#type-uint8_t">uint8_t()</a>
+transaction_count(BlockHeader::<a href="#type-block_header">block_header()</a>) -&gt; <a href="#type-uint8_t">uint8_t()</a>
 </code></pre>
 
 <br></br>
@@ -203,7 +203,7 @@ Returns the transaction count (always 0) of a given block header.
 
 
 <pre><code>
-version(BlockHeader::<a href="#type-bitcoin_block_header">bitcoin_block_header()</a>) -&gt; <a href="#type-uint32_t">uint32_t()</a>
+version(BlockHeader::<a href="#type-block_header">block_header()</a>) -&gt; <a href="#type-uint32_t">uint32_t()</a>
 </code></pre>
 
 <br></br>

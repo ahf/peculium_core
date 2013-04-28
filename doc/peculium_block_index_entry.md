@@ -23,24 +23,24 @@ block index entries.
 
 
 
-### <a name="type-bitcoin_block">bitcoin_block()</a> ###
+### <a name="type-block">block()</a> ###
 
 
 
 <pre><code>
-bitcoin_block() = <a href="peculium_types.md#type-bitcoin_block">peculium_types:bitcoin_block()</a>
+block() = <a href="peculium_types.md#type-block">peculium_types:block()</a>
 </code></pre>
 
 
 
 
 
-### <a name="type-bitcoin_block_header">bitcoin_block_header()</a> ###
+### <a name="type-block_header">block_header()</a> ###
 
 
 
 <pre><code>
-bitcoin_block_header() = <a href="peculium_types.md#type-bitcoin_block_header">peculium_types:bitcoin_block_header()</a>
+block_header() = <a href="peculium_types.md#type-block_header">peculium_types:block_header()</a>
 </code></pre>
 
 
@@ -74,7 +74,7 @@ block_index_entry() = <a href="peculium_types.md#type-block_index_entry">peculiu
 
 
 <pre><code>
-block(BlockIndexEntry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; <a href="#type-bitcoin_block">bitcoin_block()</a>
+block(BlockIndexEntry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; <a href="#type-block">block()</a>
 </code></pre>
 
 <br></br>
@@ -87,7 +87,7 @@ Returns the block of a given block index entry.
 
 
 <pre><code>
-block_header(BlockIndexEntry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; <a href="#type-bitcoin_block_header">bitcoin_block_header()</a>
+block_header(BlockIndexEntry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; <a href="#type-block_header">block_header()</a>
 </code></pre>
 
 <br></br>
@@ -113,7 +113,7 @@ Calculates the amount of work in the current block.
 
 
 <pre><code>
-from_block(Block::<a href="#type-bitcoin_block">bitcoin_block()</a>) -&gt; <a href="#type-block_index_entry">block_index_entry()</a>
+from_block(Block::<a href="#type-block">block()</a>) -&gt; <a href="#type-block_index_entry">block_index_entry()</a>
 </code></pre>
 
 <br></br>

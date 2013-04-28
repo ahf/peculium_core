@@ -23,72 +23,12 @@ the Bitcoin protocol.
 
 
 
-### <a name="type-bitcoin_block_header">bitcoin_block_header()</a> ###
+### <a name="type-block_header">block_header()</a> ###
 
 
 
 <pre><code>
-bitcoin_block_header() = <a href="peculium_types.md#type-bitcoin_block_header">peculium_types:bitcoin_block_header()</a>
-</code></pre>
-
-
-
-
-
-### <a name="type-bitcoin_inv">bitcoin_inv()</a> ###
-
-
-
-<pre><code>
-bitcoin_inv() = <a href="peculium_types.md#type-bitcoin_inv">peculium_types:bitcoin_inv()</a>
-</code></pre>
-
-
-
-
-
-### <a name="type-bitcoin_network_address">bitcoin_network_address()</a> ###
-
-
-
-<pre><code>
-bitcoin_network_address() = <a href="peculium_types.md#type-bitcoin_network_address">peculium_types:bitcoin_network_address()</a>
-</code></pre>
-
-
-
-
-
-### <a name="type-bitcoin_transaction_input">bitcoin_transaction_input()</a> ###
-
-
-
-<pre><code>
-bitcoin_transaction_input() = <a href="peculium_types.md#type-bitcoin_transaction_input">peculium_types:bitcoin_transaction_input()</a>
-</code></pre>
-
-
-
-
-
-### <a name="type-bitcoin_transaction_outpoint">bitcoin_transaction_outpoint()</a> ###
-
-
-
-<pre><code>
-bitcoin_transaction_outpoint() = <a href="peculium_types.md#type-bitcoin_transaction_outpoint">peculium_types:bitcoin_transaction_outpoint()</a>
-</code></pre>
-
-
-
-
-
-### <a name="type-bitcoin_transaction_output">bitcoin_transaction_output()</a> ###
-
-
-
-<pre><code>
-bitcoin_transaction_output() = <a href="peculium_types.md#type-bitcoin_transaction_output">peculium_types:bitcoin_transaction_output()</a>
+block_header() = <a href="peculium_types.md#type-block_header">peculium_types:block_header()</a>
 </code></pre>
 
 
@@ -137,6 +77,66 @@ int64_t() = <a href="peculium_types.md#type-int64_t">peculium_types:int64_t()</a
 
 <pre><code>
 int8_t() = <a href="peculium_types.md#type-int8_t">peculium_types:int8_t()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-inv">inv()</a> ###
+
+
+
+<pre><code>
+inv() = <a href="peculium_types.md#type-inv">peculium_types:inv()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-network_address">network_address()</a> ###
+
+
+
+<pre><code>
+network_address() = <a href="peculium_types.md#type-network_address">peculium_types:network_address()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-transaction_input">transaction_input()</a> ###
+
+
+
+<pre><code>
+transaction_input() = <a href="peculium_types.md#type-transaction_input">peculium_types:transaction_input()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-transaction_outpoint">transaction_outpoint()</a> ###
+
+
+
+<pre><code>
+transaction_outpoint() = <a href="peculium_types.md#type-transaction_outpoint">peculium_types:transaction_outpoint()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-transaction_output">transaction_output()</a> ###
+
+
+
+<pre><code>
+transaction_output() = <a href="peculium_types.md#type-transaction_output">peculium_types:transaction_output()</a>
 </code></pre>
 
 
@@ -204,7 +204,7 @@ uint8_t() = <a href="peculium_types.md#type-uint8_t">peculium_types:uint8_t()</a
 
 ### block/1 ###
 
-`block(Bitcoin_block) -> any()`
+`block(Block) -> any()`
 
 
 <a name="block_header-1"></a>
@@ -213,7 +213,7 @@ uint8_t() = <a href="peculium_types.md#type-uint8_t">peculium_types:uint8_t()</a
 
 
 <pre><code>
-block_header(X1::binary()) -&gt; {ok, <a href="#type-bitcoin_block_header">bitcoin_block_header()</a>}
+block_header(X1::binary()) -&gt; {ok, <a href="#type-block_header">block_header()</a>}
 </code></pre>
 
 <br></br>
@@ -291,7 +291,7 @@ int8_t(X::<a href="#type-int8_t">int8_t()</a>) -&gt; integer()
 
 
 <pre><code>
-inv(Bitcoin_inv::binary()) -&gt; {ok, <a href="#type-bitcoin_inv">bitcoin_inv()</a>}
+inv(Inv::binary()) -&gt; {ok, <a href="#type-inv">inv()</a>}
 </code></pre>
 
 <br></br>
@@ -304,7 +304,7 @@ inv(Bitcoin_inv::binary()) -&gt; {ok, <a href="#type-bitcoin_inv">bitcoin_inv()<
 
 
 <pre><code>
-net_addr(X1::binary()) -&gt; {ok, <a href="#type-bitcoin_network_address">bitcoin_network_address()</a>}
+net_addr(X1::binary()) -&gt; {ok, <a href="#type-network_address">network_address()</a>}
 </code></pre>
 
 <br></br>
@@ -329,7 +329,7 @@ net_addr(X1::binary()) -&gt; {ok, <a href="#type-bitcoin_network_address">bitcoi
 
 ### transaction/1 ###
 
-`transaction(Bitcoin_transaction) -> any()`
+`transaction(Transaction) -> any()`
 
 
 <a name="transaction_input-1"></a>
@@ -338,7 +338,7 @@ net_addr(X1::binary()) -&gt; {ok, <a href="#type-bitcoin_network_address">bitcoi
 
 
 <pre><code>
-transaction_input(Bitcoin_transaction_input::binary()) -&gt; {ok, <a href="#type-bitcoin_transaction_input">bitcoin_transaction_input()</a>}
+transaction_input(Transaction_input::binary()) -&gt; {ok, <a href="#type-transaction_input">transaction_input()</a>}
 </code></pre>
 
 <br></br>
@@ -351,7 +351,7 @@ transaction_input(Bitcoin_transaction_input::binary()) -&gt; {ok, <a href="#type
 
 
 <pre><code>
-transaction_outpoint(Bitcoin_transaction_outpoint::binary()) -&gt; {ok, <a href="#type-bitcoin_transaction_outpoint">bitcoin_transaction_outpoint()</a>}
+transaction_outpoint(Transaction_outpoint::binary()) -&gt; {ok, <a href="#type-transaction_outpoint">transaction_outpoint()</a>}
 </code></pre>
 
 <br></br>
@@ -364,7 +364,7 @@ transaction_outpoint(Bitcoin_transaction_outpoint::binary()) -&gt; {ok, <a href=
 
 
 <pre><code>
-transaction_output(Bitcoin_transaction_output::binary()) -&gt; {ok, <a href="#type-bitcoin_transaction_output">bitcoin_transaction_output()</a>}
+transaction_output(Transaction_output::binary()) -&gt; {ok, <a href="#type-transaction_output">transaction_output()</a>}
 </code></pre>
 
 <br></br>

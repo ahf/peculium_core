@@ -23,12 +23,12 @@ Bitcoin block's.
 
 
 
-### <a name="type-bitcoin_block">bitcoin_block()</a> ###
+### <a name="type-block">block()</a> ###
 
 
 
 <pre><code>
-bitcoin_block() = <a href="peculium_types.md#type-bitcoin_block">peculium_types:bitcoin_block()</a>
+block() = <a href="peculium_types.md#type-block">peculium_types:block()</a>
 </code></pre>
 
 
@@ -76,7 +76,7 @@ Check if a given block exists in the store.
 
 
 <pre><code>
-get(Hash::binary()) -&gt; {ok, <a href="#type-bitcoin_block">bitcoin_block()</a>} | {error, not_found}
+get(Hash::binary()) -&gt; {ok, <a href="#type-block">block()</a>} | {error, not_found}
 </code></pre>
 
 <br></br>
@@ -89,7 +89,7 @@ Get block.
 
 
 <pre><code>
-put(Hash::binary(), Block::<a href="#type-bitcoin_block">bitcoin_block()</a>) -&gt; ok
+put(Hash::binary(), Block::<a href="#type-block">block()</a>) -&gt; ok
 </code></pre>
 
 <br></br>
