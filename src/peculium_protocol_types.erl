@@ -293,6 +293,10 @@ block(X) ->
 
 -ifdef(TEST).
 
+prop_bool() ->
+    ?FORALL(X, peculium_triq:uint8_t(),
+        bool(X) =:= (X > 0)).
+
 prop_uint8_t_inverse() ->
     ?FORALL(X, peculium_triq:uint8_t(),
         uint8_t(uint8_t(X)) =:= X).
