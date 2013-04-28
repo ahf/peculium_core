@@ -78,7 +78,6 @@ the test suites use:
 
 ```
 $ make test
-$ make qc
 ```
 
 Documentation

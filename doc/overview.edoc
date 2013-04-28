@@ -60,8 +60,7 @@ Testing
 Peculium uses `EUnit' and `triq' for unit and property-based testing. To run
 the test suites use:
 
-<pre>$ make test
-$ make qc</pre>
+<pre>$ make test</pre>
 
 Documentation
 -------------
