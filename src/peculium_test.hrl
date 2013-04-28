@@ -7,6 +7,6 @@
 
 -spec property_test() -> any().
 property_test() ->
-    true == triq:check(?MODULE).
+    ?assert(triq:check(?MODULE)).
 
 -endif.
