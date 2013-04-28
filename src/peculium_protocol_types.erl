@@ -297,13 +297,25 @@ prop_uint8_t_inverse() ->
     ?FORALL(X, peculium_triq:uint8_t(),
         uint8_t(uint8_t(X)) =:= X).
 
+prop_uint8_t_from_uint16_t() ->
+    ?FORALL(X, peculium_triq:uint16_t(),
+        uint8_t(uint8_t(X)) =:= X band 16#00ff).
+
 prop_uint16_t_inverse() ->
     ?FORALL(X, peculium_triq:uint16_t(),
         uint16_t(uint16_t(X)) =:= X).
 
+prop_uint16_t_from_uint32_t() ->
+    ?FORALL(X, peculium_triq:uint32_t(),
+        uint16_t(uint16_t(X)) =:= X band 16#0000ffff).
+
 prop_uint32_t_inverse() ->
     ?FORALL(X, peculium_triq:uint32_t(),
         uint32_t(uint32_t(X)) =:= X).
+
+prop_uint32_t_from_uint64_t() ->
+    ?FORALL(X, peculium_triq:uint64_t(),
+        uint32_t(uint32_t(X)) =:= X band 16#00000000ffffffff).
 
 prop_uint64_t_inverse() ->
     ?FORALL(X, peculium_triq:uint64_t(),
