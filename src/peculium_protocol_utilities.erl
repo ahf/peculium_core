@@ -43,7 +43,7 @@
 -type checksum() :: peculium_types:checksum().
 -type inv_atom() :: peculium_types:inv_atom().
 -type inv_integer() :: peculium_types:inv_integer().
--type bitcoin_command_atom() :: peculium_types:bitcoin_command_atom().
+-type command_atom() :: peculium_types:command_atom().
 
 -type vector_decode_fun() :: fun((Data :: binary()) -> {ok, Item :: any()} | {error, any()}).
 -type dynamic_vector_decode_fun() :: fun((Data :: binary()) -> {ok, Item :: any(), Rest :: binary()} | {error, any()}).
@@ -76,7 +76,7 @@ atom_to_inv(X) ->
     {error, {invalid_inv_atom, X}}.
 
 %% @doc Returns a command atom from a given binary.
--spec command_to_atom(Command :: binary()) -> {ok, bitcoin_command_atom()} | {error, any()}.
+-spec command_to_atom(Command :: binary()) -> {ok, command_atom()} | {error, any()}.
 command_to_atom(Command) ->
     case peculium_utilities:strip(Command, <<0>>) of
         <<"addr">> ->

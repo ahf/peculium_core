@@ -37,7 +37,7 @@
 %% Types.
 -export_type([unit_atom/0, uint8_t/0, uint16_t/0, uint32_t/0,
         uint64_t/0, int8_t/0, int16_t/0, int32_t/0, int64_t/0,
-        network_atom/0, bitcoin_command_atom/0, inv_atom/0,
+        network_atom/0, command_atom/0, inv_atom/0,
         inv_integer/0, inv/0, checksum/0,
         bitcoin_transaction_outpoint/0, bitcoin_transaction_input/0,
         bitcoin_transaction_output/0, network_address/0,
@@ -74,7 +74,7 @@
 
 -type network_atom() :: mainnet | testnet | testnet3.
 
--type bitcoin_command_atom() :: addr | alert | block | checkorder
+-type command_atom() :: addr | alert | block | checkorder
                               | getaddr | getblocks | getdata | getheaders
                               | headers | inv | ping | submitorder
                               | reply | tx | verack | version.

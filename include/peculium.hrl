@@ -80,7 +80,7 @@
 
 -record(bitcoin_message_header, {
     network :: peculium_types:network_atom(),
-    command :: peculium_types:bitcoin_command_atom(),
+    command :: peculium_types:command_atom(),
     length :: peculium_types:uint32_t(),
     checksum :: peculium_types:checksum(),
     valid :: boolean()
