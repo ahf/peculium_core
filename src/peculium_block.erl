@@ -48,12 +48,12 @@
 -module_alias({t, peculium_protocol_types}).
 
 %% @doc Returns the little-endian encoded hash of a given block.
--spec hash(bitcoin_block()) -> binary().
+-spec hash(Block :: bitcoin_block()) -> binary().
 hash(#bitcoin_block { version = Version, previous_block = PreviousBlock, merkle_root = MerkleRoot, timestamp = Timestamp, bits = Bits, nonce = Nonce }) ->
     peculium_crypto:hash([t:uint32_t(Version), PreviousBlock, MerkleRoot, t:uint32_t(Timestamp), t:uint32_t(Bits), t:uint32_t(Nonce)]).
 
 %% @doc Returns the Genesis block from a given network.
--spec genesis_block(bitcoin_network_atom()) -> bitcoin_block().
+-spec genesis_block(Network :: bitcoin_network_atom()) -> bitcoin_block().
 genesis_block(mainnet) ->
     Inputs = [#bitcoin_transaction_input {
         sequence = 16#ffffffff,
@@ -87,33 +87,33 @@ genesis_block(mainnet) ->
         }]
     }.
 
-%% @doc Returns a list of transactions from a given block.
--spec transactions(bitcoin_block()) -> [bitcoin_transaction()].
+%% @doc Returns a list of transactions of a given block.
+-spec transactions(Block :: bitcoin_block()) -> [bitcoin_transaction()].
 transactions(#bitcoin_block { transactions = Transactions }) ->
     Transactions.
 
 %% @doc Returns the version of a given block.
--spec version(bitcoin_block()) -> integer().
+-spec version(Block :: bitcoin_block()) -> integer().
 version(#bitcoin_block { version = Version }) ->
     Version.
 
 %% @doc Returns the root hash of the merkle tree of a given block.
--spec merkle_root(bitcoin_block()) -> binary().
+-spec merkle_root(Block :: bitcoin_block()) -> binary().
 merkle_root(#bitcoin_block { merkle_root = MerkleRoot }) ->
     peculium_utilities:reverse(MerkleRoot).
 
 %% @doc Returns the hash of the previous block of a given block.
--spec previous(bitcoin_block()) -> binary().
+-spec previous(Block :: bitcoin_block()) -> binary().
 previous(#bitcoin_block { previous_block = Previous }) ->
     peculium_utilities:reverse(Previous).
 
-%% @doc Returns the difficulty for the given block.
--spec difficulty(bitcoin_block()) -> number().
+%% @doc Returns the difficulty of a given block.
+-spec difficulty(Block :: bitcoin_block()) -> number().
 difficulty(#bitcoin_block { bits = Bits }) ->
     peculium_difficulty:from_bits(Bits).
 
-%% @doc Returns the block work for the given block.
--spec block_work(bitcoin_block()) -> number().
+%% @doc Returns the block work of a given block.
+-spec block_work(Block :: bitcoin_block()) -> number().
 block_work(#bitcoin_block { bits = Bits }) ->
     peculium_difficulty:block_work(Bits).
 
