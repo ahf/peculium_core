@@ -35,7 +35,8 @@
 
 %% API.
 -export([uint8_t/0, uint16_t/0, uint32_t/0, uint64_t/0, int8_t/0, int16_t/0,
-        int32_t/0, int64_t/0, bitcoin_unit_atom/0]).
+        int32_t/0, int64_t/0, bitcoin_unit_atom/0, binary4/0, binary8/0,
+        binary16/0, binary32/0]).
 
 -include_lib("triq/include/triq.hrl").
 
@@ -83,3 +84,23 @@ int64_t() ->
 -spec bitcoin_unit_atom() -> triq_dom:domain(any()).
 bitcoin_unit_atom() ->
     elements([satoshi, microbitcoin, millibitcoin, centibitcoin, decibitcoin, bitcoin, decabitcoin, hectobitcoin, kilobitcoin, megabitcoin]).
+
+%% @doc The domain of a fixed length 4 byte binary.
+-spec binary4() -> triq_dom:domains(any()).
+binary4() ->
+    binary(4).
+
+%% @doc The domain of a fixed length 8 byte binary.
+-spec binary8() -> triq_dom:domains(any()).
+binary8() ->
+    binary(8).
+
+%% @doc The domain of a fixed length 16 byte binary.
+-spec binary16() -> triq_dom:domains(any()).
+binary16() ->
+    binary(16).
+
+%% @doc The domain of a fixed length 32 byte binary.
+-spec binary32() -> triq_dom:domains(any()).
+binary32() ->
+    binary(32).
