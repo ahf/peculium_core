@@ -39,7 +39,7 @@
     sequence :: peculium_types:uint32_t()
 }).
 
--record(bitcoin_transaction_output, {
+-record(transaction_output, {
     value :: peculium_types:int64_t(),
     script :: binary()
 }).
@@ -64,7 +64,7 @@
 -record(bitcoin_transaction, {
     version :: peculium_types:uint32_t(),
     transaction_inputs :: [peculium_types:transaction_input()],
-    transaction_outputs :: [peculium_types:bitcoin_transaction_output()],
+    transaction_outputs :: [peculium_types:transaction_output()],
     lock_time :: peculium_types:uint32_t()
 }).
 

@@ -39,7 +39,7 @@
 
 %% Types.
 -type transaction_input() :: peculium_types:transaction_input().
--type bitcoin_transaction_output() :: peculium_types:bitcoin_transaction_output().
+-type transaction_output() :: peculium_types:transaction_output().
 -type network_atom() :: peculium_types:network_atom().
 
 -include_lib("peculium/include/peculium.hrl").
@@ -61,7 +61,7 @@ decode_transaction_input_vector(X) ->
             Error
     end.
 
--spec decode_transaction_output_vector(binary()) -> {ok, [bitcoin_transaction_output()], binary()}.
+-spec decode_transaction_output_vector(binary()) -> {ok, [transaction_output()], binary()}.
 decode_transaction_output_vector(X) ->
     case t:var_int(X) of
         {ok, Count, Rest} ->

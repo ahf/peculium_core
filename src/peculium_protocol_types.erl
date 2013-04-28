@@ -56,7 +56,7 @@
 -type bitcoin_block_header() :: peculium_types:bitcoin_block_header().
 -type transaction_outpoint() :: peculium_types:transaction_outpoint().
 -type transaction_input() :: peculium_types:transaction_input().
--type bitcoin_transaction_output() :: peculium_types:bitcoin_transaction_output().
+-type transaction_output() :: peculium_types:transaction_output().
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("kernel/include/inet.hrl").
@@ -252,14 +252,14 @@ transaction_input(#transaction_input { previous_output = PreviousOutput, script 
     {ok, ScriptLength} = var_int(byte_size(Script)),
     [transaction_outpoint(PreviousOutput), ScriptLength, Script, uint32_t(Sequence)].
 
--spec transaction_output(binary()) -> {ok, bitcoin_transaction_output()};
-                        (bitcoin_transaction_output()) -> iolist().
+-spec transaction_output(binary()) -> {ok, transaction_output()};
+                        (transaction_output()) -> iolist().
 transaction_output(<<Value:8/binary, X/binary>>) ->
     case var_int(X) of
         {ok, Length, Rest} ->
             case Rest of
                 <<Script:Length/binary, Rest1/binary>> ->
-                    {ok, #bitcoin_transaction_output {
+                    {ok, #transaction_output {
                         value = int64_t(Value),
                         script = Script
                     }, Rest1};
@@ -269,7 +269,7 @@ transaction_output(<<Value:8/binary, X/binary>>) ->
         Error ->
             Error
     end;
-transaction_output(#bitcoin_transaction_output { value = Value, script = Script }) ->
+transaction_output(#transaction_output { value = Value, script = Script }) ->
     {ok, ScriptLength} = var_int(byte_size(Script)),
     [int64_t(Value), ScriptLength, Script].
 

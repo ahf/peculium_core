@@ -42,7 +42,7 @@
 -type uint32_t() :: peculium_types:uint32_t().
 -type bitcoin_transaction() :: peculium_types:bitcoin_transaction().
 -type transaction_input() :: peculium_types:transaction_input().
--type bitcoin_transaction_output() :: peculium_types:bitcoin_transaction_output().
+-type transaction_output() :: peculium_types:transaction_output().
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
@@ -65,7 +65,7 @@ inputs(#bitcoin_transaction { transaction_inputs = TransactionInputs }) ->
     TransactionInputs.
 
 %% @doc Returns the transaction outputs of a given transaction.
--spec outputs(Transaction :: bitcoin_transaction()) -> [bitcoin_transaction_output()].
+-spec outputs(Transaction :: bitcoin_transaction()) -> [transaction_output()].
 outputs(#bitcoin_transaction { transaction_outputs = TransactionOutputs }) ->
     TransactionOutputs.
 

@@ -153,7 +153,7 @@ encode(#transaction_input { previous_output = PreviousOutput, script = Script, s
         {<<"sequence">>, Sequence}
     ];
 
-encode(#bitcoin_transaction_output { value = Value, script = Script }) ->
+encode(#transaction_output { value = Value, script = Script }) ->
     [
         {<<"value">>, Value},
         {<<"script">>, peculium_utilities:bin2hex(Script)}

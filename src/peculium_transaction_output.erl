@@ -39,17 +39,17 @@
 -export([value/1, script/1]).
 
 %% Types.
--type bitcoin_transaction_output() :: peculium_types:bitcoin_transaction_output().
+-type transaction_output() :: peculium_types:transaction_output().
 -type int64_t() :: peculium_types:int64_t().
 
 -include_lib("peculium/include/peculium.hrl").
 
 %% @doc Returns the value of a given transaction output.
--spec value(TransactionOutput :: bitcoin_transaction_output()) -> int64_t().
-value(#bitcoin_transaction_output { value = Value }) ->
+-spec value(TransactionOutput :: transaction_output()) -> int64_t().
+value(#transaction_output { value = Value }) ->
     Value.
 
 %% @doc Returns the script of a given transaction output.
--spec script(TransactionOutput :: bitcoin_transaction_output()) -> binary().
-script(#bitcoin_transaction_output { script = Script }) ->
+-spec script(TransactionOutput :: transaction_output()) -> binary().
+script(#transaction_output { script = Script }) ->
     Script.
