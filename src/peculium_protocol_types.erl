@@ -61,6 +61,7 @@
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("kernel/include/inet.hrl").
 
+%% Tests.
 -include("peculium_test.hrl").
 
 -spec int8_t(int8_t()) -> integer();
@@ -289,3 +290,39 @@ block(X) ->
         _Otherwise ->
             {error, invalid_block}
     end.
+
+-ifdef(TEST).
+
+prop_uint8_t_inverse() ->
+    ?FORALL(X, peculium_triq:uint8_t(),
+        uint8_t(uint8_t(X)) =:= X).
+
+prop_uint16_t_inverse() ->
+    ?FORALL(X, peculium_triq:uint16_t(),
+        uint16_t(uint16_t(X)) =:= X).
+
+prop_uint32_t_inverse() ->
+    ?FORALL(X, peculium_triq:uint32_t(),
+        uint32_t(uint32_t(X)) =:= X).
+
+prop_uint64_t_inverse() ->
+    ?FORALL(X, peculium_triq:uint64_t(),
+        uint64_t(uint64_t(X)) =:= X).
+
+prop_int8_t_inverse() ->
+    ?FORALL(X, peculium_triq:int8_t(),
+        int8_t(int8_t(X)) =:= X).
+
+prop_int16_t_inverse() ->
+    ?FORALL(X, peculium_triq:int16_t(),
+        int16_t(int16_t(X)) =:= X).
+
+prop_int32_t_inverse() ->
+    ?FORALL(X, peculium_triq:int32_t(),
+        int32_t(int32_t(X)) =:= X).
+
+prop_int64_t_inverse() ->
+    ?FORALL(X, peculium_triq:int64_t(),
+        int64_t(int64_t(X)) =:= X).
+
+-endif.
