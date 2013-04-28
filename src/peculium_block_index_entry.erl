@@ -42,7 +42,7 @@
 
 %% Types.
 -type bitcoin_block() :: peculium_types:bitcoin_block().
--type bitcoin_block_header() :: peculium_types:bitcoin_block_header().
+-type block_header() :: peculium_types:block_header().
 -type block_index_entry() :: peculium_types:block_index_entry().
 
 -include_lib("peculium/include/peculium.hrl").
@@ -125,7 +125,7 @@ block(#block_index_entry { hash = Hash }) ->
     Block.
 
 %% @doc Returns the block header of the given block index entry.
--spec block_header(BlockIndexEntry :: block_index_entry()) -> bitcoin_block_header().
+-spec block_header(BlockIndexEntry :: block_index_entry()) -> block_header().
 block_header(#block_index_entry { block_header = BlockHeader }) ->
     BlockHeader.
 

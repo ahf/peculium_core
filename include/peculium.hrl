@@ -51,7 +51,7 @@
     port :: peculium_types:uint16_t()
 }).
 
--record(bitcoin_block_header, {
+-record(block_header, {
     version :: peculium_types:uint32_t(),
     previous_block :: binary(),
     merkle_root :: binary(),
@@ -126,7 +126,7 @@
 }).
 
 -record(bitcoin_headers_message, {
-    headers :: [peculium_types:bitcoin_block_header()]
+    headers :: [peculium_types:block_header()]
 }).
 
 -record(bitcoin_getblocks_message, {
@@ -201,7 +201,7 @@
     height :: undefined | non_neg_integer(),
 
     %% The block header.
-    block_header :: peculium_types:bitcoin_block_header(),
+    block_header :: peculium_types:block_header(),
 
     %% Number of transactions in this block.
     transaction_count :: non_neg_integer(),

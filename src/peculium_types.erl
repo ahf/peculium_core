@@ -41,7 +41,7 @@
         inv_integer/0, inv/0, checksum/0,
         transaction_outpoint/0, transaction_input/0,
         transaction_output/0, network_address/0,
-        bitcoin_block_header/0, bitcoin_transaction/0, bitcoin_block/0,
+        block_header/0, bitcoin_transaction/0, bitcoin_block/0,
         bitcoin_message_header/0, bitcoin_verack_message/0,
         bitcoin_ping_message/0, bitcoin_getaddr_message/0,
         bitcoin_version_message/0, bitcoin_alert_message/0,
@@ -92,7 +92,7 @@
 
 -opaque network_address() :: #network_address {}.
 
--opaque bitcoin_block_header() :: #bitcoin_block_header {}.
+-opaque block_header() :: #block_header {}.
 
 -opaque bitcoin_transaction() :: #bitcoin_transaction {}.
 

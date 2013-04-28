@@ -53,7 +53,7 @@
 -type uint64_t() :: peculium_types:uint64_t().
 -type network_address() :: peculium_types:network_address().
 -type inv() :: peculium_types:inv().
--type bitcoin_block_header() :: peculium_types:bitcoin_block_header().
+-type block_header() :: peculium_types:block_header().
 -type transaction_outpoint() :: peculium_types:transaction_outpoint().
 -type transaction_input() :: peculium_types:transaction_input().
 -type transaction_output() :: peculium_types:transaction_output().
@@ -207,9 +207,9 @@ inv(#inv { type = Type, hash = Hash }) ->
     {ok, IntType} = peculium_protocol_utilities:atom_to_inv(Type),
     [uint32_t(IntType), Hash].
 
--spec block_header(binary()) -> {ok, bitcoin_block_header()}.
+-spec block_header(binary()) -> {ok, block_header()}.
 block_header(<<RawVersion:4/binary, PreviousBlock:32/binary, MerkleRoot:32/binary, RawTimestamp:4/binary, RawBits:4/binary, RawNonce:4/binary, RawTransactionCount:1/binary>>) ->
-    {ok, #bitcoin_block_header {
+    {ok, #block_header {
         version = uint32_t(RawVersion),
         previous_block = PreviousBlock,
         merkle_root = MerkleRoot,
