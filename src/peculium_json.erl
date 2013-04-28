@@ -76,7 +76,7 @@ encode(#version_message { version = Version, services = Services, timestamp = Ti
         {<<"nonce">>, peculium_utilities:bin2hex(Nonce)}
     ];
 
-encode(#bitcoin_alert_message { payload = Payload, signature = Signature }) ->
+encode(#alert_message { payload = Payload, signature = Signature }) ->
     [
         {<<"payload">>, peculium_utilities:bin2hex(Payload)},
         {<<"signature">>, peculium_utilities:bin2hex(Signature)}

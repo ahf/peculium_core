@@ -104,7 +104,7 @@
     nonce :: binary()
 }).
 
--record(bitcoin_alert_message, {
+-record(alert_message, {
     payload :: binary(),
     signature :: binary()
 }).
@@ -155,7 +155,7 @@
           | peculium_types:ping_message()
           | peculium_types:getaddr_message()
           | peculium_types:version_message()
-          | peculium_types:bitcoin_alert_message()
+          | peculium_types:alert_message()
           | peculium_types:inv_message()
           | peculium_types:bitcoin_getdata_message()
           | peculium_types:bitcoin_notfound_message()

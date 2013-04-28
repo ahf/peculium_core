@@ -184,7 +184,7 @@ decode_message_payload(alert, X) ->
         {ok, Payload, Rest} ->
             case t:var_string(Rest) of
                 {ok, Signature, <<>>} ->
-                    {ok, #bitcoin_alert_message {
+                    {ok, #alert_message {
                         payload = Payload,
                         signature = Signature
                     } };
