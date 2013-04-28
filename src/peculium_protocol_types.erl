@@ -286,8 +286,8 @@ block(X) ->
     %% FIXME: We should move all the block encoding and decoding logic out of
     %% peculium_protocol and into here.
     case peculium_protocol:decode_message_payload(block, X) of
-        {ok, Block} ->
-            {ok, #bitcoin_block_message { block = Block} };
+        {ok, #bitcoin_block_message { block = Block} } ->
+            {ok, Block};
         _Otherwise ->
             {error, invalid_block}
     end.
