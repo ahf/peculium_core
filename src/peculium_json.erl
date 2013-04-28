@@ -121,7 +121,7 @@ encode(#bitcoin_getheaders_message { version = Version, block_locator = BlockLoc
         {<<"hash_stop">>, peculium_utilities:bin2hex(HashStop)}
     ];
 
-encode(#bitcoin_transaction { version = Version, transaction_inputs = Inputs, transaction_outputs = Outputs, lock_time = LockTime }) ->
+encode(#transaction { version = Version, transaction_inputs = Inputs, transaction_outputs = Outputs, lock_time = LockTime }) ->
     [
         {<<"version">>, Version},
         {<<"transaction_inputs">>, lists:map(fun encode/1, Inputs)},

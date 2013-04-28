@@ -61,7 +61,7 @@
     transaction_count :: peculium_types:uint8_t()
 }).
 
--record(bitcoin_transaction, {
+-record(transaction, {
     version :: peculium_types:uint32_t(),
     transaction_inputs :: [peculium_types:transaction_input()],
     transaction_outputs :: [peculium_types:transaction_output()],
@@ -75,7 +75,7 @@
     timestamp :: peculium_types:uint32_t(),
     bits :: peculium_types:uint32_t(),
     nonce :: peculium_types:uint32_t(),
-    transactions :: [peculium_types:bitcoin_transaction()]
+    transactions :: [peculium_types:transaction()]
 }).
 
 -record(bitcoin_message_header, {
@@ -142,7 +142,7 @@
 }).
 
 -record(bitcoin_tx_message, {
-    transaction :: peculium_types:bitcoin_transaction()
+    transaction :: peculium_types:transaction()
 }).
 
 -record(bitcoin_block_message, {

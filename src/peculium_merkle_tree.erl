@@ -39,7 +39,7 @@
 -export([from_transactions/1, from_list/2, hash/1, left/1, right/1]).
 
 %% Types.
--type bitcoin_transaction() :: peculium_types:bitcoin_transaction().
+-type transaction() :: peculium_types:transaction().
 
 -record(merkle_tree_node, {
     hash :: binary(),
@@ -58,7 +58,7 @@
 %% This function takes a list of transactions and returns the root node of the
 %% Merkle tree.
 %% @end
--spec from_transactions(Transactions :: [bitcoin_transaction(), ...]) -> merkle_tree_node().
+-spec from_transactions(Transactions :: [transaction(), ...]) -> merkle_tree_node().
 from_transactions(Transactions) ->
     from_list(lists:map(fun peculium_transaction:hash/1, Transactions), fun peculium_crypto:hash/1).
 

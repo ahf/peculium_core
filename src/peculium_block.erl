@@ -40,7 +40,7 @@
         merkle_root/1, difficulty/1, block_work/1]).
 %% Types.
 -type bitcoin_block() :: peculium_types:bitcoin_block().
--type bitcoin_transaction() :: peculium_types:bitcoin_transaction().
+-type transaction() :: peculium_types:transaction().
 -type network_atom() :: peculium_types:network_atom().
 
 -include_lib("peculium/include/peculium.hrl").
@@ -83,7 +83,7 @@ genesis_block(mainnet) ->
         timestamp = 1231006505,
         bits = 16#1d00ffff,
         nonce = 2083236893,
-        transactions = [#bitcoin_transaction {
+        transactions = [#transaction {
             version = 1,
             transaction_inputs = Inputs,
             transaction_outputs = Outputs,
@@ -92,7 +92,7 @@ genesis_block(mainnet) ->
     }.
 
 %% @doc Returns a list of transactions of a given block.
--spec transactions(Block :: bitcoin_block()) -> [bitcoin_transaction()].
+-spec transactions(Block :: bitcoin_block()) -> [transaction()].
 transactions(#bitcoin_block { transactions = Transactions }) ->
     Transactions.
 

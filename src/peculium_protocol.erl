@@ -75,7 +75,7 @@ decode_transaction(<<Version:4/binary, X/binary>>) ->
         {ok, TransactionInputs, Rest} ->
             case decode_transaction_output_vector(Rest) of
                 {ok, TransactionOutputs, <<LockTime:4/binary, Rest1/binary>>} ->
-                    {ok, #bitcoin_transaction {
+                    {ok, #transaction {
                         version = t:uint32_t(Version),
                         transaction_inputs = TransactionInputs,
                         transaction_outputs = TransactionOutputs,

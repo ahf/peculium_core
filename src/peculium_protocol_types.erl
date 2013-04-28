@@ -273,7 +273,7 @@ transaction_output(#transaction_output { value = Value, script = Script }) ->
     {ok, ScriptLength} = var_int(byte_size(Script)),
     [int64_t(Value), ScriptLength, Script].
 
-transaction(#bitcoin_transaction { version = Version, transaction_inputs = Inputs, transaction_outputs = Outputs, lock_time = LockTime }) ->
+transaction(#transaction { version = Version, transaction_inputs = Inputs, transaction_outputs = Outputs, lock_time = LockTime }) ->
     {ok, InputsLength} = var_int(length(Inputs)),
     {ok, OutputsLength} = var_int(length(Outputs)),
     [uint32_t(Version), InputsLength, lists:map(fun transaction_input/1, Inputs), OutputsLength, lists:map(fun transaction_output/1, Outputs), uint32_t(LockTime)].
