@@ -82,7 +82,7 @@ encode(#bitcoin_alert_message { payload = Payload, signature = Signature }) ->
         {<<"signature">>, peculium_utilities:bin2hex(Signature)}
     ];
 
-encode(#bitcoin_inv_message { inventory = Inventory }) ->
+encode(#inv_message { inventory = Inventory }) ->
     [
         {<<"inventory">>, lists:map(fun encode/1, Inventory)}
     ];
@@ -159,7 +159,7 @@ encode(#bitcoin_transaction_output { value = Value, script = Script }) ->
         {<<"script">>, peculium_utilities:bin2hex(Script)}
     ];
 
-encode(#bitcoin_inv { type = Type, hash = Hash }) ->
+encode(#inv { type = Type, hash = Hash }) ->
     [
         {<<"type">>, atom_to_binary(Type, utf8)},
         {<<"hash">>, peculium_utilities:bin2hex(Hash)}

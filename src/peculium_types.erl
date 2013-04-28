@@ -37,15 +37,15 @@
 %% Types.
 -export_type([bitcoin_unit_atom/0, uint8_t/0, uint16_t/0, uint32_t/0,
         uint64_t/0, int8_t/0, int16_t/0, int32_t/0, int64_t/0,
-        bitcoin_network_atom/0, bitcoin_command_atom/0, bitcoin_inv_atom/0,
-        bitcoin_inv_integer/0, bitcoin_inv/0, bitcoin_checksum/0,
+        bitcoin_network_atom/0, bitcoin_command_atom/0, inv_atom/0,
+        inv_integer/0, inv/0, bitcoin_checksum/0,
         bitcoin_transaction_outpoint/0, bitcoin_transaction_input/0,
         bitcoin_transaction_output/0, bitcoin_network_address/0,
         bitcoin_block_header/0, bitcoin_transaction/0, bitcoin_block/0,
         bitcoin_message_header/0, bitcoin_verack_message/0,
         bitcoin_ping_message/0, bitcoin_getaddr_message/0,
         bitcoin_version_message/0, bitcoin_alert_message/0,
-        bitcoin_inv_message/0, bitcoin_getdata_message/0,
+        inv_message/0, bitcoin_getdata_message/0,
         bitcoin_notfound_message/0, bitcoin_addr_message/0,
         bitcoin_headers_message/0, bitcoin_getblocks_message/0,
         bitcoin_getheaders_message/0, bitcoin_tx_message/0,
@@ -79,10 +79,10 @@
                               | headers | inv | ping | submitorder
                               | reply | tx | verack | version.
 
--type bitcoin_inv_atom() :: error | tx | block.
--type bitcoin_inv_integer() :: 0 | 1 | 2.
+-type inv_atom() :: error | tx | block.
+-type inv_integer() :: 0 | 1 | 2.
 
--opaque bitcoin_inv() :: #bitcoin_inv {}.
+-opaque inv() :: #inv {}.
 
 -opaque bitcoin_transaction_outpoint() :: #bitcoin_transaction_outpoint {}.
 
@@ -110,7 +110,7 @@
 
 -opaque bitcoin_alert_message() :: #bitcoin_alert_message {}.
 
--opaque bitcoin_inv_message() :: #bitcoin_inv_message {}.
+-opaque inv_message() :: #inv_message {}.
 
 -opaque bitcoin_getdata_message() :: #bitcoin_getdata_message {}.
 

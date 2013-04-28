@@ -23,8 +23,8 @@
 %%% OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 %%% OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
--record(bitcoin_inv, {
-    type :: peculium_types:bitcoin_inv_atom(),
+-record(inv, {
+    type :: peculium_types:inv_atom(),
     hash :: binary()
 }).
 
@@ -109,16 +109,16 @@
     signature :: binary()
 }).
 
--record(bitcoin_inv_message, {
-    inventory :: [peculium_types:bitcoin_inv()]
+-record(inv_message, {
+    inventory :: [peculium_types:inv()]
 }).
 
 -record(bitcoin_getdata_message, {
-    inventory :: [peculium_types:bitcoin_inv()]
+    inventory :: [peculium_types:inv()]
 }).
 
 -record(bitcoin_notfound_message, {
-    inventory :: [peculium_types:bitcoin_inv()]
+    inventory :: [peculium_types:inv()]
 }).
 
 -record(bitcoin_addr_message, {
@@ -156,7 +156,7 @@
           | peculium_types:bitcoin_getaddr_message()
           | peculium_types:bitcoin_version_message()
           | peculium_types:bitcoin_alert_message()
-          | peculium_types:bitcoin_inv_message()
+          | peculium_types:inv_message()
           | peculium_types:bitcoin_getdata_message()
           | peculium_types:bitcoin_notfound_message()
           | peculium_types:bitcoin_addr_message()

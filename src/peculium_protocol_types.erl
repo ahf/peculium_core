@@ -52,7 +52,7 @@
 -type uint32_t() :: peculium_types:uint32_t().
 -type uint64_t() :: peculium_types:uint64_t().
 -type bitcoin_network_address() :: peculium_types:bitcoin_network_address().
--type bitcoin_inv() :: peculium_types:bitcoin_inv().
+-type inv() :: peculium_types:inv().
 -type bitcoin_block_header() :: peculium_types:bitcoin_block_header().
 -type bitcoin_transaction_outpoint() :: peculium_types:bitcoin_transaction_outpoint().
 -type bitcoin_transaction_input() :: peculium_types:bitcoin_transaction_input().
@@ -195,15 +195,15 @@ net_addr(Timestamp, Address, Port) ->
 bool(X) ->
     uint8_t(X) =/= 0.
 
--spec inv(binary()) -> {ok, bitcoin_inv()}.
+-spec inv(binary()) -> {ok, inv()}.
 inv(<<Type:4/binary, Hash:32/binary>>) ->
     {ok, TypeAtom} = peculium_protocol_utilities:inv_to_atom(uint32_t(Type)),
-    {ok, #bitcoin_inv {
+    {ok, #inv {
         type = TypeAtom,
         hash = Hash
     } };
 
-inv(#bitcoin_inv { type = Type, hash = Hash }) ->
+inv(#inv { type = Type, hash = Hash }) ->
     {ok, IntType} = peculium_protocol_utilities:atom_to_inv(Type),
     [uint32_t(IntType), Hash].
 

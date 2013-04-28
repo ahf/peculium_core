@@ -41,8 +41,8 @@
 
 %% Types.
 -type bitcoin_checksum() :: peculium_types:bitcoin_checksum().
--type bitcoin_inv_atom() :: peculium_types:bitcoin_inv_atom().
--type bitcoin_inv_integer() :: peculium_types:bitcoin_inv_integer().
+-type inv_atom() :: peculium_types:inv_atom().
+-type inv_integer() :: peculium_types:inv_integer().
 -type bitcoin_command_atom() :: peculium_types:bitcoin_command_atom().
 
 -type vector_decode_fun() :: fun((Data :: binary()) -> {ok, Item :: any()} | {error, any()}).
@@ -54,7 +54,7 @@ checksum(Data) ->
     binary_part(crypto:sha256(crypto:sha256(Data)), {0, 4}).
 
 %% @doc Returns an inv atom from a given integer.
--spec inv_to_atom(InvInteger :: integer()) -> {ok, bitcoin_inv_atom()} | {error, any()}.
+-spec inv_to_atom(InvInteger :: integer()) -> {ok, inv_atom()} | {error, any()}.
 inv_to_atom(0) ->
     {ok, error};
 inv_to_atom(1) ->
@@ -65,7 +65,7 @@ inv_to_atom(X) ->
     {error, {invalid_inv_integer, X}}.
 
 %% @doc Returns an integer from a given inv atom.
--spec atom_to_inv(Inv :: bitcoin_inv_atom()) -> {ok, bitcoin_inv_integer()} | {error, any()}.
+-spec atom_to_inv(Inv :: inv_atom()) -> {ok, inv_integer()} | {error, any()}.
 atom_to_inv(error) ->
     {ok, 0};
 atom_to_inv(tx) ->
