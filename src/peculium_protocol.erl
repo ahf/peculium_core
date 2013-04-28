@@ -25,16 +25,27 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Bitcoin Protocol Message Decoder.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Bitcoin Protocol Message Decoder.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_protocol).
 
+%% API.
 -export([decode/1]).
 -export([decode_message_payload/2]).
+
+%% Types.
+-type bitcoin_transaction_input() :: peculium_types:bitcoin_transaction_input().
+-type bitcoin_transaction_output() :: peculium_types:bitcoin_transaction_output().
+-type bitcoin_network_atom() :: peculium_types:bitcoin_network_atom().
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
 
+%% Feeling a bit lazy :-(
 -module_alias({t, peculium_protocol_types}).
 -module_alias({u, peculium_protocol_utilities}).
 

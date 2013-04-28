@@ -31,7 +31,6 @@
 
 -export([verack/1, getaddr/1, ping/1, version/1, getdata/1, getblocks/1, getheaders/1, block/1]).
 
--include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
 
 -module_alias({t, peculium_protocol_types}).

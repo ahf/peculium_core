@@ -25,17 +25,26 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Bitcoin Block Store Server.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Bitcoin Block Store Server.
+%%% This module contains a `gen_server' server for storing and retrieving
+%%% Bitcoin block's.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_block_store).
 
 %% API.
 -export([start_link/0, exists/1, put/2, delete/1, get/1]).
 
-%% Callbacks.
--export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
+%% Types.
+-type bitcoin_block() :: peculium_types:bitcoin_block().
 
 -include_lib("peculium/include/peculium.hrl").
+
+%% Callbacks.
+-export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
 -define(SERVER, ?MODULE).
 

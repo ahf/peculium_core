@@ -25,18 +25,38 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Bitcoin Protocol Type Encoders and Decoders.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Bitcoin Protocol Type Encoders and Decoders.
+%%% This module contains utilities to encode and decode between types used by
+%%% the Bitcoin protocol.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_protocol_types).
 
--export([int8_t/1, int16_t/1, int32_t/1, int64_t/1]).
--export([uint8_t/1, uint16_t/1, uint32_t/1, uint64_t/1]).
--export([var_int/1, var_string/1]).
--export([net_addr/1, net_addr/2, net_addr/3]).
--export([bool/1]).
--export([inv/1, block_header/1]).
--export([transaction_input/1, transaction_output/1, transaction_outpoint/1]).
--export([transaction/1, block/1]).
+%% API.
+-export([int8_t/1, int16_t/1, int32_t/1, int64_t/1, uint8_t/1, uint16_t/1,
+        uint32_t/1, uint64_t/1, var_int/1, var_string/1, net_addr/1,
+        net_addr/2, net_addr/3, bool/1, inv/1, block_header/1,
+        transaction_input/1, transaction_output/1, transaction_outpoint/1,
+        transaction/1, block/1]).
+
+%% Types.
+-type int8_t() :: peculium_types:int8_t().
+-type int16_t() :: peculium_types:int16_t().
+-type int32_t() :: peculium_types:int32_t().
+-type int64_t() :: peculium_types:int64_t().
+-type uint8_t() :: peculium_types:uint8_t().
+-type uint16_t() :: peculium_types:uint16_t().
+-type uint32_t() :: peculium_types:uint32_t().
+-type uint64_t() :: peculium_types:uint64_t().
+-type bitcoin_network_address() :: peculium_types:bitcoin_network_address().
+-type bitcoin_inv() :: peculium_types:bitcoin_inv().
+-type bitcoin_block_header() :: peculium_types:bitcoin_block_header().
+-type bitcoin_transaction_outpoint() :: peculium_types:bitcoin_transaction_outpoint().
+-type bitcoin_transaction_input() :: peculium_types:bitcoin_transaction_input().
+-type bitcoin_transaction_output() :: peculium_types:bitcoin_transaction_output().
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("kernel/include/inet.hrl").

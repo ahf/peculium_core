@@ -25,19 +25,33 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Peculium's Peer Client server.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Peer Server.
+%%% This module contains a `gen_server' for representing a peer in the Bitcoin
+%%% peer-to-peer network.
+%%%
+%%% We are using a single server to represent both incoming and outgoing
+%%% peers.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_peer).
 
+%% Behaviour.
 -behaviour(gen_server).
 -behaviour(ranch_protocol).
 
--include_lib("peculium/include/peculium.hrl").
-
+%% API.
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 -export([start_link/0, start_link/4]).
 -export([connect/3, send_message/3, stop/1]).
 -export([test_connect/0, test_connect/1]).
+
+%% Types.
+-type bitcoin_version_message() :: peculium_types:bitcoin_version_message().
+
+-include_lib("peculium/include/peculium.hrl").
 
 test_connect() ->
     test_connect({127,0,0,1}).

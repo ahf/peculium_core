@@ -25,21 +25,28 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Utilities for converting between Bitcoin units.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Bitcoin Unit Utilities.
+%%% This module contains utilities to help converting to and from various
+%%% Bitcoin unit types.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_units).
 
 %% API.
 -export([factor/1, convert/3, stringify/1]).
 
+%% Types.
+-type bitcoin_unit_atom() :: peculium_types:bitcoin_unit_atom().
+
 -include_lib("peculium/include/peculium.hrl").
 
--include("peculium_test.hrl").
-
 %% @doc Returns the factor of a given unit.
--spec factor(bitcoin_unit_atom()) -> float().
-factor(X) ->
-    case X of
+-spec factor(Unit :: bitcoin_unit_atom()) -> float().
+factor(Unit) ->
+    case Unit of
         megabitcoin ->
             1000000.0;
         kilobitcoin ->
@@ -63,9 +70,9 @@ factor(X) ->
     end.
 
 %% @doc Convert a unit to a binary.
--spec stringify(bitcoin_unit_atom()) -> binary().
-stringify(X) ->
-    atom_to_binary(X, utf8).
+-spec stringify(Unit :: bitcoin_unit_atom()) -> binary().
+stringify(Unit) ->
+    atom_to_binary(Unit, utf8).
 
 %% @doc Convert a given number from the input unit to the output unit.
 -spec convert(Value :: float(), InputUnit :: bitcoin_unit_atom(), OutputUnit :: bitcoin_unit_atom()) -> float().

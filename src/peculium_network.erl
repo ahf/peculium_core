@@ -25,11 +25,19 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Bitcoin Network Utilities.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Bitcoin Network Utilities.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_network).
 
+%% API.
 -export([magic_value/1, stringify/1]).
+
+%% Types.
+-type bitcoin_network_atom() :: peculium_types:bitcoin_network_atom().
 
 -include_lib("peculium/include/peculium.hrl").
 
@@ -37,7 +45,7 @@
 -include_lib("eunit/include/eunit.hrl").
 -endif.
 
--spec magic_value(bitcoin_network_atom()) -> {ok, binary()} | {error, {invalid_network, any()}}.
+-spec magic_value(Network :: bitcoin_network_atom()) -> {ok, binary()} | {error, any()}.
 magic_value(mainnet) ->
     {ok, binary:encode_unsigned(16#D9B4BEF9, little)};
 magic_value(testnet) ->
@@ -47,7 +55,7 @@ magic_value(testnet3) ->
 magic_value(X) ->
     {error, {invalid_network, X}}.
 
--spec stringify(bitcoin_network_atom()) -> {ok, binary()} | {error, {invalid_network, any()}}.
+-spec stringify(Network :: bitcoin_network_atom()) -> {ok, binary()} | {error, any()}.
 stringify(mainnet) ->
     {ok, <<"mainnet">>};
 stringify(testnet) ->

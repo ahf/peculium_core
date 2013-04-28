@@ -25,12 +25,22 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Bitcoin Transaction Outpoint Utilities.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Bitcoin Transaction Outpoint Utilities.
+%%% This module contains utilities for manipulating and using Bitcoin
+%%% Transaction Outpoint objects.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_transaction_outpoint).
 
 %% API.
 -export([index/1, hash/1]).
+
+%% Types.
+-type uint32_t() :: peculium_types:uint32_t().
+-type bitcoin_transaction_outpoint() :: peculium_types:bitcoin_transaction_outpoint().
 
 -include_lib("peculium/include/peculium.hrl").
 

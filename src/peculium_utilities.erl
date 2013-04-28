@@ -35,8 +35,6 @@
 -export([reverse/1]).
 -export([parallel_map/2]).
 
--include_lib("peculium/include/peculium.hrl").
-
 -include("peculium_test.hrl").
 
 %% @doc Returns the last element of a given list that matches the given predicate.

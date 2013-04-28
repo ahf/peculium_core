@@ -25,16 +25,25 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Bitcoin Block Index Types and Utilities.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Peculium Block Index Entries.
+%%% This module contains utilities for creating, manipulating and using the
+%%% block index entries.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_block_index_entry).
 
 %% API.
--export([from_block/1]).
--export([hash/1, previous/1, previous_index/1, next/1,
-        next_index/1, height/1, block/1, block_header/1,
-        transaction_count/1, total_transaction_count/1,
-        total_chain_work/1, block_work/1]).
+-export([from_block/1, hash/1, previous/1, previous_index/1, next/1,
+        next_index/1, height/1, block/1, block_header/1, transaction_count/1,
+        total_transaction_count/1, total_chain_work/1, block_work/1]).
+
+%% Types.
+-type bitcoin_block() :: peculium_types:bitcoin_block().
+-type bitcoin_block_header() :: peculium_types:bitcoin_block_header().
+-type block_index_entry() :: peculium_types:block_index_entry().
 
 -include_lib("peculium/include/peculium.hrl").
 
@@ -70,7 +79,7 @@ from_block(Block) ->
     }.
 
 %% @doc Returns the hash of the block that the given block index entry points to.
--spec hash(block_index_entry()) -> binary().
+-spec hash(BlockIndexEntry :: block_index_entry()) -> binary().
 hash(#block_index_entry { hash = Hash }) ->
     Hash.
 
@@ -80,7 +89,7 @@ previous(#block_index_entry { previous = Previous }) ->
     Previous.
 
 %% @doc Returns the block index entry of the previous block of a given block index entry.
--spec previous_index(block_index_entry()) -> block_index_entry() | undefined.
+-spec previous_index(BlockIndexEntry :: block_index_entry()) -> block_index_entry() | undefined.
 previous_index(BlockIndexEntry) ->
     case previous(BlockIndexEntry) of
         undefined ->
@@ -90,12 +99,12 @@ previous_index(BlockIndexEntry) ->
     end.
 
 %% @doc Returns the hash of the next block of a given block index entry.
--spec next(block_index_entry()) -> binary() | undefined.
+-spec next(BlockIndexEntry :: block_index_entry()) -> binary() | undefined.
 next(#block_index_entry { next = Next }) ->
     Next.
 
 %% @doc Returns the block index entry of the next block of a given block index entry.
--spec next_index(block_index_entry()) -> block_index_entry() | undefined.
+-spec next_index(BlockIndexEntry :: block_index_entry()) -> block_index_entry() | undefined.
 next_index(BlockIndexEntry) ->
     case next(BlockIndexEntry) of
         undefined ->
@@ -105,37 +114,37 @@ next_index(BlockIndexEntry) ->
     end.
 
 %% @doc Returns the height of a given block index entry.
--spec height(block_index_entry()) -> non_neg_integer().
+-spec height(BlockIndexEntry :: block_index_entry()) -> non_neg_integer().
 height(#block_index_entry { height = Height }) ->
     Height.
 
 %% @doc Returns the block of a given block index entry.
--spec block(block_index_entry()) -> bitcoin_block().
+-spec block(BlockIndexEntry :: block_index_entry()) -> bitcoin_block().
 block(#block_index_entry { hash = Hash }) ->
     {ok, Block} = peculium_block_store:get(Hash),
     Block.
 
 %% @doc Returns the block header of the given block index entry.
--spec block_header(block_index_entry()) -> bitcoin_block_header().
+-spec block_header(BlockIndexEntry :: block_index_entry()) -> bitcoin_block_header().
 block_header(#block_index_entry { block_header = BlockHeader }) ->
     BlockHeader.
 
 %% @doc Returns the transaction count of the given block index entry.
--spec transaction_count(block_index_entry()) -> non_neg_integer().
+-spec transaction_count(BlockIndexEntry :: block_index_entry()) -> non_neg_integer().
 transaction_count(#block_index_entry { transaction_count = TransactionCount }) ->
     TransactionCount.
 
 %% @doc Returns the total number of transactions in the block chain including this block.
--spec total_transaction_count(block_index_entry()) -> non_neg_integer().
+-spec total_transaction_count(BlockIndexEntry :: block_index_entry()) -> non_neg_integer().
 total_transaction_count(#block_index_entry { total_transaction_count = TotalTransactionCount }) ->
     TotalTransactionCount.
 
 %% @doc Returns the total amount of work in the chain including the work in this block.
--spec total_chain_work(block_index_entry()) -> non_neg_integer().
+-spec total_chain_work(BlockIndexEntry :: block_index_entry()) -> non_neg_integer().
 total_chain_work(#block_index_entry { total_chain_work = TotalChainWork }) ->
     TotalChainWork.
 
 %% @doc Calculates the amount of work in the current block.
--spec block_work(block_index_entry()) -> float().
+-spec block_work(BlockIndexEntry :: block_index_entry()) -> float().
 block_work(#block_index_entry { block_header = BlockHeader }) ->
     peculium_block_header:block_work(BlockHeader).

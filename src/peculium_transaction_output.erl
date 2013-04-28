@@ -25,12 +25,22 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Bitcoin Transaction Output Utilities.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Bitcoin Transaction Output Utilities.
+%%% This module contains utilities for manipulating and using transaction
+%%% output objects.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_transaction_output).
 
 %% API.
 -export([value/1, script/1]).
+
+%% Types.
+-type bitcoin_transaction_output() :: peculium_types:bitcoin_transaction_output().
+-type int64_t() :: peculium_types:int64_t().
 
 -include_lib("peculium/include/peculium.hrl").
 

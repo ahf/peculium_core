@@ -25,14 +25,20 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Bitcoin Difficulty Utilities.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Bitcoin Difficulty Utilities.
+%%% This module contains utilities for calculating the Bitcoin difficulty.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_difficulty).
 
 %% API.
 -export([from_bits/1, block_work/1]).
 
--include_lib("peculium/include/peculium.hrl").
+%% Types.
+-type uint32_t() :: peculium_types:uint32_t().
 
 %% @doc Calculates the difficulty from the compact bits representation.
 -spec from_bits(Bits :: uint32_t()) -> number().
@@ -46,7 +52,7 @@ block_work(Bits) ->
     (1 bsl 256) / (Target + 1).
 
 %% @private
--spec difficulty(uint32_t()) -> number().
+-spec difficulty(Compact :: uint32_t()) -> number().
 difficulty(Compact) ->
     %% FIXME: This function could easily be optimized using
     %% shift operators instead of the pow call.

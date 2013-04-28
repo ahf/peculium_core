@@ -33,9 +33,7 @@
 -export([from_best_block/0, from_height/1]).
 
 %% Types.
--export_type([block_locator/0]).
-
--type block_locator() :: [binary()].
+-type block_locator() :: peculium_types:block_locator().
 
 %% @doc Create block locator from the best block.
 -spec from_best_block() -> block_locator().

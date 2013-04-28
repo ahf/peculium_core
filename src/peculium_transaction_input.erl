@@ -25,12 +25,23 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Bitcoin Transaction Input Utilities.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Bitcoin Transaction Input Utilities.
+%%% This module contains utilities for manipulating and using Bitcoin
+%%% Transaction Input objects.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_transaction_input).
 
 %% API.
 -export([previous_output/1, script/1, sequence/1]).
+
+%% Types.
+-type uint32_t() :: peculium_types:uint32_t().
+-type bitcoin_transaction_input() :: peculium_types:bitcoin_transaction_input().
+-type bitcoin_transaction_outpoint() :: peculium_types:bitcoin_transaction_outpoint().
 
 -include_lib("peculium/include/peculium.hrl").
 

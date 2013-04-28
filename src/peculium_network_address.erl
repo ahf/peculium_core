@@ -25,12 +25,24 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Bitcoin Network Address Utilities.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Bitcoin Network Address Utilities.
+%%% This module contains utilities for manipulating and using Network Address
+%%% objects.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_network_address).
 
 %% API.
 -export([time/1, services/1, address/1, port/1]).
+
+%% Types.
+-type uint32_t() :: peculium_types:uint32_t().
+-type uint16_t() :: peculium_types:uint16_t().
+-type uint64_t() :: peculium_types:uint64_t().
+-type bitcoin_network_address() :: peculium_types:bitcoin_network_address().
 
 -include_lib("peculium/include/peculium.hrl").
 

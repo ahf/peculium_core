@@ -25,19 +25,21 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Utilities for creating and interfacing with Merkle tree's.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Merkle Tree Utilities.
+%%% This module contains utilities for creating and traversing Merkle Tree's.
+%%% objects.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_merkle_tree).
 
 %% API.
--export([from_transactions/1, from_list/2]).
--export([hash/1, left/1, right/1]).
+-export([from_transactions/1, from_list/2, hash/1, left/1, right/1]).
 
--include_lib("peculium/include/peculium.hrl").
-
--ifdef(TEST).
--include_lib("eunit/include/eunit.hrl").
--endif.
+%% Types.
+-type bitcoin_transaction() :: peculium_types:bitcoin_transaction().
 
 -record(merkle_tree_node, {
     hash :: binary(),
@@ -48,11 +50,17 @@
 -type merkle_tree_node() :: #merkle_tree_node {} | binary() | undefined.
 -type hash_function() :: fun((binary()) -> binary()).
 
+-include_lib("peculium/include/peculium.hrl").
+
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+-endif.
+
 %% @doc Create a Merkle tree from a list of transactions.
 %% This function takes a list of transactions and returns the root node of the
 %% Merkle tree.
 %% @end
--spec from_transactions([bitcoin_transaction(), ...]) -> merkle_tree_node().
+-spec from_transactions(Transactions :: [bitcoin_transaction(), ...]) -> merkle_tree_node().
 from_transactions(Transactions) ->
     from_list(lists:map(fun peculium_transaction:hash/1, Transactions), fun peculium_crypto:hash/1).
 
@@ -60,27 +68,27 @@ from_transactions(Transactions) ->
 %% This function takes a list of leaves and a hash function and returns the
 %% root node of the Merkle tree.
 %% @end
--spec from_list([binary(), ...], hash_function()) -> merkle_tree_node().
+-spec from_list(Binaries :: [binary(), ...], hash_function()) -> merkle_tree_node().
 from_list(Hashes, Hash) when is_list(Hashes) ->
     from_list(Hashes, [], Hash).
 
 %% @doc Utility function for reading the hash of a given Merkle tree node.
--spec hash(merkle_tree_node()) -> binary().
+-spec hash(TreeNode :: merkle_tree_node()) -> binary().
 hash(#merkle_tree_node { hash = Hash }) ->
     Hash.
 
 %% @doc Utility function for reading the left child of a given Merkle tree node.
--spec left(merkle_tree_node()) -> merkle_tree_node().
+-spec left(TreeNode :: merkle_tree_node()) -> merkle_tree_node().
 left(#merkle_tree_node { left = LeftChild }) ->
     LeftChild.
 
 %% @doc Utility function for reading the right child of a given Merkle tree node.
--spec right(merkle_tree_node()) -> merkle_tree_node().
+-spec right(TreeNode :: merkle_tree_node()) -> merkle_tree_node().
 right(#merkle_tree_node { right = RightChild }) ->
     RightChild.
 
 %% @private
--spec from_list([binary(), ...], [merkle_tree_node()], hash_function()) -> merkle_tree_node().
+-spec from_list(Binaries :: [binary(), ...], TreeNodes :: [merkle_tree_node()], HashFun :: hash_function()) -> merkle_tree_node().
 from_list([], Result, Hash) ->
     case Result of
         [Node] ->
@@ -101,7 +109,7 @@ from_list([A, B | Rest], Result, Hash) ->
     from_list(Rest, [merkle_tree_node(A, B, Hash) | Result], Hash).
 
 %% @private
--spec merkle_tree_node(merkle_tree_node(), merkle_tree_node(), hash_function()) -> merkle_tree_node().
+-spec merkle_tree_node(TreeNodeA :: merkle_tree_node(), TreeNodeB :: merkle_tree_node(), HashFun :: hash_function()) -> merkle_tree_node().
 merkle_tree_node(#merkle_tree_node { hash = A } = NodeA, #merkle_tree_node { hash = B } = NodeB, Hash) ->
     HashA = peculium_utilities:reverse(A),
     HashB = peculium_utilities:reverse(B),
@@ -120,7 +128,7 @@ merkle_tree_node(A, B, Hash) when is_binary(A), is_binary(B) ->
     }.
 
 %% @private
--spec merkle_tree_node(binary()) -> merkle_tree_node().
+-spec merkle_tree_node(Leaf :: binary()) -> merkle_tree_node().
 merkle_tree_node(A) ->
     #merkle_tree_node {
         hash = A,

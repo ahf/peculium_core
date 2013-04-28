@@ -25,12 +25,24 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Bitcoin Transaction Utilities.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Bitcoin Transaction Utilities.
+%%% This module contains utilities for manipulating and using Bitcoin
+%%% Transaction objects.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_transaction).
 
 %% API.
 -export([hash/1, inputs/1, outputs/1, version/1, lock_time/1, is_coinbase/1]).
+
+%% Types.
+-type uint32_t() :: peculium_types:uint32_t().
+-type bitcoin_transaction() :: peculium_types:bitcoin_transaction().
+-type bitcoin_transaction_input() :: peculium_types:bitcoin_transaction_input().
+-type bitcoin_transaction_output() :: peculium_types:bitcoin_transaction_output().
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
@@ -38,7 +50,7 @@
 -module_alias({t, peculium_protocol_types}).
 
 %% @doc Returns the hash of a given transaction.
--spec hash(bitcoin_transaction()) -> binary().
+-spec hash(Transaction :: bitcoin_transaction()) -> binary().
 hash(#bitcoin_transaction { version = Version, transaction_inputs = Inputs, transaction_outputs = Outputs, lock_time = LockTime }) ->
     {ok, InputsLength} = t:var_int(length(Inputs)),
     InputsBin = lists:map(fun peculium_protocol_types:transaction_input/1, Inputs),
@@ -48,22 +60,22 @@ hash(#bitcoin_transaction { version = Version, transaction_inputs = Inputs, tran
     peculium_crypto:hash(Data).
 
 %% @doc Returns the transaction inputs of a given transaction.
--spec inputs(bitcoin_transaction()) -> [bitcoin_transaction_input()].
+-spec inputs(Transaction :: bitcoin_transaction()) -> [bitcoin_transaction_input()].
 inputs(#bitcoin_transaction { transaction_inputs = TransactionInputs }) ->
     TransactionInputs.
 
 %% @doc Returns the transaction outputs of a given transaction.
--spec outputs(bitcoin_transaction()) -> [bitcoin_transaction_output()].
+-spec outputs(Transaction :: bitcoin_transaction()) -> [bitcoin_transaction_output()].
 outputs(#bitcoin_transaction { transaction_outputs = TransactionOutputs }) ->
     TransactionOutputs.
 
 %% @doc Returns the version of a given transaction.
--spec version(bitcoin_transaction()) -> uint32_t().
+-spec version(Transaction :: bitcoin_transaction()) -> uint32_t().
 version(#bitcoin_transaction { version = Version }) ->
     Version.
 
 %% @doc Returns the lock time of a given transaction.
--spec lock_time(bitcoin_transaction()) -> uint32_t().
+-spec lock_time(Transaction :: bitcoin_transaction()) -> uint32_t().
 lock_time(#bitcoin_transaction { lock_time = LockTime }) ->
     LockTime.
 

@@ -25,7 +25,12 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Bitcoin Block Index Server.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Bitcoin Block Index Server.
+%%% This module contains a `gen_server' server for the block index.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_block_index).
 

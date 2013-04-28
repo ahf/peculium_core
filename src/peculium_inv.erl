@@ -25,32 +25,41 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Bitcoin Inv Utilities.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Bitcoin Inv Utilities.
+%%% This module contains utilities for manipulating and using Inv objects.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_inv).
 
 %% API.
 -export([type/1, hash/1, is_transaction/1, is_block/1, unknown_invs/1, known/1, unknown/1]).
 
+%% Types.
+-type bitcoin_inv() :: peculium_types:bitcoin_inv().
+-type bitcoin_inv_atom() :: peculium_types:bitcoin_inv_atom().
+
 -include_lib("peculium/include/peculium.hrl").
 
 %% @doc Returns the type of a given inv.
--spec type(bitcoin_inv()) -> bitcoin_inv_atom().
+-spec type(Inv :: bitcoin_inv()) -> bitcoin_inv_atom().
 type(#bitcoin_inv { type = Type }) ->
     Type.
 
 %% @doc Returns the hash of a given inv.
--spec hash(bitcoin_inv()) -> binary().
+-spec hash(Inv :: bitcoin_inv()) -> binary().
 hash(#bitcoin_inv { hash = Hash }) ->
     Hash.
 
 %% @doc Checks if a given inv is a transaction.
--spec is_transaction(bitcoin_inv()) -> boolean().
+-spec is_transaction(Inv :: bitcoin_inv()) -> boolean().
 is_transaction(Inv) ->
     type(Inv) =:= tx.
 
 %% @doc Checks if a given inv is a block.
--spec is_block(bitcoin_inv()) -> boolean().
+-spec is_block(Inv :: bitcoin_inv()) -> boolean().
 is_block(Inv) ->
     type(Inv) =:= block.
 
