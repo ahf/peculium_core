@@ -41,7 +41,7 @@
 %% Types.
 -type uint32_t() :: peculium_types:uint32_t().
 -type bitcoin_transaction() :: peculium_types:bitcoin_transaction().
--type bitcoin_transaction_input() :: peculium_types:bitcoin_transaction_input().
+-type transaction_input() :: peculium_types:transaction_input().
 -type bitcoin_transaction_output() :: peculium_types:bitcoin_transaction_output().
 
 -include_lib("peculium/include/peculium.hrl").
@@ -60,7 +60,7 @@ hash(#bitcoin_transaction { version = Version, transaction_inputs = Inputs, tran
     peculium_crypto:hash(Data).
 
 %% @doc Returns the transaction inputs of a given transaction.
--spec inputs(Transaction :: bitcoin_transaction()) -> [bitcoin_transaction_input()].
+-spec inputs(Transaction :: bitcoin_transaction()) -> [transaction_input()].
 inputs(#bitcoin_transaction { transaction_inputs = TransactionInputs }) ->
     TransactionInputs.
 

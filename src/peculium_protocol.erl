@@ -38,7 +38,7 @@
 -export([decode_message_payload/2]).
 
 %% Types.
--type bitcoin_transaction_input() :: peculium_types:bitcoin_transaction_input().
+-type transaction_input() :: peculium_types:transaction_input().
 -type bitcoin_transaction_output() :: peculium_types:bitcoin_transaction_output().
 -type network_atom() :: peculium_types:network_atom().
 
@@ -52,7 +52,7 @@
 %% Tests.
 -include("peculium_test.hrl").
 
--spec decode_transaction_input_vector(binary()) -> {ok, [bitcoin_transaction_input()], binary()}.
+-spec decode_transaction_input_vector(binary()) -> {ok, [transaction_input()], binary()}.
 decode_transaction_input_vector(X) ->
     case t:var_int(X) of
         {ok, Count, Rest} ->

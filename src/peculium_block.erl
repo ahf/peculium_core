@@ -59,7 +59,7 @@ hash(#bitcoin_block { version = Version, previous_block = PreviousBlock, merkle_
 %% @doc Returns the Genesis block from a given network.
 -spec genesis_block(Network :: network_atom()) -> bitcoin_block().
 genesis_block(mainnet) ->
-    Inputs = [#bitcoin_transaction_input {
+    Inputs = [#transaction_input {
         sequence = 16#ffffffff,
         previous_output = #transaction_outpoint {
             index = 16#ffffffff,

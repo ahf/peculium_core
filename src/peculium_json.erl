@@ -146,7 +146,7 @@ encode(#transaction_outpoint { index = Index, hash = Hash }) ->
         {<<"hash">>, peculium_utilities:bin2hex(Hash)}
     ];
 
-encode(#bitcoin_transaction_input { previous_output = PreviousOutput, script = Script, sequence = Sequence }) ->
+encode(#transaction_input { previous_output = PreviousOutput, script = Script, sequence = Sequence }) ->
     [
         {<<"previous_output">>, encode(PreviousOutput)},
         {<<"script">>, peculium_utilities:bin2hex(Script)},
