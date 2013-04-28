@@ -40,9 +40,9 @@
         bits/1, nonce/1, transaction_count/1, difficulty/1, block_work/1]).
 
 %% Types.
+-type hash() :: peculium_types:hash().
 -type block() :: peculium_types:block().
 -type block_header() :: peculium_types:block_header().
-
 -type uint8_t() :: peculium_types:uint8_t().
 -type uint32_t() :: peculium_types:uint32_t().
 
@@ -67,12 +67,12 @@ version(#block_header { version = Version }) ->
     Version.
 
 %% @doc Returns the hash of the previous block of a given block header.
--spec previous(BlockHeader :: block_header()) -> binary().
+-spec previous(BlockHeader :: block_header()) -> hash().
 previous(#block_header { previous_block = PreviousBlock }) ->
     peculium_utilities:reverse(PreviousBlock).
 
 %% @doc Returns the root hash of the merkle tree of a given block header.
--spec merkle_root(BlockHeader :: block_header()) -> binary().
+-spec merkle_root(BlockHeader :: block_header()) -> hash().
 merkle_root(#block_header { merkle_root = MerkleRoot }) ->
     peculium_utilities:reverse(MerkleRoot).
 

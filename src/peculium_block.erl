@@ -39,6 +39,7 @@
 -export([hash/1, genesis_block/1, transactions/1, previous/1, version/1,
         merkle_root/1, difficulty/1, block_work/1]).
 %% Types.
+-type hash() :: peculium_types:hash().
 -type block() :: peculium_types:block().
 -type transaction() :: peculium_types:transaction().
 -type network_atom() :: peculium_types:network_atom().
@@ -46,13 +47,14 @@
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
 
+%% Tests.
 -include("peculium_test.hrl").
 
 %% Feeling a bit lazy :-(
 -module_alias({t, peculium_protocol_types}).
 
 %% @doc Returns the little-endian encoded hash of a given block.
--spec hash(Block :: block()) -> binary().
+-spec hash(Block :: block()) -> hash().
 hash(#block { version = Version, previous_block = PreviousBlock, merkle_root = MerkleRoot, timestamp = Timestamp, bits = Bits, nonce = Nonce }) ->
     peculium_crypto:hash([t:uint32_t(Version), PreviousBlock, MerkleRoot, t:uint32_t(Timestamp), t:uint32_t(Bits), t:uint32_t(Nonce)]).
 
@@ -102,12 +104,12 @@ version(#block { version = Version }) ->
     Version.
 
 %% @doc Returns the root hash of the merkle tree of a given block.
--spec merkle_root(Block :: block()) -> binary().
+-spec merkle_root(Block :: block()) -> hash().
 merkle_root(#block { merkle_root = MerkleRoot }) ->
     peculium_utilities:reverse(MerkleRoot).
 
 %% @doc Returns the hash of the previous block of a given block.
--spec previous(Block :: block()) -> binary().
+-spec previous(Block :: block()) -> hash().
 previous(#block { previous_block = Previous }) ->
     peculium_utilities:reverse(Previous).
 

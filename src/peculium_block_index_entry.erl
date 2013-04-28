@@ -41,6 +41,7 @@
         total_transaction_count/1, total_chain_work/1, block_work/1]).
 
 %% Types.
+-type hash() :: peculium_types:hash().
 -type block() :: peculium_types:block().
 -type block_header() :: peculium_types:block_header().
 -type block_index_entry() :: peculium_types:block_index_entry().
@@ -79,12 +80,12 @@ from_block(Block) ->
     }.
 
 %% @doc Returns the hash of the block that the given block index entry points to.
--spec hash(BlockIndexEntry :: block_index_entry()) -> binary().
+-spec hash(BlockIndexEntry :: block_index_entry()) -> hash().
 hash(#block_index_entry { hash = Hash }) ->
     Hash.
 
 %% @doc Returns the hash of the previous block of a given block index entry.
--spec previous(block_index_entry()) -> binary() | undefined.
+-spec previous(block_index_entry()) -> hash() | undefined.
 previous(#block_index_entry { previous = Previous }) ->
     Previous.
 
@@ -99,7 +100,7 @@ previous_index(BlockIndexEntry) ->
     end.
 
 %% @doc Returns the hash of the next block of a given block index entry.
--spec next(BlockIndexEntry :: block_index_entry()) -> binary() | undefined.
+-spec next(BlockIndexEntry :: block_index_entry()) -> hash() | undefined.
 next(#block_index_entry { next = Next }) ->
     Next.
 

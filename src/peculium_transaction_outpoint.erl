@@ -39,8 +39,9 @@
 -export([index/1, hash/1]).
 
 %% Types.
--type uint32_t() :: peculium_types:uint32_t().
+-type hash() :: peculium_types:hash().
 -type transaction_outpoint() :: peculium_types:transaction_outpoint().
+-type uint32_t() :: peculium_types:uint32_t().
 
 -include_lib("peculium/include/peculium.hrl").
 
@@ -50,6 +51,6 @@ index(#transaction_outpoint { index = Index }) ->
     Index.
 
 %% @doc Returns the hash of a given outpoint.
--spec hash(Outpoint :: transaction_outpoint()) -> binary().
+-spec hash(Outpoint :: transaction_outpoint()) -> hash().
 hash(#transaction_outpoint { hash = Hash }) ->
     Hash.

@@ -40,9 +40,8 @@
 %% Callbacks.
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
--include_lib("peculium/include/peculium.hrl").
-
--define(SERVER, ?MODULE).
+%% Types.
+-type hash() :: peculium_types:hash().
 
 -record(state, {
     %% Hash to block_index_entry mapping.
@@ -52,15 +51,19 @@
     height_map :: ets:tid(),
 
     %% The hash of the current best block.
-    best_block_hash = undefined :: binary() | undefined
+    best_block_hash = undefined :: hash() | undefined
 }).
+
+-include_lib("peculium/include/peculium.hrl").
+
+-define(SERVER, ?MODULE).
 
 %% @doc Start Block Index Server.
 start_link() ->
     gen_server:start_link({local, ?SERVER}, ?MODULE, [], []).
 
 %% @doc Check if a given hash exists in the index.
--spec exists(Hash :: binary()) -> boolean().
+-spec exists(Hash :: hash()) -> boolean().
 exists(Hash) ->
     gen_server:call(?SERVER, {exists, Hash}).
 
@@ -83,7 +86,7 @@ best_block_height() ->
     end.
 
 %% @doc Get block hash from height.
--spec height_to_hash(non_neg_integer()) -> {ok, binary()} | {error, any()}.
+-spec height_to_hash(non_neg_integer()) -> {ok, hash()} | {error, any()}.
 height_to_hash(Height) ->
     gen_server:call(?SERVER, {height_to_hash, Height}).
 

@@ -35,22 +35,16 @@
 -module(peculium_types).
 
 %% Types.
--export_type([unit_atom/0, uint8_t/0, uint16_t/0, uint32_t/0,
-        uint64_t/0, int8_t/0, int16_t/0, int32_t/0, int64_t/0,
-        network_atom/0, command_atom/0, inv_atom/0,
-        inv_integer/0, inv/0, checksum/0,
-        transaction_outpoint/0, transaction_input/0,
-        transaction_output/0, network_address/0,
-        block_header/0, transaction/0, block/0,
-        message_header/0, verack_message/0,
-        ping_message/0, getaddr_message/0,
-        version_message/0, alert_message/0,
-        inv_message/0, getdata_message/0,
-        notfound_message/0, addr_message/0,
-        headers_message/0, getblocks_message/0,
-        getheaders_message/0, tx_message/0,
-        block_message/0, message/0, block_index_entry/0,
-        block_locator/0]).
+-export_type([unit_atom/0, uint8_t/0, uint16_t/0, uint32_t/0, uint64_t/0,
+        int8_t/0, int16_t/0, int32_t/0, int64_t/0, network_atom/0,
+        command_atom/0, inv_atom/0, inv_integer/0, inv/0, checksum/0, hash/0,
+        transaction_outpoint/0, transaction_input/0, transaction_output/0,
+        network_address/0, block_header/0, transaction/0, block/0,
+        message_header/0, verack_message/0, ping_message/0, getaddr_message/0,
+        version_message/0, alert_message/0, inv_message/0, getdata_message/0,
+        notfound_message/0, addr_message/0, headers_message/0,
+        getblocks_message/0, getheaders_message/0, tx_message/0,
+        block_message/0, message/0, block_index_entry/0, block_locator/0]).
 
 -include_lib("peculium/include/peculium.hrl").
 
@@ -70,7 +64,9 @@
 
 -type checksum() :: <<_:32>>.
 
--type block_locator() :: [checksum()].
+-type hash() :: <<_:256>>.
+
+-type block_locator() :: [hash()].
 
 -type network_atom() :: mainnet | testnet | testnet3.
 

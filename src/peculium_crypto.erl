@@ -36,10 +36,14 @@
 %% API.
 -export([hash/1]).
 
+%% Types.
+-type hash() :: peculium_types:hash().
+
+%% Tests.
 -include("peculium_test.hrl").
 
 %% @doc Returns the double SHA256 checksum of a given input.
--spec hash(Data :: iolist()) -> binary().
+-spec hash(Data :: iolist()) -> hash().
 hash(Data) ->
     peculium_utilities:reverse(crypto:sha256(crypto:sha256(Data))).
 

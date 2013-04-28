@@ -40,6 +40,7 @@
 
 %% Types.
 -type block() :: peculium_types:block().
+-type hash() :: peculium_types:hash().
 
 -include_lib("peculium/include/peculium.hrl").
 
@@ -53,22 +54,22 @@
 }).
 
 %% @doc Check if a given block exists in the store.
--spec exists(Hash :: binary()) -> boolean().
+-spec exists(Hash :: hash()) -> boolean().
 exists(Hash) ->
     gen_server:call(?SERVER, {exists, Hash}).
 
 %% @doc Insert block.
--spec put(Hash :: binary(), Block :: block()) -> ok.
+-spec put(Hash :: hash(), Block :: block()) -> ok.
 put(Hash, Block)->
     gen_server:call(?SERVER, {put, Hash, Block}, infinity).
 
 %% @doc Delete block.
--spec delete(Hash :: binary()) -> ok.
+-spec delete(Hash :: hash()) -> ok.
 delete(Hash) ->
     gen_server:cast(?SERVER, {delete, Hash}).
 
 %% @doc Get block.
--spec get(Hash :: binary()) -> {ok, block()} | {error, not_found}.
+-spec get(Hash :: hash()) -> {ok, block()} | {error, not_found}.
 get(Hash) ->
     gen_server:call(?SERVER, {get, Hash}).
 

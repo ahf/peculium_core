@@ -39,10 +39,11 @@
 -export([hash/1, inputs/1, outputs/1, version/1, lock_time/1, is_coinbase/1]).
 
 %% Types.
--type uint32_t() :: peculium_types:uint32_t().
+-type hash() :: peculium_types:hash().
 -type transaction() :: peculium_types:transaction().
 -type transaction_input() :: peculium_types:transaction_input().
 -type transaction_output() :: peculium_types:transaction_output().
+-type uint32_t() :: peculium_types:uint32_t().
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
@@ -50,7 +51,7 @@
 -module_alias({t, peculium_protocol_types}).
 
 %% @doc Returns the hash of a given transaction.
--spec hash(Transaction :: transaction()) -> binary().
+-spec hash(Transaction :: transaction()) -> hash().
 hash(#transaction { version = Version, transaction_inputs = Inputs, transaction_outputs = Outputs, lock_time = LockTime }) ->
     {ok, InputsLength} = t:var_int(length(Inputs)),
     InputsBin = lists:map(fun peculium_protocol_types:transaction_input/1, Inputs),
