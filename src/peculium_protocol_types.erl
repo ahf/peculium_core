@@ -267,7 +267,7 @@ block(X) ->
     %% peculium_protocol and into here.
     case peculium_protocol:decode_message_payload(block, X) of
         {ok, Block} ->
-            {ok, Block};
+            {ok, #bitcoin_block_message { block = Block} };
         _Otherwise ->
             {error, invalid_block}
     end.
