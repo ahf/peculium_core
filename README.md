@@ -52,7 +52,13 @@ Download our dependencies:
 $ make get-deps
 ```
 
-And finally, build Peculium itself:
+Compile our dependencies and Peculium itself:
+
+```
+$ make build-deps
+```
+
+From now on, you can (re)build Peculium using:
 
 ```
 $ make

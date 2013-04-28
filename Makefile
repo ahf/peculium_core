@@ -6,10 +6,13 @@ all: compile
 test: eunit
 
 compile:
-	rebar compile
+	rebar compile skip_deps=true
 
 get-deps:
 	rebar get-deps
+
+build-deps:
+	rebar compile
 
 clean:
 	rebar clean
@@ -45,5 +48,5 @@ dialyzer:
 clean_plt:
 	rm $PLT
 
-.PHONY: all get-deps compile clean eunit doc test \
-	    dialyzer check_plt build_plt clean_plt
+.PHONY: all get-deps build-deps compile clean eunit doc test dialyzer \
+	check_plt build_plt clean_plt
