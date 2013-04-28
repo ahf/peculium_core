@@ -7,15 +7,30 @@
 * [Function Details](#functions)
 
 
-       Utilities for creating and interfacing with Merkle tree's.
+Merkle Tree Utilities.
+Copyright (c)  2013 Fearless Hamster Solutions
+
 __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 <a name="description"></a>
 
 ## Description ##
-   ----------------------------------------------------------------------------
+   This module contains utilities for creating and traversing Merkle Tree's.
+objects.
 <a name="types"></a>
 
 ## Data Types ##
+
+
+
+
+### <a name="type-bitcoin_transaction">bitcoin_transaction()</a> ###
+
+
+
+<pre><code>
+bitcoin_transaction() = <a href="peculium_types.md#type-bitcoin_transaction">peculium_types:bitcoin_transaction()</a>
+</code></pre>
+
 
 
 
@@ -59,7 +74,7 @@ merkle_tree_node() = #merkle_tree_node{} | binary() | undefined
 
 
 <pre><code>
-from_list(Hashes::[binary(), ...], Hash::<a href="#type-hash_function">hash_function()</a>) -&gt; <a href="#type-merkle_tree_node">merkle_tree_node()</a>
+from_list(Binaries::[binary(), ...], Hash::<a href="#type-hash_function">hash_function()</a>) -&gt; <a href="#type-merkle_tree_node">merkle_tree_node()</a>
 </code></pre>
 
 <br></br>
@@ -89,7 +104,7 @@ Merkle tree.
 
 
 <pre><code>
-hash(Merkle_tree_node::<a href="#type-merkle_tree_node">merkle_tree_node()</a>) -&gt; binary()
+hash(TreeNode::<a href="#type-merkle_tree_node">merkle_tree_node()</a>) -&gt; binary()
 </code></pre>
 
 <br></br>
@@ -102,7 +117,7 @@ Utility function for reading the hash of a given Merkle tree node.
 
 
 <pre><code>
-left(Merkle_tree_node::<a href="#type-merkle_tree_node">merkle_tree_node()</a>) -&gt; <a href="#type-merkle_tree_node">merkle_tree_node()</a>
+left(TreeNode::<a href="#type-merkle_tree_node">merkle_tree_node()</a>) -&gt; <a href="#type-merkle_tree_node">merkle_tree_node()</a>
 </code></pre>
 
 <br></br>
@@ -115,7 +130,7 @@ Utility function for reading the left child of a given Merkle tree node.
 
 
 <pre><code>
-right(Merkle_tree_node::<a href="#type-merkle_tree_node">merkle_tree_node()</a>) -&gt; <a href="#type-merkle_tree_node">merkle_tree_node()</a>
+right(TreeNode::<a href="#type-merkle_tree_node">merkle_tree_node()</a>) -&gt; <a href="#type-merkle_tree_node">merkle_tree_node()</a>
 </code></pre>
 
 <br></br>

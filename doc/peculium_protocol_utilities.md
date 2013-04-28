@@ -23,6 +23,54 @@ decoder.
 
 
 
+### <a name="type-bitcoin_checksum">bitcoin_checksum()</a> ###
+
+
+
+<pre><code>
+bitcoin_checksum() = <a href="peculium_types.md#type-bitcoin_checksum">peculium_types:bitcoin_checksum()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-bitcoin_command_atom">bitcoin_command_atom()</a> ###
+
+
+
+<pre><code>
+bitcoin_command_atom() = <a href="peculium_types.md#type-bitcoin_command_atom">peculium_types:bitcoin_command_atom()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-bitcoin_inv_atom">bitcoin_inv_atom()</a> ###
+
+
+
+<pre><code>
+bitcoin_inv_atom() = <a href="peculium_types.md#type-bitcoin_inv_atom">peculium_types:bitcoin_inv_atom()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-bitcoin_inv_integer">bitcoin_inv_integer()</a> ###
+
+
+
+<pre><code>
+bitcoin_inv_integer() = <a href="peculium_types.md#type-bitcoin_inv_integer">peculium_types:bitcoin_inv_integer()</a>
+</code></pre>
+
+
+
+
+
 ### <a name="type-dynamic_vector_decode_fun">dynamic_vector_decode_fun()</a> ###
 
 

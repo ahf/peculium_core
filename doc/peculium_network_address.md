@@ -2,16 +2,73 @@
 
 # Module peculium_network_address #
 * [Description](#description)
+* [Data Types](#types)
 * [Function Index](#index)
 * [Function Details](#functions)
 
 
-       Bitcoin Network Address Utilities.
+Bitcoin Network Address Utilities.
+Copyright (c)  2013 Fearless Hamster Solutions
+
 __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 <a name="description"></a>
 
 ## Description ##
-   ----------------------------------------------------------------------------<a name="index"></a>
+   This module contains utilities for manipulating and using Network Address
+objects.
+<a name="types"></a>
+
+## Data Types ##
+
+
+
+
+### <a name="type-bitcoin_network_address">bitcoin_network_address()</a> ###
+
+
+
+<pre><code>
+bitcoin_network_address() = <a href="peculium_types.md#type-bitcoin_network_address">peculium_types:bitcoin_network_address()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-uint16_t">uint16_t()</a> ###
+
+
+
+<pre><code>
+uint16_t() = <a href="peculium_types.md#type-uint16_t">peculium_types:uint16_t()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-uint32_t">uint32_t()</a> ###
+
+
+
+<pre><code>
+uint32_t() = <a href="peculium_types.md#type-uint32_t">peculium_types:uint32_t()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-uint64_t">uint64_t()</a> ###
+
+
+
+<pre><code>
+uint64_t() = <a href="peculium_types.md#type-uint64_t">peculium_types:uint64_t()</a>
+</code></pre>
+
+
+<a name="index"></a>
 
 ## Function Index ##
 

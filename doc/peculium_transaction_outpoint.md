@@ -2,16 +2,49 @@
 
 # Module peculium_transaction_outpoint #
 * [Description](#description)
+* [Data Types](#types)
 * [Function Index](#index)
 * [Function Details](#functions)
 
 
-       Bitcoin Transaction Outpoint Utilities.
+Bitcoin Transaction Outpoint Utilities.
+Copyright (c)  2013 Fearless Hamster Solutions
+
 __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 <a name="description"></a>
 
 ## Description ##
-   ----------------------------------------------------------------------------<a name="index"></a>
+   This module contains utilities for manipulating and using Bitcoin
+Transaction Outpoint objects.
+<a name="types"></a>
+
+## Data Types ##
+
+
+
+
+### <a name="type-bitcoin_transaction_outpoint">bitcoin_transaction_outpoint()</a> ###
+
+
+
+<pre><code>
+bitcoin_transaction_outpoint() = <a href="peculium_types.md#type-bitcoin_transaction_outpoint">peculium_types:bitcoin_transaction_outpoint()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-uint32_t">uint32_t()</a> ###
+
+
+
+<pre><code>
+uint32_t() = <a href="peculium_types.md#type-uint32_t">peculium_types:uint32_t()</a>
+</code></pre>
+
+
+<a name="index"></a>
 
 ## Function Index ##
 

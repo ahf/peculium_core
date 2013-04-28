@@ -2,6 +2,7 @@
 
 # Module peculium_block #
 * [Description](#description)
+* [Data Types](#types)
 * [Function Index](#index)
 * [Function Details](#functions)
 
@@ -14,7 +15,48 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 
 ## Description ##
    This module contains utilities for manipulating and generating Bitcoin
-block objects.<a name="index"></a>
+block objects.
+<a name="types"></a>
+
+## Data Types ##
+
+
+
+
+### <a name="type-bitcoin_block">bitcoin_block()</a> ###
+
+
+
+<pre><code>
+bitcoin_block() = <a href="peculium_types.md#type-bitcoin_block">peculium_types:bitcoin_block()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-bitcoin_network_atom">bitcoin_network_atom()</a> ###
+
+
+
+<pre><code>
+bitcoin_network_atom() = <a href="peculium_types.md#type-bitcoin_network_atom">peculium_types:bitcoin_network_atom()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-bitcoin_transaction">bitcoin_transaction()</a> ###
+
+
+
+<pre><code>
+bitcoin_transaction() = <a href="peculium_types.md#type-bitcoin_transaction">peculium_types:bitcoin_transaction()</a>
+</code></pre>
+
+
+<a name="index"></a>
 
 ## Function Index ##
 

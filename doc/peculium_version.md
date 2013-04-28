@@ -2,16 +2,85 @@
 
 # Module peculium_version #
 * [Description](#description)
+* [Data Types](#types)
 * [Function Index](#index)
 * [Function Details](#functions)
 
 
-       Bitcoin Version Utilities.
+Bitcoin Version Message Utilities.
+Copyright (c)  2013 Fearless Hamster Solutions
+
 __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 <a name="description"></a>
 
 ## Description ##
-   ----------------------------------------------------------------------------<a name="index"></a>
+   This module contains utilities for manipulating and using Bitcoin version
+message objects.
+<a name="types"></a>
+
+## Data Types ##
+
+
+
+
+### <a name="type-bitcoin_network_address">bitcoin_network_address()</a> ###
+
+
+
+<pre><code>
+bitcoin_network_address() = <a href="peculium_types.md#type-bitcoin_network_address">peculium_types:bitcoin_network_address()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-bitcoin_version_message">bitcoin_version_message()</a> ###
+
+
+
+<pre><code>
+bitcoin_version_message() = <a href="peculium_types.md#type-bitcoin_version_message">peculium_types:bitcoin_version_message()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-int32_t">int32_t()</a> ###
+
+
+
+<pre><code>
+int32_t() = <a href="peculium_types.md#type-int32_t">peculium_types:int32_t()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-int64_t">int64_t()</a> ###
+
+
+
+<pre><code>
+int64_t() = <a href="peculium_types.md#type-int64_t">peculium_types:int64_t()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-uint64_t">uint64_t()</a> ###
+
+
+
+<pre><code>
+uint64_t() = <a href="peculium_types.md#type-uint64_t">peculium_types:uint64_t()</a>
+</code></pre>
+
+
+<a name="index"></a>
 
 ## Function Index ##
 
@@ -29,7 +98,7 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 
 
 <pre><code>
-from_address(Bitcoin_version_message::<a href="#type-bitcoin_version_message">bitcoin_version_message()</a>) -&gt; <a href="#type-bitcoin_network_address">bitcoin_network_address()</a>
+from_address(VersionMessage::<a href="#type-bitcoin_version_message">bitcoin_version_message()</a>) -&gt; <a href="#type-bitcoin_network_address">bitcoin_network_address()</a>
 </code></pre>
 
 <br></br>
@@ -42,7 +111,7 @@ Returns the address of the sending client of a given version message.
 
 
 <pre><code>
-nonce(Bitcoin_version_message::<a href="#type-bitcoin_version_message">bitcoin_version_message()</a>) -&gt; binary()
+nonce(VersionMessage::<a href="#type-bitcoin_version_message">bitcoin_version_message()</a>) -&gt; binary()
 </code></pre>
 
 <br></br>
@@ -55,7 +124,7 @@ Returns the nonce of a given version message.
 
 
 <pre><code>
-services(Bitcoin_version_message::<a href="#type-bitcoin_version_message">bitcoin_version_message()</a>) -&gt; <a href="#type-uint64_t">uint64_t()</a>
+services(VersionMessage::<a href="#type-bitcoin_version_message">bitcoin_version_message()</a>) -&gt; <a href="#type-uint64_t">uint64_t()</a>
 </code></pre>
 
 <br></br>
@@ -68,7 +137,7 @@ Returns the service bitset of a given version message.
 
 
 <pre><code>
-start_height(Bitcoin_version_message::<a href="#type-bitcoin_version_message">bitcoin_version_message()</a>) -&gt; <a href="#type-int32_t">int32_t()</a>
+start_height(VersionMessage::<a href="#type-bitcoin_version_message">bitcoin_version_message()</a>) -&gt; <a href="#type-int32_t">int32_t()</a>
 </code></pre>
 
 <br></br>
@@ -81,7 +150,7 @@ Returns the start height of a given version message.
 
 
 <pre><code>
-timestamp(Bitcoin_version_message::<a href="#type-bitcoin_version_message">bitcoin_version_message()</a>) -&gt; <a href="#type-int64_t">int64_t()</a>
+timestamp(VersionMessage::<a href="#type-bitcoin_version_message">bitcoin_version_message()</a>) -&gt; <a href="#type-int64_t">int64_t()</a>
 </code></pre>
 
 <br></br>
@@ -94,7 +163,7 @@ Returns the timestamp of a given version message.
 
 
 <pre><code>
-to_address(Bitcoin_version_message::<a href="#type-bitcoin_version_message">bitcoin_version_message()</a>) -&gt; <a href="#type-bitcoin_network_address">bitcoin_network_address()</a>
+to_address(VersionMessage::<a href="#type-bitcoin_version_message">bitcoin_version_message()</a>) -&gt; <a href="#type-bitcoin_network_address">bitcoin_network_address()</a>
 </code></pre>
 
 <br></br>
@@ -107,7 +176,7 @@ Returns the address of the target client of a given version message.
 
 
 <pre><code>
-user_agent(Bitcoin_version_message::<a href="#type-bitcoin_version_message">bitcoin_version_message()</a>) -&gt; binary()
+user_agent(VersionMessage::<a href="#type-bitcoin_version_message">bitcoin_version_message()</a>) -&gt; binary()
 </code></pre>
 
 <br></br>
@@ -120,7 +189,7 @@ Returns the user agent of a given version message.
 
 
 <pre><code>
-version(Bitcoin_version_message::<a href="#type-bitcoin_version_message">bitcoin_version_message()</a>) -&gt; <a href="#type-int32_t">int32_t()</a>
+version(VersionMessage::<a href="#type-bitcoin_version_message">bitcoin_version_message()</a>) -&gt; <a href="#type-int32_t">int32_t()</a>
 </code></pre>
 
 <br></br>

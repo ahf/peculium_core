@@ -2,16 +2,33 @@
 
 # Module peculium_network #
 * [Description](#description)
+* [Data Types](#types)
 * [Function Index](#index)
 * [Function Details](#functions)
 
 
-       Bitcoin Network Utilities.
-__Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
-<a name="description"></a>
+Bitcoin Network Utilities.
+Copyright (c)  2013 Fearless Hamster Solutions
 
-## Description ##
-   ----------------------------------------------------------------------------<a name="index"></a>
+__Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
+
+<a name="types"></a>
+
+## Data Types ##
+
+
+
+
+### <a name="type-bitcoin_network_atom">bitcoin_network_atom()</a> ###
+
+
+
+<pre><code>
+bitcoin_network_atom() = <a href="peculium_types.md#type-bitcoin_network_atom">peculium_types:bitcoin_network_atom()</a>
+</code></pre>
+
+
+<a name="index"></a>
 
 ## Function Index ##
 
@@ -29,7 +46,7 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 
 
 <pre><code>
-magic_value(X::<a href="#type-bitcoin_network_atom">bitcoin_network_atom()</a>) -&gt; {ok, binary()} | {error, {invalid_network, any()}}
+magic_value(Network::<a href="#type-bitcoin_network_atom">bitcoin_network_atom()</a>) -&gt; {ok, binary()} | {error, any()}
 </code></pre>
 
 <br></br>
@@ -42,7 +59,7 @@ magic_value(X::<a href="#type-bitcoin_network_atom">bitcoin_network_atom()</a>) 
 
 
 <pre><code>
-stringify(X::<a href="#type-bitcoin_network_atom">bitcoin_network_atom()</a>) -&gt; {ok, binary()} | {error, {invalid_network, any()}}
+stringify(Network::<a href="#type-bitcoin_network_atom">bitcoin_network_atom()</a>) -&gt; {ok, binary()} | {error, any()}
 </code></pre>
 
 <br></br>

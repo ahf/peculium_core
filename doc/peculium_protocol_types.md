@@ -2,16 +2,193 @@
 
 # Module peculium_protocol_types #
 * [Description](#description)
+* [Data Types](#types)
 * [Function Index](#index)
 * [Function Details](#functions)
 
 
-       Bitcoin Protocol Type Encoders and Decoders.
+Bitcoin Protocol Type Encoders and Decoders.
+Copyright (c)  2013 Fearless Hamster Solutions
+
 __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 <a name="description"></a>
 
 ## Description ##
-   ----------------------------------------------------------------------------<a name="index"></a>
+   This module contains utilities to encode and decode between types used by
+the Bitcoin protocol.
+<a name="types"></a>
+
+## Data Types ##
+
+
+
+
+### <a name="type-bitcoin_block_header">bitcoin_block_header()</a> ###
+
+
+
+<pre><code>
+bitcoin_block_header() = <a href="peculium_types.md#type-bitcoin_block_header">peculium_types:bitcoin_block_header()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-bitcoin_inv">bitcoin_inv()</a> ###
+
+
+
+<pre><code>
+bitcoin_inv() = <a href="peculium_types.md#type-bitcoin_inv">peculium_types:bitcoin_inv()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-bitcoin_network_address">bitcoin_network_address()</a> ###
+
+
+
+<pre><code>
+bitcoin_network_address() = <a href="peculium_types.md#type-bitcoin_network_address">peculium_types:bitcoin_network_address()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-bitcoin_transaction_input">bitcoin_transaction_input()</a> ###
+
+
+
+<pre><code>
+bitcoin_transaction_input() = <a href="peculium_types.md#type-bitcoin_transaction_input">peculium_types:bitcoin_transaction_input()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-bitcoin_transaction_outpoint">bitcoin_transaction_outpoint()</a> ###
+
+
+
+<pre><code>
+bitcoin_transaction_outpoint() = <a href="peculium_types.md#type-bitcoin_transaction_outpoint">peculium_types:bitcoin_transaction_outpoint()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-bitcoin_transaction_output">bitcoin_transaction_output()</a> ###
+
+
+
+<pre><code>
+bitcoin_transaction_output() = <a href="peculium_types.md#type-bitcoin_transaction_output">peculium_types:bitcoin_transaction_output()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-int16_t">int16_t()</a> ###
+
+
+
+<pre><code>
+int16_t() = <a href="peculium_types.md#type-int16_t">peculium_types:int16_t()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-int32_t">int32_t()</a> ###
+
+
+
+<pre><code>
+int32_t() = <a href="peculium_types.md#type-int32_t">peculium_types:int32_t()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-int64_t">int64_t()</a> ###
+
+
+
+<pre><code>
+int64_t() = <a href="peculium_types.md#type-int64_t">peculium_types:int64_t()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-int8_t">int8_t()</a> ###
+
+
+
+<pre><code>
+int8_t() = <a href="peculium_types.md#type-int8_t">peculium_types:int8_t()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-uint16_t">uint16_t()</a> ###
+
+
+
+<pre><code>
+uint16_t() = <a href="peculium_types.md#type-uint16_t">peculium_types:uint16_t()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-uint32_t">uint32_t()</a> ###
+
+
+
+<pre><code>
+uint32_t() = <a href="peculium_types.md#type-uint32_t">peculium_types:uint32_t()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-uint64_t">uint64_t()</a> ###
+
+
+
+<pre><code>
+uint64_t() = <a href="peculium_types.md#type-uint64_t">peculium_types:uint64_t()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-uint8_t">uint8_t()</a> ###
+
+
+
+<pre><code>
+uint8_t() = <a href="peculium_types.md#type-uint8_t">peculium_types:uint8_t()</a>
+</code></pre>
+
+
+<a name="index"></a>
 
 ## Function Index ##
 

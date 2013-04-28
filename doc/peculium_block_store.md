@@ -2,16 +2,37 @@
 
 # Module peculium_block_store #
 * [Description](#description)
+* [Data Types](#types)
 * [Function Index](#index)
 * [Function Details](#functions)
 
 
-       Bitcoin Block Store Server.
+Bitcoin Block Store Server.
+Copyright (c)  2013 Fearless Hamster Solutions
+
 __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 <a name="description"></a>
 
 ## Description ##
-   ----------------------------------------------------------------------------<a name="index"></a>
+   This module contains a `gen_server` server for storing and retrieving
+Bitcoin block's.
+<a name="types"></a>
+
+## Data Types ##
+
+
+
+
+### <a name="type-bitcoin_block">bitcoin_block()</a> ###
+
+
+
+<pre><code>
+bitcoin_block() = <a href="peculium_types.md#type-bitcoin_block">peculium_types:bitcoin_block()</a>
+</code></pre>
+
+
+<a name="index"></a>
 
 ## Function Index ##
 

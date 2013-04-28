@@ -6,12 +6,14 @@
 * [Function Details](#functions)
 
 
-       Bitcoin Block Index Server.
+Bitcoin Block Index Server.
+Copyright (c)  2013 Fearless Hamster Solutions
+
 __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 <a name="description"></a>
 
 ## Description ##
-   ----------------------------------------------------------------------------<a name="index"></a>
+   This module contains a `gen_server` server for the block index.<a name="index"></a>
 
 ## Function Index ##
 

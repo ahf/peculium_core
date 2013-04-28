@@ -2,16 +2,49 @@
 
 # Module peculium_transaction_output #
 * [Description](#description)
+* [Data Types](#types)
 * [Function Index](#index)
 * [Function Details](#functions)
 
 
-       Bitcoin Transaction Output Utilities.
+Bitcoin Transaction Output Utilities.
+Copyright (c)  2013 Fearless Hamster Solutions
+
 __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 <a name="description"></a>
 
 ## Description ##
-   ----------------------------------------------------------------------------<a name="index"></a>
+   This module contains utilities for manipulating and using transaction
+output objects.
+<a name="types"></a>
+
+## Data Types ##
+
+
+
+
+### <a name="type-bitcoin_transaction_output">bitcoin_transaction_output()</a> ###
+
+
+
+<pre><code>
+bitcoin_transaction_output() = <a href="peculium_types.md#type-bitcoin_transaction_output">peculium_types:bitcoin_transaction_output()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-int64_t">int64_t()</a> ###
+
+
+
+<pre><code>
+int64_t() = <a href="peculium_types.md#type-int64_t">peculium_types:int64_t()</a>
+</code></pre>
+
+
+<a name="index"></a>
 
 ## Function Index ##
 

@@ -123,6 +123,7 @@ $ make doc
 <tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_transaction_outpoint.md" class="module">peculium_transaction_outpoint</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_transaction_output.md" class="module">peculium_transaction_output</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_triq_domains.md" class="module">peculium_triq_domains</a></td></tr>
+<tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_types.md" class="module">peculium_types</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_units.md" class="module">peculium_units</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_utilities.md" class="module">peculium_utilities</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium/blob/master/doc/peculium_version.md" class="module">peculium_version</a></td></tr></table>

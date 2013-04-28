@@ -2,16 +2,48 @@
 
 # Module peculium_inv #
 * [Description](#description)
+* [Data Types](#types)
 * [Function Index](#index)
 * [Function Details](#functions)
 
 
-       Bitcoin Inv Utilities.
+Bitcoin Inv Utilities.
+Copyright (c)  2013 Fearless Hamster Solutions
+
 __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 <a name="description"></a>
 
 ## Description ##
-   ----------------------------------------------------------------------------<a name="index"></a>
+   This module contains utilities for manipulating and using Inv objects.
+<a name="types"></a>
+
+## Data Types ##
+
+
+
+
+### <a name="type-bitcoin_inv">bitcoin_inv()</a> ###
+
+
+
+<pre><code>
+bitcoin_inv() = <a href="peculium_types.md#type-bitcoin_inv">peculium_types:bitcoin_inv()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-bitcoin_inv_atom">bitcoin_inv_atom()</a> ###
+
+
+
+<pre><code>
+bitcoin_inv_atom() = <a href="peculium_types.md#type-bitcoin_inv_atom">peculium_types:bitcoin_inv_atom()</a>
+</code></pre>
+
+
+<a name="index"></a>
 
 ## Function Index ##
 
@@ -29,7 +61,7 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 
 
 <pre><code>
-hash(Bitcoin_inv::<a href="#type-bitcoin_inv">bitcoin_inv()</a>) -&gt; binary()
+hash(Inv::<a href="#type-bitcoin_inv">bitcoin_inv()</a>) -&gt; binary()
 </code></pre>
 
 <br></br>
@@ -81,7 +113,7 @@ Check if we have the given object.
 
 
 <pre><code>
-type(Bitcoin_inv::<a href="#type-bitcoin_inv">bitcoin_inv()</a>) -&gt; <a href="#type-bitcoin_inv_atom">bitcoin_inv_atom()</a>
+type(Inv::<a href="#type-bitcoin_inv">bitcoin_inv()</a>) -&gt; <a href="#type-bitcoin_inv_atom">bitcoin_inv_atom()</a>
 </code></pre>
 
 <br></br>

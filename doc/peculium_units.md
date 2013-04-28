@@ -2,16 +2,37 @@
 
 # Module peculium_units #
 * [Description](#description)
+* [Data Types](#types)
 * [Function Index](#index)
 * [Function Details](#functions)
 
 
-       Utilities for converting between Bitcoin units.
+Bitcoin Unit Utilities.
+Copyright (c)  2013 Fearless Hamster Solutions
+
 __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 <a name="description"></a>
 
 ## Description ##
-   ----------------------------------------------------------------------------<a name="index"></a>
+   This module contains utilities to help converting to and from various
+Bitcoin unit types.
+<a name="types"></a>
+
+## Data Types ##
+
+
+
+
+### <a name="type-bitcoin_unit_atom">bitcoin_unit_atom()</a> ###
+
+
+
+<pre><code>
+bitcoin_unit_atom() = <a href="peculium_types.md#type-bitcoin_unit_atom">peculium_types:bitcoin_unit_atom()</a>
+</code></pre>
+
+
+<a name="index"></a>
 
 ## Function Index ##
 
@@ -42,7 +63,7 @@ Convert a given number from the input unit to the output unit.
 
 
 <pre><code>
-factor(X::<a href="#type-bitcoin_unit_atom">bitcoin_unit_atom()</a>) -&gt; float()
+factor(Unit::<a href="#type-bitcoin_unit_atom">bitcoin_unit_atom()</a>) -&gt; float()
 </code></pre>
 
 <br></br>
@@ -55,7 +76,7 @@ Returns the factor of a given unit.
 
 
 <pre><code>
-stringify(X::<a href="#type-bitcoin_unit_atom">bitcoin_unit_atom()</a>) -&gt; binary()
+stringify(Unit::<a href="#type-bitcoin_unit_atom">bitcoin_unit_atom()</a>) -&gt; binary()
 </code></pre>
 
 <br></br>

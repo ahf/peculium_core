@@ -6,12 +6,11 @@
 * [Function Details](#functions)
 
 
-       JSON Encoders and Decoders.
-__Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
-<a name="description"></a>
+JSON Utilities.
+Copyright (c)  2013 Fearless Hamster Solutions
 
-## Description ##
-   ----------------------------------------------------------------------------<a name="index"></a>
+__Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
+<a name="index"></a>
 
 ## Function Index ##
 

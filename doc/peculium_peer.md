@@ -6,14 +6,22 @@
 * [Function Details](#functions)
 
 
-       Peculium's Peer Client server.
+Peer Server.
+Copyright (c)  2013 Fearless Hamster Solutions
+
 __Behaviours:__ [`gen_server`](gen_server.md), [`ranch_protocol`](ranch_protocol.md).
 
 __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 <a name="description"></a>
 
 ## Description ##
-   ----------------------------------------------------------------------------<a name="index"></a>
+
+   This module contains a `gen_server` for representing a peer in the Bitcoin
+peer-to-peer network.
+
+
+We are using a single server to represent both incoming and outgoing
+peers.<a name="index"></a>
 
 ## Function Index ##
 

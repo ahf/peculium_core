@@ -25,7 +25,7 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 
 
 <pre><code>
-block_locator() = [binary()]
+block_locator() = <a href="peculium_types.md#type-block_locator">peculium_types:block_locator()</a>
 </code></pre>
 
 

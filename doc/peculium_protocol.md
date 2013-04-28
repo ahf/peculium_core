@@ -6,12 +6,11 @@
 * [Function Details](#functions)
 
 
-       Bitcoin Protocol Message Decoder.
-__Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
-<a name="description"></a>
+Bitcoin Protocol Message Decoder.
+Copyright (c)  2013 Fearless Hamster Solutions
 
-## Description ##
-   ----------------------------------------------------------------------------<a name="index"></a>
+__Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
+<a name="index"></a>
 
 ## Function Index ##
 

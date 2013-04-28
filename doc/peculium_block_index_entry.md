@@ -2,16 +2,61 @@
 
 # Module peculium_block_index_entry #
 * [Description](#description)
+* [Data Types](#types)
 * [Function Index](#index)
 * [Function Details](#functions)
 
 
-       Bitcoin Block Index Types and Utilities.
+Peculium Block Index Entries.
+Copyright (c)  2013 Fearless Hamster Solutions
+
 __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 <a name="description"></a>
 
 ## Description ##
-   ----------------------------------------------------------------------------<a name="index"></a>
+   This module contains utilities for creating, manipulating and using the
+block index entries.
+<a name="types"></a>
+
+## Data Types ##
+
+
+
+
+### <a name="type-bitcoin_block">bitcoin_block()</a> ###
+
+
+
+<pre><code>
+bitcoin_block() = <a href="peculium_types.md#type-bitcoin_block">peculium_types:bitcoin_block()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-bitcoin_block_header">bitcoin_block_header()</a> ###
+
+
+
+<pre><code>
+bitcoin_block_header() = <a href="peculium_types.md#type-bitcoin_block_header">peculium_types:bitcoin_block_header()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-block_index_entry">block_index_entry()</a> ###
+
+
+
+<pre><code>
+block_index_entry() = <a href="peculium_types.md#type-block_index_entry">peculium_types:block_index_entry()</a>
+</code></pre>
+
+
+<a name="index"></a>
 
 ## Function Index ##
 
@@ -29,7 +74,7 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 
 
 <pre><code>
-block(Block_index_entry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; <a href="#type-bitcoin_block">bitcoin_block()</a>
+block(BlockIndexEntry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; <a href="#type-bitcoin_block">bitcoin_block()</a>
 </code></pre>
 
 <br></br>
@@ -42,7 +87,7 @@ Returns the block of a given block index entry.
 
 
 <pre><code>
-block_header(Block_index_entry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; <a href="#type-bitcoin_block_header">bitcoin_block_header()</a>
+block_header(BlockIndexEntry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; <a href="#type-bitcoin_block_header">bitcoin_block_header()</a>
 </code></pre>
 
 <br></br>
@@ -55,7 +100,7 @@ Returns the block header of the given block index entry.
 
 
 <pre><code>
-block_work(Block_index_entry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; float()
+block_work(BlockIndexEntry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; float()
 </code></pre>
 
 <br></br>
@@ -81,7 +126,7 @@ Create a new block index entry from a Block.
 
 
 <pre><code>
-hash(Block_index_entry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; binary()
+hash(BlockIndexEntry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; binary()
 </code></pre>
 
 <br></br>
@@ -94,7 +139,7 @@ Returns the hash of the block that the given block index entry points to.
 
 
 <pre><code>
-height(Block_index_entry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; non_neg_integer()
+height(BlockIndexEntry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; non_neg_integer()
 </code></pre>
 
 <br></br>
@@ -107,7 +152,7 @@ Returns the height of a given block index entry.
 
 
 <pre><code>
-next(Block_index_entry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; binary() | undefined
+next(BlockIndexEntry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; binary() | undefined
 </code></pre>
 
 <br></br>
@@ -159,7 +204,7 @@ Returns the block index entry of the previous block of a given block index entry
 
 
 <pre><code>
-total_chain_work(Block_index_entry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; non_neg_integer()
+total_chain_work(BlockIndexEntry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; non_neg_integer()
 </code></pre>
 
 <br></br>
@@ -172,7 +217,7 @@ Returns the total amount of work in the chain including the work in this block.
 
 
 <pre><code>
-total_transaction_count(Block_index_entry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; non_neg_integer()
+total_transaction_count(BlockIndexEntry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; non_neg_integer()
 </code></pre>
 
 <br></br>
@@ -185,7 +230,7 @@ Returns the total number of transactions in the block chain including this block
 
 
 <pre><code>
-transaction_count(Block_index_entry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; non_neg_integer()
+transaction_count(BlockIndexEntry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; non_neg_integer()
 </code></pre>
 
 <br></br>
