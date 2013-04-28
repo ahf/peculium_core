@@ -48,7 +48,7 @@
         inv_message/0, getdata_message/0,
         notfound_message/0, addr_message/0,
         headers_message/0, getblocks_message/0,
-        getheaders_message/0, bitcoin_tx_message/0,
+        getheaders_message/0, tx_message/0,
         block_message/0, bitcoin_message/0, block_index_entry/0,
         block_locator/0]).
 
@@ -124,7 +124,7 @@
 
 -opaque getheaders_message() :: #getheaders_message {}.
 
--opaque bitcoin_tx_message() :: #bitcoin_tx_message {}.
+-opaque tx_message() :: #tx_message {}.
 
 -opaque block_message() :: #block_message {}.
 

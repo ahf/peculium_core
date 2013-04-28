@@ -141,7 +141,7 @@
     hash_stop :: binary()
 }).
 
--record(bitcoin_tx_message, {
+-record(tx_message, {
     transaction :: peculium_types:transaction()
 }).
 
@@ -163,7 +163,7 @@
           | peculium_types:headers_message()
           | peculium_types:getblocks_message()
           | peculium_types:getheaders_message()
-          | peculium_types:bitcoin_tx_message()
+          | peculium_types:tx_message()
           | peculium_types:block_message()
 }).
 
