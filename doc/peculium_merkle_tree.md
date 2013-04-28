@@ -40,7 +40,7 @@ hash() = <a href="peculium_types.md#type-hash">peculium_types:hash()</a>
 
 
 <pre><code>
-merkle_tree_node() = #merkle_tree_node{} | binary() | undefined
+merkle_tree_node() = #merkle_tree_node{} | <a href="#type-hash">hash()</a> | undefined
 </code></pre>
 
 

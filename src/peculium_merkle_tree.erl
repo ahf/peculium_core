@@ -44,12 +44,13 @@
 
 -record(merkle_tree_node, {
     hash :: hash(),
-    left :: #merkle_tree_node {} | hash() | undefined,
-    right :: #merkle_tree_node {} | hash() | undefined
+    left :: merkle_tree_node(),
+    right :: merkle_tree_node()
 }).
 
--type merkle_tree_node() :: #merkle_tree_node {} | binary() | undefined.
+-type merkle_tree_node() :: #merkle_tree_node {} | hash() | undefined.
 -type hash_function() :: fun((binary()) -> binary()).
+
 
 -include_lib("peculium/include/peculium.hrl").
 
