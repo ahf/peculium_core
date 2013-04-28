@@ -107,7 +107,7 @@ encode(#headers_message { headers = Headers }) ->
         {<<"headers">>, lists:map(fun encode/1, Headers)}
     ];
 
-encode(#bitcoin_getblocks_message { version = Version, block_locator = BlockLocatorHashes, hash_stop = HashStop }) ->
+encode(#getblocks_message { version = Version, block_locator = BlockLocatorHashes, hash_stop = HashStop }) ->
     [
         {<<"version">>, Version},
         {<<"block_locator">>, lists:map(fun peculium_utilities:bin2hex/1, BlockLocatorHashes)},

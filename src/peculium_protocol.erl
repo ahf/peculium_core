@@ -293,7 +293,7 @@ decode_message_payload(getblocks, <<RawVersion:4/binary, X/binary>>) ->
             case Rest of
                 <<Hashes:VectorSize/binary, HashStop:32/binary>> ->
                     {ok, BlockLocatorHashes, <<>>} = u:decode_vector(Hashes, ItemSize, fun(<<Hash:32/binary>>) -> {ok, Hash} end),
-                    {ok, #bitcoin_getblocks_message {
+                    {ok, #getblocks_message {
                         version = t:uint32_t(RawVersion),
                         block_locator = BlockLocatorHashes,
                         hash_stop = HashStop
