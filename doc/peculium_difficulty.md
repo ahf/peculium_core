@@ -8,13 +8,10 @@
 
        Bitcoin Difficulty Utilities.
 __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
+<a name="description"></a>
 
-__References__* [
-Bitcoin Difficulty
-](https://en.bitcoin.it/wiki/Difficulty)
-----------------------------------------------------------------------------
-
-<a name="index"></a>
+## Description ##
+   ----------------------------------------------------------------------------<a name="index"></a>
 
 ## Function Index ##
 

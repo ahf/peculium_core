@@ -26,9 +26,6 @@
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
 %%% @doc        Base58 encoding and decoding utilities.
-%%% @reference  <a href="https://en.bitcoin.it/wiki/Base58Check_encoding">
-%%%                 Base58Check encoding
-%%%             </a>
 %%% ----------------------------------------------------------------------------
 -module(peculium_base58).
 

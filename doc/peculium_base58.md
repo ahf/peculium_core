@@ -8,13 +8,10 @@
 
        Base58 encoding and decoding utilities.
 __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
+<a name="description"></a>
 
-__References__* [
-Base58Check encoding
-](https://en.bitcoin.it/wiki/Base58Check_encoding)
-----------------------------------------------------------------------------
-
-<a name="index"></a>
+## Description ##
+   ----------------------------------------------------------------------------<a name="index"></a>
 
 ## Function Index ##
 

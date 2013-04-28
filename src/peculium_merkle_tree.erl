@@ -26,9 +26,6 @@
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
 %%% @doc        Utilities for creating and interfacing with Merkle tree's.
-%%% @reference  <a href="http://www.google.com/patents?vid=4309569">
-%%%                 Merkle tree patent 4,309,569
-%%%             </a>
 %%% ----------------------------------------------------------------------------
 -module(peculium_merkle_tree).
 

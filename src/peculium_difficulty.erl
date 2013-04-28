@@ -26,9 +26,6 @@
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
 %%% @doc        Bitcoin Difficulty Utilities.
-%%% @reference  <a href="https://en.bitcoin.it/wiki/Difficulty">
-%%%                 Bitcoin Difficulty
-%%%             </a>
 %%% ----------------------------------------------------------------------------
 -module(peculium_difficulty).
 

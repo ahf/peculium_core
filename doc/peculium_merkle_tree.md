@@ -9,13 +9,10 @@
 
        Utilities for creating and interfacing with Merkle tree's.
 __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
+<a name="description"></a>
 
-__References__* [
-Merkle tree patent 4,309,569
-](http://www.google.com/patents?vid=4309569)
-----------------------------------------------------------------------------
-
-
+## Description ##
+   ----------------------------------------------------------------------------
 <a name="types"></a>
 
 ## Data Types ##
