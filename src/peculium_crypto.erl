@@ -25,14 +25,39 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Bitcoin Cryptography Utilities.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Cryptography Utilities.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_crypto).
 
 %% API.
 -export([hash/1]).
 
+-include("peculium_test.hrl").
+
 %% @doc Returns the double SHA256 checksum of a given input.
--spec hash(iolist()) -> binary().
-hash(X) ->
-    peculium_utilities:reverse(crypto:sha256(crypto:sha256(X))).
+-spec hash(Data :: iolist()) -> binary().
+hash(Data) ->
+    peculium_utilities:reverse(crypto:sha256(crypto:sha256(Data))).
+
+-ifdef(TEST).
+
+-spec hash_test() -> any().
+hash_test() ->
+    ?assertEqual(hash(<<>>), peculium_utilities:hex2bin("56944c5d3f98413ef45cf54545538103cc9f298e0575820ad3591376e2e0f65d")),
+    ?assertEqual(hash(<<"Peculium Rocks!">>), peculium_utilities:hex2bin("9edea1a358e2bdadad97ed081c11c46c934e2cdacc248d350f168874b6273c8a")).
+
+-spec prop_hash_pure() -> any().
+prop_hash_pure() ->
+    ?FORALL(X, binary(),
+        hash(X) =:= hash(X)).
+
+-spec prop_hash_iolist() -> any().
+prop_hash_iolist() ->
+    ?FORALL({A, B, C}, {binary(), binary(), binary()},
+        hash([A, B, C]) =:= hash(<<A/binary, B/binary, C/binary>>)).
+
+-endif.

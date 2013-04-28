@@ -6,12 +6,11 @@
 * [Function Details](#functions)
 
 
-       Bitcoin Cryptography Utilities.
-__Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
-<a name="description"></a>
+Cryptography Utilities.
+Copyright (c)  2013 Fearless Hamster Solutions
 
-## Description ##
-   ----------------------------------------------------------------------------<a name="index"></a>
+__Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
+<a name="index"></a>
 
 ## Function Index ##
 
@@ -29,7 +28,7 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 
 
 <pre><code>
-hash(X::iolist()) -&gt; binary()
+hash(Data::iolist()) -&gt; binary()
 </code></pre>
 
 <br></br>
