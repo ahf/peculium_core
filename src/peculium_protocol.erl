@@ -35,6 +35,8 @@
 
 %% API.
 -export([decode/1]).
+
+%% FIXME: Kill it, with fire.
 -export([decode_message_payload/2]).
 
 %% Types.
@@ -88,9 +90,9 @@ decode_transaction(<<Version:4/binary, X/binary>>) ->
             Error
     end.
 
--spec decode(binary()) -> {ok}.
-decode(X) ->
-    decode_one_message(X).
+-spec decode(Data :: binary()) -> ok.
+decode(Data) ->
+    decode_one_message(Data).
 
 -spec decode_one_message(binary()) -> any().
 decode_one_message(X) ->
