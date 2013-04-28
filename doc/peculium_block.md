@@ -6,11 +6,15 @@
 * [Function Details](#functions)
 
 
-       Bitcoin Block Utilities.
+Bitcoin Block Utilities.
 Copyright (c)  2013 Fearless Hamster Solutions
 
 __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
-<a name="index"></a>
+<a name="description"></a>
+
+## Description ##
+   This module contains utilities for manipulating and generating Bitcoin
+block objects.<a name="index"></a>
 
 ## Function Index ##
 

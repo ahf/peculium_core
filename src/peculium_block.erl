@@ -26,7 +26,11 @@
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
 %%% @copyright  2013 Fearless Hamster Solutions
-%%% @doc        Bitcoin Block Utilities.
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Bitcoin Block Utilities.
+%%% This module contains utilities for manipulating and generating Bitcoin
+%%% block objects.
 %%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_block).
