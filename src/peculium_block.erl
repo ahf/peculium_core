@@ -25,7 +25,9 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
+%%% @copyright  2013 Fearless Hamster Solutions
 %%% @doc        Bitcoin Block Utilities.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_block).
 
