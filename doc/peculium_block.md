@@ -35,6 +35,18 @@ block() = <a href="peculium_types.md#type-block">peculium_types:block()</a>
 
 
 
+### <a name="type-hash">hash()</a> ###
+
+
+
+<pre><code>
+hash() = <a href="peculium_types.md#type-hash">peculium_types:hash()</a>
+</code></pre>
+
+
+
+
+
 ### <a name="type-network_atom">network_atom()</a> ###
 
 
@@ -113,7 +125,7 @@ Returns the Genesis block from a given network.
 
 
 <pre><code>
-hash(Block::<a href="#type-block">block()</a>) -&gt; binary()
+hash(Block::<a href="#type-block">block()</a>) -&gt; <a href="#type-hash">hash()</a>
 </code></pre>
 
 <br></br>
@@ -126,7 +138,7 @@ Returns the little-endian encoded hash of a given block.
 
 
 <pre><code>
-merkle_root(Block::<a href="#type-block">block()</a>) -&gt; binary()
+merkle_root(Block::<a href="#type-block">block()</a>) -&gt; <a href="#type-hash">hash()</a>
 </code></pre>
 
 <br></br>
@@ -139,7 +151,7 @@ Returns the root hash of the merkle tree of a given block.
 
 
 <pre><code>
-previous(Block::<a href="#type-block">block()</a>) -&gt; binary()
+previous(Block::<a href="#type-block">block()</a>) -&gt; <a href="#type-hash">hash()</a>
 </code></pre>
 
 <br></br>

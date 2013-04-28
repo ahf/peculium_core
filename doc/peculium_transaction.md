@@ -23,6 +23,18 @@ Transaction objects.
 
 
 
+### <a name="type-hash">hash()</a> ###
+
+
+
+<pre><code>
+hash() = <a href="peculium_types.md#type-hash">peculium_types:hash()</a>
+</code></pre>
+
+
+
+
+
 ### <a name="type-transaction">transaction()</a> ###
 
 
@@ -86,7 +98,7 @@ uint32_t() = <a href="peculium_types.md#type-uint32_t">peculium_types:uint32_t()
 
 
 <pre><code>
-hash(Transaction::<a href="#type-transaction">transaction()</a>) -&gt; binary()
+hash(Transaction::<a href="#type-transaction">transaction()</a>) -&gt; <a href="#type-hash">hash()</a>
 </code></pre>
 
 <br></br>

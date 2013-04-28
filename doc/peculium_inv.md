@@ -22,6 +22,18 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 
 
 
+### <a name="type-hash">hash()</a> ###
+
+
+
+<pre><code>
+hash() = <a href="peculium_types.md#type-hash">peculium_types:hash()</a>
+</code></pre>
+
+
+
+
+
 ### <a name="type-inv">inv()</a> ###
 
 
@@ -61,7 +73,7 @@ inv_atom() = <a href="peculium_types.md#type-inv_atom">peculium_types:inv_atom()
 
 
 <pre><code>
-hash(Inv::<a href="#type-inv">inv()</a>) -&gt; binary()
+hash(Inv::<a href="#type-inv">inv()</a>) -&gt; <a href="#type-hash">hash()</a>
 </code></pre>
 
 <br></br>

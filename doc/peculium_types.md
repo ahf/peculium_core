@@ -65,7 +65,7 @@ __abstract datatype__: `block_index_entry()`
 
 
 <pre><code>
-block_locator() = [<a href="#type-checksum">checksum()</a>]
+block_locator() = [<a href="#type-hash">hash()</a>]
 </code></pre>
 
 
@@ -132,6 +132,18 @@ __abstract datatype__: `getdata_message()`
 
 
 __abstract datatype__: `getheaders_message()`
+
+
+
+
+### <a name="type-hash">hash()</a> ###
+
+
+
+<pre><code>
+hash() = &lt;&lt;_:256&gt;&gt;
+</code></pre>
+
 
 
 

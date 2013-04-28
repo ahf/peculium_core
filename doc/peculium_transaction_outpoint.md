@@ -23,6 +23,18 @@ Transaction Outpoint objects.
 
 
 
+### <a name="type-hash">hash()</a> ###
+
+
+
+<pre><code>
+hash() = <a href="peculium_types.md#type-hash">peculium_types:hash()</a>
+</code></pre>
+
+
+
+
+
 ### <a name="type-transaction_outpoint">transaction_outpoint()</a> ###
 
 
@@ -62,7 +74,7 @@ uint32_t() = <a href="peculium_types.md#type-uint32_t">peculium_types:uint32_t()
 
 
 <pre><code>
-hash(Outpoint::<a href="#type-transaction_outpoint">transaction_outpoint()</a>) -&gt; binary()
+hash(Outpoint::<a href="#type-transaction_outpoint">transaction_outpoint()</a>) -&gt; <a href="#type-hash">hash()</a>
 </code></pre>
 
 <br></br>

@@ -2,6 +2,7 @@
 
 # Module peculium_crypto #
 * [Description](#description)
+* [Data Types](#types)
 * [Function Index](#index)
 * [Function Details](#functions)
 
@@ -10,6 +11,23 @@ Cryptography Utilities.
 Copyright (c)  2013 Fearless Hamster Solutions
 
 __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
+
+<a name="types"></a>
+
+## Data Types ##
+
+
+
+
+### <a name="type-hash">hash()</a> ###
+
+
+
+<pre><code>
+hash() = <a href="peculium_types.md#type-hash">peculium_types:hash()</a>
+</code></pre>
+
+
 <a name="index"></a>
 
 ## Function Index ##
@@ -28,7 +46,7 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 
 
 <pre><code>
-hash(Data::iolist()) -&gt; binary()
+hash(Data::iolist()) -&gt; <a href="#type-hash">hash()</a>
 </code></pre>
 
 <br></br>

@@ -47,6 +47,18 @@ block_header() = <a href="peculium_types.md#type-block_header">peculium_types:bl
 
 
 
+### <a name="type-hash">hash()</a> ###
+
+
+
+<pre><code>
+hash() = <a href="peculium_types.md#type-hash">peculium_types:hash()</a>
+</code></pre>
+
+
+
+
+
 ### <a name="type-uint32_t">uint32_t()</a> ###
 
 
@@ -138,7 +150,7 @@ Create Bitcoin Block Header from a given Block.
 
 
 <pre><code>
-merkle_root(BlockHeader::<a href="#type-block_header">block_header()</a>) -&gt; binary()
+merkle_root(BlockHeader::<a href="#type-block_header">block_header()</a>) -&gt; <a href="#type-hash">hash()</a>
 </code></pre>
 
 <br></br>
@@ -164,7 +176,7 @@ Returns the nonce of a given block header.
 
 
 <pre><code>
-previous(BlockHeader::<a href="#type-block_header">block_header()</a>) -&gt; binary()
+previous(BlockHeader::<a href="#type-block_header">block_header()</a>) -&gt; <a href="#type-hash">hash()</a>
 </code></pre>
 
 <br></br>

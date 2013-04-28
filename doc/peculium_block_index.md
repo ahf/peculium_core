@@ -2,6 +2,7 @@
 
 # Module peculium_block_index #
 * [Description](#description)
+* [Data Types](#types)
 * [Function Index](#index)
 * [Function Details](#functions)
 
@@ -13,7 +14,24 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 <a name="description"></a>
 
 ## Description ##
-   This module contains a `gen_server` server for the block index.<a name="index"></a>
+   This module contains a `gen_server` server for the block index.
+<a name="types"></a>
+
+## Data Types ##
+
+
+
+
+### <a name="type-hash">hash()</a> ###
+
+
+
+<pre><code>
+hash() = <a href="peculium_types.md#type-hash">peculium_types:hash()</a>
+</code></pre>
+
+
+<a name="index"></a>
 
 ## Function Index ##
 
@@ -51,7 +69,7 @@ Get best block index entry.
 
 
 <pre><code>
-exists(Hash::binary()) -&gt; boolean()
+exists(Hash::<a href="#type-hash">hash()</a>) -&gt; boolean()
 </code></pre>
 
 <br></br>
@@ -64,7 +82,7 @@ Check if a given hash exists in the index.
 
 
 <pre><code>
-height_to_hash(Height::non_neg_integer()) -&gt; {ok, binary()} | {error, any()}
+height_to_hash(Height::non_neg_integer()) -&gt; {ok, <a href="#type-hash">hash()</a>} | {error, any()}
 </code></pre>
 
 <br></br>

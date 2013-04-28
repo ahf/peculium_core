@@ -56,6 +56,18 @@ block_index_entry() = <a href="peculium_types.md#type-block_index_entry">peculiu
 </code></pre>
 
 
+
+
+
+### <a name="type-hash">hash()</a> ###
+
+
+
+<pre><code>
+hash() = <a href="peculium_types.md#type-hash">peculium_types:hash()</a>
+</code></pre>
+
+
 <a name="index"></a>
 
 ## Function Index ##
@@ -126,7 +138,7 @@ Create a new block index entry from a Block.
 
 
 <pre><code>
-hash(BlockIndexEntry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; binary()
+hash(BlockIndexEntry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; <a href="#type-hash">hash()</a>
 </code></pre>
 
 <br></br>
@@ -152,7 +164,7 @@ Returns the height of a given block index entry.
 
 
 <pre><code>
-next(BlockIndexEntry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; binary() | undefined
+next(BlockIndexEntry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; <a href="#type-hash">hash()</a> | undefined
 </code></pre>
 
 <br></br>
@@ -178,7 +190,7 @@ Returns the block index entry of the next block of a given block index entry.
 
 
 <pre><code>
-previous(Block_index_entry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; binary() | undefined
+previous(Block_index_entry::<a href="#type-block_index_entry">block_index_entry()</a>) -&gt; <a href="#type-hash">hash()</a> | undefined
 </code></pre>
 
 <br></br>

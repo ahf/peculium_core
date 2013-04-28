@@ -32,6 +32,18 @@ block() = <a href="peculium_types.md#type-block">peculium_types:block()</a>
 </code></pre>
 
 
+
+
+
+### <a name="type-hash">hash()</a> ###
+
+
+
+<pre><code>
+hash() = <a href="peculium_types.md#type-hash">peculium_types:hash()</a>
+</code></pre>
+
+
 <a name="index"></a>
 
 ## Function Index ##
@@ -50,7 +62,7 @@ block() = <a href="peculium_types.md#type-block">peculium_types:block()</a>
 
 
 <pre><code>
-delete(Hash::binary()) -&gt; ok
+delete(Hash::<a href="#type-hash">hash()</a>) -&gt; ok
 </code></pre>
 
 <br></br>
@@ -63,7 +75,7 @@ Delete block.
 
 
 <pre><code>
-exists(Hash::binary()) -&gt; boolean()
+exists(Hash::<a href="#type-hash">hash()</a>) -&gt; boolean()
 </code></pre>
 
 <br></br>
@@ -76,7 +88,7 @@ Check if a given block exists in the store.
 
 
 <pre><code>
-get(Hash::binary()) -&gt; {ok, <a href="#type-block">block()</a>} | {error, not_found}
+get(Hash::<a href="#type-hash">hash()</a>) -&gt; {ok, <a href="#type-block">block()</a>} | {error, not_found}
 </code></pre>
 
 <br></br>
@@ -89,7 +101,7 @@ Get block.
 
 
 <pre><code>
-put(Hash::binary(), Block::<a href="#type-block">block()</a>) -&gt; ok
+put(Hash::<a href="#type-hash">hash()</a>, Block::<a href="#type-block">block()</a>) -&gt; ok
 </code></pre>
 
 <br></br>
