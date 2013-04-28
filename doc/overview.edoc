@@ -46,8 +46,27 @@ And finally, build Peculium itself:
 
 <pre>$ make</pre>
 
-To get an Erlang console use:
+To start Peculium and attach an Erlang shell:
 
 <pre>$ make console</pre>
+
+Testing
+-------
+
+Peculium uses `EUnit' and `triq' for unit and property-based testing. To run
+the test suites use:
+
+<pre>$ make test
+$ make qc</pre>
+
+Documentation
+-------------
+
+Every function in the Peculium source code must have a type-specification and a
+documentation entry. Peculium uses `edoc' for documentation and generates
+Github friendly markdown based on the output. To generate the documentation
+use:
+
+<pre>$ make doc</pre>
 
 @end
