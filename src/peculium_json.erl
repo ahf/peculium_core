@@ -102,7 +102,7 @@ encode(#addr_message { addresses = Addresses }) ->
         {<<"addresses">>, lists:map(fun encode/1, Addresses)}
     ];
 
-encode(#bitcoin_headers_message { headers = Headers }) ->
+encode(#headers_message { headers = Headers }) ->
     [
         {<<"headers">>, lists:map(fun encode/1, Headers)}
     ];

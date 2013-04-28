@@ -47,7 +47,7 @@
         version_message/0, alert_message/0,
         inv_message/0, getdata_message/0,
         notfound_message/0, addr_message/0,
-        bitcoin_headers_message/0, bitcoin_getblocks_message/0,
+        headers_message/0, bitcoin_getblocks_message/0,
         bitcoin_getheaders_message/0, bitcoin_tx_message/0,
         block_message/0, bitcoin_message/0, block_index_entry/0,
         block_locator/0]).
@@ -118,7 +118,7 @@
 
 -opaque addr_message() :: #addr_message {}.
 
--opaque bitcoin_headers_message() :: #bitcoin_headers_message {}.
+-opaque headers_message() :: #headers_message {}.
 
 -opaque bitcoin_getblocks_message() :: #bitcoin_getblocks_message {}.
 

@@ -275,7 +275,7 @@ decode_message_payload(headers, X) ->
             case Rest of
                 <<RawHeaders:VectorSize/binary>> ->
                     {ok, BlockHeaders, <<>>} = u:decode_vector(RawHeaders, ItemSize, fun peculium_protocol_types:block_header/1),
-                    {ok, #bitcoin_headers_message {
+                    {ok, #headers_message {
                         headers = BlockHeaders
                     }};
                 Error ->

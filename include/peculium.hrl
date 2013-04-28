@@ -125,7 +125,7 @@
     addresses :: [peculium_types:network_address()]
 }).
 
--record(bitcoin_headers_message, {
+-record(headers_message, {
     headers :: [peculium_types:block_header()]
 }).
 
@@ -160,7 +160,7 @@
           | peculium_types:getdata_message()
           | peculium_types:notfound_message()
           | peculium_types:addr_message()
-          | peculium_types:bitcoin_headers_message()
+          | peculium_types:headers_message()
           | peculium_types:bitcoin_getblocks_message()
           | peculium_types:bitcoin_getheaders_message()
           | peculium_types:bitcoin_tx_message()
