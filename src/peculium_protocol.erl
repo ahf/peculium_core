@@ -115,7 +115,7 @@ decode_message_frame(Network, <<RawCommand:12/binary, Size:32/little-unsigned-in
         <<Payload:Size/binary, Rest2/binary>> ->
             case decode_message_payload(Command, Payload) of
                 {ok, Message} ->
-                    {ok, #bitcoin_message {
+                    {ok, #message {
                         header = #message_header {
                             network = Network,
                             command = Command,

@@ -49,7 +49,7 @@
         notfound_message/0, addr_message/0,
         headers_message/0, getblocks_message/0,
         getheaders_message/0, tx_message/0,
-        block_message/0, bitcoin_message/0, block_index_entry/0,
+        block_message/0, message/0, block_index_entry/0,
         block_locator/0]).
 
 -include_lib("peculium/include/peculium.hrl").
@@ -128,6 +128,6 @@
 
 -opaque block_message() :: #block_message {}.
 
--opaque bitcoin_message() :: #bitcoin_message {}.
+-opaque message() :: #message {}.
 
 -opaque block_index_entry() :: #block_index_entry {}.

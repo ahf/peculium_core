@@ -39,7 +39,7 @@
 -include_lib("peculium/include/peculium.hrl").
 
 %% @doc Serialize Bitcoin message to JSON.
-encode(#bitcoin_message { header = Header, body = Body }) ->
+encode(#message { header = Header, body = Body }) ->
     [
         {<<"header">>, encode(Header)},
         {<<"body">>, encode(Body)}

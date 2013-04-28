@@ -149,7 +149,7 @@
     block :: peculium_types:block()
 }).
 
--record(bitcoin_message, {
+-record(message, {
     header :: peculium_types:message_header(),
     body :: peculium_types:verack_message()
           | peculium_types:ping_message()
