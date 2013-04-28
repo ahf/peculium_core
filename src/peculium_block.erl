@@ -38,15 +38,17 @@
 %% API.
 -export([hash/1, genesis_block/1, transactions/1, previous/1, version/1,
         merkle_root/1, difficulty/1, block_work/1]).
-
--include_lib("peculium/include/peculium.hrl").
--include_lib("erl_aliases/include/erl_aliases.hrl").
-
 %% Types.
 -type bitcoin_block() :: peculium_types:bitcoin_block().
 -type bitcoin_transaction() :: peculium_types:bitcoin_transaction().
 -type bitcoin_network_atom() :: peculium_types:bitcoin_network_atom().
 
+-include_lib("peculium/include/peculium.hrl").
+-include_lib("erl_aliases/include/erl_aliases.hrl").
+
+-include("peculium_test.hrl").
+
+%% Feeling a bit lazy :-(
 -module_alias({t, peculium_protocol_types}).
 
 %% @doc Returns the little-endian encoded hash of a given block.

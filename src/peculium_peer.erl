@@ -53,6 +53,8 @@
 
 -include_lib("peculium/include/peculium.hrl").
 
+-include("peculium_test.hrl").
+
 test_connect() ->
     test_connect({127,0,0,1}).
 

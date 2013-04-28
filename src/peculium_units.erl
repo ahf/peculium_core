@@ -43,6 +43,8 @@
 
 -include_lib("peculium/include/peculium.hrl").
 
+-include("peculium_test.hrl").
+
 %% @doc Returns the factor of a given unit.
 -spec factor(Unit :: bitcoin_unit_atom()) -> float().
 factor(Unit) ->
