@@ -68,7 +68,7 @@
     lock_time :: peculium_types:uint32_t()
 }).
 
--record(bitcoin_block, {
+-record(block, {
     version :: peculium_types:uint32_t(),
     previous_block :: binary(),
     merkle_root :: binary(),
@@ -145,8 +145,8 @@
     transaction :: peculium_types:transaction()
 }).
 
--record(bitcoin_block_message, {
-    block :: peculium_types:bitcoin_block()
+-record(block_message, {
+    block :: peculium_types:block()
 }).
 
 -record(bitcoin_message, {
@@ -164,7 +164,7 @@
           | peculium_types:bitcoin_getblocks_message()
           | peculium_types:bitcoin_getheaders_message()
           | peculium_types:bitcoin_tx_message()
-          | peculium_types:bitcoin_block_message()
+          | peculium_types:block_message()
 }).
 
 %% NOTE: We are going to keep one block_index_entry for every block in the

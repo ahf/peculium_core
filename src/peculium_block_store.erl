@@ -39,7 +39,7 @@
 -export([start_link/0, exists/1, put/2, delete/1, get/1]).
 
 %% Types.
--type bitcoin_block() :: peculium_types:bitcoin_block().
+-type block() :: peculium_types:block().
 
 -include_lib("peculium/include/peculium.hrl").
 
@@ -58,7 +58,7 @@ exists(Hash) ->
     gen_server:call(?SERVER, {exists, Hash}).
 
 %% @doc Insert block.
--spec put(Hash :: binary(), Block :: bitcoin_block()) -> ok.
+-spec put(Hash :: binary(), Block :: block()) -> ok.
 put(Hash, Block)->
     gen_server:call(?SERVER, {put, Hash, Block}, infinity).
 
@@ -68,7 +68,7 @@ delete(Hash) ->
     gen_server:cast(?SERVER, {delete, Hash}).
 
 %% @doc Get block.
--spec get(Hash :: binary()) -> {ok, bitcoin_block()} | {error, not_found}.
+-spec get(Hash :: binary()) -> {ok, block()} | {error, not_found}.
 get(Hash) ->
     gen_server:call(?SERVER, {get, Hash}).
 

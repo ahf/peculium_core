@@ -39,7 +39,7 @@
 -export([hash/1, genesis_block/1, transactions/1, previous/1, version/1,
         merkle_root/1, difficulty/1, block_work/1]).
 %% Types.
--type bitcoin_block() :: peculium_types:bitcoin_block().
+-type block() :: peculium_types:block().
 -type transaction() :: peculium_types:transaction().
 -type network_atom() :: peculium_types:network_atom().
 
@@ -52,12 +52,12 @@
 -module_alias({t, peculium_protocol_types}).
 
 %% @doc Returns the little-endian encoded hash of a given block.
--spec hash(Block :: bitcoin_block()) -> binary().
-hash(#bitcoin_block { version = Version, previous_block = PreviousBlock, merkle_root = MerkleRoot, timestamp = Timestamp, bits = Bits, nonce = Nonce }) ->
+-spec hash(Block :: block()) -> binary().
+hash(#block { version = Version, previous_block = PreviousBlock, merkle_root = MerkleRoot, timestamp = Timestamp, bits = Bits, nonce = Nonce }) ->
     peculium_crypto:hash([t:uint32_t(Version), PreviousBlock, MerkleRoot, t:uint32_t(Timestamp), t:uint32_t(Bits), t:uint32_t(Nonce)]).
 
 %% @doc Returns the Genesis block from a given network.
--spec genesis_block(Network :: network_atom()) -> bitcoin_block().
+-spec genesis_block(Network :: network_atom()) -> block().
 genesis_block(mainnet) ->
     Inputs = [#transaction_input {
         sequence = 16#ffffffff,
@@ -76,7 +76,7 @@ genesis_block(mainnet) ->
                    57,9,166,121,98,224,234,31,97,222,182,73,246,188,63,76,239,56,196,243,85,4,229,30,
                    193,18,222,92,56,77,247,186,11,141,87,138,76,112,43,107,241,29,95,172>>
     }],
-    #bitcoin_block {
+    #block {
         version = 1,
         previous_block = <<0:256>>,
         merkle_root = <<59,163,237,253,122,123,18,178,122,199,44,62,103,118,143,97,127,200,27,195,136,138,81,50,58,159,184,170,75,30,94,74>>,
@@ -92,33 +92,33 @@ genesis_block(mainnet) ->
     }.
 
 %% @doc Returns a list of transactions of a given block.
--spec transactions(Block :: bitcoin_block()) -> [transaction()].
-transactions(#bitcoin_block { transactions = Transactions }) ->
+-spec transactions(Block :: block()) -> [transaction()].
+transactions(#block { transactions = Transactions }) ->
     Transactions.
 
 %% @doc Returns the version of a given block.
--spec version(Block :: bitcoin_block()) -> integer().
-version(#bitcoin_block { version = Version }) ->
+-spec version(Block :: block()) -> integer().
+version(#block { version = Version }) ->
     Version.
 
 %% @doc Returns the root hash of the merkle tree of a given block.
--spec merkle_root(Block :: bitcoin_block()) -> binary().
-merkle_root(#bitcoin_block { merkle_root = MerkleRoot }) ->
+-spec merkle_root(Block :: block()) -> binary().
+merkle_root(#block { merkle_root = MerkleRoot }) ->
     peculium_utilities:reverse(MerkleRoot).
 
 %% @doc Returns the hash of the previous block of a given block.
--spec previous(Block :: bitcoin_block()) -> binary().
-previous(#bitcoin_block { previous_block = Previous }) ->
+-spec previous(Block :: block()) -> binary().
+previous(#block { previous_block = Previous }) ->
     peculium_utilities:reverse(Previous).
 
 %% @doc Returns the difficulty of a given block.
--spec difficulty(Block :: bitcoin_block()) -> number().
-difficulty(#bitcoin_block { bits = Bits }) ->
+-spec difficulty(Block :: block()) -> number().
+difficulty(#block { bits = Bits }) ->
     peculium_difficulty:from_bits(Bits).
 
 %% @doc Returns the block work of a given block.
--spec block_work(Block :: bitcoin_block()) -> number().
-block_work(#bitcoin_block { bits = Bits }) ->
+-spec block_work(Block :: block()) -> number().
+block_work(#block { bits = Bits }) ->
     peculium_difficulty:block_work(Bits).
 
 -ifdef(TEST).

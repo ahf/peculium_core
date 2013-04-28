@@ -40,7 +40,7 @@
         bits/1, nonce/1, transaction_count/1, difficulty/1, block_work/1]).
 
 %% Types.
--type bitcoin_block() :: peculium_types:bitcoin_block().
+-type block() :: peculium_types:block().
 -type block_header() :: peculium_types:block_header().
 
 -type uint8_t() :: peculium_types:uint8_t().
@@ -49,8 +49,8 @@
 -include_lib("peculium/include/peculium.hrl").
 
 %% @doc Create Bitcoin Block Header from a given Block.
--spec from_block(Block :: bitcoin_block()) -> block_header().
-from_block(#bitcoin_block { version = Version, previous_block = PreviousBlock, merkle_root = MerkleRoot, timestamp = Timestamp, bits = Bits, nonce = Nonce }) ->
+-spec from_block(Block :: block()) -> block_header().
+from_block(#block { version = Version, previous_block = PreviousBlock, merkle_root = MerkleRoot, timestamp = Timestamp, bits = Bits, nonce = Nonce }) ->
     #block_header {
         version = Version,
         previous_block = PreviousBlock,

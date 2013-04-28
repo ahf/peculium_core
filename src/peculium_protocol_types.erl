@@ -278,14 +278,14 @@ transaction(#transaction { version = Version, transaction_inputs = Inputs, trans
     {ok, OutputsLength} = var_int(length(Outputs)),
     [uint32_t(Version), InputsLength, lists:map(fun transaction_input/1, Inputs), OutputsLength, lists:map(fun transaction_output/1, Outputs), uint32_t(LockTime)].
 
-block(#bitcoin_block { version = Version, previous_block = PreviousBlock, merkle_root = MerkleRoot, timestamp = Timestamp, bits = Bits, nonce = Nonce, transactions = Transactions }) ->
+block(#block { version = Version, previous_block = PreviousBlock, merkle_root = MerkleRoot, timestamp = Timestamp, bits = Bits, nonce = Nonce, transactions = Transactions }) ->
     {ok, TransactionsLength} = var_int(length(Transactions)),
     [uint32_t(Version), PreviousBlock, MerkleRoot, uint32_t(Timestamp), uint32_t(Bits), uint32_t(Nonce), TransactionsLength, lists:map(fun transaction/1, Transactions)];
 block(X) ->
     %% FIXME: We should move all the block encoding and decoding logic out of
     %% peculium_protocol and into here.
     case peculium_protocol:decode_message_payload(block, X) of
-        {ok, #bitcoin_block_message { block = Block} } ->
+        {ok, #block_message { block = Block} } ->
             {ok, Block};
         _Otherwise ->
             {error, invalid_block}

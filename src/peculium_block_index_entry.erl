@@ -41,14 +41,14 @@
         total_transaction_count/1, total_chain_work/1, block_work/1]).
 
 %% Types.
--type bitcoin_block() :: peculium_types:bitcoin_block().
+-type block() :: peculium_types:block().
 -type block_header() :: peculium_types:block_header().
 -type block_index_entry() :: peculium_types:block_index_entry().
 
 -include_lib("peculium/include/peculium.hrl").
 
 %% @doc Create a new block index entry from a Block.
--spec from_block(Block :: bitcoin_block()) -> block_index_entry().
+-spec from_block(Block :: block()) -> block_index_entry().
 from_block(Block) ->
     #block_index_entry {
         %% The hash of our block.
@@ -119,7 +119,7 @@ height(#block_index_entry { height = Height }) ->
     Height.
 
 %% @doc Returns the block of a given block index entry.
--spec block(BlockIndexEntry :: block_index_entry()) -> bitcoin_block().
+-spec block(BlockIndexEntry :: block_index_entry()) -> block().
 block(#block_index_entry { hash = Hash }) ->
     {ok, Block} = peculium_block_store:get(Hash),
     Block.

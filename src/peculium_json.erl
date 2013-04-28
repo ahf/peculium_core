@@ -129,7 +129,7 @@ encode(#transaction { version = Version, transaction_inputs = Inputs, transactio
         {<<"lock_time">>, LockTime}
     ];
 
-encode(#bitcoin_block { version = Version, previous_block = PreviousBlock, merkle_root = MerkleRoot, timestamp = Timestamp, bits = Bits, nonce = Nonce, transactions = Transactions }) ->
+encode(#block { version = Version, previous_block = PreviousBlock, merkle_root = MerkleRoot, timestamp = Timestamp, bits = Bits, nonce = Nonce, transactions = Transactions }) ->
     [
         {<<"version">>, Version},
         {<<"previous_block">>, peculium_utilities:bin2hex(PreviousBlock)},

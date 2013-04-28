@@ -41,7 +41,7 @@
         inv_integer/0, inv/0, checksum/0,
         transaction_outpoint/0, transaction_input/0,
         transaction_output/0, network_address/0,
-        block_header/0, transaction/0, bitcoin_block/0,
+        block_header/0, transaction/0, block/0,
         bitcoin_message_header/0, bitcoin_verack_message/0,
         bitcoin_ping_message/0, bitcoin_getaddr_message/0,
         bitcoin_version_message/0, bitcoin_alert_message/0,
@@ -49,7 +49,7 @@
         bitcoin_notfound_message/0, bitcoin_addr_message/0,
         bitcoin_headers_message/0, bitcoin_getblocks_message/0,
         bitcoin_getheaders_message/0, bitcoin_tx_message/0,
-        bitcoin_block_message/0, bitcoin_message/0, block_index_entry/0,
+        block_message/0, bitcoin_message/0, block_index_entry/0,
         block_locator/0]).
 
 -include_lib("peculium/include/peculium.hrl").
@@ -96,7 +96,7 @@
 
 -opaque transaction() :: #transaction {}.
 
--opaque bitcoin_block() :: #bitcoin_block {}.
+-opaque block() :: #block {}.
 
 -opaque bitcoin_message_header() :: #bitcoin_message_header {}.
 
@@ -126,7 +126,7 @@
 
 -opaque bitcoin_tx_message() :: #bitcoin_tx_message {}.
 
--opaque bitcoin_block_message() :: #bitcoin_block_message {}.
+-opaque block_message() :: #block_message {}.
 
 -opaque bitcoin_message() :: #bitcoin_message {}.
 

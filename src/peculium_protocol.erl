@@ -340,8 +340,8 @@ decode_message_payload(block, <<Version:4/binary, PreviousBlock:32/binary, Merkl
         {ok, Count, Rest} ->
             case u:decode_dynamic_vector(Rest, Count, fun decode_transaction/1) of
                 {ok, Transactions, <<>>} ->
-                    {ok, #bitcoin_block_message {
-                        block = #bitcoin_block {
+                    {ok, #block_message {
+                        block = #block {
                             version = t:uint32_t(Version),
                             previous_block = PreviousBlock,
                             merkle_root = MerkleRoot,

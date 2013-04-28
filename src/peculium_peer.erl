@@ -213,7 +213,7 @@ process_one_message(State, #bitcoin_message { header = #bitcoin_message_header {
 %%            send(StateCont2, getdata, [Network, [Inv]])
 %%        end, State, Invs);
 
-process_one_message(State, #bitcoin_message { body = #bitcoin_block_message { block = Block } }) ->
+process_one_message(State, #bitcoin_message { body = #block_message { block = Block } }) ->
     peculium_block_index:insert(Block),
     State;
 
