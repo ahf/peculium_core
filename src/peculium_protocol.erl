@@ -40,7 +40,7 @@
 %% Types.
 -type bitcoin_transaction_input() :: peculium_types:bitcoin_transaction_input().
 -type bitcoin_transaction_output() :: peculium_types:bitcoin_transaction_output().
--type bitcoin_network_atom() :: peculium_types:bitcoin_network_atom().
+-type network_atom() :: peculium_types:network_atom().
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
@@ -108,7 +108,7 @@ decode_magic_value(<<Magic:4/binary, Rest/binary>>) ->
 decode_magic_value(_X) ->
     {error, insufficient_data}.
 
--spec decode_message_frame(bitcoin_network_atom(), binary()) -> any().
+-spec decode_message_frame(network_atom(), binary()) -> any().
 decode_message_frame(Network, <<RawCommand:12/binary, Size:32/little-unsigned-integer, Checksum:4/binary, Rest/binary>> = X) ->
     {ok, Command} = u:command_to_atom(RawCommand),
     case Rest of

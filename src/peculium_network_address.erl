@@ -42,26 +42,26 @@
 -type uint32_t() :: peculium_types:uint32_t().
 -type uint16_t() :: peculium_types:uint16_t().
 -type uint64_t() :: peculium_types:uint64_t().
--type bitcoin_network_address() :: peculium_types:bitcoin_network_address().
+-type network_address() :: peculium_types:network_address().
 
 -include_lib("peculium/include/peculium.hrl").
 
 %% @doc Returns the timestamp of a given network address.
--spec time(NetworkAddress :: bitcoin_network_address()) -> uint32_t().
-time(#bitcoin_network_address { time = Timestamp }) ->
+-spec time(NetworkAddress :: network_address()) -> uint32_t().
+time(#network_address { time = Timestamp }) ->
     Timestamp.
 
 %% @doc Returns the services value of a given network address.
--spec services(NetworkAddress :: bitcoin_network_address()) -> uint64_t().
-services(#bitcoin_network_address { services = Services }) ->
+-spec services(NetworkAddress :: network_address()) -> uint64_t().
+services(#network_address { services = Services }) ->
     Services.
 
 %% @doc Returns the address of a given network address.
--spec address(NetworkAddress :: bitcoin_network_address()) -> inet:ip6_address().
-address(#bitcoin_network_address { address = Address }) ->
+-spec address(NetworkAddress :: network_address()) -> inet:ip6_address().
+address(#network_address { address = Address }) ->
     Address.
 
 %% @doc Returns the port of a given network address.
--spec port(NetworkAddress :: bitcoin_network_address()) -> uint16_t().
-port(#bitcoin_network_address { port = Port }) ->
+-spec port(NetworkAddress :: network_address()) -> uint16_t().
+port(#network_address { port = Port }) ->
     Port.

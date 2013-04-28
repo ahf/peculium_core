@@ -37,14 +37,14 @@
 -export([magic_value/1, stringify/1]).
 
 %% Types.
--type bitcoin_network_atom() :: peculium_types:bitcoin_network_atom().
+-type network_atom() :: peculium_types:network_atom().
 
 -include_lib("peculium/include/peculium.hrl").
 
 %% Tests.
 -include("peculium_test.hrl").
 
--spec magic_value(Network :: bitcoin_network_atom()) -> {ok, binary()} | {error, any()}.
+-spec magic_value(Network :: network_atom()) -> {ok, binary()} | {error, any()}.
 magic_value(mainnet) ->
     {ok, binary:encode_unsigned(16#D9B4BEF9, little)};
 magic_value(testnet) ->
@@ -54,7 +54,7 @@ magic_value(testnet3) ->
 magic_value(X) ->
     {error, {invalid_network, X}}.
 
--spec stringify(Network :: bitcoin_network_atom()) -> {ok, binary()} | {error, any()}.
+-spec stringify(Network :: network_atom()) -> {ok, binary()} | {error, any()}.
 stringify(mainnet) ->
     {ok, <<"mainnet">>};
 stringify(testnet) ->

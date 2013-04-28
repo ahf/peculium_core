@@ -44,7 +44,7 @@
 -type int64_t() :: peculium_types:int64_t().
 -type uint64_t() :: peculium_types:uint64_t().
 -type bitcoin_version_message() :: peculium_types:bitcoin_version_message().
--type bitcoin_network_address() :: peculium_types:bitcoin_network_address().
+-type network_address() :: peculium_types:network_address().
 
 -include_lib("peculium/include/peculium.hrl").
 
@@ -64,12 +64,12 @@ timestamp(#bitcoin_version_message { timestamp = Timestamp }) ->
     Timestamp.
 
 %% @doc Returns the address of the target client of a given version message.
--spec to_address(VersionMessage :: bitcoin_version_message()) -> bitcoin_network_address().
+-spec to_address(VersionMessage :: bitcoin_version_message()) -> network_address().
 to_address(#bitcoin_version_message { to_address = ToAddress }) ->
     ToAddress.
 
 %% @doc Returns the address of the sending client of a given version message.
--spec from_address(VersionMessage :: bitcoin_version_message()) -> bitcoin_network_address().
+-spec from_address(VersionMessage :: bitcoin_version_message()) -> network_address().
 from_address(#bitcoin_version_message { from_address = FromAddress }) ->
     FromAddress.
 

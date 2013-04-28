@@ -37,10 +37,10 @@
 %% Types.
 -export_type([bitcoin_unit_atom/0, uint8_t/0, uint16_t/0, uint32_t/0,
         uint64_t/0, int8_t/0, int16_t/0, int32_t/0, int64_t/0,
-        bitcoin_network_atom/0, bitcoin_command_atom/0, inv_atom/0,
+        network_atom/0, bitcoin_command_atom/0, inv_atom/0,
         inv_integer/0, inv/0, bitcoin_checksum/0,
         bitcoin_transaction_outpoint/0, bitcoin_transaction_input/0,
-        bitcoin_transaction_output/0, bitcoin_network_address/0,
+        bitcoin_transaction_output/0, network_address/0,
         bitcoin_block_header/0, bitcoin_transaction/0, bitcoin_block/0,
         bitcoin_message_header/0, bitcoin_verack_message/0,
         bitcoin_ping_message/0, bitcoin_getaddr_message/0,
@@ -72,7 +72,7 @@
 
 -type block_locator() :: [binary()].
 
--type bitcoin_network_atom() :: mainnet | testnet | testnet3.
+-type network_atom() :: mainnet | testnet | testnet3.
 
 -type bitcoin_command_atom() :: addr | alert | block | checkorder
                               | getaddr | getblocks | getdata | getheaders
@@ -90,7 +90,7 @@
 
 -opaque bitcoin_transaction_output() :: #bitcoin_transaction_output {}.
 
--opaque bitcoin_network_address() :: #bitcoin_network_address {}.
+-opaque network_address() :: #network_address {}.
 
 -opaque bitcoin_block_header() :: #bitcoin_block_header {}.
 

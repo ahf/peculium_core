@@ -41,7 +41,7 @@
 %% Types.
 -type bitcoin_block() :: peculium_types:bitcoin_block().
 -type bitcoin_transaction() :: peculium_types:bitcoin_transaction().
--type bitcoin_network_atom() :: peculium_types:bitcoin_network_atom().
+-type network_atom() :: peculium_types:network_atom().
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
@@ -57,7 +57,7 @@ hash(#bitcoin_block { version = Version, previous_block = PreviousBlock, merkle_
     peculium_crypto:hash([t:uint32_t(Version), PreviousBlock, MerkleRoot, t:uint32_t(Timestamp), t:uint32_t(Bits), t:uint32_t(Nonce)]).
 
 %% @doc Returns the Genesis block from a given network.
--spec genesis_block(Network :: bitcoin_network_atom()) -> bitcoin_block().
+-spec genesis_block(Network :: network_atom()) -> bitcoin_block().
 genesis_block(mainnet) ->
     Inputs = [#bitcoin_transaction_input {
         sequence = 16#ffffffff,

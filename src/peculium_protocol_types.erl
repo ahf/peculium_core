@@ -51,7 +51,7 @@
 -type uint16_t() :: peculium_types:uint16_t().
 -type uint32_t() :: peculium_types:uint32_t().
 -type uint64_t() :: peculium_types:uint64_t().
--type bitcoin_network_address() :: peculium_types:bitcoin_network_address().
+-type network_address() :: peculium_types:network_address().
 -type inv() :: peculium_types:inv().
 -type bitcoin_block_header() :: peculium_types:bitcoin_block_header().
 -type bitcoin_transaction_outpoint() :: peculium_types:bitcoin_transaction_outpoint().
@@ -172,9 +172,9 @@ unpack_address(<<>>) ->
 unpack_address(<<X:16/big, Rest/binary>>) ->
     [X | unpack_address(Rest)].
 
--spec net_addr(binary()) -> {ok, bitcoin_network_address()}.
+-spec net_addr(binary()) -> {ok, network_address()}.
 net_addr(<<Time:4/binary, Services:8/binary, Address:16/binary, Port:2/binary>>) ->
-    {ok, #bitcoin_network_address {
+    {ok, #network_address {
         time = uint32_t(Time),
         services = uint64_t(Services),
         address = list_to_tuple(unpack_address(Address)),

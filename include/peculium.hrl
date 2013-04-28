@@ -44,7 +44,7 @@
     script :: binary()
 }).
 
--record(bitcoin_network_address, {
+-record(network_address, {
     time :: peculium_types:uint32_t(),
     services :: peculium_types:uint64_t(),
     address :: inet:ip6_address(),
@@ -79,7 +79,7 @@
 }).
 
 -record(bitcoin_message_header, {
-    network :: peculium_types:bitcoin_network_atom(),
+    network :: peculium_types:network_atom(),
     command :: peculium_types:bitcoin_command_atom(),
     length :: peculium_types:uint32_t(),
     checksum :: peculium_types:bitcoin_checksum(),
@@ -96,8 +96,8 @@
     version :: peculium_types:int32_t(),
     services :: peculium_types:uint64_t(),
     timestamp :: peculium_types:int64_t(),
-    to_address :: peculium_types:bitcoin_network_address(),
-    from_address :: peculium_types:bitcoin_network_address(),
+    to_address :: peculium_types:network_address(),
+    from_address :: peculium_types:network_address(),
     user_agent :: binary(),
     start_height :: peculium_types:int32_t(),
     relay :: boolean(),
@@ -122,7 +122,7 @@
 }).
 
 -record(bitcoin_addr_message, {
-    addresses :: [peculium_types:bitcoin_network_address()]
+    addresses :: [peculium_types:network_address()]
 }).
 
 -record(bitcoin_headers_message, {
