@@ -42,56 +42,11 @@
 -include_lib("eunit/include/eunit.hrl").
 -endif.
 
--spec decode_vector(binary(), non_neg_integer(), function()) -> {ok, [any()], binary()} | {error, any()}.
-decode_vector(X, ItemSize, Fun) ->
-    try
-        decode_one_vector(X, ItemSize, Fun)
-    catch
-        throw:{error, Reason} ->
-            {error, Reason}
-    end.
-
--spec decode_one_vector(binary(), non_neg_integer(), function()) -> {ok, [any()], binary()} | {error, any()}.
-decode_one_vector(X, ItemSize, Fun) ->
-    case X of
-        <<Item:ItemSize/binary, Rest/binary>> ->
-            case Fun(Item) of
-                {ok, DecodedItem} ->
-                    {ok, Tail, Rest2} = decode_one_vector(Rest, ItemSize, Fun),
-                    {ok, [DecodedItem | Tail], Rest2};
-                {error, Reason} ->
-                    throw({error, Reason})
-            end;
-        _Otherwise ->
-            {ok, [], X}
-    end.
-
--spec decode_dynamic_vector(binary(), non_neg_integer(), function()) -> {ok, [any()], binary()} | {error, any()}.
-decode_dynamic_vector(X, Count, Fun) ->
-    try
-        decode_one_dynamic_vector(X, Count, Fun)
-    catch
-        throw:{error, Reason} ->
-            {error, Reason}
-    end.
-
--spec decode_one_dynamic_vector(binary(), non_neg_integer(), function()) -> {ok, [any()], binary()} | {error, any()}.
-decode_one_dynamic_vector(X, 0, _Fun) ->
-    {ok, [], X};
-decode_one_dynamic_vector(X, Count, Fun) ->
-    case Fun(X) of
-        {ok, Item, Rest} ->
-            {ok, Tail, Rest2} = decode_one_dynamic_vector(Rest, Count - 1, Fun),
-            {ok, [Item | Tail], Rest2};
-        {error, Reason} ->
-            throw({error, Reason})
-    end.
-
 -spec decode_transaction_input_vector(binary()) -> {ok, [bitcoin_transaction_input()], binary()}.
 decode_transaction_input_vector(X) ->
     case t:var_int(X) of
         {ok, Count, Rest} ->
-            decode_dynamic_vector(Rest, Count, fun peculium_protocol_types:transaction_input/1);
+            u:decode_dynamic_vector(Rest, Count, fun peculium_protocol_types:transaction_input/1);
         Error ->
             Error
     end.
@@ -100,7 +55,7 @@ decode_transaction_input_vector(X) ->
 decode_transaction_output_vector(X) ->
     case t:var_int(X) of
         {ok, Count, Rest} ->
-            decode_dynamic_vector(Rest, Count, fun peculium_protocol_types:transaction_output/1);
+            u:decode_dynamic_vector(Rest, Count, fun peculium_protocol_types:transaction_output/1);
         Error ->
             Error
     end.
@@ -237,7 +192,7 @@ decode_message_payload(inv, X) ->
             VectorSize = Count * ItemSize,
             case Rest of
                 <<InvVector:VectorSize/binary>> ->
-                    {ok, Inventory, <<>>} = decode_vector(InvVector, ItemSize, fun peculium_protocol_types:inv/1),
+                    {ok, Inventory, <<>>} = u:decode_vector(InvVector, ItemSize, fun peculium_protocol_types:inv/1),
                     {ok, #bitcoin_inv_message {
                         inventory = Inventory
                     }};
@@ -255,7 +210,7 @@ decode_message_payload(getdata, X) ->
             VectorSize = Count * ItemSize,
             case Rest of
                 <<InvVector:VectorSize/binary>> ->
-                    {ok, Inventory, <<>>} = decode_vector(InvVector, ItemSize, fun peculium_protocol_types:inv/1),
+                    {ok, Inventory, <<>>} = u:decode_vector(InvVector, ItemSize, fun peculium_protocol_types:inv/1),
                     {ok, #bitcoin_getdata_message {
                         inventory = Inventory
                     }};
@@ -273,7 +228,7 @@ decode_message_payload(notfound, X) ->
             VectorSize = Count * ItemSize,
             case Rest of
                 <<InvVector:VectorSize/binary>> ->
-                    {ok, Inventory, <<>>} = decode_vector(InvVector, ItemSize, fun peculium_protocol_types:inv/1),
+                    {ok, Inventory, <<>>} = u:decode_vector(InvVector, ItemSize, fun peculium_protocol_types:inv/1),
                     {ok, #bitcoin_notfound_message {
                         inventory = Inventory
                     }};
@@ -291,7 +246,7 @@ decode_message_payload(addr, X) ->
             VectorSize = Count * ItemSize,
             case Rest of
                 <<RawAddresses:VectorSize/binary>> ->
-                    {ok, Addresses, <<>>} = decode_vector(RawAddresses, ItemSize, fun peculium_protocol_types:net_addr/1),
+                    {ok, Addresses, <<>>} = u:decode_vector(RawAddresses, ItemSize, fun peculium_protocol_types:net_addr/1),
                     {ok, #bitcoin_addr_message {
                         addresses = Addresses
                     }};
@@ -309,7 +264,7 @@ decode_message_payload(headers, X) ->
             VectorSize = Count * ItemSize,
             case Rest of
                 <<RawHeaders:VectorSize/binary>> ->
-                    {ok, BlockHeaders, <<>>} = decode_vector(RawHeaders, ItemSize, fun peculium_protocol_types:block_header/1),
+                    {ok, BlockHeaders, <<>>} = u:decode_vector(RawHeaders, ItemSize, fun peculium_protocol_types:block_header/1),
                     {ok, #bitcoin_headers_message {
                         headers = BlockHeaders
                     }};
@@ -327,7 +282,7 @@ decode_message_payload(getblocks, <<RawVersion:4/binary, X/binary>>) ->
             VectorSize = Count * ItemSize,
             case Rest of
                 <<Hashes:VectorSize/binary, HashStop:32/binary>> ->
-                    {ok, BlockLocatorHashes, <<>>} = decode_vector(Hashes, ItemSize, fun(<<Hash:32/binary>>) -> {ok, Hash} end),
+                    {ok, BlockLocatorHashes, <<>>} = u:decode_vector(Hashes, ItemSize, fun(<<Hash:32/binary>>) -> {ok, Hash} end),
                     {ok, #bitcoin_getblocks_message {
                         version = t:uint32_t(RawVersion),
                         block_locator = BlockLocatorHashes,
@@ -347,7 +302,7 @@ decode_message_payload(getheaders, <<RawVersion:4/binary, X/binary>>) ->
             VectorSize = Count * ItemSize,
             case Rest of
                 <<Hashes:VectorSize/binary, HashStop:32/binary>> ->
-                    {ok, BlockLocatorHashes, <<>>} = decode_vector(Hashes, ItemSize, fun(<<Hash:32/binary>>) -> {ok, Hash} end),
+                    {ok, BlockLocatorHashes, <<>>} = u:decode_vector(Hashes, ItemSize, fun(<<Hash:32/binary>>) -> {ok, Hash} end),
                     {ok, #bitcoin_getheaders_message {
                         version = t:uint32_t(RawVersion),
                         block_locator = BlockLocatorHashes,
@@ -373,7 +328,7 @@ decode_message_payload(tx, X) ->
 decode_message_payload(block, <<Version:4/binary, PreviousBlock:32/binary, MerkleRoot:32/binary, Timestamp:4/binary, Bits:4/binary, Nonce:4/binary, X/binary>>) ->
     case t:var_int(X) of
         {ok, Count, Rest} ->
-            case decode_dynamic_vector(Rest, Count, fun decode_transaction/1) of
+            case u:decode_dynamic_vector(Rest, Count, fun decode_transaction/1) of
                 {ok, Transactions, <<>>} ->
                     {ok, #bitcoin_block_message {
                         block = #bitcoin_block {

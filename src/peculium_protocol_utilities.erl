@@ -25,21 +25,34 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Bitcoin Protocol Utilities.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Bitcoin Protocol Utilities.
+%%% This module contains utilities used in the Bitcoin protocol encoder and
+%%% decoder.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_protocol_utilities).
 
--export([inv_to_atom/1, atom_to_inv/1]).
--export([command_to_atom/1]).
--export([checksum/1]).
+%% API.
+-export([inv_to_atom/1, atom_to_inv/1 , command_to_atom/1 , checksum/1,
+        decode_vector/3, decode_dynamic_vector/3]).
+
+%% Types.
+-type vector_decode_fun() :: fun((Data :: binary()) -> {ok, Item :: any()} | {error, any()}).
+
+-type dynamic_vector_decode_fun() :: fun((Data :: binary()) -> {ok, Item :: any(), Rest :: binary()} | {error, any()}).
 
 -include_lib("peculium/include/peculium.hrl").
 
--spec checksum(iolist()) -> bitcoin_checksum().
-checksum(X) ->
-    binary_part(crypto:sha256(crypto:sha256(X)), {0, 4}).
+%% @doc Returns the first four bytes of the double SHA256 checksum of the given Data.
+-spec checksum(Data :: iolist()) -> bitcoin_checksum().
+checksum(Data) ->
+    binary_part(crypto:sha256(crypto:sha256(Data)), {0, 4}).
 
--spec inv_to_atom(integer()) -> {ok, bitcoin_inv_atom()} | {error, {invalid_inv_integer, any()}}.
+%% @doc Returns an inv atom from a given integer.
+-spec inv_to_atom(InvInteger :: integer()) -> {ok, bitcoin_inv_atom()} | {error, any()}.
 inv_to_atom(0) ->
     {ok, error};
 inv_to_atom(1) ->
@@ -49,7 +62,8 @@ inv_to_atom(2) ->
 inv_to_atom(X) ->
     {error, {invalid_inv_integer, X}}.
 
--spec atom_to_inv(bitcoin_inv_atom()) -> {ok, bitcoin_inv_integer()} | {error, {invalid_inv_atom, any()}}.
+%% @doc Returns an integer from a given inv atom.
+-spec atom_to_inv(Inv :: bitcoin_inv_atom()) -> {ok, bitcoin_inv_integer()} | {error, any()}.
 atom_to_inv(error) ->
     {ok, 0};
 atom_to_inv(tx) ->
@@ -59,7 +73,8 @@ atom_to_inv(block) ->
 atom_to_inv(X) ->
     {error, {invalid_inv_atom, X}}.
 
--spec command_to_atom(binary()) -> {ok, bitcoin_command_atom()} | {error, {invalid_command_atom, any()}}.
+%% @doc Returns a command atom from a given binary.
+-spec command_to_atom(Command :: binary()) -> {ok, bitcoin_command_atom()} | {error, any()}.
 command_to_atom(Command) ->
     case peculium_utilities:strip(Command, <<0>>) of
         <<"addr">> ->
@@ -98,4 +113,61 @@ command_to_atom(Command) ->
             {ok, version};
         Value ->
             {error, {invalid_command_atom, Value}}
+    end.
+
+%% @doc Decode a vector where the size of each item is known.
+-spec decode_vector(Data :: binary(), ItemSize :: non_neg_integer(), ItemDecodeFun :: vector_decode_fun()) -> {ok, [any()], binary()} | {error, any()}.
+decode_vector(Data, ItemSize, ItemDecodeFun) ->
+    try
+        decode_one_vector(Data, ItemSize, ItemDecodeFun)
+    catch
+        throw:{error, Reason} ->
+            {error, Reason}
+    end.
+
+%% @private
+-spec decode_one_vector(Data :: binary(), ItemSize :: non_neg_integer(), ItemDecodeFun :: vector_decode_fun()) -> {ok, [any()], binary()} | {error, any()}.
+decode_one_vector(Data, ItemSize, ItemDecodeFun) ->
+    case Data of
+        <<Item:ItemSize/binary, Rest/binary>> ->
+            case ItemDecodeFun(Item) of
+                {ok, DecodedItem} ->
+                    {ok, Tail, Rest2} = decode_one_vector(Rest, ItemSize, ItemDecodeFun),
+                    {ok, [DecodedItem | Tail], Rest2};
+                {error, Reason} ->
+                    throw({error, Reason})
+            end;
+        _Otherwise ->
+            {ok, [], Data}
+    end.
+
+%% @doc Decode a vector where the size of each item is unknown.
+%% The Bitcoin protocol uses vectors where each element size is unknown until
+%% the time of item decoding.
+%%
+%% This function takes a decode function that consumes the bytes needed to
+%% decode an item and returns the decoded item together with the rest of the
+%% bytes. This is applied recursively to the remaining bytes until we have
+%% decoded `ItemCount' number of items or if an error occurs.
+%% @end
+-spec decode_dynamic_vector(Data :: binary(), ItemCount :: non_neg_integer(), ItemDecodeFun :: dynamic_vector_decode_fun()) -> {ok, [any()], binary()} | {error, any()}.
+decode_dynamic_vector(Data, ItemCount, ItemDecodeFun) ->
+    try
+        decode_one_dynamic_vector(Data, ItemCount, ItemDecodeFun)
+    catch
+        throw:{error, Reason} ->
+            {error, Reason}
+    end.
+
+%% @private
+-spec decode_one_dynamic_vector(Data :: binary(), ItemCount :: non_neg_integer(), ItemDecodeFun :: dynamic_vector_decode_fun()) -> {ok, [any()], binary()} | {error, any()}.
+decode_one_dynamic_vector(Data, 0, _ItemDecodeFun) ->
+    {ok, [], Data};
+decode_one_dynamic_vector(Data, ItemCount, ItemDecodeFun) ->
+    case ItemDecodeFun(Data) of
+        {ok, Item, Rest} ->
+            {ok, Tail, Rest2} = decode_one_dynamic_vector(Rest, ItemCount - 1, ItemDecodeFun),
+            {ok, [Item | Tail], Rest2};
+        {error, Reason} ->
+            throw({error, Reason})
     end.
