@@ -260,6 +260,18 @@ __abstract datatype__: `message_header()`
 
 
 
+### <a name="type-message_types">message_types()</a> ###
+
+
+
+<pre><code>
+message_types() = <a href="#type-verack_message">verack_message()</a> | <a href="#type-ping_message">ping_message()</a> | <a href="#type-getaddr_message">getaddr_message()</a> | <a href="#type-version_message">version_message()</a> | <a href="#type-alert_message">alert_message()</a> | <a href="#type-inv_message">inv_message()</a> | <a href="#type-getdata_message">getdata_message()</a> | <a href="#type-notfound_message">notfound_message()</a> | <a href="#type-addr_message">addr_message()</a> | <a href="#type-headers_message">headers_message()</a> | <a href="#type-getblocks_message">getblocks_message()</a> | <a href="#type-getheaders_message">getheaders_message()</a> | <a href="#type-transaction_message">transaction_message()</a> | <a href="#type-block_message">block_message()</a>
+</code></pre>
+
+
+
+
+
 ### <a name="type-network_address">network_address()</a> ###
 
 

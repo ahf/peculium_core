@@ -44,7 +44,8 @@
         version_message/0, alert_message/0, inv_message/0, getdata_message/0,
         notfound_message/0, addr_message/0, headers_message/0,
         getblocks_message/0, getheaders_message/0, transaction_message/0,
-        block_message/0, message/0, block_index_entry/0, block_locator/0]).
+        block_message/0, message/0, block_index_entry/0, block_locator/0,
+        message_types/0]).
 
 -include_lib("peculium/include/peculium.hrl").
 
@@ -127,3 +128,18 @@
 -opaque message() :: #message {}.
 
 -opaque block_index_entry() :: #block_index_entry {}.
+
+-type message_types() :: verack_message()
+                       | ping_message()
+                       | getaddr_message()
+                       | version_message()
+                       | alert_message()
+                       | inv_message()
+                       | getdata_message()
+                       | notfound_message()
+                       | addr_message()
+                       | headers_message()
+                       | getblocks_message()
+                       | getheaders_message()
+                       | transaction_message()
+                       | block_message().

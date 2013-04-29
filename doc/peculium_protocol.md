@@ -28,7 +28,7 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 
 
 <pre><code>
-decode(X::binary()) -&gt; {ok}
+decode(Data::binary()) -&gt; ok
 </code></pre>
 
 <br></br>

@@ -151,20 +151,7 @@
 
 -record(message, {
     header :: peculium_types:message_header(),
-    body :: peculium_types:verack_message()
-          | peculium_types:ping_message()
-          | peculium_types:getaddr_message()
-          | peculium_types:version_message()
-          | peculium_types:alert_message()
-          | peculium_types:inv_message()
-          | peculium_types:getdata_message()
-          | peculium_types:notfound_message()
-          | peculium_types:addr_message()
-          | peculium_types:headers_message()
-          | peculium_types:getblocks_message()
-          | peculium_types:getheaders_message()
-          | peculium_types:transaction_message()
-          | peculium_types:block_message()
+    body :: peculium_types:message_types()
 }).
 
 %% NOTE: We are going to keep one block_index_entry for every block in the
