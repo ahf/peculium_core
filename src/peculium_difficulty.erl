@@ -35,7 +35,7 @@
 -module(peculium_difficulty).
 
 %% API.
--export([from_bits/1, block_work/1]).
+-export([from_bits/1, block_work/1, target/1]).
 
 %% Types.
 -type uint32_t() :: peculium_types:uint32_t().
@@ -43,7 +43,7 @@
 %% @doc Calculates the difficulty from the compact bits representation.
 -spec from_bits(Bits :: uint32_t()) -> number().
 from_bits(Bits) ->
-    max_difficulty() / difficulty(Bits).
+    max_difficulty() / target(Bits).
 
 %% @doc Calculates the amount of block work from the compact bits representation.
 -spec block_work(Bits :: uint32_t()) -> number().
@@ -51,16 +51,17 @@ block_work(Bits) ->
     Target = from_bits(Bits),
     (1 bsl 256) / (Target + 1).
 
-%% @private
--spec difficulty(Compact :: uint32_t()) -> number().
-difficulty(Compact) ->
+%% @doc Calculates the target from the compact bits.
+-spec target(Bits :: uint32_t()) -> number().
+target(Bits) ->
     %% FIXME: This function could easily be optimized using
     %% shift operators instead of the pow call.
-    A = Compact bsr 24,
-    B = Compact band 16#007fffff,
+    A = Bits bsr 24,
+    B = Bits band 16#007fffff,
     B * math:pow(2, 8 * (A - 3)).
 
 %% @private
 -spec max_difficulty() -> number().
 max_difficulty() ->
-    difficulty(16#1d00ffff).
+    target(16#1d00ffff).
+

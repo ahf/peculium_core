@@ -37,12 +37,15 @@
 
 %% API.
 -export([hash/1, genesis_block/1, transactions/1, previous/1, version/1,
-        merkle_root/1, difficulty/1, block_work/1]).
+        merkle_root/1, difficulty/1, block_work/1, bits/1, target/1,
+        timestamp/1]).
+
 %% Types.
--type hash() :: peculium_types:hash().
 -type block() :: peculium_types:block().
--type transaction() :: peculium_types:transaction().
+-type hash() :: peculium_types:hash().
 -type network_atom() :: peculium_types:network_atom().
+-type transaction() :: peculium_types:transaction().
+-type uint32_t() :: peculium_types:uint32_t().
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
@@ -122,6 +125,21 @@ difficulty(#block { bits = Bits }) ->
 -spec block_work(Block :: block()) -> number().
 block_work(#block { bits = Bits }) ->
     peculium_difficulty:block_work(Bits).
+
+%% @doc Returns the bits of a given block.
+-spec bits(Block :: block()) -> uint32_t().
+bits(#block { bits = Bits }) ->
+    Bits.
+
+%% @doc Returns the timestamp of a given block.
+-spec timestamp(Block :: block()) -> uint32_t().
+timestamp(#block { timestamp = Timestamp }) ->
+    Timestamp.
+
+%% @doc Returns the target of a given block.
+-spec target(Block :: block()) -> number().
+target(#block { bits = Bits }) ->
+    peculium_difficulty:target(Bits).
 
 -ifdef(TEST).
 
