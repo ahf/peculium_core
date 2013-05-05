@@ -25,13 +25,16 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Peculium LevelDB Utilities.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc LevelDB Utilities.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_leveldb).
 
 %% API.
 -export([open/1, close/1, put/3, get/2, delete/2]).
--export([open_options/1, read_options/0, write_options/0]).
 
 %% @doc Open LevelDB database.
 -spec open(Path :: string()) -> {ok, eleveldb:db_ref()} | {error, any()}.
@@ -58,7 +61,7 @@ put(Database, Key, Value) ->
 delete(Database, Key) ->
     eleveldb:delete(Database, Key, write_options()).
 
-%% @doc Get default database opening options.
+%% @private
 -spec open_options(CacheSize :: non_neg_integer()) -> eleveldb:open_options().
 open_options(CacheSize) ->
     [
@@ -75,7 +78,7 @@ open_options(CacheSize) ->
         {write_buffer_size, CacheSize / 4}
     ].
 
-%% @doc Get default database read options.
+%% @private
 -spec read_options() -> eleveldb:read_options().
 read_options() ->
     [
@@ -83,7 +86,7 @@ read_options() ->
         {verify_checksums, true}
     ].
 
-%% @doc Get default database write options.
+%% @private
 -spec write_options() -> eleveldb:write_options().
 write_options() ->
     [
