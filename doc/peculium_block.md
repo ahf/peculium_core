@@ -68,18 +68,43 @@ transaction() = <a href="peculium_types.md#type-transaction">peculium_types:tran
 </code></pre>
 
 
+
+
+
+### <a name="type-uint32_t">uint32_t()</a> ###
+
+
+
+<pre><code>
+uint32_t() = <a href="peculium_types.md#type-uint32_t">peculium_types:uint32_t()</a>
+</code></pre>
+
+
 <a name="index"></a>
 
 ## Function Index ##
 
 
-<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#block_work-1">block_work/1</a></td><td>Returns the block work of a given block.</td></tr><tr><td valign="top"><a href="#difficulty-1">difficulty/1</a></td><td>Returns the difficulty of a given block.</td></tr><tr><td valign="top"><a href="#genesis_block-1">genesis_block/1</a></td><td>Returns the Genesis block from a given network.</td></tr><tr><td valign="top"><a href="#hash-1">hash/1</a></td><td>Returns the little-endian encoded hash of a given block.</td></tr><tr><td valign="top"><a href="#merkle_root-1">merkle_root/1</a></td><td>Returns the root hash of the merkle tree of a given block.</td></tr><tr><td valign="top"><a href="#previous-1">previous/1</a></td><td>Returns the hash of the previous block of a given block.</td></tr><tr><td valign="top"><a href="#transactions-1">transactions/1</a></td><td>Returns a list of transactions of a given block.</td></tr><tr><td valign="top"><a href="#version-1">version/1</a></td><td>Returns the version of a given block.</td></tr></table>
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#bits-1">bits/1</a></td><td>Returns the bits of a given block.</td></tr><tr><td valign="top"><a href="#block_work-1">block_work/1</a></td><td>Returns the block work of a given block.</td></tr><tr><td valign="top"><a href="#difficulty-1">difficulty/1</a></td><td>Returns the difficulty of a given block.</td></tr><tr><td valign="top"><a href="#genesis_block-1">genesis_block/1</a></td><td>Returns the Genesis block from a given network.</td></tr><tr><td valign="top"><a href="#hash-1">hash/1</a></td><td>Returns the little-endian encoded hash of a given block.</td></tr><tr><td valign="top"><a href="#merkle_root-1">merkle_root/1</a></td><td>Returns the root hash of the merkle tree of a given block.</td></tr><tr><td valign="top"><a href="#previous-1">previous/1</a></td><td>Returns the hash of the previous block of a given block.</td></tr><tr><td valign="top"><a href="#target-1">target/1</a></td><td>Returns the target of a given block.</td></tr><tr><td valign="top"><a href="#timestamp-1">timestamp/1</a></td><td>Returns the timestamp of a given block.</td></tr><tr><td valign="top"><a href="#transactions-1">transactions/1</a></td><td>Returns a list of transactions of a given block.</td></tr><tr><td valign="top"><a href="#version-1">version/1</a></td><td>Returns the version of a given block.</td></tr></table>
 
 
 <a name="functions"></a>
 
 ## Function Details ##
 
+<a name="bits-1"></a>
+
+### bits/1 ###
+
+
+<pre><code>
+bits(Block::<a href="#type-block">block()</a>) -&gt; <a href="#type-uint32_t">uint32_t()</a>
+</code></pre>
+
+<br></br>
+
+
+Returns the bits of a given block.
 <a name="block_work-1"></a>
 
 ### block_work/1 ###
@@ -158,6 +183,32 @@ previous(Block::<a href="#type-block">block()</a>) -&gt; <a href="#type-hash">ha
 
 
 Returns the hash of the previous block of a given block.
+<a name="target-1"></a>
+
+### target/1 ###
+
+
+<pre><code>
+target(Block::<a href="#type-block">block()</a>) -&gt; number()
+</code></pre>
+
+<br></br>
+
+
+Returns the target of a given block.
+<a name="timestamp-1"></a>
+
+### timestamp/1 ###
+
+
+<pre><code>
+timestamp(Block::<a href="#type-block">block()</a>) -&gt; <a href="#type-uint32_t">uint32_t()</a>
+</code></pre>
+
+<br></br>
+
+
+Returns the timestamp of a given block.
 <a name="transactions-1"></a>
 
 ### transactions/1 ###
