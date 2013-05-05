@@ -46,12 +46,12 @@ inv() = <a href="peculium_types.md#type-inv">peculium_types:inv()</a>
 
 
 
-### <a name="type-inv_atom">inv_atom()</a> ###
+### <a name="type-inv_type">inv_type()</a> ###
 
 
 
 <pre><code>
-inv_atom() = <a href="peculium_types.md#type-inv_atom">peculium_types:inv_atom()</a>
+inv_type() = <a href="peculium_types.md#type-inv_type">peculium_types:inv_type()</a>
 </code></pre>
 
 
@@ -125,7 +125,7 @@ Check if we have the given object.
 
 
 <pre><code>
-type(Inv::<a href="#type-inv">inv()</a>) -&gt; <a href="#type-inv_atom">inv_atom()</a>
+type(Inv::<a href="#type-inv">inv()</a>) -&gt; <a href="#type-inv_type">inv_type()</a>
 </code></pre>
 
 <br></br>

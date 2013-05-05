@@ -19,12 +19,12 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 
 
 
-### <a name="type-network_atom">network_atom()</a> ###
+### <a name="type-network">network()</a> ###
 
 
 
 <pre><code>
-network_atom() = <a href="peculium_types.md#type-network_atom">peculium_types:network_atom()</a>
+network() = <a href="peculium_types.md#type-network">peculium_types:network()</a>
 </code></pre>
 
 
@@ -46,7 +46,7 @@ network_atom() = <a href="peculium_types.md#type-network_atom">peculium_types:ne
 
 
 <pre><code>
-magic_value(Network::<a href="#type-network_atom">network_atom()</a>) -&gt; {ok, binary()} | {error, any()}
+magic_value(Network::<a href="#type-network">network()</a>) -&gt; {ok, binary()} | {error, any()}
 </code></pre>
 
 <br></br>
@@ -59,7 +59,7 @@ magic_value(Network::<a href="#type-network_atom">network_atom()</a>) -&gt; {ok,
 
 
 <pre><code>
-stringify(Network::<a href="#type-network_atom">network_atom()</a>) -&gt; {ok, binary()} | {error, any()}
+stringify(Network::<a href="#type-network">network()</a>) -&gt; {ok, binary()} | {error, any()}
 </code></pre>
 
 <br></br>

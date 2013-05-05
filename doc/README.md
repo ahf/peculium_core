@@ -119,7 +119,6 @@ because of this.
 <tr><td><a href="peculium_block_index_entry.md" class="module">peculium_block_index_entry</a></td></tr>
 <tr><td><a href="peculium_block_locator.md" class="module">peculium_block_locator</a></td></tr>
 <tr><td><a href="peculium_block_store.md" class="module">peculium_block_store</a></td></tr>
-<tr><td><a href="peculium_block_validator.md" class="module">peculium_block_validator</a></td></tr>
 <tr><td><a href="peculium_config.md" class="module">peculium_config</a></td></tr>
 <tr><td><a href="peculium_crypto.md" class="module">peculium_crypto</a></td></tr>
 <tr><td><a href="peculium_difficulty.md" class="module">peculium_difficulty</a></td></tr>

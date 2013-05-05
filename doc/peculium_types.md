@@ -92,12 +92,12 @@ checksum() = &lt;&lt;_:32&gt;&gt;
 
 
 
-### <a name="type-command_atom">command_atom()</a> ###
+### <a name="type-command">command()</a> ###
 
 
 
 <pre><code>
-command_atom() = addr | alert | block | checkorder | getaddr | getblocks | getdata | getheaders | headers | inv | ping | submitorder | reply | transaction | verack | version
+command() = addr | alert | block | checkorder | getaddr | getblocks | getdata | getheaders | headers | inv | ping | submitorder | reply | transaction | verack | version
 </code></pre>
 
 
@@ -212,18 +212,6 @@ __abstract datatype__: `inv()`
 
 
 
-### <a name="type-inv_atom">inv_atom()</a> ###
-
-
-
-<pre><code>
-inv_atom() = error | transaction | block
-</code></pre>
-
-
-
-
-
 ### <a name="type-inv_integer">inv_integer()</a> ###
 
 
@@ -240,6 +228,18 @@ inv_integer() = 0 | 1 | 2
 
 
 __abstract datatype__: `inv_message()`
+
+
+
+
+### <a name="type-inv_type">inv_type()</a> ###
+
+
+
+<pre><code>
+inv_type() = error | transaction | block
+</code></pre>
+
 
 
 
@@ -272,22 +272,22 @@ message_types() = <a href="#type-verack_message">verack_message()</a> | <a href=
 
 
 
-### <a name="type-network_address">network_address()</a> ###
-
-
-__abstract datatype__: `network_address()`
-
-
-
-
-### <a name="type-network_atom">network_atom()</a> ###
+### <a name="type-network">network()</a> ###
 
 
 
 <pre><code>
-network_atom() = mainnet | testnet | testnet3
+network() = mainnet | testnet | testnet3
 </code></pre>
 
+
+
+
+
+### <a name="type-network_address">network_address()</a> ###
+
+
+__abstract datatype__: `network_address()`
 
 
 
@@ -420,12 +420,12 @@ uint8_t() = 0..255
 
 
 
-### <a name="type-unit_atom">unit_atom()</a> ###
+### <a name="type-unit_type">unit_type()</a> ###
 
 
 
 <pre><code>
-unit_atom() = megabitcoin | kilobitcoin | hectobitcoin | decabitcoin | bitcoin | decibitcoin | centibitcoin | millibitcoin | microbitcoin | satoshi
+unit_type() = megabitcoin | kilobitcoin | hectobitcoin | decabitcoin | bitcoin | decibitcoin | centibitcoin | millibitcoin | microbitcoin | satoshi
 </code></pre>
 
 

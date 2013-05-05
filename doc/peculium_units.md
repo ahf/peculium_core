@@ -23,12 +23,12 @@ Bitcoin unit types.
 
 
 
-### <a name="type-unit_atom">unit_atom()</a> ###
+### <a name="type-unit_type">unit_type()</a> ###
 
 
 
 <pre><code>
-unit_atom() = <a href="peculium_types.md#type-unit_atom">peculium_types:unit_atom()</a>
+unit_type() = <a href="peculium_types.md#type-unit_type">peculium_types:unit_type()</a>
 </code></pre>
 
 
@@ -50,7 +50,7 @@ unit_atom() = <a href="peculium_types.md#type-unit_atom">peculium_types:unit_ato
 
 
 <pre><code>
-convert(Value::float(), InputUnit::<a href="#type-unit_atom">unit_atom()</a>, OutputUnit::<a href="#type-unit_atom">unit_atom()</a>) -&gt; float()
+convert(Value::float(), InputUnit::<a href="#type-unit_type">unit_type()</a>, OutputUnit::<a href="#type-unit_type">unit_type()</a>) -&gt; float()
 </code></pre>
 
 <br></br>
@@ -63,7 +63,7 @@ Convert a given number from the input unit to the output unit.
 
 
 <pre><code>
-factor(Unit::<a href="#type-unit_atom">unit_atom()</a>) -&gt; float()
+factor(Unit::<a href="#type-unit_type">unit_type()</a>) -&gt; float()
 </code></pre>
 
 <br></br>
@@ -76,7 +76,7 @@ Returns the factor of a given unit.
 
 
 <pre><code>
-stringify(Unit::<a href="#type-unit_atom">unit_atom()</a>) -&gt; binary()
+stringify(Unit::<a href="#type-unit_type">unit_type()</a>) -&gt; binary()
 </code></pre>
 
 <br></br>

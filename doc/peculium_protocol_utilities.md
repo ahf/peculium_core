@@ -35,12 +35,12 @@ checksum() = <a href="peculium_types.md#type-checksum">peculium_types:checksum()
 
 
 
-### <a name="type-command_atom">command_atom()</a> ###
+### <a name="type-command">command()</a> ###
 
 
 
 <pre><code>
-command_atom() = <a href="peculium_types.md#type-command_atom">peculium_types:command_atom()</a>
+command() = <a href="peculium_types.md#type-command">peculium_types:command()</a>
 </code></pre>
 
 
@@ -59,24 +59,24 @@ dynamic_vector_decode_fun() = fun((Data::binary()) -&gt; {ok, Item::any(), Rest:
 
 
 
-### <a name="type-inv_atom">inv_atom()</a> ###
-
-
-
-<pre><code>
-inv_atom() = <a href="peculium_types.md#type-inv_atom">peculium_types:inv_atom()</a>
-</code></pre>
-
-
-
-
-
 ### <a name="type-inv_integer">inv_integer()</a> ###
 
 
 
 <pre><code>
 inv_integer() = <a href="peculium_types.md#type-inv_integer">peculium_types:inv_integer()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-inv_type">inv_type()</a> ###
+
+
+
+<pre><code>
+inv_type() = <a href="peculium_types.md#type-inv_type">peculium_types:inv_type()</a>
 </code></pre>
 
 
@@ -97,7 +97,7 @@ vector_decode_fun() = fun((Data::binary()) -&gt; {ok, Item::any()} | {error, any
 ## Function Index ##
 
 
-<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#atom_to_inv-1">atom_to_inv/1</a></td><td>Returns an integer from a given inv atom.</td></tr><tr><td valign="top"><a href="#checksum-1">checksum/1</a></td><td>Returns the first four bytes of the double SHA256 checksum of the given Data.</td></tr><tr><td valign="top"><a href="#command_to_atom-1">command_to_atom/1</a></td><td>Returns a command atom from a given binary.</td></tr><tr><td valign="top"><a href="#decode_dynamic_vector-3">decode_dynamic_vector/3</a></td><td>Decode a vector where the size of each item is unknown.</td></tr><tr><td valign="top"><a href="#decode_vector-3">decode_vector/3</a></td><td>Decode a vector where the size of each item is known.</td></tr><tr><td valign="top"><a href="#inv_to_atom-1">inv_to_atom/1</a></td><td>Returns an inv atom from a given integer.</td></tr></table>
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#atom_to_inv-1">atom_to_inv/1</a></td><td>Returns an integer from a given inv type.</td></tr><tr><td valign="top"><a href="#checksum-1">checksum/1</a></td><td>Returns the first four bytes of the double SHA256 checksum of the given Data.</td></tr><tr><td valign="top"><a href="#command_to_atom-1">command_to_atom/1</a></td><td>Returns a command atom from a given binary.</td></tr><tr><td valign="top"><a href="#decode_dynamic_vector-3">decode_dynamic_vector/3</a></td><td>Decode a vector where the size of each item is unknown.</td></tr><tr><td valign="top"><a href="#decode_vector-3">decode_vector/3</a></td><td>Decode a vector where the size of each item is known.</td></tr><tr><td valign="top"><a href="#inv_to_atom-1">inv_to_atom/1</a></td><td>Returns an inv atom from a given integer.</td></tr></table>
 
 
 <a name="functions"></a>
@@ -110,13 +110,13 @@ vector_decode_fun() = fun((Data::binary()) -&gt; {ok, Item::any()} | {error, any
 
 
 <pre><code>
-atom_to_inv(Inv::<a href="#type-inv_atom">inv_atom()</a>) -&gt; {ok, <a href="#type-inv_integer">inv_integer()</a>} | {error, any()}
+atom_to_inv(Inv::<a href="#type-inv_type">inv_type()</a>) -&gt; {ok, <a href="#type-inv_integer">inv_integer()</a>} | {error, any()}
 </code></pre>
 
 <br></br>
 
 
-Returns an integer from a given inv atom.
+Returns an integer from a given inv type.
 <a name="checksum-1"></a>
 
 ### checksum/1 ###
@@ -136,7 +136,7 @@ Returns the first four bytes of the double SHA256 checksum of the given Data.
 
 
 <pre><code>
-command_to_atom(Command::binary()) -&gt; {ok, <a href="#type-command_atom">command_atom()</a>} | {error, any()}
+command_to_atom(Command::binary()) -&gt; {ok, <a href="#type-command">command()</a>} | {error, any()}
 </code></pre>
 
 <br></br>
@@ -184,7 +184,7 @@ Decode a vector where the size of each item is known.
 
 
 <pre><code>
-inv_to_atom(InvInteger::integer()) -&gt; {ok, <a href="#type-inv_atom">inv_atom()</a>} | {error, any()}
+inv_to_atom(InvInteger::integer()) -&gt; {ok, <a href="#type-inv_type">inv_type()</a>} | {error, any()}
 </code></pre>
 
 <br></br>

@@ -47,12 +47,12 @@ hash() = <a href="peculium_types.md#type-hash">peculium_types:hash()</a>
 
 
 
-### <a name="type-network_atom">network_atom()</a> ###
+### <a name="type-network">network()</a> ###
 
 
 
 <pre><code>
-network_atom() = <a href="peculium_types.md#type-network_atom">peculium_types:network_atom()</a>
+network() = <a href="peculium_types.md#type-network">peculium_types:network()</a>
 </code></pre>
 
 
@@ -137,7 +137,7 @@ Returns the difficulty of a given block.
 
 
 <pre><code>
-genesis_block(Network::<a href="#type-network_atom">network_atom()</a>) -&gt; <a href="#type-block">block()</a>
+genesis_block(Network::<a href="#type-network">network()</a>) -&gt; <a href="#type-block">block()</a>
 </code></pre>
 
 <br></br>
