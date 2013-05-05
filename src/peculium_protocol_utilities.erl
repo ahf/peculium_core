@@ -41,9 +41,9 @@
 
 %% Types.
 -type checksum() :: peculium_types:checksum().
--type inv_atom() :: peculium_types:inv_atom().
+-type inv_type() :: peculium_types:inv_type().
 -type inv_integer() :: peculium_types:inv_integer().
--type command_atom() :: peculium_types:command_atom().
+-type command() :: peculium_types:command().
 
 -type vector_decode_fun() :: fun((Data :: binary()) -> {ok, Item :: any()} | {error, any()}).
 -type dynamic_vector_decode_fun() :: fun((Data :: binary()) -> {ok, Item :: any(), Rest :: binary()} | {error, any()}).
@@ -54,7 +54,7 @@ checksum(Data) ->
     binary_part(crypto:sha256(crypto:sha256(Data)), {0, 4}).
 
 %% @doc Returns an inv atom from a given integer.
--spec inv_to_atom(InvInteger :: integer()) -> {ok, inv_atom()} | {error, any()}.
+-spec inv_to_atom(InvInteger :: integer()) -> {ok, inv_type()} | {error, any()}.
 inv_to_atom(0) ->
     {ok, error};
 inv_to_atom(1) ->
@@ -64,8 +64,8 @@ inv_to_atom(2) ->
 inv_to_atom(X) ->
     {error, {invalid_inv_integer, X}}.
 
-%% @doc Returns an integer from a given inv atom.
--spec atom_to_inv(Inv :: inv_atom()) -> {ok, inv_integer()} | {error, any()}.
+%% @doc Returns an integer from a given inv type.
+-spec atom_to_inv(Inv :: inv_type()) -> {ok, inv_integer()} | {error, any()}.
 atom_to_inv(error) ->
     {ok, 0};
 atom_to_inv(transaction) ->
@@ -73,10 +73,10 @@ atom_to_inv(transaction) ->
 atom_to_inv(block) ->
     {ok, 2};
 atom_to_inv(X) ->
-    {error, {invalid_inv_atom, X}}.
+    {error, {invalid_inv_type, X}}.
 
 %% @doc Returns a command atom from a given binary.
--spec command_to_atom(Command :: binary()) -> {ok, command_atom()} | {error, any()}.
+-spec command_to_atom(Command :: binary()) -> {ok, command()} | {error, any()}.
 command_to_atom(Command) ->
     case peculium_utilities:strip(Command, <<0>>) of
         <<"addr">> ->
@@ -115,7 +115,7 @@ command_to_atom(Command) ->
         <<"version">> ->
             {ok, version};
         Value ->
-            {error, {invalid_command_atom, Value}}
+            {error, {invalid_command, Value}}
     end.
 
 %% @doc Decode a vector where the size of each item is known.

@@ -43,7 +43,7 @@
 %% Types.
 -type block() :: peculium_types:block().
 -type hash() :: peculium_types:hash().
--type network_atom() :: peculium_types:network_atom().
+-type network() :: peculium_types:network().
 -type transaction() :: peculium_types:transaction().
 -type uint32_t() :: peculium_types:uint32_t().
 
@@ -62,7 +62,7 @@ hash(#block { version = Version, previous_block = PreviousBlock, merkle_root = M
     peculium_crypto:hash([t:uint32_t(Version), PreviousBlock, MerkleRoot, t:uint32_t(Timestamp), t:uint32_t(Bits), t:uint32_t(Nonce)]).
 
 %% @doc Returns the Genesis block from a given network.
--spec genesis_block(Network :: network_atom()) -> block().
+-spec genesis_block(Network :: network()) -> block().
 genesis_block(mainnet) ->
     Inputs = [#transaction_input {
         sequence = 16#ffffffff,

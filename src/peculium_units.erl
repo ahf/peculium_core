@@ -39,14 +39,14 @@
 -export([factor/1, convert/3, stringify/1]).
 
 %% Types.
--type unit_atom() :: peculium_types:unit_atom().
+-type unit_type() :: peculium_types:unit_type().
 
 -include_lib("peculium/include/peculium.hrl").
 
 -include("peculium_test.hrl").
 
 %% @doc Returns the factor of a given unit.
--spec factor(Unit :: unit_atom()) -> float().
+-spec factor(Unit :: unit_type()) -> float().
 factor(Unit) ->
     case Unit of
         megabitcoin ->
@@ -72,12 +72,12 @@ factor(Unit) ->
     end.
 
 %% @doc Convert a unit to a binary.
--spec stringify(Unit :: unit_atom()) -> binary().
+-spec stringify(Unit :: unit_type()) -> binary().
 stringify(Unit) ->
     atom_to_binary(Unit, utf8).
 
 %% @doc Convert a given number from the input unit to the output unit.
--spec convert(Value :: float(), InputUnit :: unit_atom(), OutputUnit :: unit_atom()) -> float().
+-spec convert(Value :: float(), InputUnit :: unit_type(), OutputUnit :: unit_type()) -> float().
 convert(Value, InputUnit, OutputUnit) ->
     Value * 1 / factor(InputUnit) * factor(OutputUnit).
 
@@ -91,11 +91,11 @@ compare(A, B) ->
     As =:= Bs.
 
 prop_convert_integer_inverse() ->
-    ?FORALL({Value, InputUnit, OutputUnit}, {pos_integer(), peculium_triq:unit_atom(), peculium_triq:unit_atom()},
+    ?FORALL({Value, InputUnit, OutputUnit}, {pos_integer(), peculium_triq:unit_type(), peculium_triq:unit_type()},
         compare(convert(convert(Value, InputUnit, OutputUnit), OutputUnit, InputUnit), float(Value))).
 
 prop_convert_real_inverse() ->
-    ?FORALL({Value, InputUnit, OutputUnit}, {real(), peculium_triq:unit_atom(), peculium_triq:unit_atom()},
+    ?FORALL({Value, InputUnit, OutputUnit}, {real(), peculium_triq:unit_type(), peculium_triq:unit_type()},
         compare(convert(convert(Value, InputUnit, OutputUnit), OutputUnit, InputUnit), float(Value))).
 
 -endif.

@@ -35,10 +35,10 @@
 -module(peculium_types).
 
 %% Types.
--export_type([unit_atom/0, uint8_t/0, uint16_t/0, uint32_t/0, uint64_t/0,
-        int8_t/0, int16_t/0, int32_t/0, int64_t/0, network_atom/0,
-        command_atom/0, inv_atom/0, script_op/0, script/0, inv_integer/0,
-        inv/0, checksum/0, hash/0, transaction_outpoint/0, transaction_input/0,
+-export_type([unit_type/0, uint8_t/0, uint16_t/0, uint32_t/0, uint64_t/0,
+        int8_t/0, int16_t/0, int32_t/0, int64_t/0, network/0, command/0,
+        inv_type/0, script_op/0, script/0, inv_integer/0, inv/0, checksum/0,
+        hash/0, transaction_outpoint/0, transaction_input/0,
         transaction_output/0, network_address/0, block_header/0, transaction/0,
         block/0, message_header/0, verack_message/0, ping_message/0,
         getaddr_message/0, version_message/0, alert_message/0, inv_message/0,
@@ -49,7 +49,7 @@
 
 -include_lib("peculium/include/peculium.hrl").
 
--type unit_atom() :: megabitcoin | kilobitcoin | hectobitcoin | decabitcoin
+-type unit_type() :: megabitcoin | kilobitcoin | hectobitcoin | decabitcoin
                    | bitcoin | decibitcoin | centibitcoin | millibitcoin
                    | microbitcoin | satoshi.
 
@@ -69,14 +69,14 @@
 
 -type block_locator() :: [hash()].
 
--type network_atom() :: mainnet | testnet | testnet3.
+-type network() :: mainnet | testnet | testnet3.
 
--type command_atom() :: addr | alert | block | checkorder
-                              | getaddr | getblocks | getdata | getheaders
-                              | headers | inv | ping | submitorder
-                              | reply | transaction | verack | version.
+-type command() :: addr | alert | block | checkorder
+                 | getaddr | getblocks | getdata | getheaders
+                 | headers | inv | ping | submitorder
+                 | reply | transaction | verack | version.
 
--type inv_atom() :: error | transaction | block.
+-type inv_type() :: error | transaction | block.
 -type inv_integer() :: 0 | 1 | 2.
 
 -type script_op() :: op_0 | op_1negate | op_1 | op_2 | op_3 | op_4 | op_5

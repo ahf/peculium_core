@@ -24,7 +24,7 @@
 %%% OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -record(inv, {
-    type :: peculium_types:inv_atom(),
+    type :: peculium_types:inv_type(),
     hash :: binary()
 }).
 
@@ -79,8 +79,8 @@
 }).
 
 -record(message_header, {
-    network :: peculium_types:network_atom(),
-    command :: peculium_types:command_atom(),
+    network :: peculium_types:network(),
+    command :: peculium_types:command(),
     length :: peculium_types:uint32_t(),
     checksum :: peculium_types:checksum(),
     valid :: boolean()

@@ -39,13 +39,13 @@
 
 %% Types.
 -type inv() :: peculium_types:inv().
--type inv_atom() :: peculium_types:inv_atom().
+-type inv_type() :: peculium_types:inv_type().
 -type hash() :: peculium_types:hash().
 
 -include_lib("peculium/include/peculium.hrl").
 
 %% @doc Returns the type of a given inv.
--spec type(Inv :: inv()) -> inv_atom().
+-spec type(Inv :: inv()) -> inv_type().
 type(#inv { type = Type }) ->
     Type.
 

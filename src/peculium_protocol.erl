@@ -42,7 +42,7 @@
 %% Types.
 -type transaction_input() :: peculium_types:transaction_input().
 -type transaction_output() :: peculium_types:transaction_output().
--type network_atom() :: peculium_types:network_atom().
+-type network() :: peculium_types:network().
 
 -include_lib("peculium/include/peculium.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
@@ -110,7 +110,7 @@ decode_magic_value(<<Magic:4/binary, Rest/binary>>) ->
 decode_magic_value(_X) ->
     {error, insufficient_data}.
 
--spec decode_message_frame(network_atom(), binary()) -> any().
+-spec decode_message_frame(network(), binary()) -> any().
 decode_message_frame(Network, <<RawCommand:12/binary, Size:32/little-unsigned-integer, Checksum:4/binary, Rest/binary>> = X) ->
     {ok, Command} = u:command_to_atom(RawCommand),
     case Rest of
