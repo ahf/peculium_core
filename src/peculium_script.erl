@@ -25,19 +25,30 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Bitcoin Script Interpreter.
+%%% @copyright  2013 Fearless Hamster Solutions
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Bitcoin Script Decoder
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_script).
 
+%% API.
 -export([decode/1]).
 
--spec decode(binary()) -> [any()].
-decode(X) when is_binary(X) ->
-    decode(X, []).
+%% Types.
+-type script() :: peculium_types:script().
 
--spec decode(binary(), [any()]) -> [any()].
-decode(Data, Result) when is_binary(Data) ->
-    case Data of
+%% Tests.
+
+-spec decode(Opcodes :: binary()) -> {ok, script()} | {error, any()}.
+decode(Opcodes) ->
+    decode(Opcodes, []).
+
+%% @private
+-spec decode(Opcodes :: binary(), Result :: script()) -> {ok, script()} | {error, any()}.
+decode(Opcodes, Result) ->
+    case Opcodes of
         %% Constants.
         <<0, X/binary>> ->
             decode(X, [op_0 | Result]);
@@ -270,7 +281,7 @@ decode(Data, Result) when is_binary(Data) ->
         <<_:8/integer, X/binary>> ->
             decode(X, [op_invalidopcode | Result]);
         <<>> ->
-            lists:reverse(Result);
+            {ok, lists:reverse(Result)};
         <<X/binary>> ->
             {error, {invalid_script, X, Result}}
     end.
