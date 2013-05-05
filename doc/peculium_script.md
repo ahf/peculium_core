@@ -45,7 +45,7 @@ script_op() = <a href="peculium_types.md#type-script_op">peculium_types:script_o
 ## Function Index ##
 
 
-<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#contains_disabled_opcodes-1">contains_disabled_opcodes/1</a></td><td>Check if a given script contains disabled opcodes.</td></tr><tr><td valign="top"><a href="#decode-1">decode/1</a></td><td></td></tr><tr><td valign="top"><a href="#is_disabled_opcode-1">is_disabled_opcode/1</a></td><td>Check if a given script opcode is disabled.</td></tr></table>
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#contains_disabled_opcodes-1">contains_disabled_opcodes/1</a></td><td>Check if a given script contains disabled opcodes.</td></tr><tr><td valign="top"><a href="#decode-1">decode/1</a></td><td>Try to decode a given binary containing script opcodes.</td></tr><tr><td valign="top"><a href="#is_disabled_opcode-1">is_disabled_opcode/1</a></td><td>Check if a given script opcode is disabled.</td></tr></table>
 
 
 <a name="functions"></a>
@@ -77,7 +77,7 @@ decode(Opcodes::binary()) -&gt; {ok, <a href="#type-script">script()</a>} | {err
 <br></br>
 
 
-
+Try to decode a given binary containing script opcodes.
 <a name="is_disabled_opcode-1"></a>
 
 ### is_disabled_opcode/1 ###

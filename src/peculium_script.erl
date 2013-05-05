@@ -42,6 +42,7 @@
 
 %% Tests.
 
+%% @doc Try to decode a given binary containing script opcodes.
 -spec decode(Opcodes :: binary()) -> {ok, script()} | {error, any()}.
 decode(Opcodes) ->
     decode(Opcodes, []).
