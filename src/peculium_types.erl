@@ -38,7 +38,7 @@
 -export_type([unit_type/0, uint8_t/0, uint16_t/0, uint32_t/0, uint64_t/0,
         int8_t/0, int16_t/0, int32_t/0, int64_t/0, network/0, command/0,
         inv_type/0, script_op/0, script/0, inv_integer/0, inv/0, checksum/0,
-        hash/0, transaction_outpoint/0, transaction_input/0,
+        hash/0, hash_function/0, transaction_outpoint/0, transaction_input/0,
         transaction_output/0, network_address/0, block_header/0, transaction/0,
         block/0, message_header/0, verack_message/0, ping_message/0,
         getaddr_message/0, version_message/0, alert_message/0, inv_message/0,
@@ -66,6 +66,7 @@
 -type checksum() :: <<_:32>>.
 
 -type hash() :: <<_:256>>.
+-type hash_function() :: fun((binary()) -> binary()).
 
 -type block_locator() :: [hash()].
 

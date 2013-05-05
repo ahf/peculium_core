@@ -39,8 +39,11 @@
 -export([from_transactions/1, hash/1, left/1, right/1]).
 
 %% Types.
+-export_type([merkle_tree_node/0]).
+
 -type transaction() :: peculium_types:transaction().
 -type hash() :: peculium_types:hash().
+-type hash_function() :: peculium_types:hash_function().
 
 -record(merkle_tree_node, {
     hash :: hash(),
@@ -48,9 +51,7 @@
     right :: merkle_tree_node()
 }).
 
--type merkle_tree_node() :: #merkle_tree_node {} | hash() | undefined.
--type hash_function() :: fun((binary()) -> binary()).
-
+-opaque merkle_tree_node() :: #merkle_tree_node {} | hash() | undefined.
 
 -include_lib("peculium/include/peculium.hrl").
 
@@ -70,12 +71,12 @@ from_transactions(Transactions) ->
 hash(#merkle_tree_node { hash = Hash }) ->
     Hash.
 
-%% @doc Utility function for reading the left child of a given Merkle tree node.
+%% @doc Utility function for getting the left child of a given Merkle tree node.
 -spec left(TreeNode :: merkle_tree_node()) -> merkle_tree_node().
 left(#merkle_tree_node { left = LeftChild }) ->
     LeftChild.
 
-%% @doc Utility function for reading the right child of a given Merkle tree node.
+%% @doc Utility function for getting the right child of a given Merkle tree node.
 -spec right(TreeNode :: merkle_tree_node()) -> merkle_tree_node().
 right(#merkle_tree_node { right = RightChild }) ->
     RightChild.

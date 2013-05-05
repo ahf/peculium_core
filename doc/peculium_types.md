@@ -148,6 +148,18 @@ hash() = &lt;&lt;_:256&gt;&gt;
 
 
 
+### <a name="type-hash_function">hash_function()</a> ###
+
+
+
+<pre><code>
+hash_function() = fun((binary()) -&gt; binary())
+</code></pre>
+
+
+
+
+
 ### <a name="type-headers_message">headers_message()</a> ###
 
 
