@@ -2,16 +2,33 @@
 
 # Module peculium_script #
 * [Description](#description)
+* [Data Types](#types)
 * [Function Index](#index)
 * [Function Details](#functions)
 
 
-       Bitcoin Script Interpreter.
-__Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
-<a name="description"></a>
+Bitcoin Script Decoder.
+Copyright (c)  2013 Fearless Hamster Solutions
 
-## Description ##
-   ----------------------------------------------------------------------------<a name="index"></a>
+__Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
+
+<a name="types"></a>
+
+## Data Types ##
+
+
+
+
+### <a name="type-script">script()</a> ###
+
+
+
+<pre><code>
+script() = <a href="peculium_types.md#type-script">peculium_types:script()</a>
+</code></pre>
+
+
+<a name="index"></a>
 
 ## Function Index ##
 
@@ -29,7 +46,7 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 
 
 <pre><code>
-decode(X::binary()) -&gt; [any()]
+decode(Opcodes::binary()) -&gt; {ok, <a href="#type-script">script()</a>} | {error, any()}
 </code></pre>
 
 <br></br>

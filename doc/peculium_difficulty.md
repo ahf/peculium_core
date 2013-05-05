@@ -36,7 +36,7 @@ uint32_t() = <a href="peculium_types.md#type-uint32_t">peculium_types:uint32_t()
 ## Function Index ##
 
 
-<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#block_work-1">block_work/1</a></td><td>Calculates the amount of block work from the compact bits representation.</td></tr><tr><td valign="top"><a href="#from_bits-1">from_bits/1</a></td><td>Calculates the difficulty from the compact bits representation.</td></tr></table>
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#block_work-1">block_work/1</a></td><td>Calculates the amount of block work from the compact bits representation.</td></tr><tr><td valign="top"><a href="#from_bits-1">from_bits/1</a></td><td>Calculates the difficulty from the compact bits representation.</td></tr><tr><td valign="top"><a href="#target-1">target/1</a></td><td>Calculates the target from the compact bits.</td></tr></table>
 
 
 <a name="functions"></a>
@@ -69,3 +69,16 @@ from_bits(Bits::<a href="#type-uint32_t">uint32_t()</a>) -&gt; number()
 
 
 Calculates the difficulty from the compact bits representation.
+<a name="target-1"></a>
+
+### target/1 ###
+
+
+<pre><code>
+target(Bits::<a href="#type-uint32_t">uint32_t()</a>) -&gt; number()
+</code></pre>
+
+<br></br>
+
+
+Calculates the target from the compact bits.

@@ -308,6 +308,30 @@ __abstract datatype__: `ping_message()`
 
 
 
+### <a name="type-script">script()</a> ###
+
+
+
+<pre><code>
+script() = [<a href="#type-script_op">script_op()</a> | binary()]
+</code></pre>
+
+
+
+
+
+### <a name="type-script_op">script_op()</a> ###
+
+
+
+<pre><code>
+script_op() = op_0 | op_1negate | op_1 | op_2 | op_3 | op_4 | op_5 | op_6 | op_7 | op_8 | op_9 | op_10 | op_11 | op_11 | op_12 | op_13 | op_14 | op_15 | op_16 | op_nop | op_if | op_notif | op_else | op_endif | op_verify | op_return | op_toaltstack | op_fromaltstack | op_ifdup | op_depth | op_drop | op_dup | op_nip | op_over | op_pick | op_roll | op_rot | op_swap | op_tuck | op_2drop | op_2dup | op_3dup | op_2over | op_2rot | op_2swap | op_cat | op_substr | op_left | op_right | op_size | op_invert | op_and | op_xor | op_or | op_xor | op_equal | op_equalverify | op_1add | op_1sub | op_2mul | op_2div | op_negate | op_abs | op_not | op_0notequal | op_add | op_sub | op_mul | op_div | op_mod | op_lshift | op_rshift | op_booland | op_boolor | op_numequal | op_numequalverify | op_numnotequal | op_lessthan | op_greaterthan | op_lessthanorequal | op_greaterthanorequal | op_min | op_max | op_within | op_ripemd160 | op_sha1 | op_sha256 | op_hash160 | op_hash256 | op_codeseparator | op_checksig | op_checksigverify | op_checkmultisig | op_checkmultisigverify | op_ver
+</code></pre>
+
+
+
+
+
 ### <a name="type-transaction">transaction()</a> ###
 
 
