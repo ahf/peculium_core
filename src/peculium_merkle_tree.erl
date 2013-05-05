@@ -66,7 +66,7 @@
 from_transactions(Transactions) ->
     from_list(lists:map(fun peculium_transaction:hash/1, Transactions), fun peculium_crypto:hash/1).
 
-%% @doc Utility function for reading the hash of a given Merkle tree node.
+%% @doc Utility function for getting the hash of a given Merkle tree node.
 -spec hash(TreeNode :: merkle_tree_node()) -> hash().
 hash(#merkle_tree_node { hash = Hash }) ->
     Hash.

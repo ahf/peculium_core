@@ -57,7 +57,7 @@ transaction() = <a href="peculium_types.md#type-transaction">peculium_types:tran
 ## Function Index ##
 
 
-<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#from_transactions-1">from_transactions/1</a></td><td>Create a Merkle tree from a list of transactions.</td></tr><tr><td valign="top"><a href="#hash-1">hash/1</a></td><td>Utility function for reading the hash of a given Merkle tree node.</td></tr><tr><td valign="top"><a href="#left-1">left/1</a></td><td>Utility function for getting the left child of a given Merkle tree node.</td></tr><tr><td valign="top"><a href="#right-1">right/1</a></td><td>Utility function for getting the right child of a given Merkle tree node.</td></tr></table>
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#from_transactions-1">from_transactions/1</a></td><td>Create a Merkle tree from a list of transactions.</td></tr><tr><td valign="top"><a href="#hash-1">hash/1</a></td><td>Utility function for getting the hash of a given Merkle tree node.</td></tr><tr><td valign="top"><a href="#left-1">left/1</a></td><td>Utility function for getting the left child of a given Merkle tree node.</td></tr><tr><td valign="top"><a href="#right-1">right/1</a></td><td>Utility function for getting the right child of a given Merkle tree node.</td></tr></table>
 
 
 <a name="functions"></a>
@@ -91,7 +91,7 @@ hash(TreeNode::<a href="#type-merkle_tree_node">merkle_tree_node()</a>) -&gt; <a
 <br></br>
 
 
-Utility function for reading the hash of a given Merkle tree node.
+Utility function for getting the hash of a given Merkle tree node.
 <a name="left-1"></a>
 
 ### left/1 ###
