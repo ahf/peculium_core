@@ -34,10 +34,11 @@
 -module(peculium_script).
 
 %% API.
--export([decode/1]).
+-export([decode/1, is_disabled_opcode/1, contains_disabled_opcodes/1]).
 
 %% Types.
 -type script() :: peculium_types:script().
+-type script_op() :: peculium_types:script_op().
 
 %% Tests.
 
@@ -285,3 +286,27 @@ decode(Opcodes, Result) ->
         <<X/binary>> ->
             {error, {invalid_script, X, Result}}
     end.
+
+%% @doc Check if a given script opcode is disabled.
+-spec is_disabled_opcode(Opcode :: script_op()) -> boolean().
+is_disabled_opcode(op_cat) -> true;
+is_disabled_opcode(op_substr) -> true;
+is_disabled_opcode(op_left) -> true;
+is_disabled_opcode(op_right) -> true;
+is_disabled_opcode(op_invert) -> true;
+is_disabled_opcode(op_and) -> true;
+is_disabled_opcode(op_or) -> true;
+is_disabled_opcode(op_xor) -> true;
+is_disabled_opcode(op_2mul) -> true;
+is_disabled_opcode(op_2div) -> true;
+is_disabled_opcode(op_mul) -> true;
+is_disabled_opcode(op_div) -> true;
+is_disabled_opcode(op_mod) -> true;
+is_disabled_opcode(op_lshift) -> true;
+is_disabled_opcode(op_rshift) -> true;
+is_disabled_opcode(_) -> false.
+
+%% @doc Check if a given script contains disabled opcodes.
+-spec contains_disabled_opcodes(Script :: script()) -> boolean().
+contains_disabled_opcodes(Script) ->
+    lists:any(fun is_disabled_opcode/1, Script).
