@@ -9,8 +9,8 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 
 Peculium is an experimental Bitcoin client implemented in the Erlang programming language.
 
-Warning
--------
+
+### <a name="Warning">Warning</a> ###
 
 Peculium is **beta quality software** and needs proper testing. Do not move your
 entire Bitcoin fortune from your current client to Peculium.
@@ -18,8 +18,8 @@ entire Bitcoin fortune from your current client to Peculium.
 We will remove this warning once we believe this software is of good enough
 quality to be a replacement for the Satoshi client.
 
-Getting Started
----------------
+
+### <a name="Getting_Started">Getting Started</a> ###
 
 Make sure you have a working Erlang environment running on your machine. If you
 are a Mac OS X user using Homebrew, you can install the Erlang distribution using:
@@ -70,8 +70,8 @@ To start Peculium and attach an Erlang shell:
 $ make console
 ```
 
-Testing
--------
+
+### <a name="Testing">Testing</a> ###
 
 Peculium uses `EUnit` and `triq` for unit and property-based testing. To run
 the test suites use:
@@ -80,8 +80,8 @@ the test suites use:
 $ make test
 ```
 
-Documentation
--------------
+
+### <a name="Documentation">Documentation</a> ###
 
 Every function in the Peculium source code must have a type-specification and a
 documentation entry. Peculium uses `edoc` for documentation and generates
@@ -92,18 +92,30 @@ use:
 $ make doc
 ```
 
-Quirks
-------
 
-### Use NTP
+### <a name="Community">Community</a> ###
 
-Like a lot of other software out there, the Bitcoin system depends upon having
-access to a correct time source. The Satoshi client tries to use the Bitcoin
-network to calculate an adjusted time whereas Peculium don't and depends upon
-its users keeping their time in sync themselves.
-If you do not keep your clock in sync odd things will happen. For instance,
-Peculium might start thinking that certain perfectly valid blocks are invalid
-because of this.
+All Peculium hackers and users are welcome to join `#peculium` on the Freenode
+IRC network.
+
+
+### <a name="Quirks">Quirks</a> ###
+
+Like most other software, Peculium isn't just a walk. This secion will keep you
+updated on various quirks that you should take into account when using
+Peculium.
+
+
+#### <a name="Use_NTP">Use NTP</a> ####
+
+Like a lot of other software out there, the Bitcoin system heavily depends upon
+having access to a correct time source. The Satoshi client tries to use the
+Bitcoin network to calculate an adjusted time whereas Peculium don't. Peculium
+requires that you keep your clock synchronized.
+
+If you do not keep your clock in sync strange things might happen. For
+instance, Peculium might start thinking that certain perfectly valid blocks are
+invalid because of this.
 
 
 ## Modules ##
