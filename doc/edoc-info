@@ -1,15 +1,18 @@
 %% encoding: UTF-8
-{application,peculium}.
+{application,peculium_core}.
 {packages,[]}.
-{modules,[peculium,peculium_app,peculium_base58,peculium_block,
-          peculium_block_header,peculium_block_index,
-          peculium_block_index_entry,peculium_block_locator,
-          peculium_block_store,peculium_config,peculium_crypto,
-          peculium_difficulty,peculium_inv,peculium_json,peculium_leveldb,
-          peculium_merkle_tree,peculium_messages,peculium_network,
-          peculium_network_address,peculium_peer,peculium_protocol,
-          peculium_protocol_types,peculium_protocol_utilities,peculium_script,
-          peculium_sup,peculium_transaction,peculium_transaction_input,
-          peculium_transaction_outpoint,peculium_transaction_output,
-          peculium_triq,peculium_types,peculium_units,peculium_utilities,
-          peculium_version]}.
+{modules,[peculium_core,peculium_core_app,peculium_core_base58,
+          peculium_core_block,peculium_core_block_header,
+          peculium_core_block_index,peculium_core_block_index_entry,
+          peculium_core_block_locator,peculium_core_block_store,
+          peculium_core_config,peculium_core_crypto,peculium_core_difficulty,
+          peculium_core_inv,peculium_core_json,peculium_core_leveldb,
+          peculium_core_merkle_tree,peculium_core_messages,
+          peculium_core_network,peculium_core_network_address,
+          peculium_core_peer,peculium_core_protocol,
+          peculium_core_protocol_types,peculium_core_protocol_utilities,
+          peculium_core_script,peculium_core_sup,peculium_core_transaction,
+          peculium_core_transaction_input,peculium_core_transaction_outpoint,
+          peculium_core_transaction_output,peculium_core_triq,
+          peculium_core_types,peculium_core_units,peculium_core_utilities,
+          peculium_core_version]}.

@@ -1,4 +1,4 @@
-REPOSITORY = peculium
+REPOSITORY = peculium_core
 APPS = crypto kernel stdlib sasl inets syntax_tools mnesia eunit release
 
 all: compile
@@ -21,7 +21,7 @@ release: compile
 	rebar -v skip_deps=true generate
 
 console: release
-	./rel/peculium/bin/peculium console
+	./rel/peculium_core/bin/peculium_core console
 
 eunit:
 	rebar skip_deps=true eunit
