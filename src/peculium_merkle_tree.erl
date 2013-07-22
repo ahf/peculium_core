@@ -1,5 +1,5 @@
 %%%
-%%% Copyright (c) 2013 Fearless Hamster Solutions.
+%%% Copyright (c) 2013 Alexander Færøy.
 %%% All rights reserved.
 %%%
 %%% Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,7 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @copyright  2013 Fearless Hamster Solutions
+%%% @copyright  2013 Alexander Færøy
 %%% @end
 %%% ----------------------------------------------------------------------------
 %%% @doc Merkle Tree Utilities.
