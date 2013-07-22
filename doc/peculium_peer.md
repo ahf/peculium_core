@@ -7,7 +7,7 @@
 
 
 Peer Server.
-Copyright (c)  2013 Fearless Hamster Solutions
+Copyright (c)  2013 Alexander Færøy
 
 __Behaviours:__ [`gen_server`](gen_server.md), [`ranch_protocol`](ranch_protocol.md).
 

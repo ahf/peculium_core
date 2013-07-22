@@ -7,7 +7,7 @@
 
 
 JSON Utilities.
-Copyright (c)  2013 Fearless Hamster Solutions
+Copyright (c)  2013 Alexander Færøy
 
 __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 <a name="index"></a>
