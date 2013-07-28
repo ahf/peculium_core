@@ -5,6 +5,8 @@
 
 -spec test() -> any().
 
+-spec check() -> any().
+
 -spec property_test() -> any().
 property_test() ->
     ?assert(triq:check(?MODULE)).
