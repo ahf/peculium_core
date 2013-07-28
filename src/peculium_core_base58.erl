@@ -36,18 +36,18 @@
 %%% The original Satoshi client source code discusses the reasoning behind the
 %%% Base58 encoding as the following:
 %%%
-%%%   - Avoid 0, O, I and l characters as they look the same in some fonts and
-%%%   could be used to trick people into transferring Bitcoins to the wrong
-%%%   address.
+%%%   - Avoid 0, O, I and l characters as they look the same in certain fonts and
+%%%     could be used to trick people into transferring Bitcoins to the wrong
+%%%     address.
 %%%
 %%%   - A string with non-alphanumeric characters is not easily accepted as an
-%%%   account number.
+%%%     account number.
 %%%
-%%%   - An email usually won't add a line-break unless there's punctuation to
-%%%   break it.
+%%%   - An email client usually won't add a line-break unless there's punctuation
+%%%     to break it.
 %%%
 %%%   - Double clicking selects the whole word and not just a section of the
-%%%   word.
+%%%     word.
 %%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_core_base58).
