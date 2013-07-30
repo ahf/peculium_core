@@ -143,4 +143,11 @@ prop_inverse2() ->
     ?FORALL(X, binary(),
         decode(encode(<<0, X/binary>>)) =:= {ok, <<0, X/binary>>}).
 
+-spec decode_failure_test() -> any().
+decode_failure_test() ->
+    [
+        ?assertEqual(decode(<<"0">>), {error, {invalid_byte, <<"0">>}}),
+        ?assertEqual(decode(<<"10">>), {error, {invalid_byte, <<"0">>}})
+    ].
+
 -endif.
