@@ -53,7 +53,9 @@
 -type uint64_t() :: peculium_core_types:uint64_t().
 -type network_address() :: peculium_core_types:network_address().
 -type inv() :: peculium_core_types:inv().
+-type block() :: peculium_core_types:block().
 -type block_header() :: peculium_core_types:block_header().
+-type transaction() :: peculium_core_types:transaction().
 -type transaction_outpoint() :: peculium_core_types:transaction_outpoint().
 -type transaction_input() :: peculium_core_types:transaction_input().
 -type transaction_output() :: peculium_core_types:transaction_output().
@@ -273,11 +275,16 @@ transaction_output(#transaction_output { value = Value, script = Script }) ->
     {ok, ScriptLength} = var_int(byte_size(Script)),
     [int64_t(Value), ScriptLength, Script].
 
+%% @doc Encode transaction.
+-spec transaction(transaction()) -> iolist().
 transaction(#transaction { version = Version, transaction_inputs = Inputs, transaction_outputs = Outputs, lock_time = LockTime }) ->
     {ok, InputsLength} = var_int(length(Inputs)),
     {ok, OutputsLength} = var_int(length(Outputs)),
     [uint32_t(Version), InputsLength, lists:map(fun transaction_input/1, Inputs), OutputsLength, lists:map(fun transaction_output/1, Outputs), uint32_t(LockTime)].
 
+%% @doc Encode or decode block.
+-spec block(Block :: block()) -> iolist();
+           (RawBlock :: binary()) -> {ok, block()} | {error, any()}.
 block(#block { version = Version, previous_block = PreviousBlock, merkle_root = MerkleRoot, timestamp = Timestamp, bits = Bits, nonce = Nonce, transactions = Transactions }) ->
     {ok, TransactionsLength} = var_int(length(Transactions)),
     [uint32_t(Version), PreviousBlock, MerkleRoot, uint32_t(Timestamp), uint32_t(Bits), uint32_t(Nonce), TransactionsLength, lists:map(fun transaction/1, Transactions)];
