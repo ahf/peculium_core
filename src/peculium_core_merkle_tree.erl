@@ -146,4 +146,8 @@ merkle_root_test() ->
     R = <<243, 233, 71, 66, 172, 164, 181, 239, 133, 72, 141, 195, 124, 6, 195, 40, 34, 149, 255, 236, 150, 9, 148, 178, 192, 213, 172, 42, 37, 169, 87, 102>>,
     ?assertEqual(hash(from_list([A, B, C, D], fun peculium_core_crypto:hash/1)), R).
 
+-spec merkle_tree_from_empty_list_test() -> any().
+merkle_tree_from_empty_list_test() ->
+    ?assertError(badarg, from_transactions([])).
+
 -endif.
