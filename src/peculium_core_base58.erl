@@ -119,7 +119,7 @@ symbol(Position) ->
 position(Symbol) ->
     position(Symbol, 0, ?BASE58_TABLE).
 
-%% @private.
+%% @private
 -spec position(byte(), non_neg_integer(), binary()) -> {ok, non_neg_integer()} | {error, {invalid_byte, binary()}}.
 position(Symbol, N, <<X:8/unsigned, Rest/binary>>) ->
     case X of
