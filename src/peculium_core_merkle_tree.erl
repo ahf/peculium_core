@@ -154,7 +154,9 @@ merkle_root2_test() ->
     [
         ?assertEqual(hash(from_list([A, B, C], fun peculium_core_crypto:hash/1)), hash(from_list([A, B, C, C], fun peculium_core_crypto:hash/1))),
         ?assertEqual(hash(from_list([A, B, C], fun peculium_core_crypto:hash/1)), <<250,67,84,112,130,93,226,115,8,29,204,112,107,37,81,76,147,111,166,220,128,171,150,92,230,151,13,104,221,208,181,83>>),
-        ?assertEqual(hash(from_list([A], fun peculium_core_crypto:hash/1)), <<140,20,240,219,61,241,80,18,62,111,61,187,243,15,139,149,90,130,73,182,42,193,209,255,22,40,74,239,163,208,109,135>>)
+        ?assertEqual(hash(from_list([A], fun peculium_core_crypto:hash/1)), <<140,20,240,219,61,241,80,18,62,111,61,187,243,15,139,149,90,130,73,182,42,193,209,255,22,40,74,239,163,208,109,135>>),
+        ?assertEqual(left(from_list([A], fun peculium_core_crypto:hash/1)), undefined),
+        ?assertEqual(right(from_list([A], fun peculium_core_crypto:hash/1)), undefined)
     ].
 
 -spec merkle_tree_from_empty_list_test() -> any().
