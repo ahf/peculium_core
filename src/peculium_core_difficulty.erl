@@ -35,10 +35,13 @@
 -module(peculium_core_difficulty).
 
 %% API.
--export([from_bits/1, block_work/1, target/1]).
+-export([from_bits/1, block_work/1, target/1, max_difficulty/0]).
 
 %% Types.
 -type uint32_t() :: peculium_core_types:uint32_t().
+
+%% Tests.
+-include("peculium_core_test.hrl").
 
 %% @doc Calculates the difficulty from the compact bits representation.
 -spec from_bits(Bits :: uint32_t()) -> number().
@@ -60,8 +63,26 @@ target(Bits) ->
     B = Bits band 16#007fffff,
     B * math:pow(2, 8 * (A - 3)).
 
-%% @private
+%% @doc Returns the max difficulty.
 -spec max_difficulty() -> number().
 max_difficulty() ->
     target(16#1d00ffff).
 
+-ifdef(TEST).
+
+-spec from_bits_test() -> any().
+from_bits_test() ->
+    GenesisBlock = peculium_core_block:genesis_block(mainnet),
+    ?assertEqual(from_bits(peculium_core_block:bits(GenesisBlock)), 1.0).
+
+-spec block_work_test() -> any().
+block_work_test() ->
+    GenesisBlock = peculium_core_block:genesis_block(mainnet),
+    ?assertEqual(block_work(peculium_core_block:bits(GenesisBlock)), 5.78960446186581e76).
+
+-spec target_test() -> any().
+target_test() ->
+    GenesisBlock = peculium_core_block:genesis_block(mainnet),
+    ?assertEqual(target(peculium_core_block:bits(GenesisBlock)), 2.695953529101131e67).
+
+-endif.
