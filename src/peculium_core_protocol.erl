@@ -36,7 +36,7 @@
 %% API.
 -export([decode/1]).
 
-%% FIXME: Kill it, with fire.
+%% FIXME: We really shouldn't expose this.
 -export([decode_message_payload/2]).
 
 %% Types.

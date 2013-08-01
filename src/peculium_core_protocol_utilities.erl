@@ -48,6 +48,9 @@
 -type vector_decode_fun() :: fun((Data :: binary()) -> {ok, Item :: any()} | {error, any()}).
 -type dynamic_vector_decode_fun() :: fun((Data :: binary()) -> {ok, Item :: any(), Rest :: binary()} | {error, any()}).
 
+%% Tests.
+-include("peculium_core_test.hrl").
+
 %% @doc Returns the first four bytes of the double SHA256 checksum of the given Data.
 -spec checksum(Data :: iolist()) -> checksum().
 checksum(Data) ->
@@ -174,3 +177,91 @@ decode_one_dynamic_vector(Data, ItemCount, ItemDecodeFun) ->
         {error, Reason} ->
             throw({error, Reason})
     end.
+
+-ifdef(TEST).
+
+-spec inv_to_atom_test() -> any().
+inv_to_atom_test() ->
+    [
+        ?assertEqual(inv_to_atom(0), {ok, error}),
+        ?assertEqual(inv_to_atom(1), {ok, transaction}),
+        ?assertEqual(inv_to_atom(2), {ok, block}),
+        ?assertEqual(inv_to_atom(1337), {error, {invalid_inv_integer, 1337}})
+    ].
+
+-spec atom_to_inv_test() -> any().
+atom_to_inv_test() ->
+    [
+        ?assertEqual(atom_to_inv(error), {ok, 0}),
+        ?assertEqual(atom_to_inv(transaction), {ok, 1}),
+        ?assertEqual(atom_to_inv(block), {ok, 2}),
+        ?assertEqual(atom_to_inv(bogus), {error, {invalid_inv_type, bogus}})
+    ].
+
+-spec decode_vector_test() -> any().
+decode_vector_test() ->
+    Input = <<1,1,1,1, 2,2,2,2, 3,3,3,3, 4,4,4,4>>,
+    Fun = fun (X) -> {ok, X} end,
+    ?assertEqual(decode_vector(Input, 4, Fun), {ok, [<<1,1,1,1>>, <<2,2,2,2>>, <<3,3,3,3>>, <<4,4,4,4>>], <<>>}).
+
+-spec decode_vector_with_rest_test() -> any().
+decode_vector_with_rest_test() ->
+    Input = <<1,1,1,1, 2,2,2,2, 3,3,3,3, 4,4,4,4, 5,5,5>>,
+    Fun = fun (X) -> {ok, X} end,
+    ?assertEqual(decode_vector(Input, 4, Fun), {ok, [<<1,1,1,1>>, <<2,2,2,2>>, <<3,3,3,3>>, <<4,4,4,4>>], <<5,5,5>>}).
+
+-spec decode_vector_with_error_test() -> any().
+decode_vector_with_error_test() ->
+    Input = <<1,1,1,1, 2,2,2,2, 3,3,3,3, 4,4,4,4>>,
+    Fun = fun (X) ->
+        case X of
+            <<4,4,4,4>> ->
+                {error, wat};
+            X ->
+                {ok, X}
+        end
+    end,
+    ?assertEqual(decode_vector(Input, 4, Fun), {error, wat}).
+
+-spec decode_dynamic_vector_test() -> any().
+decode_dynamic_vector_test() ->
+    Input = <<4, "Alex", 6, "Foobar", 4, "Test">>,
+    Fun = fun (<<Length:8/integer, Data:Length/binary, Rest/binary>>) ->
+        {ok, Data, Rest}
+    end,
+    ?assertEqual(decode_dynamic_vector(Input, 3, Fun), {ok, [<<"Alex">>, <<"Foobar">>, <<"Test">>], <<>>}).
+
+-spec decode_dynamic_vector_with_rest_test() -> any().
+decode_dynamic_vector_with_rest_test() ->
+    Input = <<4, "Alex", 6, "Foobar", 4, "Test", "Bueno">>,
+    Fun = fun (<<Length:8/integer, Data:Length/binary, Rest/binary>>) ->
+        {ok, Data, Rest}
+    end,
+    ?assertEqual(decode_dynamic_vector(Input, 3, Fun), {ok, [<<"Alex">>, <<"Foobar">>, <<"Test">>], <<"Bueno">>}).
+
+-spec decode_dynamic_vector_with_error_test() -> any().
+decode_dynamic_vector_with_error_test() ->
+    Input = <<4, "Alex", 6, "Foobar", 4, "Test">>,
+    Fun = fun (<<Length:8/integer, Data:Length/binary, Rest/binary>>) ->
+        case Data of
+            <<"Foobar">> ->
+                {error, wat};
+            _Otherwise ->
+                {ok, Data, Rest}
+        end
+    end,
+    ?assertEqual(decode_dynamic_vector(Input, 3, Fun), {error, wat}).
+
+-spec checksum_test() -> any().
+checksum_test() ->
+    [
+        ?assertEqual(checksum(<<"Hello, how are you?">>), peculium_core_utilities:hex2bin("20759243")),
+        ?assertEqual(checksum(<<>>), peculium_core_utilities:hex2bin("5df6e0e2"))
+    ].
+
+-spec prop_checksum_length() -> any().
+prop_checksum_length() ->
+    ?FORALL(X, binary(),
+        byte_size(checksum(X)) =:= 4).
+
+-endif.
