@@ -135,7 +135,6 @@ invalid because of this.
 <tr><td><a href="peculium_core_crypto.md" class="module">peculium_core_crypto</a></td></tr>
 <tr><td><a href="peculium_core_difficulty.md" class="module">peculium_core_difficulty</a></td></tr>
 <tr><td><a href="peculium_core_inv.md" class="module">peculium_core_inv</a></td></tr>
-<tr><td><a href="peculium_core_json.md" class="module">peculium_core_json</a></td></tr>
 <tr><td><a href="peculium_core_leveldb.md" class="module">peculium_core_leveldb</a></td></tr>
 <tr><td><a href="peculium_core_merkle_tree.md" class="module">peculium_core_merkle_tree</a></td></tr>
 <tr><td><a href="peculium_core_messages.md" class="module">peculium_core_messages</a></td></tr>
