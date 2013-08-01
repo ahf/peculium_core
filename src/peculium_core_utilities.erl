@@ -122,6 +122,14 @@ hex2bin_test() ->
 hex2bin_single_test() ->
     ?assertEqual(hex2bin(<<"f">>), <<15>>).
 
+-spec bin2hex_test() -> any().
+bin2hex_test() ->
+    [
+        ?assertEqual(bin2hex(<<>>), <<>>),
+        ?assertEqual(bin2hex(<<255,255,255>>), <<"FFFFFF">>),
+        ?assertEqual(bin2hex(<<15>>), <<"0F">>)
+    ].
+
 -spec strip_test() -> any().
 strip_test() ->
     ?assertEqual(strip(<<1,2,3,4,0,0,0>>, <<0>>), <<1,2,3,4>>),
