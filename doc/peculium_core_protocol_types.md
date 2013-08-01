@@ -23,6 +23,18 @@ the Bitcoin protocol.
 
 
 
+### <a name="type-block">block()</a> ###
+
+
+
+<pre><code>
+block() = <a href="peculium_core_types.md#type-block">peculium_core_types:block()</a>
+</code></pre>
+
+
+
+
+
 ### <a name="type-block_header">block_header()</a> ###
 
 
@@ -101,6 +113,18 @@ inv() = <a href="peculium_core_types.md#type-inv">peculium_core_types:inv()</a>
 
 <pre><code>
 network_address() = <a href="peculium_core_types.md#type-network_address">peculium_core_types:network_address()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-transaction">transaction()</a> ###
+
+
+
+<pre><code>
+transaction() = <a href="peculium_core_types.md#type-transaction">peculium_core_types:transaction()</a>
 </code></pre>
 
 
@@ -193,7 +217,7 @@ uint8_t() = <a href="peculium_core_types.md#type-uint8_t">peculium_core_types:ui
 ## Function Index ##
 
 
-<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#block-1">block/1</a></td><td></td></tr><tr><td valign="top"><a href="#block_header-1">block_header/1</a></td><td></td></tr><tr><td valign="top"><a href="#bool-1">bool/1</a></td><td></td></tr><tr><td valign="top"><a href="#int16_t-1">int16_t/1</a></td><td></td></tr><tr><td valign="top"><a href="#int32_t-1">int32_t/1</a></td><td></td></tr><tr><td valign="top"><a href="#int64_t-1">int64_t/1</a></td><td></td></tr><tr><td valign="top"><a href="#int8_t-1">int8_t/1</a></td><td></td></tr><tr><td valign="top"><a href="#inv-1">inv/1</a></td><td></td></tr><tr><td valign="top"><a href="#net_addr-1">net_addr/1</a></td><td></td></tr><tr><td valign="top"><a href="#net_addr-2">net_addr/2</a></td><td></td></tr><tr><td valign="top"><a href="#net_addr-3">net_addr/3</a></td><td></td></tr><tr><td valign="top"><a href="#transaction-1">transaction/1</a></td><td></td></tr><tr><td valign="top"><a href="#transaction_input-1">transaction_input/1</a></td><td></td></tr><tr><td valign="top"><a href="#transaction_outpoint-1">transaction_outpoint/1</a></td><td></td></tr><tr><td valign="top"><a href="#transaction_output-1">transaction_output/1</a></td><td></td></tr><tr><td valign="top"><a href="#uint16_t-1">uint16_t/1</a></td><td></td></tr><tr><td valign="top"><a href="#uint32_t-1">uint32_t/1</a></td><td></td></tr><tr><td valign="top"><a href="#uint64_t-1">uint64_t/1</a></td><td></td></tr><tr><td valign="top"><a href="#uint8_t-1">uint8_t/1</a></td><td></td></tr><tr><td valign="top"><a href="#var_int-1">var_int/1</a></td><td></td></tr><tr><td valign="top"><a href="#var_string-1">var_string/1</a></td><td></td></tr></table>
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#block-1">block/1</a></td><td>Encode or decode block.</td></tr><tr><td valign="top"><a href="#block_header-1">block_header/1</a></td><td></td></tr><tr><td valign="top"><a href="#bool-1">bool/1</a></td><td></td></tr><tr><td valign="top"><a href="#int16_t-1">int16_t/1</a></td><td></td></tr><tr><td valign="top"><a href="#int32_t-1">int32_t/1</a></td><td></td></tr><tr><td valign="top"><a href="#int64_t-1">int64_t/1</a></td><td></td></tr><tr><td valign="top"><a href="#int8_t-1">int8_t/1</a></td><td></td></tr><tr><td valign="top"><a href="#inv-1">inv/1</a></td><td></td></tr><tr><td valign="top"><a href="#net_addr-1">net_addr/1</a></td><td></td></tr><tr><td valign="top"><a href="#net_addr-2">net_addr/2</a></td><td></td></tr><tr><td valign="top"><a href="#net_addr-3">net_addr/3</a></td><td></td></tr><tr><td valign="top"><a href="#transaction-1">transaction/1</a></td><td>Encode transaction.</td></tr><tr><td valign="top"><a href="#transaction_input-1">transaction_input/1</a></td><td></td></tr><tr><td valign="top"><a href="#transaction_outpoint-1">transaction_outpoint/1</a></td><td></td></tr><tr><td valign="top"><a href="#transaction_output-1">transaction_output/1</a></td><td></td></tr><tr><td valign="top"><a href="#uint16_t-1">uint16_t/1</a></td><td></td></tr><tr><td valign="top"><a href="#uint32_t-1">uint32_t/1</a></td><td></td></tr><tr><td valign="top"><a href="#uint64_t-1">uint64_t/1</a></td><td></td></tr><tr><td valign="top"><a href="#uint8_t-1">uint8_t/1</a></td><td></td></tr><tr><td valign="top"><a href="#var_int-1">var_int/1</a></td><td></td></tr><tr><td valign="top"><a href="#var_string-1">var_string/1</a></td><td></td></tr></table>
 
 
 <a name="functions"></a>
@@ -204,9 +228,15 @@ uint8_t() = <a href="peculium_core_types.md#type-uint8_t">peculium_core_types:ui
 
 ### block/1 ###
 
-`block(Block) -> any()`
+
+<pre><code>
+block(Block::<a href="#type-block">block()</a>) -&gt; iolist()
+</code></pre>
+
+<br></br>
 
 
+Encode or decode block.
 <a name="block_header-1"></a>
 
 ### block_header/1 ###
@@ -329,9 +359,15 @@ net_addr(X1::binary()) -&gt; {ok, <a href="#type-network_address">network_addres
 
 ### transaction/1 ###
 
-`transaction(Transaction) -> any()`
+
+<pre><code>
+transaction(Transaction::<a href="#type-transaction">transaction()</a>) -&gt; iolist()
+</code></pre>
+
+<br></br>
 
 
+Encode transaction.
 <a name="transaction_input-1"></a>
 
 ### transaction_input/1 ###
