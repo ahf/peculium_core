@@ -94,7 +94,7 @@ from_list([], Result, Hash) ->
             Node;
         [] ->
             erlang:error(badarg);
-        Nodes ->
+        Nodes when is_list(Nodes) ->
             from_list(lists:reverse(Nodes), [], Hash)
     end;
 from_list([A], [], Hash) when is_binary(A) ->
@@ -145,6 +145,17 @@ merkle_root_test() ->
     D = <<233, 166, 104, 69, 224, 93, 90, 188, 10, 208, 78, 200, 15, 119, 74, 126, 88, 92, 110, 141, 185, 117, 150, 45, 6, 154, 82, 33, 55, 184, 12, 29>>,
     R = <<243, 233, 71, 66, 172, 164, 181, 239, 133, 72, 141, 195, 124, 6, 195, 40, 34, 149, 255, 236, 150, 9, 148, 178, 192, 213, 172, 42, 37, 169, 87, 102>>,
     ?assertEqual(hash(from_list([A, B, C, D], fun peculium_core_crypto:hash/1)), R).
+
+-spec merkle_root2_test() -> any().
+merkle_root2_test() ->
+    A = <<140, 20, 240, 219, 61, 241, 80, 18, 62, 111, 61, 187, 243, 15, 139, 149, 90, 130, 73, 182, 42, 193, 209, 255, 22, 40, 74, 239, 163, 208, 109, 135>>,
+    B = <<255, 242, 82, 91, 137, 49, 64, 45, 208, 146, 34, 197, 7, 117, 96, 143, 117, 120, 123, 210, 184, 126, 86, 153, 90, 123, 221, 48, 247, 151, 2, 196>>,
+    C = <<99, 89, 240, 134, 129, 113, 177, 209, 148, 203, 238, 26, 242, 241, 110, 165, 152, 174, 143, 173, 102, 109, 155, 1, 44, 142, 210, 183, 154, 35, 110, 196>>,
+    [
+        ?assertEqual(hash(from_list([A, B, C], fun peculium_core_crypto:hash/1)), hash(from_list([A, B, C, C], fun peculium_core_crypto:hash/1))),
+        ?assertEqual(hash(from_list([A, B, C], fun peculium_core_crypto:hash/1)), <<250,67,84,112,130,93,226,115,8,29,204,112,107,37,81,76,147,111,166,220,128,171,150,92,230,151,13,104,221,208,181,83>>),
+        ?assertEqual(hash(from_list([A], fun peculium_core_crypto:hash/1)), <<140,20,240,219,61,241,80,18,62,111,61,187,243,15,139,149,90,130,73,182,42,193,209,255,22,40,74,239,163,208,109,135>>)
+    ].
 
 -spec merkle_tree_from_empty_list_test() -> any().
 merkle_tree_from_empty_list_test() ->
