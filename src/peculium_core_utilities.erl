@@ -110,6 +110,18 @@ parallel_map_gather_results([]) ->
 
 -ifdef(TEST).
 
+-spec hex2bin_test() -> any().
+hex2bin_test() ->
+    [
+        ?assertEqual(hex2bin("FFffFF"), <<255,255,255>>),
+        ?assertEqual(hex2bin("0"), <<0>>),
+        ?assertEqual(hex2bin(""), <<>>)
+    ].
+
+-spec hex2bin_single_test() -> any().
+hex2bin_single_test() ->
+    ?assertEqual(hex2bin(<<"f">>), <<15>>).
+
 -spec strip_test() -> any().
 strip_test() ->
     ?assertEqual(strip(<<1,2,3,4,0,0,0>>, <<0>>), <<1,2,3,4>>),
