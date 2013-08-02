@@ -101,9 +101,8 @@ IRC network.
 
 ### <a name="Quirks">Quirks</a> ###
 
-Like most other software, Peculium isn't just a walk. This secion will keep you
-updated on various quirks that you should take into account when using
-Peculium.
+This secion will keep you updated on various quirks that you should take into
+account when using Peculium.
 
 
 #### <a name="Use_NTP">Use NTP</a> ####
