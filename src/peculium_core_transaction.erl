@@ -46,18 +46,15 @@
 -type uint32_t() :: peculium_core_types:uint32_t().
 
 -include_lib("peculium_core/include/peculium_core.hrl").
--include_lib("erl_aliases/include/erl_aliases.hrl").
-
--module_alias({t, peculium_core_protocol_types}).
 
 %% @doc Returns the hash of a given transaction.
 -spec hash(Transaction :: transaction()) -> hash().
 hash(#transaction { version = Version, transaction_inputs = Inputs, transaction_outputs = Outputs, lock_time = LockTime }) ->
-    {ok, InputsLength} = t:var_int(length(Inputs)),
+    {ok, InputsLength} = peculium_core_protocol_types:var_int(length(Inputs)),
     InputsBin = lists:map(fun peculium_core_protocol_types:transaction_input/1, Inputs),
-    {ok, OutputsLength} = t:var_int(length(Outputs)),
+    {ok, OutputsLength} = peculium_core_protocol_types:var_int(length(Outputs)),
     OutputsBin = lists:map(fun peculium_core_protocol_types:transaction_output/1, Outputs),
-    Data = [t:uint32_t(Version), InputsLength, InputsBin, OutputsLength, OutputsBin, t:uint32_t(LockTime)],
+    Data = [peculium_core_protocol_types:uint32_t(Version), InputsLength, InputsBin, OutputsLength, OutputsBin, peculium_core_protocol_types:uint32_t(LockTime)],
     peculium_core_crypto:hash(Data).
 
 %% @doc Returns the transaction inputs of a given transaction.

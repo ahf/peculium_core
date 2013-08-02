@@ -48,18 +48,14 @@
 -type uint32_t() :: peculium_core_types:uint32_t().
 
 -include_lib("peculium_core/include/peculium_core.hrl").
--include_lib("erl_aliases/include/erl_aliases.hrl").
 
 %% Tests.
 -include("peculium_core_test.hrl").
 
-%% Feeling a bit lazy :-(
--module_alias({t, peculium_core_protocol_types}).
-
 %% @doc Returns the little-endian encoded hash of a given block.
 -spec hash(Block :: block()) -> hash().
 hash(#block { version = Version, previous_block = PreviousBlock, merkle_root = MerkleRoot, timestamp = Timestamp, bits = Bits, nonce = Nonce }) ->
-    peculium_core_crypto:hash([t:uint32_t(Version), PreviousBlock, MerkleRoot, t:uint32_t(Timestamp), t:uint32_t(Bits), t:uint32_t(Nonce)]).
+    peculium_core_crypto:hash([peculium_core_protocol_types:uint32_t(Version), PreviousBlock, MerkleRoot, peculium_core_protocol_types:uint32_t(Timestamp), t:uint32_t(Bits), t:uint32_t(Nonce)]).
 
 %% @doc Returns the Genesis block from a given network.
 -spec genesis_block(Network :: network()) -> block().

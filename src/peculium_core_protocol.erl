@@ -47,29 +47,24 @@
 -type transaction_output() :: peculium_core_types:transaction_output().
 
 -include_lib("peculium_core/include/peculium_core.hrl").
--include_lib("erl_aliases/include/erl_aliases.hrl").
-
-%% Feeling a bit lazy :-(
--module_alias({t, peculium_core_protocol_types}).
--module_alias({u, peculium_core_protocol_utilities}).
 
 %% Tests.
 -include("peculium_core_test.hrl").
 
 -spec decode_transaction_input_vector(binary()) -> {ok, [transaction_input()], binary()}.
 decode_transaction_input_vector(X) ->
-    case t:var_int(X) of
+    case peculium_core_protocol_types:var_int(X) of
         {ok, Count, Rest} ->
-            u:decode_dynamic_vector(Rest, Count, fun peculium_core_protocol_types:transaction_input/1);
+            peculium_core_protocol_utilities:decode_dynamic_vector(Rest, Count, fun peculium_core_protocol_types:transaction_input/1);
         Error ->
             Error
     end.
 
 -spec decode_transaction_output_vector(binary()) -> {ok, [transaction_output()], binary()}.
 decode_transaction_output_vector(X) ->
-    case t:var_int(X) of
+    case peculium_core_protocol_types:var_int(X) of
         {ok, Count, Rest} ->
-            u:decode_dynamic_vector(Rest, Count, fun peculium_core_protocol_types:transaction_output/1);
+            peculium_core_protocol_utilities:decode_dynamic_vector(Rest, Count, fun peculium_core_protocol_types:transaction_output/1);
         Error ->
             Error
     end.
@@ -80,10 +75,10 @@ decode_transaction(<<Version:4/binary, X/binary>>) ->
             case decode_transaction_output_vector(Rest) of
                 {ok, TransactionOutputs, <<LockTime:4/binary, Rest1/binary>>} ->
                     {ok, #transaction {
-                        version = t:uint32_t(Version),
+                        version = peculium_core_protocol_types:uint32_t(Version),
                         transaction_inputs = TransactionInputs,
                         transaction_outputs = TransactionOutputs,
-                        lock_time = t:uint32_t(LockTime)
+                        lock_time = peculium_core_protocol_types:uint32_t(LockTime)
                     }, Rest1};
                 Error ->
                     Error
@@ -114,7 +109,7 @@ decode_magic_value(_X) ->
 
 -spec decode_message_frame(network(), binary()) -> any().
 decode_message_frame(Network, <<RawCommand:12/binary, Size:32/little-unsigned-integer, Checksum:4/binary, Rest/binary>> = X) ->
-    {ok, Command} = u:command_to_atom(RawCommand),
+    {ok, Command} = peculium_core_protocol_utilities:command_to_atom(RawCommand),
     case Rest of
         <<Payload:Size/binary, Rest2/binary>> ->
             case decode_message_payload(Command, Payload) of
@@ -125,7 +120,7 @@ decode_message_frame(Network, <<RawCommand:12/binary, Size:32/little-unsigned-in
                             command = Command,
                             length = Size,
                             checksum = Checksum,
-                            valid = u:checksum(Payload) =:= Checksum
+                            valid = peculium_core_protocol_utilities:checksum(Payload) =:= Checksum
                         },
                         body = Message
                     }, Rest2};
@@ -152,32 +147,32 @@ decode_message_payload(getaddr, <<>>) ->
     {ok, #getaddr_message {} };
 
 decode_message_payload(version, <<Version:4/binary, Services:8/binary, Timestamp:8/binary, RawToAddress:26/binary, RawFromAddress:26/binary, Nonce:8/binary, Rest/binary>>) ->
-    {ok, FromAddress} = t:net_addr(RawFromAddress),
-    {ok, ToAddress} = t:net_addr(RawToAddress),
-    case t:var_string(Rest) of
+    {ok, FromAddress} = peculium_core_protocol_types:net_addr(RawFromAddress),
+    {ok, ToAddress} = peculium_core_protocol_types:net_addr(RawToAddress),
+    case peculium_core_protocol_types:var_string(Rest) of
         {ok, UserAgent, <<StartHeight:4/binary>>} ->
             {ok, #version_message {
-                version = t:int32_t(Version),
-                services = t:int64_t(Services),
-                timestamp = t:int64_t(Timestamp),
+                version = peculium_core_protocol_types:int32_t(Version),
+                services = peculium_core_protocol_types:int64_t(Services),
+                timestamp = peculium_core_protocol_types:int64_t(Timestamp),
                 user_agent = UserAgent,
                 to_address = ToAddress,
                 from_address = FromAddress,
-                start_height = t:int32_t(StartHeight),
+                start_height = peculium_core_protocol_types:int32_t(StartHeight),
                 relay = true,
                 nonce = Nonce
             } };
 
         {ok, UserAgent, <<StartHeight:4/binary, Relay:1/binary>>} ->
             {ok, #version_message {
-                version = t:int32_t(Version),
-                services = t:int64_t(Services),
-                timestamp = t:int64_t(Timestamp),
+                version = peculium_core_protocol_types:int32_t(Version),
+                services = peculium_core_protocol_types:int64_t(Services),
+                timestamp = peculium_core_protocol_types:int64_t(Timestamp),
                 user_agent = UserAgent,
                 to_address = ToAddress,
                 from_address = FromAddress,
-                start_height = t:int32_t(StartHeight),
-                relay = t:bool(Relay),
+                start_height = peculium_core_protocol_types:int32_t(StartHeight),
+                relay = peculium_core_protocol_types:bool(Relay),
                 nonce = Nonce
             } };
         Error ->
@@ -185,9 +180,9 @@ decode_message_payload(version, <<Version:4/binary, Services:8/binary, Timestamp
     end;
 
 decode_message_payload(alert, X) ->
-    case t:var_string(X) of
+    case peculium_core_protocol_types:var_string(X) of
         {ok, Payload, Rest} ->
-            case t:var_string(Rest) of
+            case peculium_core_protocol_types:var_string(Rest) of
                 {ok, Signature, <<>>} ->
                     {ok, #alert_message {
                         payload = Payload,
@@ -201,13 +196,13 @@ decode_message_payload(alert, X) ->
     end;
 
 decode_message_payload(inv, X) ->
-    case t:var_int(X) of
+    case peculium_core_protocol_types:var_int(X) of
         {ok, Count, Rest} ->
             ItemSize = 4 + 32,
             VectorSize = Count * ItemSize,
             case Rest of
                 <<InvVector:VectorSize/binary>> ->
-                    {ok, Inventory, <<>>} = u:decode_vector(InvVector, ItemSize, fun peculium_core_protocol_types:inv/1),
+                    {ok, Inventory, <<>>} = peculium_core_protocol_utilities:decode_vector(InvVector, ItemSize, fun peculium_core_protocol_types:inv/1),
                     {ok, #inv_message {
                         inventory = Inventory
                     }};
@@ -219,13 +214,13 @@ decode_message_payload(inv, X) ->
     end;
 
 decode_message_payload(getdata, X) ->
-    case t:var_int(X) of
+    case peculium_core_protocol_types:var_int(X) of
         {ok, Count, Rest} ->
             ItemSize = 4 + 32,
             VectorSize = Count * ItemSize,
             case Rest of
                 <<InvVector:VectorSize/binary>> ->
-                    {ok, Inventory, <<>>} = u:decode_vector(InvVector, ItemSize, fun peculium_core_protocol_types:inv/1),
+                    {ok, Inventory, <<>>} = peculium_core_protocol_utilities:decode_vector(InvVector, ItemSize, fun peculium_core_protocol_types:inv/1),
                     {ok, #getdata_message {
                         inventory = Inventory
                     }};
@@ -237,13 +232,13 @@ decode_message_payload(getdata, X) ->
     end;
 
 decode_message_payload(notfound, X) ->
-    case t:var_int(X) of
+    case peculium_core_protocol_types:var_int(X) of
         {ok, Count, Rest} ->
             ItemSize = 4 + 32,
             VectorSize = Count * ItemSize,
             case Rest of
                 <<InvVector:VectorSize/binary>> ->
-                    {ok, Inventory, <<>>} = u:decode_vector(InvVector, ItemSize, fun peculium_core_protocol_types:inv/1),
+                    {ok, Inventory, <<>>} = peculium_core_protocol_utilities:decode_vector(InvVector, ItemSize, fun peculium_core_protocol_types:inv/1),
                     {ok, #notfound_message {
                         inventory = Inventory
                     }};
@@ -255,13 +250,13 @@ decode_message_payload(notfound, X) ->
     end;
 
 decode_message_payload(addr, X) ->
-    case t:var_int(X) of
+    case peculium_core_protocol_types:var_int(X) of
         {ok, Count, Rest} ->
             ItemSize = 4 + 8 + 16 + 2,
             VectorSize = Count * ItemSize,
             case Rest of
                 <<RawAddresses:VectorSize/binary>> ->
-                    {ok, Addresses, <<>>} = u:decode_vector(RawAddresses, ItemSize, fun peculium_core_protocol_types:net_addr/1),
+                    {ok, Addresses, <<>>} = peculium_core_protocol_utilities:decode_vector(RawAddresses, ItemSize, fun peculium_core_protocol_types:net_addr/1),
                     {ok, #addr_message {
                         addresses = Addresses
                     }};
@@ -273,13 +268,13 @@ decode_message_payload(addr, X) ->
     end;
 
 decode_message_payload(headers, X) ->
-    case t:var_int(X) of
+    case peculium_core_protocol_types:var_int(X) of
         {ok, Count, Rest} ->
             ItemSize = 4 + 32 + 32 + 4 + 4 + 4 + 1,
             VectorSize = Count * ItemSize,
             case Rest of
                 <<RawHeaders:VectorSize/binary>> ->
-                    {ok, BlockHeaders, <<>>} = u:decode_vector(RawHeaders, ItemSize, fun peculium_core_protocol_types:block_header/1),
+                    {ok, BlockHeaders, <<>>} = peculium_core_protocol_utilities:decode_vector(RawHeaders, ItemSize, fun peculium_core_protocol_types:block_header/1),
                     {ok, #headers_message {
                         headers = BlockHeaders
                     }};
@@ -291,15 +286,15 @@ decode_message_payload(headers, X) ->
     end;
 
 decode_message_payload(getblocks, <<RawVersion:4/binary, X/binary>>) ->
-    case t:var_int(X) of
+    case peculium_core_protocol_types:var_int(X) of
         {ok, Count, Rest} ->
             ItemSize = 32,
             VectorSize = Count * ItemSize,
             case Rest of
                 <<Hashes:VectorSize/binary, HashStop:32/binary>> ->
-                    {ok, BlockLocatorHashes, <<>>} = u:decode_vector(Hashes, ItemSize, fun(<<Hash:32/binary>>) -> {ok, Hash} end),
+                    {ok, BlockLocatorHashes, <<>>} = peculium_core_protocol_utilities:decode_vector(Hashes, ItemSize, fun(<<Hash:32/binary>>) -> {ok, Hash} end),
                     {ok, #getblocks_message {
-                        version = t:uint32_t(RawVersion),
+                        version = peculium_core_protocol_types:uint32_t(RawVersion),
                         block_locator = BlockLocatorHashes,
                         hash_stop = HashStop
                     }};
@@ -311,15 +306,15 @@ decode_message_payload(getblocks, <<RawVersion:4/binary, X/binary>>) ->
     end;
 
 decode_message_payload(getheaders, <<RawVersion:4/binary, X/binary>>) ->
-    case t:var_int(X) of
+    case peculium_core_protocol_types:var_int(X) of
         {ok, Count, Rest} ->
             ItemSize = 32,
             VectorSize = Count * ItemSize,
             case Rest of
                 <<Hashes:VectorSize/binary, HashStop:32/binary>> ->
-                    {ok, BlockLocatorHashes, <<>>} = u:decode_vector(Hashes, ItemSize, fun(<<Hash:32/binary>>) -> {ok, Hash} end),
+                    {ok, BlockLocatorHashes, <<>>} = peculium_core_protocol_utilities:decode_vector(Hashes, ItemSize, fun(<<Hash:32/binary>>) -> {ok, Hash} end),
                     {ok, #getheaders_message {
-                        version = t:uint32_t(RawVersion),
+                        version = peculium_core_protocol_types:uint32_t(RawVersion),
                         block_locator = BlockLocatorHashes,
                         hash_stop = HashStop
                     }};
@@ -341,18 +336,18 @@ decode_message_payload(transaction, X) ->
     end;
 
 decode_message_payload(block, <<Version:4/binary, PreviousBlock:32/binary, MerkleRoot:32/binary, Timestamp:4/binary, Bits:4/binary, Nonce:4/binary, X/binary>>) ->
-    case t:var_int(X) of
+    case peculium_core_protocol_types:var_int(X) of
         {ok, Count, Rest} ->
-            case u:decode_dynamic_vector(Rest, Count, fun decode_transaction/1) of
+            case peculium_core_protocol_utilities:decode_dynamic_vector(Rest, Count, fun decode_transaction/1) of
                 {ok, Transactions, <<>>} ->
                     {ok, #block_message {
                         block = #block {
-                            version = t:uint32_t(Version),
+                            version = peculium_core_protocol_types:uint32_t(Version),
                             previous_block = PreviousBlock,
                             merkle_root = MerkleRoot,
-                            timestamp = t:uint32_t(Timestamp),
-                            bits = t:uint32_t(Bits),
-                            nonce = t:uint32_t(Nonce),
+                            timestamp = peculium_core_protocol_types:uint32_t(Timestamp),
+                            bits = peculium_core_protocol_types:uint32_t(Bits),
+                            nonce = peculium_core_protocol_types:uint32_t(Nonce),
                             transactions = Transactions
                         }
                     }};

@@ -31,11 +31,6 @@
 
 -export([verack/1, getaddr/1, ping/1, version/1, getdata/1, getblocks/1, getheaders/1, block/1]).
 
--include_lib("erl_aliases/include/erl_aliases.hrl").
-
--module_alias({t, peculium_core_protocol_types}).
--module_alias({u, peculium_core_protocol_utilities}).
-
 pad_command(Command) ->
     X = atom_to_binary(Command, utf8),
     <<X/binary, 0:((12 - size(X)) * 8)>>.
@@ -45,10 +40,10 @@ encode(Network, Command) ->
 
 encode(Network, Command, Payload) ->
     {ok, MagicValue} = peculium_core_network:magic_value(Network),
-    encode(MagicValue, pad_command(Command), iolist_size(Payload), u:checksum(Payload), Payload).
+    encode(MagicValue, pad_command(Command), iolist_size(Payload), peculium_core_protocol_utilities:checksum(Payload), Payload).
 
 encode(MagicValue, Command, PayloadSize, Checksum, Payload) ->
-    [MagicValue, Command, t:uint32_t(PayloadSize), Checksum, Payload].
+    [MagicValue, Command, peculium_core_protocol_types:uint32_t(PayloadSize), Checksum, Payload].
 
 verack([Network]) ->
     encode(Network, verack).
@@ -61,20 +56,20 @@ ping([Network]) ->
 
 version([Network, {SourceAddress, SourcePort}, {DestinationAddress, DestinationPort}]) ->
     {ok, BlockHeight} = peculium_core_block_index:best_block_height(),
-    encode(Network, version, [t:int32_t(60001), t:uint64_t(1), t:uint64_t(peculium_core_utilities:timestamp()), t:net_addr(DestinationAddress, DestinationPort), t:net_addr(SourceAddress, SourcePort), crypto:rand_bytes(8), t:var_string(peculium:user_agent()), t:int32_t(BlockHeight)]).
+    encode(Network, version, [peculium_core_protocol_types:int32_t(60001), peculium_core_protocol_types:uint64_t(1), peculium_core_protocol_types:uint64_t(peculium_core_utilities:timestamp()), peculium_core_protocol_types:net_addr(DestinationAddress, DestinationPort), peculium_core_protocol_types:net_addr(SourceAddress, SourcePort), crypto:rand_bytes(8), peculium_core_protocol_types:var_string(peculium:user_agent()), peculium_core_protocol_types:int32_t(BlockHeight)]).
 
 getdata([Network, Invs]) ->
-    {ok, Length} = t:var_int(length(Invs)),
+    {ok, Length} = peculium_core_protocol_types:var_int(length(Invs)),
     Data = lists:map(fun peculium_core_protocol_types:inv/1, Invs),
     encode(Network, getdata, [Length, Data]).
 
 getblocks([Network, BlockLocator, BlockStop]) ->
-    {ok, Length} = t:var_int(length(BlockLocator)),
-    encode(Network, getblocks, [t:int32_t(60001), Length, BlockLocator, BlockStop]).
+    {ok, Length} = peculium_core_protocol_types:var_int(length(BlockLocator)),
+    encode(Network, getblocks, [peculium_core_protocol_types:int32_t(60001), Length, BlockLocator, BlockStop]).
 
 getheaders([Network, BlockLocator, BlockStop]) ->
-    {ok, Length} = t:var_int(length(BlockLocator)),
-    encode(Network, getheaders, [t:int32_t(60001), Length, BlockLocator, BlockStop]).
+    {ok, Length} = peculium_core_protocol_types:var_int(length(BlockLocator)),
+    encode(Network, getheaders, [peculium_core_protocol_types:int32_t(60001), Length, BlockLocator, BlockStop]).
 
 block([Network, Version, PreviousBlock, MerkleRoot, Timestamp, Bits, Nonce, Transactions]) ->
-    encode(Network, block, [t:uint32_t(Version), PreviousBlock, MerkleRoot, t:uint32_t(Timestamp), t:uint32_t(Bits), t:uint32_t(Nonce), lists:map(fun peculium_core_protocol_types:transaction/1, Transactions)]).
+    encode(Network, block, [peculium_core_protocol_types:uint32_t(Version), PreviousBlock, MerkleRoot, peculium_core_protocol_types:uint32_t(Timestamp), peculium_core_protocol_types:uint32_t(Bits), peculium_core_protocol_types:uint32_t(Nonce), lists:map(fun peculium_core_protocol_types:transaction/1, Transactions)]).
