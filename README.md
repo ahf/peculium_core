@@ -99,6 +99,15 @@ All Peculium hackers and users are welcome to join `#peculium` on the Freenode
 IRC network.
 
 
+### <a name="Contributors">Contributors</a> ###
+
+Anyone who has contributed to Peculium should add themselves here. No change is
+too little to be put on this list.
+
+- [Alexander Færøy](https://github.com/ahf).
+- [Jesper Louis Andersen](https://github.com/jlouis).
+
+
 ### <a name="Quirks">Quirks</a> ###
 
 This secion will keep you updated on various quirks that you should take into
