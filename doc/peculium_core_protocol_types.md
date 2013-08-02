@@ -345,14 +345,26 @@ net_addr(X1::binary()) -&gt; {ok, <a href="#type-network_address">network_addres
 
 ### net_addr/2 ###
 
-`net_addr(Address, Port) -> any()`
+
+<pre><code>
+net_addr(Address::<a href="inet.md#type-ip_address">inet:ip_address()</a>, Port::<a href="inet.md#type-port_number">inet:port_number()</a>) -&gt; iolist()
+</code></pre>
+
+<br></br>
+
 
 
 <a name="net_addr-3"></a>
 
 ### net_addr/3 ###
 
-`net_addr(Timestamp, Address, Port) -> any()`
+
+<pre><code>
+net_addr(Timestamp::non_neg_integer(), Address::<a href="inet.md#type-ip_address">inet:ip_address()</a>, Port::<a href="inet.md#type-port_number">inet:port_number()</a>) -&gt; iolist()
+</code></pre>
+
+<br></br>
+
 
 
 <a name="transaction-1"></a>
