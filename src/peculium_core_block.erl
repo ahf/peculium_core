@@ -55,7 +55,7 @@
 %% @doc Returns the little-endian encoded hash of a given block.
 -spec hash(Block :: block()) -> hash().
 hash(#block { version = Version, previous_block = PreviousBlock, merkle_root = MerkleRoot, timestamp = Timestamp, bits = Bits, nonce = Nonce }) ->
-    peculium_core_crypto:hash([peculium_core_protocol_types:uint32_t(Version), PreviousBlock, MerkleRoot, peculium_core_protocol_types:uint32_t(Timestamp), t:uint32_t(Bits), t:uint32_t(Nonce)]).
+    peculium_core_crypto:hash([peculium_core_protocol_types:uint32_t(Version), PreviousBlock, MerkleRoot, peculium_core_protocol_types:uint32_t(Timestamp), peculium_core_protocol_types:uint32_t(Bits), peculium_core_protocol_types:uint32_t(Nonce)]).
 
 %% @doc Returns the Genesis block from a given network.
 -spec genesis_block(Network :: network()) -> block().
