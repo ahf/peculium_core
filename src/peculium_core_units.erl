@@ -90,10 +90,12 @@ compare(A, B) ->
     Bs = lists:flatten(io_lib:format("~.12f", [B])),
     As =:= Bs.
 
+-spec prop_convert_integer_inverse() -> any().
 prop_convert_integer_inverse() ->
     ?FORALL({Value, InputUnit, OutputUnit}, {pos_integer(), peculium_core_triq:unit_type(), peculium_core_triq:unit_type()},
         compare(convert(convert(Value, InputUnit, OutputUnit), OutputUnit, InputUnit), float(Value))).
 
+-spec prop_convert_real_inverse() -> any().
 prop_convert_real_inverse() ->
     ?FORALL({Value, InputUnit, OutputUnit}, {real(), peculium_core_triq:unit_type(), peculium_core_triq:unit_type()},
         compare(convert(convert(Value, InputUnit, OutputUnit), OutputUnit, InputUnit), float(Value))).

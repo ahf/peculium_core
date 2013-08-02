@@ -185,11 +185,13 @@ net_addr(<<Time:4/binary, Services:8/binary, Address:16/binary, Port:2/binary>>)
 net_addr(<<X:26/binary>>) ->
     net_addr(<<0, 0, 0, 0, X/binary>>).
 
+-spec net_addr(Address :: inet:ip_address(), Port :: inet:port_number()) -> iolist().
 net_addr(Address, Port) ->
     {ok, V6MappedAddress} = map_to_v6(Address),
     EncodedAddress = [<<X:8/big-unit:2>> || X <- tuple_to_list(V6MappedAddress)],
     [uint64_t(60001), EncodedAddress, <<Port:16/big-unsigned-integer>>].
 
+-spec net_addr(Timestamp :: non_neg_integer(), Address :: inet:ip_address(), Port :: inet:port_number()) -> iolist().
 net_addr(Timestamp, Address, Port) ->
     [uint32_t(Timestamp) | net_addr(Address, Port)].
 
@@ -300,50 +302,62 @@ block(X) ->
 
 -ifdef(TEST).
 
+-spec prop_bool() -> any().
 prop_bool() ->
     ?FORALL(X, peculium_core_triq:uint8_t(),
         bool(X) =:= (X > 0)).
 
+-spec prop_uint8_t_inverse() -> any().
 prop_uint8_t_inverse() ->
     ?FORALL(X, peculium_core_triq:uint8_t(),
         uint8_t(uint8_t(X)) =:= X).
 
+-spec prop_uint8_t_from_uint16_t() -> any().
 prop_uint8_t_from_uint16_t() ->
     ?FORALL(X, peculium_core_triq:uint16_t(),
         uint8_t(uint8_t(X)) =:= X band 16#00ff).
 
+-spec prop_uint16_t_inverse() -> any().
 prop_uint16_t_inverse() ->
     ?FORALL(X, peculium_core_triq:uint16_t(),
         uint16_t(uint16_t(X)) =:= X).
 
+-spec prop_uint16_t_from_uint32_t() -> any().
 prop_uint16_t_from_uint32_t() ->
     ?FORALL(X, peculium_core_triq:uint32_t(),
         uint16_t(uint16_t(X)) =:= X band 16#0000ffff).
 
+-spec prop_uint32_t_inverse() -> any().
 prop_uint32_t_inverse() ->
     ?FORALL(X, peculium_core_triq:uint32_t(),
         uint32_t(uint32_t(X)) =:= X).
 
+-spec prop_uint32_t_from_uint64_t() -> any().
 prop_uint32_t_from_uint64_t() ->
     ?FORALL(X, peculium_core_triq:uint64_t(),
         uint32_t(uint32_t(X)) =:= X band 16#00000000ffffffff).
 
+-spec prop_uint64_t_inverse() -> any().
 prop_uint64_t_inverse() ->
     ?FORALL(X, peculium_core_triq:uint64_t(),
         uint64_t(uint64_t(X)) =:= X).
 
+-spec prop_int8_t_inverse() -> any().
 prop_int8_t_inverse() ->
     ?FORALL(X, peculium_core_triq:int8_t(),
         int8_t(int8_t(X)) =:= X).
 
+-spec prop_int16_t_inverse() -> any().
 prop_int16_t_inverse() ->
     ?FORALL(X, peculium_core_triq:int16_t(),
         int16_t(int16_t(X)) =:= X).
 
+-spec prop_int32_t_inverse() -> any().
 prop_int32_t_inverse() ->
     ?FORALL(X, peculium_core_triq:int32_t(),
         int32_t(int32_t(X)) =:= X).
 
+-spec prop_int64_t_inverse() -> any().
 prop_int64_t_inverse() ->
     ?FORALL(X, peculium_core_triq:int64_t(),
         int64_t(int64_t(X)) =:= X).

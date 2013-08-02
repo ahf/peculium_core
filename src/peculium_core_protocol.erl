@@ -40,9 +40,11 @@
 -export([decode_message_payload/2]).
 
 %% Types.
+-type command() :: peculium_core_types:command().
+-type message_types() :: peculium_core_types:message_types().
+-type network() :: peculium_core_types:network().
 -type transaction_input() :: peculium_core_types:transaction_input().
 -type transaction_output() :: peculium_core_types:transaction_output().
--type network() :: peculium_core_types:network().
 
 -include_lib("peculium_core/include/peculium_core.hrl").
 -include_lib("erl_aliases/include/erl_aliases.hrl").
@@ -139,6 +141,7 @@ decode_message_frame(Network, <<RawCommand:12/binary, Size:32/little-unsigned-in
 decode_message_frame(_Network, _X) ->
     {error, insufficient_data}.
 
+-spec decode_message_payload(Command :: command(), Data :: binary()) -> {ok, message_types()} | {error, any()}.
 decode_message_payload(verack, <<>>) ->
     {ok, #verack_message {} };
 
