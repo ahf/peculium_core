@@ -314,7 +314,7 @@ send(#state { socket = Socket, sent = Sent } = State, Message, Arguments) ->
 -spec log(State :: state(), Format :: string(), Arguments :: [any()]) -> ok.
 log(State, Format, Arguments) ->
     {ok, {Address, Port}} = inet:peername(State#state.socket),
-    lager:debug([{peer, Address, Port}], "[Peer ~s (~b)] -> " ++ Format, [inet_parse:ntoa(Address), Port] ++ Arguments).
+    lager:debug([{peer, Address, Port}], "[Peer ~s (~b)] -> " ++ Format, [inet_parse:ntoa(Address), Port | Arguments]).
 
 %% @private
 -spec send_message(Peer :: peer(), Message :: command()) -> ok.
