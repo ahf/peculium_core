@@ -106,7 +106,7 @@ handle_info(_Info, State) ->
 
 %% @private
 terminate(_Reason, _State) ->
-    lager:info("Stopping Block Store Server"),
+    lager:info("Stopping Nonce Management Server"),
     ok.
 
 %% @private
