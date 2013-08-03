@@ -35,7 +35,7 @@
 %% @doc Returns the client version identifier.
 -spec version() -> string().
 version() ->
-    {ok, Version} = application:get_key(peculium, vsn),
+    {ok, Version} = application:get_key(peculium_core, vsn),
     Version.
 
 %% @doc Returns the client user agent.
