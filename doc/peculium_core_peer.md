@@ -2,6 +2,7 @@
 
 # Module peculium_core_peer #
 * [Description](#description)
+* [Data Types](#types)
 * [Function Index](#index)
 * [Function Details](#functions)
 
@@ -21,18 +22,120 @@ peer-to-peer network.
 
 
 We are using a single server to represent both incoming and outgoing
-peers.<a name="index"></a>
+peers.
+<a name="types"></a>
+
+## Data Types ##
+
+
+
+
+### <a name="type-block_locator">block_locator()</a> ###
+
+
+
+<pre><code>
+block_locator() = <a href="peculium_core_types.md#type-block_locator">peculium_core_types:block_locator()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-hash">hash()</a> ###
+
+
+
+<pre><code>
+hash() = <a href="peculium_core_types.md#type-hash">peculium_core_types:hash()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-inv">inv()</a> ###
+
+
+
+<pre><code>
+inv() = <a href="peculium_core_types.md#type-inv">peculium_core_types:inv()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-peer">peer()</a> ###
+
+
+
+<pre><code>
+peer() = pid()
+</code></pre>
+
+
+
+
+
+### <a name="type-state">state()</a> ###
+
+
+
+<pre><code>
+state() = #state{}
+</code></pre>
+
+
+
+
+
+### <a name="type-transaction">transaction()</a> ###
+
+
+
+<pre><code>
+transaction() = <a href="peculium_core_types.md#type-transaction">peculium_core_types:transaction()</a>
+</code></pre>
+
+
+
+
+
+### <a name="type-uint32_t">uint32_t()</a> ###
+
+
+
+<pre><code>
+uint32_t() = <a href="peculium_core_types.md#type-uint32_t">peculium_core_types:uint32_t()</a>
+</code></pre>
+
+
+<a name="index"></a>
 
 ## Function Index ##
 
 
-<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#code_change-3">code_change/3</a></td><td></td></tr><tr><td valign="top"><a href="#connect-3">connect/3</a></td><td></td></tr><tr><td valign="top"><a href="#handle_call-3">handle_call/3</a></td><td></td></tr><tr><td valign="top"><a href="#handle_cast-2">handle_cast/2</a></td><td></td></tr><tr><td valign="top"><a href="#handle_info-2">handle_info/2</a></td><td></td></tr><tr><td valign="top"><a href="#init-1">init/1</a></td><td></td></tr><tr><td valign="top"><a href="#send_message-3">send_message/3</a></td><td></td></tr><tr><td valign="top"><a href="#start_link-0">start_link/0</a></td><td></td></tr><tr><td valign="top"><a href="#start_link-4">start_link/4</a></td><td></td></tr><tr><td valign="top"><a href="#stop-1">stop/1</a></td><td></td></tr><tr><td valign="top"><a href="#terminate-2">terminate/2</a></td><td></td></tr><tr><td valign="top"><a href="#test_connect-0">test_connect/0</a></td><td></td></tr><tr><td valign="top"><a href="#test_connect-1">test_connect/1</a></td><td></td></tr></table>
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#block-8">block/8</a></td><td>Send block message to the given Peer.</td></tr><tr><td valign="top"><a href="#code_change-3">code_change/3</a></td><td></td></tr><tr><td valign="top"><a href="#connect-3">connect/3</a></td><td></td></tr><tr><td valign="top"><a href="#getaddr-1">getaddr/1</a></td><td>Send getaddr message to the given Peer.</td></tr><tr><td valign="top"><a href="#getblocks-3">getblocks/3</a></td><td>Send getblocks message to the given Peer.</td></tr><tr><td valign="top"><a href="#getdata-2">getdata/2</a></td><td>Send getdata message to the given Peer.</td></tr><tr><td valign="top"><a href="#getheaders-3">getheaders/3</a></td><td>Send getheaders message to the given Peer.</td></tr><tr><td valign="top"><a href="#handle_call-3">handle_call/3</a></td><td></td></tr><tr><td valign="top"><a href="#handle_cast-2">handle_cast/2</a></td><td></td></tr><tr><td valign="top"><a href="#handle_info-2">handle_info/2</a></td><td></td></tr><tr><td valign="top"><a href="#init-1">init/1</a></td><td></td></tr><tr><td valign="top"><a href="#ping-1">ping/1</a></td><td>Send ping message to the given Peer.</td></tr><tr><td valign="top"><a href="#start_link-0">start_link/0</a></td><td>Start Peer server.</td></tr><tr><td valign="top"><a href="#stop-1">stop/1</a></td><td>Stop the given Peer server.</td></tr><tr><td valign="top"><a href="#terminate-2">terminate/2</a></td><td></td></tr><tr><td valign="top"><a href="#verack-1">verack/1</a></td><td>Send verack message to the given Peer.</td></tr><tr><td valign="top"><a href="#version-1">version/1</a></td><td>Send version message to the given Peer.</td></tr></table>
 
 
 <a name="functions"></a>
 
 ## Function Details ##
 
+<a name="block-8"></a>
+
+### block/8 ###
+
+
+<pre><code>
+block(Peer::<a href="#type-peer">peer()</a>, Version::<a href="#type-uint32_t">uint32_t()</a>, PreviousBlock::<a href="#type-hash">hash()</a>, MerkleRoot::<a href="#type-hash">hash()</a>, Timestamp::non_neg_integer(), Bits::binary(), Nonce::binary(), Transactions::[<a href="#type-transaction">transaction()</a>]) -&gt; ok
+</code></pre>
+
+<br></br>
+
+
+Send block message to the given Peer.
 <a name="code_change-3"></a>
 
 ### code_change/3 ###
@@ -47,6 +150,58 @@ peers.<a name="index"></a>
 `connect(Peer, Address, Port) -> any()`
 
 
+<a name="getaddr-1"></a>
+
+### getaddr/1 ###
+
+
+<pre><code>
+getaddr(Peer::<a href="#type-peer">peer()</a>) -&gt; ok
+</code></pre>
+
+<br></br>
+
+
+Send getaddr message to the given Peer.
+<a name="getblocks-3"></a>
+
+### getblocks/3 ###
+
+
+<pre><code>
+getblocks(Peer::<a href="#type-peer">peer()</a>, BlockLocator::<a href="#type-block_locator">block_locator()</a>, BlockStop::<a href="#type-hash">hash()</a>) -&gt; ok
+</code></pre>
+
+<br></br>
+
+
+Send getblocks message to the given Peer.
+<a name="getdata-2"></a>
+
+### getdata/2 ###
+
+
+<pre><code>
+getdata(Peer::<a href="#type-peer">peer()</a>, Invs::[<a href="#type-inv">inv()</a>]) -&gt; ok
+</code></pre>
+
+<br></br>
+
+
+Send getdata message to the given Peer.
+<a name="getheaders-3"></a>
+
+### getheaders/3 ###
+
+
+<pre><code>
+getheaders(Peer::<a href="#type-peer">peer()</a>, BlockLocator::<a href="#type-block_locator">block_locator()</a>, BlockStop::<a href="#type-hash">hash()</a>) -&gt; ok
+</code></pre>
+
+<br></br>
+
+
+Send getheaders message to the given Peer.
 <a name="handle_call-3"></a>
 
 ### handle_call/3 ###
@@ -72,37 +227,54 @@ peers.<a name="index"></a>
 
 ### init/1 ###
 
-`init(X1) -> any()`
+
+<pre><code>
+init(Arguments::[any()]) -&gt; {ok, <a href="#type-state">state()</a>} | {ok, <a href="#type-state">state()</a>, non_neg_integer() | infinity} | {ok, <a href="#type-state">state()</a>, hibernate} | {stop, any()} | ignore
+</code></pre>
+
+<br></br>
 
 
-<a name="send_message-3"></a>
 
-### send_message/3 ###
+<a name="ping-1"></a>
 
-`send_message(Peer, Message, Arguments) -> any()`
+### ping/1 ###
 
 
+<pre><code>
+ping(Peer::<a href="#type-peer">peer()</a>) -&gt; ok
+</code></pre>
+
+<br></br>
+
+
+Send ping message to the given Peer.
 <a name="start_link-0"></a>
 
 ### start_link/0 ###
 
-`start_link() -> any()`
+
+<pre><code>
+start_link() -&gt; {ok, <a href="#type-peer">peer()</a>} | ignore | {error, any()}
+</code></pre>
+
+<br></br>
 
 
-<a name="start_link-4"></a>
-
-### start_link/4 ###
-
-`start_link(ListenerPid, Socket, Transport, Options) -> any()`
-
-
+Start Peer server.
 <a name="stop-1"></a>
 
 ### stop/1 ###
 
-`stop(Peer) -> any()`
+
+<pre><code>
+stop(Peer::<a href="#type-peer">peer()</a>) -&gt; ok
+</code></pre>
+
+<br></br>
 
 
+Stop the given Peer server.
 <a name="terminate-2"></a>
 
 ### terminate/2 ###
@@ -110,17 +282,29 @@ peers.<a name="index"></a>
 `terminate(Reason, State) -> any()`
 
 
-<a name="test_connect-0"></a>
+<a name="verack-1"></a>
 
-### test_connect/0 ###
-
-`test_connect() -> any()`
+### verack/1 ###
 
 
-<a name="test_connect-1"></a>
+<pre><code>
+verack(Peer::<a href="#type-peer">peer()</a>) -&gt; ok
+</code></pre>
 
-### test_connect/1 ###
-
-`test_connect(Address) -> any()`
+<br></br>
 
 
+Send verack message to the given Peer.
+<a name="version-1"></a>
+
+### version/1 ###
+
+
+<pre><code>
+version(Peer::<a href="#type-peer">peer()</a>) -&gt; ok
+</code></pre>
+
+<br></br>
+
+
+Send version message to the given Peer.
