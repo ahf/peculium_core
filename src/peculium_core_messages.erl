@@ -25,51 +25,95 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Bitcoin protocol message encoders.
+%%% @copyright  2013 Alexander Færøy
+%%% @end
+%%% ----------------------------------------------------------------------------
+%%% @doc Bitcoin message encoders
+%%%
+%%% This module is used by the peculium_core_peer process to create Bitcoin
+%%% messages.
+%%% @end
 %%% ----------------------------------------------------------------------------
 -module(peculium_core_messages).
 
--export([verack/1, getaddr/1, ping/1, version/1, getdata/1, getblocks/1, getheaders/1, block/1]).
+%% API.
+-export([verack/1, getaddr/1, ping/1, version/5, getdata/2, getblocks/3, getheaders/3, block/8]).
 
-pad_command(Command) ->
-    X = atom_to_binary(Command, utf8),
-    <<X/binary, 0:((12 - size(X)) * 8)>>.
+%% Types.
+-type block_locator() :: peculium_core_types:block_locator().
+-type command() :: peculium_core_types:command().
+-type hash() :: peculium_core_types:hash().
+-type inv() :: peculium_core_types:inv().
+-type network() :: peculium_core_types:network().
+-type transaction() :: peculium_core_types:transaction().
+-type uint32_t() :: peculium_core_types:uint32_t().
 
-encode(Network, Command) ->
-    encode(Network, Command, []).
+%% Tests.
+-include("peculium_core_test.hrl").
 
-encode(Network, Command, Payload) ->
-    {ok, MagicValue} = peculium_core_network:magic_value(Network),
-    encode(MagicValue, pad_command(Command), iolist_size(Payload), peculium_core_protocol_utilities:checksum(Payload), Payload).
-
-encode(MagicValue, Command, PayloadSize, Checksum, Payload) ->
-    [MagicValue, Command, peculium_core_protocol_types:uint32_t(PayloadSize), Checksum, Payload].
-
-verack([Network]) ->
+%% @doc Create verack message in the network wire format.
+-spec verack(Network :: network()) -> iolist().
+verack(Network) ->
     encode(Network, verack).
 
-getaddr([Network]) ->
+%% @doc Create getaddr message in the network wire format.
+-spec getaddr(Network :: network()) -> iolist().
+getaddr(Network) ->
     encode(Network, getaddr).
 
-ping([Network]) ->
+%% @doc Create ping message in the network wire format.
+-spec ping(Network :: network()) -> iolist().
+ping(Network) ->
     encode(Network, ping).
 
-version([Network, {SourceAddress, SourcePort}, {DestinationAddress, DestinationPort}]) ->
+%% @doc Create version message in the network wire format.
+-spec version(Network :: network(), SourceAddress :: inet:ip_address(), SourcePort :: inet:port_number(), DestinationAddress :: inet:ip_address(), DestinationPort :: inet:port_number()) -> iolist().
+version(Network, SourceAddress, SourcePort, DestinationAddress, DestinationPort) ->
     {ok, BlockHeight} = peculium_core_block_index:best_block_height(),
     encode(Network, version, [peculium_core_protocol_types:int32_t(60001), peculium_core_protocol_types:uint64_t(1), peculium_core_protocol_types:uint64_t(peculium_core_utilities:timestamp()), peculium_core_protocol_types:net_addr(DestinationAddress, DestinationPort), peculium_core_protocol_types:net_addr(SourceAddress, SourcePort), crypto:rand_bytes(8), peculium_core_protocol_types:var_string(peculium:user_agent()), peculium_core_protocol_types:int32_t(BlockHeight)]).
 
-getdata([Network, Invs]) ->
+%% @doc Create getdata message in the network wire format.
+-spec getdata(Network :: network(), Invs :: [inv()]) -> iolist().
+getdata(Network, Invs) ->
     {ok, Length} = peculium_core_protocol_types:var_int(length(Invs)),
     Data = lists:map(fun peculium_core_protocol_types:inv/1, Invs),
     encode(Network, getdata, [Length, Data]).
 
-getblocks([Network, BlockLocator, BlockStop]) ->
+%% @doc Create getblocks message in the network wire format.
+-spec getblocks(Network :: network(), BlockLocator :: block_locator(), BlockStop :: hash()) -> iolist().
+getblocks(Network, BlockLocator, BlockStop) ->
     {ok, Length} = peculium_core_protocol_types:var_int(length(BlockLocator)),
     encode(Network, getblocks, [peculium_core_protocol_types:int32_t(60001), Length, BlockLocator, BlockStop]).
 
-getheaders([Network, BlockLocator, BlockStop]) ->
+%% @doc Create getheaders message in the network wire format.
+-spec getheaders(Network :: network(), BlockLocator :: block_locator(), BlockStop :: hash()) -> iolist().
+getheaders(Network, BlockLocator, BlockStop) ->
     {ok, Length} = peculium_core_protocol_types:var_int(length(BlockLocator)),
     encode(Network, getheaders, [peculium_core_protocol_types:int32_t(60001), Length, BlockLocator, BlockStop]).
 
-block([Network, Version, PreviousBlock, MerkleRoot, Timestamp, Bits, Nonce, Transactions]) ->
+%% @doc Create block message in the network wire format.
+-spec block(Network :: network(), Version :: uint32_t(), PreviousBlock :: hash(), MerkleRoot :: hash(), Timestamp :: non_neg_integer(), Bits :: binary(), Nonce :: binary(), Transactions :: [transaction()]) -> iolist().
+block(Network, Version, PreviousBlock, MerkleRoot, Timestamp, Bits, Nonce, Transactions) ->
     encode(Network, block, [peculium_core_protocol_types:uint32_t(Version), PreviousBlock, MerkleRoot, peculium_core_protocol_types:uint32_t(Timestamp), peculium_core_protocol_types:uint32_t(Bits), peculium_core_protocol_types:uint32_t(Nonce), lists:map(fun peculium_core_protocol_types:transaction/1, Transactions)]).
+
+%% @private
+-spec pad_command(Command :: command()) -> binary().
+pad_command(Command) ->
+    X = atom_to_binary(Command, utf8),
+    <<X/binary, 0:((12 - size(X)) * 8)>>.
+
+%% @private
+-spec encode(Network :: network(), Command :: command()) -> iolist().
+encode(Network, Command) ->
+    encode(Network, Command, []).
+
+%% @private
+-spec encode(Network :: network(), Command :: command(), Payload :: iolist()) -> iolist().
+encode(Network, Command, Payload) ->
+    {ok, MagicValue} = peculium_core_network:magic_value(Network),
+    encode(MagicValue, pad_command(Command), iolist_size(Payload), peculium_core_protocol_utilities:checksum(Payload), Payload).
+
+%% @private
+-spec encode(MagicValue :: binary(), Command :: binary(), PayloadSize :: uint32_t(), Checksum :: binary(), Payload :: iolist()) -> iolist().
+encode(MagicValue, Command, PayloadSize, Checksum, Payload) ->
+    [MagicValue, Command, peculium_core_protocol_types:uint32_t(PayloadSize), Checksum, Payload].
