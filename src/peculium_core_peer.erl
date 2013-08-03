@@ -47,7 +47,7 @@
 
 %% API.
 -export([start_link/0, stop/1, connect/3, ping/1, verack/1, getaddr/1,
-        version/1, getdata/2, getblocks/3, getheaders/3, block/8]).
+        version/2, getdata/2, getblocks/3, getheaders/3, block/8]).
 
 %% Test API.
 %% FIXME: Kill, with fire.
@@ -77,7 +77,8 @@
     sent = 0 :: non_neg_integer(),
     received = 0 :: non_neg_integer(),
     received_version :: undefined | version_message(),
-    network = mainnet :: network()
+    network = mainnet :: network(),
+    nonce :: binary()
 }).
 
 -type state() :: #state {}.
@@ -134,10 +135,10 @@ getaddr(Peer) ->
     send_message(Peer, getaddr).
 
 %% @doc Send version message to the given Peer.
--spec version(Peer :: peer()) -> ok.
-version(Peer) ->
+-spec version(Peer :: peer(), Nonce :: binary()) -> ok.
+version(Peer, Nonce) ->
     %% Note: The arguments will be added by the Peer.
-    send_message(Peer, version).
+    send_message(Peer, version, [Nonce]).
 
 %% @doc Send getdata message to the given Peer.
 -spec getdata(Peer :: peer(), Invs :: [inv()]) -> ok.
@@ -190,17 +191,24 @@ handle_cast(stop, State) ->
 handle_cast({connect, Address, Port}, State) ->
     case gen_tcp:connect(Address, Port, [binary, {packet, 0}, {active, once}]) of
         {ok, Socket} ->
-            version(self()),
-            {noreply, State#state { socket = Socket }};
+            Nonce = peculium_core_nonce_manager:create(),
+            version(self(), Nonce),
+            {noreply, State#state { socket = Socket, nonce = Nonce }};
         {error, Reason} ->
             {stop, Reason, State}
     end;
 
-handle_cast({message, version, []}, #state { network = Network, socket = Socket } = State) ->
-    %% FIXME: sockname should be the local network address and not the socket name.
-    {ok, {SourceAddress, SourcePort}} = inet:sockname(Socket),
-    {ok, {DestinationAddress, DestinationPort}} = inet:peername(Socket),
-    {noreply, send(State, version, [Network, SourceAddress, SourcePort, DestinationAddress, DestinationPort])};
+handle_cast({message, version, [Nonce]}, #state { network = Network, socket = Socket } = State) ->
+    case peculium_core_nonce_manager:has(Nonce) of
+        true ->
+            log(State, "Connection attempt to ourself was prevented"),
+            {stop, normal, stopped, State};
+        false ->
+            %% FIXME: sockname should be the local network address and not the socket name.
+            {ok, {SourceAddress, SourcePort}} = inet:sockname(Socket),
+            {ok, {DestinationAddress, DestinationPort}} = inet:peername(Socket),
+            {noreply, send(State, version, [Network, SourceAddress, SourcePort, DestinationAddress, DestinationPort, Nonce])}
+    end;
 
 handle_cast({message, Message, Arguments}, #state { network = Network } = State) ->
     {noreply, send(State, Message, [Network | Arguments])};
@@ -224,6 +232,10 @@ handle_info({tcp_error, Socket, Reason}, #state { socket = Socket } = State) ->
 
 handle_info(_Info, State) ->
     {noreply, State}.
+
+terminate(_Reason, #state { nonce = Nonce }) when is_binary(Nonce) ->
+    peculium_core_nonce_manager:delete(Nonce),
+    ok;
 
 terminate(_Reason, _State) ->
     ok.
@@ -287,7 +299,7 @@ process_one_message(State, #message { body = #inv_message { inventory = Invs } }
 %%        end, State, Invs);
 
 process_one_message(State, #message { body = #block_message { block = Block } }) ->
-    %% peculium_core_block_index:insert(Block),
+    peculium_core_block_index:insert(Block),
     State;
 
 process_one_message(State, #message { body = #version_message {} = Version }) ->
@@ -310,6 +322,11 @@ send(#state { socket = Socket, sent = Sent } = State, Message, Arguments) ->
     log(State, "Sending ~p (~b bytes)", [Message, PacketLength]),
     ok = gen_tcp:send(Socket, Packet),
     State#state { sent = Sent + PacketLength }.
+
+%% @private
+-spec log(State :: state(), Format :: string()) -> ok.
+log(State, Format) ->
+    log(State, Format, []).
 
 %% @private
 -spec log(State :: state(), Format :: string(), Arguments :: [any()]) -> ok.
