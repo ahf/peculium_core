@@ -323,4 +323,3 @@ send_message(Peer, Message) ->
 -spec send_message(Peer :: peer(), Message :: command(), Arguments :: [any()]) -> ok.
 send_message(Peer, Message, Arguments) ->
     gen_server:cast(Peer, {message, Message, Arguments}).
-

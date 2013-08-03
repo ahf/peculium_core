@@ -40,7 +40,13 @@ start() ->
 -spec start(normal | {takeover, node()} | {failover, node()}, term()) -> {ok, pid()}.
 start(_, _) ->
     %% Start the supervisor.
-    peculium_core_sup:start_link().
+    Result = peculium_core_sup:start_link(),
+
+    %% FIXME: Test code.
+    %% Insert Genesis block into the index.
+    peculium_core_block_index:insert(peculium_core_block:genesis_block(mainnet)),
+
+    Result.
 
 -spec stop([]) -> ok.
 stop(_State) ->
