@@ -297,6 +297,7 @@ process_one_message(State, #message { body = #block_message { block = Block } })
     State;
 
 process_one_message(State, #message { body = #version_message { nonce = Nonce } = Version }) ->
+    %% FIXME: Check if we have already received a version message.
     case peculium_core_nonce_manager:has(Nonce) of
         true ->
             log(State, "Connection attempt to ourself was prevented"),
