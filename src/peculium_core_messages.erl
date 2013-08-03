@@ -70,7 +70,7 @@ ping(Network) ->
 -spec version(Network :: network(), SourceAddress :: inet:ip_address(), SourcePort :: inet:port_number(), DestinationAddress :: inet:ip_address(), DestinationPort :: inet:port_number()) -> iolist().
 version(Network, SourceAddress, SourcePort, DestinationAddress, DestinationPort) ->
     {ok, BlockHeight} = peculium_core_block_index:best_block_height(),
-    encode(Network, version, [peculium_core_protocol_types:int32_t(60001), peculium_core_protocol_types:uint64_t(1), peculium_core_protocol_types:uint64_t(peculium_core_utilities:timestamp()), peculium_core_protocol_types:net_addr(DestinationAddress, DestinationPort), peculium_core_protocol_types:net_addr(SourceAddress, SourcePort), crypto:rand_bytes(8), peculium_core_protocol_types:var_string(peculium:user_agent()), peculium_core_protocol_types:int32_t(BlockHeight)]).
+    encode(Network, version, [peculium_core_protocol_types:int32_t(60001), peculium_core_protocol_types:uint64_t(1), peculium_core_protocol_types:uint64_t(peculium_core_utilities:timestamp()), peculium_core_protocol_types:net_addr(DestinationAddress, DestinationPort), peculium_core_protocol_types:net_addr(SourceAddress, SourcePort), crypto:rand_bytes(8), peculium_core_protocol_types:var_string(peculium_core:user_agent()), peculium_core_protocol_types:int32_t(BlockHeight)]).
 
 %% @doc Create getdata message in the network wire format.
 -spec getdata(Network :: network(), Invs :: [inv()]) -> iolist().
