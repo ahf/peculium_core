@@ -199,16 +199,10 @@ handle_cast({connect, Address, Port}, State) ->
     end;
 
 handle_cast({message, version, [Nonce]}, #state { network = Network, socket = Socket } = State) ->
-    case peculium_core_nonce_manager:has(Nonce) of
-        true ->
-            log(State, "Connection attempt to ourself was prevented"),
-            {stop, normal, stopped, State};
-        false ->
-            %% FIXME: sockname should be the local network address and not the socket name.
-            {ok, {SourceAddress, SourcePort}} = inet:sockname(Socket),
-            {ok, {DestinationAddress, DestinationPort}} = inet:peername(Socket),
-            {noreply, send(State, version, [Network, SourceAddress, SourcePort, DestinationAddress, DestinationPort, Nonce])}
-    end;
+    %% FIXME: sockname should be the local network address and not the socket name.
+    {ok, {SourceAddress, SourcePort}} = inet:sockname(Socket),
+    {ok, {DestinationAddress, DestinationPort}} = inet:peername(Socket),
+    {noreply, send(State, version, [Network, SourceAddress, SourcePort, DestinationAddress, DestinationPort, Nonce])};
 
 handle_cast({message, Message, Arguments}, #state { network = Network } = State) ->
     {noreply, send(State, Message, [Network | Arguments])};
@@ -302,10 +296,17 @@ process_one_message(State, #message { body = #block_message { block = Block } })
     peculium_core_block_index:insert(Block),
     State;
 
-process_one_message(State, #message { body = #version_message {} = Version }) ->
-    verack(self()),
-    getaddr(self()),
-    State#state { received_version = Version };
+process_one_message(State, #message { body = #version_message { nonce = Nonce } = Version }) ->
+    case peculium_core_nonce_manager:has(Nonce) of
+        true ->
+            log(State, "Connection attempt to ourself was prevented"),
+            {stop, normal, State};
+
+        false ->
+            verack(self()),
+            getaddr(self()),
+            State#state { received_version = Version }
+    end;
 
 process_one_message(State, #message { body = #verack_message {} }) ->
     getblocks(self(), peculium_core_block_locator:from_best_block(), <<0:256>>),
