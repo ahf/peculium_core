@@ -197,6 +197,7 @@ handle_cast({connect, Address, Port}, State) ->
     end;
 
 handle_cast({message, version, []}, #state { network = Network, socket = Socket } = State) ->
+    %% FIXME: sockname should be the local network address and not the socket name.
     {ok, {SourceAddress, SourcePort}} = inet:sockname(Socket),
     {ok, {DestinationAddress, DestinationPort}} = inet:peername(Socket),
     {noreply, send(State, version, [Network, SourceAddress, SourcePort, DestinationAddress, DestinationPort])};
@@ -314,7 +315,7 @@ send(#state { socket = Socket, sent = Sent } = State, Message, Arguments) ->
 -spec log(State :: state(), Format :: string(), Arguments :: [any()]) -> ok.
 log(State, Format, Arguments) ->
     {ok, {Address, Port}} = inet:peername(State#state.socket),
-    lager:debug([{peer, Address, Port}], "[Peer ~s (~b)] -> " ++ Format, [inet_parse:ntoa(Address), Port | Arguments]).
+    lager:debug([{peer, Address, Port}], "[Peer ~s:~b] -> " ++ Format, [inet_parse:ntoa(Address), Port | Arguments]).
 
 %% @private
 -spec send_message(Peer :: peer(), Message :: command()) -> ok.
