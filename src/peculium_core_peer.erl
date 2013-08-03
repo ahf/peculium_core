@@ -76,7 +76,6 @@
     inbound :: boolean(),
     sent = 0 :: non_neg_integer(),
     received = 0 :: non_neg_integer(),
-    sent_version :: undefined | version_message(),
     received_version :: undefined | version_message(),
     network = mainnet :: network()
 }).
@@ -167,7 +166,6 @@ init([]) ->
         socket = undefined,
         continuation = <<>>,
         inbound = false,
-        sent_version = undefined,
         received_version = undefined
     } };
 
@@ -179,7 +177,6 @@ init([ListenerPid, Socket, _Options]) ->
         socket = Socket,
         continuation = <<>>,
         inbound = true,
-        sent_version = undefined,
         received_version = undefined
     }, 0}.
 
@@ -198,6 +195,11 @@ handle_cast({connect, Address, Port}, State) ->
         {error, Reason} ->
             {stop, Reason, State}
     end;
+
+handle_cast({message, version, Arguments}, #state { network = Network, socket = Socket } = State) ->
+    {ok, {SourceAddress, SourcePort}} = inet:sockname(Socket),
+    {ok, {DestinationAddress, DestinationPort}} = inet:peername(Socket),
+    {noreply, send(State, version, [Network, SourceAddress, SourcePort, DestinationAddress, DestinationPort])};
 
 handle_cast({message, Message, Arguments}, #state { network = Network } = State) ->
     {noreply, send(State, Message, [Network | Arguments])};
