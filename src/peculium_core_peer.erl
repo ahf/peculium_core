@@ -196,7 +196,7 @@ handle_cast({connect, Address, Port}, State) ->
             {stop, Reason, State}
     end;
 
-handle_cast({message, version, Arguments}, #state { network = Network, socket = Socket } = State) ->
+handle_cast({message, version, []}, #state { network = Network, socket = Socket } = State) ->
     {ok, {SourceAddress, SourcePort}} = inet:sockname(Socket),
     {ok, {DestinationAddress, DestinationPort}} = inet:peername(Socket),
     {noreply, send(State, version, [Network, SourceAddress, SourcePort, DestinationAddress, DestinationPort])};
