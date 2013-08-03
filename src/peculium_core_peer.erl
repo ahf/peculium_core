@@ -70,10 +70,10 @@ test_connect(Address) when is_list(Address) ->
 -define(SERVER, ?MODULE).
 
 -record(state, {
-    listener :: pid(),
-    socket :: inet:socket(),
+    listener :: undefined | pid(),
+    socket :: undefined | inet:socket(),
     continuation :: binary(),
-    inbound = false :: boolean(),
+    inbound :: boolean(),
     sent = 0 :: non_neg_integer(),
     received = 0 :: non_neg_integer(),
     sent_version :: undefined | version_message(),
@@ -107,6 +107,7 @@ init([]) ->
 
 init([ListenerPid, Socket, _Options]) ->
     %% Note: The timeout.
+    %% See handle_info(timeout, ...) for more information.
     {ok, #state {
         listener = ListenerPid,
         socket = Socket,
@@ -237,4 +238,4 @@ send(#state { socket = Socket, sent = Sent } = State, Message, Arguments) ->
 
 log(State, Format, Arguments) ->
     {ok, {Address, Port}} = inet:peername(State#state.socket),
-    lager:debug("[Peer ~s (~b)] -> " ++ Format, [inet_parse:ntoa(Address), Port] ++ Arguments).
+    lager:debug([{peer, Address, Port}], "[Peer ~s (~b)] -> " ++ Format, [inet_parse:ntoa(Address), Port] ++ Arguments).
