@@ -38,7 +38,6 @@
 
 %% Types.
 -type script() :: peculium_core_types:script().
--type script_op() :: peculium_core_types:script_op().
 
 %% Tests.
 
