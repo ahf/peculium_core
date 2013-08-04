@@ -81,7 +81,6 @@
     nonce :: binary()
 }).
 
--type state() :: #state {}.
 -type peer() :: pid().
 
 %% Tests.
@@ -160,7 +159,7 @@ getheaders(Peer, BlockLocator, BlockStop) ->
 block(Peer, Version, PreviousBlock, MerkleRoot, Timestamp, Bits, Nonce, Transactions) ->
     send_message(Peer, block, [Version, PreviousBlock, MerkleRoot, Timestamp, Bits, Nonce, Transactions]).
 
--spec init(Arguments :: [any()]) -> {ok, state()} | {ok, state(), non_neg_integer() | infinity} | {ok, state(), hibernate} | {stop, any()} | ignore.
+-spec init(Arguments :: [any()]) -> {ok, term()} | {ok, term(), non_neg_integer() | infinity} | {ok, term(), hibernate} | {stop, any()} | ignore.
 init([]) ->
     {ok, #state {
         listener = undefined,
@@ -317,7 +316,7 @@ process_one_message(State, _) ->
     State.
 
 %% @private
--spec send(State :: state(), Message :: command(), Arguments :: [any()]) -> state().
+-spec send(State :: term(), Message :: command(), Arguments :: [any()]) -> term().
 send(#state { socket = Socket, sent = Sent } = State, Message, Arguments) ->
     Packet = apply(peculium_core_messages, Message, Arguments),
     PacketLength = iolist_size(Packet),
@@ -326,12 +325,12 @@ send(#state { socket = Socket, sent = Sent } = State, Message, Arguments) ->
     State#state { sent = Sent + PacketLength }.
 
 %% @private
--spec log(State :: state(), Format :: string()) -> ok.
+-spec log(State :: term(), Format :: string()) -> ok.
 log(State, Format) ->
     log(State, Format, []).
 
 %% @private
--spec log(State :: state(), Format :: string(), Arguments :: [any()]) -> ok.
+-spec log(State :: term(), Format :: string(), Arguments :: [any()]) -> ok.
 log(State, Format, Arguments) ->
     {ok, {Address, Port}} = inet:peername(State#state.socket),
     lager:debug([{peer, Address, Port}], "[Peer ~s:~b] -> " ++ Format, [inet_parse:ntoa(Address), Port | Arguments]).
