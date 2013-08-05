@@ -74,6 +74,7 @@ unknown_invs(Invs) ->
 known(#inv { type = Type, hash = Hash }) ->
     case Type of
         block ->
+            %% FIXME: Create an API in the block_index where we can ask for an entire set of inv's.
             peculium_core_block_index:exists(Hash);
         transaction ->
             %% FIXME: Once we have a transaction database, this should be changed.
