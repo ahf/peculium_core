@@ -99,7 +99,7 @@ uint32_t() = <a href="peculium_core_types.md#type-uint32_t">peculium_core_types:
 ## Function Index ##
 
 
-<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#block-8">block/8</a></td><td>Create block message in the network wire format.</td></tr><tr><td valign="top"><a href="#getaddr-1">getaddr/1</a></td><td>Create getaddr message in the network wire format.</td></tr><tr><td valign="top"><a href="#getblocks-3">getblocks/3</a></td><td>Create getblocks message in the network wire format.</td></tr><tr><td valign="top"><a href="#getdata-2">getdata/2</a></td><td>Create getdata message in the network wire format.</td></tr><tr><td valign="top"><a href="#getheaders-3">getheaders/3</a></td><td>Create getheaders message in the network wire format.</td></tr><tr><td valign="top"><a href="#ping-1">ping/1</a></td><td>Create ping message in the network wire format.</td></tr><tr><td valign="top"><a href="#verack-1">verack/1</a></td><td>Create verack message in the network wire format.</td></tr><tr><td valign="top"><a href="#version-5">version/5</a></td><td>Create version message in the network wire format.</td></tr></table>
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#block-8">block/8</a></td><td>Create block message in the network wire format.</td></tr><tr><td valign="top"><a href="#getaddr-1">getaddr/1</a></td><td>Create getaddr message in the network wire format.</td></tr><tr><td valign="top"><a href="#getblocks-3">getblocks/3</a></td><td>Create getblocks message in the network wire format.</td></tr><tr><td valign="top"><a href="#getdata-2">getdata/2</a></td><td>Create getdata message in the network wire format.</td></tr><tr><td valign="top"><a href="#getheaders-3">getheaders/3</a></td><td>Create getheaders message in the network wire format.</td></tr><tr><td valign="top"><a href="#ping-1">ping/1</a></td><td>Create ping message in the network wire format.</td></tr><tr><td valign="top"><a href="#verack-1">verack/1</a></td><td>Create verack message in the network wire format.</td></tr><tr><td valign="top"><a href="#version-6">version/6</a></td><td>Create version message in the network wire format.</td></tr></table>
 
 
 <a name="functions"></a>
@@ -197,13 +197,13 @@ verack(Network::<a href="#type-network">network()</a>) -&gt; iolist()
 
 
 Create verack message in the network wire format.
-<a name="version-5"></a>
+<a name="version-6"></a>
 
-### version/5 ###
+### version/6 ###
 
 
 <pre><code>
-version(Network::<a href="#type-network">network()</a>, SourceAddress::<a href="inet.md#type-ip_address">inet:ip_address()</a>, SourcePort::<a href="inet.md#type-port_number">inet:port_number()</a>, DestinationAddress::<a href="inet.md#type-ip_address">inet:ip_address()</a>, DestinationPort::<a href="inet.md#type-port_number">inet:port_number()</a>) -&gt; iolist()
+version(Network::<a href="#type-network">network()</a>, SourceAddress::<a href="inet.md#type-ip_address">inet:ip_address()</a>, SourcePort::<a href="inet.md#type-port_number">inet:port_number()</a>, DestinationAddress::<a href="inet.md#type-ip_address">inet:ip_address()</a>, DestinationPort::<a href="inet.md#type-port_number">inet:port_number()</a>, Nonce::binary()) -&gt; iolist()
 </code></pre>
 
 <br></br>

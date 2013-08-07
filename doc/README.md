@@ -148,6 +148,7 @@ invalid because of this.
 <tr><td><a href="peculium_core_messages.md" class="module">peculium_core_messages</a></td></tr>
 <tr><td><a href="peculium_core_network.md" class="module">peculium_core_network</a></td></tr>
 <tr><td><a href="peculium_core_network_address.md" class="module">peculium_core_network_address</a></td></tr>
+<tr><td><a href="peculium_core_nonce_manager.md" class="module">peculium_core_nonce_manager</a></td></tr>
 <tr><td><a href="peculium_core_peer.md" class="module">peculium_core_peer</a></td></tr>
 <tr><td><a href="peculium_core_protocol.md" class="module">peculium_core_protocol</a></td></tr>
 <tr><td><a href="peculium_core_protocol_types.md" class="module">peculium_core_protocol_types</a></td></tr>
