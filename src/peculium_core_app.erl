@@ -46,6 +46,10 @@ start(_, _) ->
     %% Insert Genesis block into the index.
     peculium_core_block_index:insert(peculium_core_block:genesis_block(mainnet)),
 
+    %% Overwrite Mnesia directory. This must be called after we have started
+    %% the peculium_core_config process.
+    application:set_env(mnesia, dir, peculium_core_config:mnesia_dir()),
+
     Result.
 
 -spec stop([]) -> ok.

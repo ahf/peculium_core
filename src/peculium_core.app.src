@@ -8,6 +8,7 @@
         gproc,
         kernel,
         lager,
+        mnesia,
         ranch,
         sasl,
         stdlib,
