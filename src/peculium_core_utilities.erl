@@ -35,10 +35,15 @@
 -module(peculium_core_utilities).
 
 %% API.
--export([find_last/2, strip/2, timestamp/0, hex2bin/1, bin2hex/1,
-        reverse/1, parallel_map/2]).
+-export([expand_homedir/1, find_last/2, strip/2, timestamp/0, hex2bin/1,
+        bin2hex/1, reverse/1, parallel_map/2]).
 
 -include("peculium_core_test.hrl").
+
+%% @doc Returns the path with the homedir expanded.
+-spec expand_homedir(Path :: string()) -> string().
+expand_homedir(Path) ->
+    binary_to_list(iolist_to_binary(re:replace(Path, "~", find_homedir()))).
 
 %% @doc Returns the last element of a given list that matches the given predicate.
 -spec find_last(Pred :: fun((X :: term()) -> boolean()), List :: list(term())) -> term() | not_found.
@@ -107,6 +112,16 @@ parallel_map_gather_results([Pid | Rest]) ->
     end;
 parallel_map_gather_results([]) ->
     [].
+
+%% @private
+-spec find_homedir() -> string().
+find_homedir() ->
+    case os:getenv("HOME") of
+        false ->
+            [];
+        Homedir ->
+            Homedir
+    end.
 
 -ifdef(TEST).
 
