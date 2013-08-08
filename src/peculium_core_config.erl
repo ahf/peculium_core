@@ -31,7 +31,7 @@
 -behaviour(gen_server).
 
 %% API.
--export([start_link/0, dotdir/0, block_chain_dir/0, block_store_dir/0, block_index_dir/0, cache_size/0]).
+-export([start_link/0, data_dir/0, block_chain_dir/0, block_store_dir/0, block_index_dir/0, cache_size/0]).
 
 %% Callbacks.
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
@@ -41,14 +41,14 @@
 -record(state, {}).
 
 %% @doc Get the configuration directory.
--spec dotdir() -> string().
-dotdir() ->
-    call(dotdir).
+-spec data_dir() -> string().
+data_dir() ->
+    peculium_core_utilities:expand_homedir(call(data_dir)).
 
 %% @doc Get the block chain directory.
 -spec block_chain_dir() -> string().
 block_chain_dir() ->
-    filename:join([dotdir(), "blockchain"]).
+    filename:join([data_dir(), "blockchain"]).
 
 %% @doc Get the block store directory.
 -spec block_store_dir() -> string().
