@@ -52,7 +52,7 @@ from_height(Height) ->
     lists:map(MapFun, Indices).
 
 %% @private
--spec from_height(Count :: non_neg_integer(), Result :: list(non_neg_integer()), Step :: non_neg_integer(), Count :: non_neg_integer()) -> [non_neg_integer()].
+-spec from_height(Count :: non_neg_integer(), Result :: [non_neg_integer()], Step :: non_neg_integer(), Count :: non_neg_integer()) -> [non_neg_integer()].
 from_height(Count, Result, Step, Start) when Start >= 10, Count >= 1 ->
     from_height(Count - Step, [Count | Result], Step * 2, Start + 1);
 from_height(Count, Result, Step, Start) when Count >= 1 ->

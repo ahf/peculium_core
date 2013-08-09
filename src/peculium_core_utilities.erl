@@ -46,7 +46,7 @@ expand_homedir(Path) ->
     binary_to_list(iolist_to_binary(re:replace(Path, "~", find_homedir()))).
 
 %% @doc Returns the last element of a given list that matches the given predicate.
--spec find_last(Pred :: fun((X :: term()) -> boolean()), List :: list(term())) -> term() | not_found.
+-spec find_last(Pred :: fun((X :: term()) -> boolean()), List :: [term()]) -> term() | not_found.
 find_last(Pred, List) ->
     case lists:filter(Pred, List) of
         [] ->
@@ -93,7 +93,7 @@ bin2hex(Bin) when is_binary(Bin) ->
 
 %% @doc Applies the function, Fun, to each element of List in parallel and
 %% returns the result. The result shares the same order as the input list.
--spec parallel_map(Fun :: fun((X :: any()) -> any()), List :: list(any())) -> list(any()).
+-spec parallel_map(Fun :: fun((X :: any()) -> any()), List :: [term()]) -> [term()].
 parallel_map(Fun, List) ->
     Self = self(),
     Pids = [spawn_link(fun() ->

@@ -146,6 +146,7 @@ invalid because of this.
 <tr><td><a href="https://github.com/ahf/peculium_core/blob/master/doc/peculium_core_leveldb.md" class="module">peculium_core_leveldb</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium_core/blob/master/doc/peculium_core_merkle_tree.md" class="module">peculium_core_merkle_tree</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium_core/blob/master/doc/peculium_core_messages.md" class="module">peculium_core_messages</a></td></tr>
+<tr><td><a href="https://github.com/ahf/peculium_core/blob/master/doc/peculium_core_mnesia.md" class="module">peculium_core_mnesia</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium_core/blob/master/doc/peculium_core_network.md" class="module">peculium_core_network</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium_core/blob/master/doc/peculium_core_network_address.md" class="module">peculium_core_network_address</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium_core/blob/master/doc/peculium_core_nonce_manager.md" class="module">peculium_core_nonce_manager</a></td></tr>

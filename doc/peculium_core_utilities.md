@@ -82,7 +82,7 @@ Convert hex to binary.
 
 
 <pre><code>
-parallel_map(Fun::fun((X::any()) -&gt; any()), List::[any()]) -&gt; [any()]
+parallel_map(Fun::fun((X::any()) -&gt; any()), List::[term()]) -&gt; [term()]
 </code></pre>
 
 <br></br>
