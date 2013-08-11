@@ -68,6 +68,7 @@
 -type transaction() :: peculium_core_types:transaction().
 -type uint32_t() :: peculium_core_types:uint32_t().
 -type version_message() :: peculium_core_types:version_message().
+-type peer() :: pid().
 
 -record(state, {
     listener :: undefined | pid(),
@@ -80,8 +81,6 @@
     network = mainnet :: network(),
     nonce :: binary()
 }).
-
--type peer() :: pid().
 
 %% Tests.
 -include("peculium_core_test.hrl").
