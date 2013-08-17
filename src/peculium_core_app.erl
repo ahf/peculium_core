@@ -50,6 +50,12 @@ start(_, _) ->
     %% the peculium_core_config process.
     application:set_env(mnesia, dir, peculium_core_config:mnesia_dir()),
 
+    %% Given a Bitcoin network, which port should we listen to?
+    {ok, Port} = peculium_core_network:port_number(peculium_core_config:network()),
+
+    %% Start listener.
+    {ok, _} = ranch:start_listener(peculium_core_peer, 100, ranch_tcp, [{port, Port}], peculium_core_peer_pool, []),
+
     Result.
 
 -spec stop([]) -> ok.

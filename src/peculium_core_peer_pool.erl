@@ -37,6 +37,7 @@
 
 %% Behaviour.
 -behaviour(supervisor).
+-behaviour(ranch_protocol).
 
 %% API.
 -export([start_link/0, spawn_peer/2, spawn_peer/4]).
