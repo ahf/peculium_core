@@ -71,13 +71,13 @@
 -type peer() :: pid().
 
 -record(state, {
-    listener :: undefined | pid(),
-    socket :: undefined | inet:socket(),
-    continuation :: binary(),
+    listener = undefined :: undefined | pid(),
+    socket = undefined :: undefined | inet:socket(),
+    continuation = <<>> :: binary(),
     inbound :: boolean(),
     sent = 0 :: non_neg_integer(),
     received = 0 :: non_neg_integer(),
-    received_version :: undefined | version_message(),
+    received_version = undefined :: undefined | version_message(),
     network = mainnet :: network(),
     nonce :: binary()
 }).
@@ -161,11 +161,7 @@ block(Peer, Version, PreviousBlock, MerkleRoot, Timestamp, Bits, Nonce, Transact
 -spec init(Arguments :: [any()]) -> {ok, term()} | {ok, term(), non_neg_integer() | infinity} | {ok, term(), hibernate} | {stop, any()} | ignore.
 init([]) ->
     {ok, #state {
-        listener = undefined,
-        socket = undefined,
-        continuation = <<>>,
-        inbound = false,
-        received_version = undefined
+        inbound = false
     } };
 
 init([ListenerPid, Socket, _Options]) ->
@@ -174,9 +170,7 @@ init([ListenerPid, Socket, _Options]) ->
     {ok, #state {
         listener = ListenerPid,
         socket = Socket,
-        continuation = <<>>,
-        inbound = true,
-        received_version = undefined
+        inbound = true
     }, 0}.
 
 handle_call(_Request, _From, State) ->
