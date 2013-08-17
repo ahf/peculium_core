@@ -32,10 +32,13 @@
 
 %% API.
 -export([start_link/0, data_dir/0, block_chain_dir/0, block_store_dir/0,
-        block_index_dir/0, mnesia_dir/0, cache_size/0]).
+        block_index_dir/0, mnesia_dir/0, cache_size/0, network/0]).
 
 %% Callbacks.
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
+
+%% Types.
+-type network() :: peculium_core_types:network().
 
 -define(SERVER, ?MODULE).
 
@@ -70,6 +73,11 @@ mnesia_dir() ->
 -spec cache_size() -> non_neg_integer().
 cache_size() ->
     call(cache_size).
+
+%% @doc Get the network.
+-spec network() -> network().
+network() ->
+    call(network).
 
 %% @doc Start the configuration server.
 start_link() ->
