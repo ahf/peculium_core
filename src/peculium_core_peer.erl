@@ -200,9 +200,10 @@ handle_cast({message, Message, Arguments}, #state { network = Network } = State)
 handle_cast(_Message, State) ->
     {noreply, State}.
 
-handle_info(timeout, #state { listener = ListenerPid, socket = Socket } = State) ->
+handle_info(timeout, #state { listener = ListenerPid, socket = Socket, nonce = Nonce } = State) ->
     ok = ranch:accept_ack(ListenerPid),
     ack_socket(Socket),
+    version(self(), Nonce),
     {noreply, State};
 
 handle_info({tcp, Socket, Packet}, #state { socket = Socket } = State) ->
