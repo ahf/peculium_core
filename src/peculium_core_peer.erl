@@ -225,12 +225,15 @@ handle_info({tcp_error, Socket, Reason}, #state { socket = Socket } = State) ->
 handle_info(_Info, State) ->
     {noreply, State}.
 
-terminate(_Reason, #state { nonce = Nonce }) when is_binary(Nonce) ->
-    peculium_core_nonce_manager:delete(Nonce),
-    ok;
-
-terminate(_Reason, _State) ->
-    ok.
+terminate(_Reason, #state { nonce = Nonce } = State) ->
+    log(State, "Shutting down"),
+    case Nonce of
+        undefined ->
+            ok;
+        X when is_binary(X) ->
+            peculium_core_nonce_manager:delete(Nonce),
+            ok
+    end.
 
 code_change(_OldVersion, State, _Extra) ->
     {ok, State}.
