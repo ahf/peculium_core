@@ -159,7 +159,7 @@ init([Address, Port]) ->
     connect(self(), Address, Port),
     {ok, #state {
         inbound = false,
-        nonce = peculium_core_nonce_manager:create_nonce()
+        nonce = peculium_core_peer_nonce_manager:create_nonce()
     }};
 
 init([ListenerPid, Socket, _Options]) ->
@@ -169,7 +169,7 @@ init([ListenerPid, Socket, _Options]) ->
         listener = ListenerPid,
         socket = Socket,
         inbound = true,
-        nonce = peculium_core_nonce_manager:create_nonce()
+        nonce = peculium_core_peer_nonce_manager:create_nonce()
     }, 0}.
 
 handle_call(_Request, _From, State) ->
@@ -219,7 +219,7 @@ handle_info(_Info, State) ->
 
 terminate(_Reason, #state { nonce = Nonce } = State) ->
     log(State, "Shutting down"),
-    peculium_core_nonce_manager:remove_nonce(Nonce),
+    peculium_core_peer_nonce_manager:remove_nonce(Nonce),
     ok.
 
 code_change(_OldVersion, State, _Extra) ->
@@ -286,7 +286,7 @@ process_one_message(State, #message { body = #block_message { block = Block } })
 
 process_one_message(State, #message { body = #version_message { nonce = Nonce } = Version }) ->
     %% FIXME: Check if we have already received a version message.
-    case peculium_core_nonce_manager:has_nonce(Nonce) of
+    case peculium_core_peer_nonce_manager:has_nonce(Nonce) of
         true ->
             log(State, "Attempt to connect to ourself was prevented"),
             {stop, normal, State};
