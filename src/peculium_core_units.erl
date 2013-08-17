@@ -86,8 +86,8 @@ convert(Value, InputUnit, OutputUnit) ->
 -spec compare(float(), float()) -> boolean().
 compare(A, B) ->
     %% FIXME: Horror ahead.
-    As = lists:flatten(io_lib:format("~.12f", [A])),
-    Bs = lists:flatten(io_lib:format("~.12f", [B])),
+    As = lists:flatten(io_lib:format("~.8f", [A])),
+    Bs = lists:flatten(io_lib:format("~.8f", [B])),
     As =:= Bs.
 
 -spec prop_convert_integer_inverse() -> any().
