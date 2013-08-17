@@ -38,7 +38,7 @@
 -behaviour(gen_server).
 
 %% API.
--export([start_link/0, create/0, has/1, delete/1]).
+-export([start_link/0, create_nonce/0, has_nonce/1, remove_nonce/1]).
 
 %% Gen_server Callbacks.
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
@@ -60,19 +60,19 @@ start_link() ->
     gen_server:start_link({local, ?SERVER}, ?MODULE, [], []).
 
 %% @doc Check if a given nonce is used by one of our active connections.
--spec has(Nonce :: binary()) -> boolean().
-has(Nonce) ->
-    gen_server:call(?SERVER, {has, Nonce}).
+-spec has_nonce(Nonce :: binary()) -> boolean().
+has_nonce(Nonce) ->
+    gen_server:call(?SERVER, {has_nonce, Nonce}).
 
 %% @doc Create a new nonce.
--spec create() -> binary().
-create() ->
-    gen_server:call(?SERVER, create).
+-spec create_nonce() -> binary().
+create_nonce() ->
+    gen_server:call(?SERVER, create_nonce).
 
 %% @doc Delete a given nonce.
--spec delete(Nonce :: binary()) -> ok.
-delete(Nonce) ->
-    gen_server:cast(?SERVER, {delete, Nonce}).
+-spec remove_nonce(Nonce :: binary()) -> ok.
+remove_nonce(Nonce) ->
+    gen_server:cast(?SERVER, {remove_nonce, Nonce}).
 
 %% @private
 init([]) ->
@@ -82,11 +82,11 @@ init([]) ->
     } }.
 
 %% @private
-handle_call(create, _From, #state { nonces = Nonces } = State) ->
+handle_call(create_nonce, _From, #state { nonces = Nonces } = State) ->
     Nonce = crypto:rand_bytes(8),
     {reply, Nonce, State#state { nonces = sets:add_element(Nonce, Nonces) }};
 
-handle_call({has, Nonce}, _From, #state { nonces = Nonces } = State) ->
+handle_call({has_nonce, Nonce}, _From, #state { nonces = Nonces } = State) ->
     {reply, sets:is_element(Nonce, Nonces), State};
 
 handle_call(_Request, _From, State) ->
@@ -94,7 +94,7 @@ handle_call(_Request, _From, State) ->
     {reply, Reply, State}.
 
 %% @private
-handle_cast({delete, Nonce}, #state { nonces = Nonces } = State) ->
+handle_cast({remove_nonce, Nonce}, #state { nonces = Nonces } = State) ->
     {noreply, State#state { nonces = sets:del_element(Nonce, Nonces) }};
 
 handle_cast(_Message, State) ->
