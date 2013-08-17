@@ -34,7 +34,7 @@
 -module(peculium_core_network).
 
 %% API.
--export([magic_value/1, stringify/1]).
+-export([magic_value/1, port_number/1, stringify/1]).
 
 %% Types.
 -type network() :: peculium_core_types:network().
@@ -44,7 +44,8 @@
 %% Tests.
 -include("peculium_core_test.hrl").
 
--spec magic_value(Network :: network()) -> {ok, binary()} | {error, any()}.
+%% @doc Get network wire magical value from a given network.
+-spec magic_value(Network :: network()) -> {ok, binary()} | {error, term()}.
 magic_value(mainnet) ->
     {ok, binary:encode_unsigned(16#D9B4BEF9, little)};
 magic_value(testnet) ->
@@ -54,7 +55,17 @@ magic_value(testnet3) ->
 magic_value(X) ->
     {error, {invalid_network, X}}.
 
--spec stringify(Network :: network()) -> {ok, binary()} | {error, any()}.
+%% @doc Get default port from a given network.
+-spec port_number(Network :: network()) -> {ok, Port :: inet:port_number()} | {error, term()}.
+port_number(mainnet) ->
+    {ok, 8333};
+port_number(testnet) ->
+    {ok, 18333};
+port_number(Network) ->
+    {error, {invalid_network, Network}}.
+
+%% @doc Convert a given network atom to a binary.
+-spec stringify(Network :: network()) -> {ok, binary()} | {error, term()}.
 stringify(mainnet) ->
     {ok, <<"mainnet">>};
 stringify(testnet) ->
