@@ -149,8 +149,10 @@ invalid because of this.
 <tr><td><a href="https://github.com/ahf/peculium_core/blob/master/doc/peculium_core_mnesia.md" class="module">peculium_core_mnesia</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium_core/blob/master/doc/peculium_core_network.md" class="module">peculium_core_network</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium_core/blob/master/doc/peculium_core_network_address.md" class="module">peculium_core_network_address</a></td></tr>
-<tr><td><a href="https://github.com/ahf/peculium_core/blob/master/doc/peculium_core_nonce_manager.md" class="module">peculium_core_nonce_manager</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium_core/blob/master/doc/peculium_core_peer.md" class="module">peculium_core_peer</a></td></tr>
+<tr><td><a href="https://github.com/ahf/peculium_core/blob/master/doc/peculium_core_peer_nonce_manager.md" class="module">peculium_core_peer_nonce_manager</a></td></tr>
+<tr><td><a href="https://github.com/ahf/peculium_core/blob/master/doc/peculium_core_peer_pool.md" class="module">peculium_core_peer_pool</a></td></tr>
+<tr><td><a href="https://github.com/ahf/peculium_core/blob/master/doc/peculium_core_peer_sup.md" class="module">peculium_core_peer_sup</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium_core/blob/master/doc/peculium_core_protocol.md" class="module">peculium_core_protocol</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium_core/blob/master/doc/peculium_core_protocol_types.md" class="module">peculium_core_protocol_types</a></td></tr>
 <tr><td><a href="https://github.com/ahf/peculium_core/blob/master/doc/peculium_core_protocol_utilities.md" class="module">peculium_core_protocol_utilities</a></td></tr>

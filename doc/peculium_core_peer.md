@@ -104,7 +104,7 @@ uint32_t() = <a href="peculium_core_types.md#type-uint32_t">peculium_core_types:
 ## Function Index ##
 
 
-<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#block-8">block/8</a></td><td>Send block message to the given Peer.</td></tr><tr><td valign="top"><a href="#code_change-3">code_change/3</a></td><td></td></tr><tr><td valign="top"><a href="#connect-3">connect/3</a></td><td></td></tr><tr><td valign="top"><a href="#getaddr-1">getaddr/1</a></td><td>Send getaddr message to the given Peer.</td></tr><tr><td valign="top"><a href="#getblocks-3">getblocks/3</a></td><td>Send getblocks message to the given Peer.</td></tr><tr><td valign="top"><a href="#getdata-2">getdata/2</a></td><td>Send getdata message to the given Peer.</td></tr><tr><td valign="top"><a href="#getheaders-3">getheaders/3</a></td><td>Send getheaders message to the given Peer.</td></tr><tr><td valign="top"><a href="#handle_call-3">handle_call/3</a></td><td></td></tr><tr><td valign="top"><a href="#handle_cast-2">handle_cast/2</a></td><td></td></tr><tr><td valign="top"><a href="#handle_info-2">handle_info/2</a></td><td></td></tr><tr><td valign="top"><a href="#init-1">init/1</a></td><td></td></tr><tr><td valign="top"><a href="#ping-1">ping/1</a></td><td>Send ping message to the given Peer.</td></tr><tr><td valign="top"><a href="#start_link-0">start_link/0</a></td><td>Start Peer server.</td></tr><tr><td valign="top"><a href="#stop-1">stop/1</a></td><td>Stop the given Peer server.</td></tr><tr><td valign="top"><a href="#terminate-2">terminate/2</a></td><td></td></tr><tr><td valign="top"><a href="#verack-1">verack/1</a></td><td>Send verack message to the given Peer.</td></tr><tr><td valign="top"><a href="#version-2">version/2</a></td><td>Send version message to the given Peer.</td></tr></table>
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#block-8">block/8</a></td><td>Send block message to the given Peer.</td></tr><tr><td valign="top"><a href="#code_change-3">code_change/3</a></td><td></td></tr><tr><td valign="top"><a href="#getaddr-1">getaddr/1</a></td><td>Send getaddr message to the given Peer.</td></tr><tr><td valign="top"><a href="#getblocks-3">getblocks/3</a></td><td>Send getblocks message to the given Peer.</td></tr><tr><td valign="top"><a href="#getdata-2">getdata/2</a></td><td>Send getdata message to the given Peer.</td></tr><tr><td valign="top"><a href="#getheaders-3">getheaders/3</a></td><td>Send getheaders message to the given Peer.</td></tr><tr><td valign="top"><a href="#handle_call-3">handle_call/3</a></td><td></td></tr><tr><td valign="top"><a href="#handle_cast-2">handle_cast/2</a></td><td></td></tr><tr><td valign="top"><a href="#handle_info-2">handle_info/2</a></td><td></td></tr><tr><td valign="top"><a href="#init-1">init/1</a></td><td></td></tr><tr><td valign="top"><a href="#ping-1">ping/1</a></td><td>Send ping message to the given Peer.</td></tr><tr><td valign="top"><a href="#start_link-2">start_link/2</a></td><td>Start Peer server.</td></tr><tr><td valign="top"><a href="#stop-1">stop/1</a></td><td>Stop the given Peer.</td></tr><tr><td valign="top"><a href="#terminate-2">terminate/2</a></td><td></td></tr><tr><td valign="top"><a href="#verack-1">verack/1</a></td><td>Send verack message to the given Peer.</td></tr><tr><td valign="top"><a href="#version-2">version/2</a></td><td>Send version message to the given Peer.</td></tr></table>
 
 
 <a name="functions"></a>
@@ -129,13 +129,6 @@ Send block message to the given Peer.
 ### code_change/3 ###
 
 `code_change(OldVersion, State, Extra) -> any()`
-
-
-<a name="connect-3"></a>
-
-### connect/3 ###
-
-`connect(Peer, Address, Port) -> any()`
 
 
 <a name="getaddr-1"></a>
@@ -217,7 +210,7 @@ Send getheaders message to the given Peer.
 
 
 <pre><code>
-init(Arguments::[any()]) -&gt; {ok, term()} | {ok, term(), non_neg_integer() | infinity} | {ok, term(), hibernate} | {stop, any()} | ignore
+init(Arguments::[term()]) -&gt; {ok, term()} | {ok, term(), non_neg_integer() | infinity} | {ok, term(), hibernate} | {stop, any()} | ignore
 </code></pre>
 
 <br></br>
@@ -237,13 +230,13 @@ ping(Peer::<a href="#type-peer">peer()</a>) -&gt; ok
 
 
 Send ping message to the given Peer.
-<a name="start_link-0"></a>
+<a name="start_link-2"></a>
 
-### start_link/0 ###
+### start_link/2 ###
 
 
 <pre><code>
-start_link() -&gt; {ok, <a href="#type-peer">peer()</a>} | ignore | {error, any()}
+start_link(Address::<a href="inet.md#type-ip_address">inet:ip_address()</a>, Port::<a href="inet.md#type-port_number">inet:port_number()</a>) -&gt; {ok, <a href="#type-peer">peer()</a>} | ignore | {error, any()}
 </code></pre>
 
 <br></br>
@@ -262,7 +255,7 @@ stop(Peer::<a href="#type-peer">peer()</a>) -&gt; ok
 <br></br>
 
 
-Stop the given Peer server.
+Stop the given Peer.
 <a name="terminate-2"></a>
 
 ### terminate/2 ###

@@ -17,7 +17,7 @@ __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 
 
 <table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#bin2hex-1">bin2hex/1</a></td><td>Convert binary data to hex.</td></tr><tr><td valign="top"><a href="#expand_homedir-1">expand_homedir/1</a></td><td>Returns the path with the homedir expanded.</td></tr><tr><td valign="top"><a href="#find_last-2">find_last/2</a></td><td>Returns the last element of a given list that matches the given predicate.</td></tr><tr><td valign="top"><a href="#hex2bin-1">hex2bin/1</a></td><td>Convert hex to binary.</td></tr><tr><td valign="top"><a href="#parallel_map-2">parallel_map/2</a></td><td>Applies the function, Fun, to each element of List in parallel and
-returns the result.</td></tr><tr><td valign="top"><a href="#reverse-1">reverse/1</a></td><td>Reverse a given binary.</td></tr><tr><td valign="top"><a href="#strip-2">strip/2</a></td><td>Strip the pattern, Pattern, from the given Subject.</td></tr><tr><td valign="top"><a href="#timestamp-0">timestamp/0</a></td><td>Returns current UNIX epoch timestamp.</td></tr></table>
+returns the result.</td></tr><tr><td valign="top"><a href="#repeat-2">repeat/2</a></td><td>Repeat a function N times and return the list of return values.</td></tr><tr><td valign="top"><a href="#reverse-1">reverse/1</a></td><td>Reverse a given binary.</td></tr><tr><td valign="top"><a href="#strip-2">strip/2</a></td><td>Strip the pattern, Pattern, from the given Subject.</td></tr><tr><td valign="top"><a href="#timestamp-0">timestamp/0</a></td><td>Returns current UNIX epoch timestamp.</td></tr></table>
 
 
 <a name="functions"></a>
@@ -90,6 +90,19 @@ parallel_map(Fun::fun((X::any()) -&gt; any()), List::[term()]) -&gt; [term()]
 
 Applies the function, Fun, to each element of List in parallel and
 returns the result. The result shares the same order as the input list.
+<a name="repeat-2"></a>
+
+### repeat/2 ###
+
+
+<pre><code>
+repeat(N::non_neg_integer(), Fun::fun(() -&gt; term())) -&gt; [term()]
+</code></pre>
+
+<br></br>
+
+
+Repeat a function N times and return the list of return values.
 <a name="reverse-1"></a>
 
 ### reverse/1 ###

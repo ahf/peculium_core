@@ -29,7 +29,7 @@
 %%% @end
 %%% ----------------------------------------------------------------------------
 %%% @doc Peer Pool.
-%%% This module contains a `supervisor' for supervising `peculium_core_peer`
+%%% This module contains a `supervisor' for supervising `peculium_core_peer'
 %%% servers.
 %%% @end
 %%% ----------------------------------------------------------------------------
