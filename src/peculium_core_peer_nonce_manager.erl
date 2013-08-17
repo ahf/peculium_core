@@ -32,7 +32,7 @@
 %%% This module contains a `gen_server' for managing connection nonces.
 %%% @end
 %%% ----------------------------------------------------------------------------
--module(peculium_core_nonce_manager).
+-module(peculium_core_peer_nonce_manager).
 
 %% Behaviour.
 -behaviour(gen_server).
