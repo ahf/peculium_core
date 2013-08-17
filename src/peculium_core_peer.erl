@@ -299,7 +299,7 @@ process_one_message(State, #message { body = #version_message { nonce = Nonce } 
     end;
 
 process_one_message(State, #message { body = #verack_message {} }) ->
-    getblocks(self(), peculium_core_block_locator:from_best_block(), <<0:256>>),
+%%    getblocks(self(), peculium_core_block_locator:from_best_block(), <<0:256>>),
     State;
 
 process_one_message(State, _) ->
