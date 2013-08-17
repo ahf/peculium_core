@@ -46,8 +46,8 @@
 -include_lib("peculium_core/include/peculium_core.hrl").
 
 %% API.
--export([start_link/0, stop/1, connect/3, ping/1, verack/1, getaddr/1,
-        version/2, getdata/2, getblocks/3, getheaders/3, block/8]).
+-export([start_link/2, stop/1, ping/1, verack/1, getaddr/1, version/2,
+        getdata/2, getblocks/3, getheaders/3, block/8]).
 
 %% Test API.
 %% FIXME: Kill, with fire.
@@ -82,6 +82,8 @@
     nonce :: binary()
 }).
 
+-define(SERVER, ?MODULE).
+
 %% Tests.
 -include("peculium_core_test.hrl").
 
@@ -93,29 +95,23 @@ test_connect() ->
 %% @private
 -spec test_connect(Address :: inet:ip_address()) -> peer().
 test_connect(Address) ->
-    {ok, Peer} = start_link(),
-    connect(Peer, Address, 8333),
+    {ok, Peer} = start_link(Address, 8333),
     Peer.
 
--define(SERVER, ?MODULE).
-
 %% @doc Start Peer server.
--spec start_link() -> {ok, peer()} | ignore | {error, any()}.
-start_link() ->
-    gen_server:start_link(?MODULE, [], []).
+-spec start_link(Address :: inet:ip_address(), Port :: inet:port_number()) -> {ok, peer()} | ignore | {error, any()}.
+start_link(Address, Port) ->
+    gen_server:start_link(?MODULE, [Address, Port], []).
 
 %% @private
 %% Used by Ranch to start listener server.
 start_link(ListenerPid, Socket, _Transport, Options) ->
     gen_server:start_link(?MODULE, [ListenerPid, Socket, Options], []).
 
-%% @doc Stop the given Peer server.
+%% @doc Stop the given Peer.
 -spec stop(Peer :: peer()) -> ok.
 stop(Peer) ->
     gen_server:cast(Peer, stop).
-
-connect(Peer, Address, Port) ->
-    gen_server:cast(Peer, {connect, Address, Port}).
 
 %% @doc Send ping message to the given Peer.
 -spec ping(Peer :: peer()) -> ok.
@@ -158,11 +154,20 @@ getheaders(Peer, BlockLocator, BlockStop) ->
 block(Peer, Version, PreviousBlock, MerkleRoot, Timestamp, Bits, Nonce, Transactions) ->
     send_message(Peer, block, [Version, PreviousBlock, MerkleRoot, Timestamp, Bits, Nonce, Transactions]).
 
--spec init(Arguments :: [any()]) -> {ok, term()} | {ok, term(), non_neg_integer() | infinity} | {ok, term(), hibernate} | {stop, any()} | ignore.
-init([]) ->
-    {ok, #state {
-        inbound = false
-    } };
+-spec init(Arguments :: [term()]) -> {ok, term()} | {ok, term(), non_neg_integer() | infinity} | {ok, term(), hibernate} | {stop, any()} | ignore.
+init([Address, Port]) ->
+    case gen_tcp:connect(Address, Port, [binary, {packet, 0}, {active, once}]) of
+        {ok, Socket} ->
+            Nonce = peculium_core_nonce_manager:create_nonce(),
+            version(self(), Nonce),
+            {ok, #state {
+                inbound = false,
+                socket = Socket,
+                nonce = Nonce
+            }};
+        {error, Reason} ->
+            {stop, Reason}
+    end;
 
 init([ListenerPid, Socket, _Options]) ->
     %% Note: The timeout.
@@ -170,7 +175,8 @@ init([ListenerPid, Socket, _Options]) ->
     {ok, #state {
         listener = ListenerPid,
         socket = Socket,
-        inbound = true
+        inbound = true,
+        nonce = peculium_core_nonce_manager:create_nonce()
     }, 0}.
 
 handle_call(_Request, _From, State) ->
@@ -179,16 +185,6 @@ handle_call(_Request, _From, State) ->
 
 handle_cast(stop, State) ->
     {stop, normal, stopped, State};
-
-handle_cast({connect, Address, Port}, State) ->
-    case gen_tcp:connect(Address, Port, [binary, {packet, 0}, {active, once}]) of
-        {ok, Socket} ->
-            Nonce = peculium_core_nonce_manager:create(),
-            version(self(), Nonce),
-            {noreply, State#state { socket = Socket, nonce = Nonce }};
-        {error, Reason} ->
-            {stop, Reason, State}
-    end;
 
 handle_cast({message, version, [Nonce]}, #state { network = Network, socket = Socket } = State) ->
     %% FIXME: sockname should be the local network address and not the socket name.
@@ -221,13 +217,8 @@ handle_info(_Info, State) ->
 
 terminate(_Reason, #state { nonce = Nonce } = State) ->
     log(State, "Shutting down"),
-    case Nonce of
-        undefined ->
-            ok;
-        X when is_binary(X) ->
-            peculium_core_nonce_manager:delete(Nonce),
-            ok
-    end.
+    peculium_core_nonce_manager:remove_nonce(Nonce),
+    ok.
 
 code_change(_OldVersion, State, _Extra) ->
     {ok, State}.
@@ -293,9 +284,9 @@ process_one_message(State, #message { body = #block_message { block = Block } })
 
 process_one_message(State, #message { body = #version_message { nonce = Nonce } = Version }) ->
     %% FIXME: Check if we have already received a version message.
-    case peculium_core_nonce_manager:has(Nonce) of
+    case peculium_core_nonce_manager:has_nonce(Nonce) of
         true ->
-            log(State, "Connection attempt to ourself was prevented"),
+            log(State, "Attempt to connect to ourself was prevented"),
             {stop, normal, State};
 
         false ->
