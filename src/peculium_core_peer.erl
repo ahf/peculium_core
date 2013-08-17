@@ -203,6 +203,7 @@ handle_cast(_Message, State) ->
 handle_info(timeout, #state { listener = ListenerPid, socket = Socket, nonce = Nonce } = State) ->
     ok = ranch:accept_ack(ListenerPid),
     ack_socket(Socket),
+    %% FIXME: We should only talk once someone has talked to us.
     version(self(), Nonce),
     {noreply, State};
 
