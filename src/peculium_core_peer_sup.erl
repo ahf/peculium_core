@@ -25,9 +25,15 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Peculium's Primary Supervisor.
+%%% @copyright  2013 Alexander Færøy
+%%% @end
 %%% ----------------------------------------------------------------------------
--module(peculium_core_sup).
+%%% @doc Supervisor for Peer related servers and supervisors.
+%%% @end
+%%% ----------------------------------------------------------------------------
+-module(peculium_core_peer_sup).
+
+%% Behaviour.
 -behaviour(supervisor).
 
 %% API.
@@ -37,7 +43,7 @@
 -export([init/1]).
 
 -define(CHILD(I, Type), {I, {I, start_link, []}, permanent, 5000, Type, [I]}).
--define(SUPERVISOR, ?MODULE).
+-define(SERVER, ?MODULE).
 
 %% From supervisor.
 -type startlink_err() :: {already_started, pid()} | shutdown | term().
@@ -45,13 +51,11 @@
 
 -spec start_link() -> startlink_ret().
 start_link() ->
-    supervisor:start_link({local, ?SUPERVISOR}, ?MODULE, []).
+    supervisor:start_link({local, ?SERVER}, ?MODULE, []).
 
--spec init([]) -> {ok, {{one_for_one, non_neg_integer(), non_neg_integer()}, []}}.
+-spec init([]) -> {ok, {{one_for_all, non_neg_integer(), non_neg_integer()}, []}}.
 init(_State) ->
-    {ok, {{one_for_one, 5, 10}, [
-        ?CHILD(peculium_core_config, worker),
-        ?CHILD(peculium_core_block_index, worker),
-        ?CHILD(peculium_core_block_store, worker),
-        ?CHILD(peculium_core_peer_sup, supervisor)
+    {ok, {{one_for_all, 5, 60}, [
+        ?CHILD(peculium_core_peer_pool, supervisor),
+        ?CHILD(peculium_core_peer_nonce_manager, worker)
     ]}}.

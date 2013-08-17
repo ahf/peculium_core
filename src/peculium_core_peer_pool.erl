@@ -25,19 +25,27 @@
 %%%
 %%% ----------------------------------------------------------------------------
 %%% @author     Alexander Færøy <ahf@0x90.dk>
-%%% @doc        Peculium's Primary Supervisor.
+%%% @copyright  2013 Alexander Færøy
+%%% @end
 %%% ----------------------------------------------------------------------------
--module(peculium_core_sup).
+%%% @doc Peer Pool.
+%%% This module contains a `supervisor' for supervising `peculium_core_peer`
+%%% servers.
+%%% @end
+%%% ----------------------------------------------------------------------------
+-module(peculium_core_peer_pool).
+
+%% Behaviour.
 -behaviour(supervisor).
 
 %% API.
--export([start_link/0]).
+-export([start_link/0, spawn_peer/2, spawn_peer/4]).
 
 %% Supervisor callbacks.
 -export([init/1]).
 
--define(CHILD(I, Type), {I, {I, start_link, []}, permanent, 5000, Type, [I]}).
--define(SUPERVISOR, ?MODULE).
+-define(CHILD(I, Type), {I, {I, start_link, []}, temporary, 5000, Type, [I]}).
+-define(SERVER, ?MODULE).
 
 %% From supervisor.
 -type startlink_err() :: {already_started, pid()} | shutdown | term().
@@ -45,13 +53,18 @@
 
 -spec start_link() -> startlink_ret().
 start_link() ->
-    supervisor:start_link({local, ?SUPERVISOR}, ?MODULE, []).
+    supervisor:start_link({local, ?SERVER}, ?MODULE, []).
 
--spec init([]) -> {ok, {{one_for_one, non_neg_integer(), non_neg_integer()}, []}}.
+-spec spawn_peer(Address :: inet:ip_address(), Port :: inet:port_number()) -> {ok, pid()} | {error, term()}.
+spawn_peer(Address, Port) ->
+    supervisor:start_child(?SERVER, [Address, Port]).
+
+-spec spawn_peer(ListenerPid :: pid(), Socket :: inet:socket(), Transport :: term(), Options :: [term()]) -> {ok, pid()} | {error, term()}.
+spawn_peer(ListenerPid, Socket, Transport, Options) ->
+    supervisor:start_child(?SERVER, [ListenerPid, Socket, Transport, Options]).
+
+-spec init([]) -> {ok, {{simple_one_for_one, non_neg_integer(), non_neg_integer()}, []}}.
 init(_State) ->
-    {ok, {{one_for_one, 5, 10}, [
-        ?CHILD(peculium_core_config, worker),
-        ?CHILD(peculium_core_block_index, worker),
-        ?CHILD(peculium_core_block_store, worker),
-        ?CHILD(peculium_core_peer_sup, supervisor)
+    {ok, {{simple_one_for_one, 60, 60}, [
+        ?CHILD(peculium_core_peer, worker)
     ]}}.

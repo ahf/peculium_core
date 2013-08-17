@@ -95,7 +95,7 @@ test_connect() ->
 %% @private
 -spec test_connect(Address :: inet:ip_address()) -> peer().
 test_connect(Address) ->
-    {ok, Peer} = start_link(Address, 8333),
+    {ok, Peer} = peculium_core_peer_pool:spawn_peer(Address, 8333),
     Peer.
 
 %% @doc Start Peer server.
