@@ -156,18 +156,11 @@ block(Peer, Version, PreviousBlock, MerkleRoot, Timestamp, Bits, Nonce, Transact
 
 -spec init(Arguments :: [term()]) -> {ok, term()} | {ok, term(), non_neg_integer() | infinity} | {ok, term(), hibernate} | {stop, any()} | ignore.
 init([Address, Port]) ->
-    case gen_tcp:connect(Address, Port, [binary, {packet, 0}, {active, once}]) of
-        {ok, Socket} ->
-            Nonce = peculium_core_nonce_manager:create_nonce(),
-            version(self(), Nonce),
-            {ok, #state {
-                inbound = false,
-                socket = Socket,
-                nonce = Nonce
-            }};
-        {error, Reason} ->
-            {stop, Reason}
-    end;
+    connect(self(), Address, Port),
+    {ok, #state {
+        inbound = false,
+        nonce = peculium_core_nonce_manager:create_nonce()
+    }};
 
 init([ListenerPid, Socket, _Options]) ->
     %% Note: The timeout.
@@ -182,6 +175,15 @@ init([ListenerPid, Socket, _Options]) ->
 handle_call(_Request, _From, State) ->
     Reply = ok,
     {reply, Reply, State}.
+
+handle_cast({connect, Address, Port}, #state { nonce = Nonce } = State) ->
+    case gen_tcp:connect(Address, Port, [binary, {packet, 0}, {active, once}]) of
+        {ok, Socket} ->
+            version(self(), Nonce),
+            {noreply, State#state { socket = Socket }};
+        {error, Reason} ->
+            {stop, Reason}
+    end;
 
 handle_cast(stop, State) ->
     {stop, normal, stopped, State};
@@ -331,3 +333,8 @@ send_message(Peer, Message) ->
 -spec send_message(Peer :: peer(), Message :: command(), Arguments :: [any()]) -> ok.
 send_message(Peer, Message, Arguments) ->
     gen_server:cast(Peer, {message, Message, Arguments}).
+
+%% @private
+-spec connect(Peer :: peer(), Address :: inet:ip_address(), Port :: inet:port_number()) -> ok.
+connect(Peer, Address, Port) ->
+    gen_server:cast(Peer, {connect, Address, Port}).
