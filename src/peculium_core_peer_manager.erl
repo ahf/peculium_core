@@ -28,35 +28,56 @@
 %%% @copyright  2013 Alexander Færøy
 %%% @end
 %%% ----------------------------------------------------------------------------
-%%% @doc Supervisor for Peer related servers and supervisors.
+%%% @doc Peer Server Manager.
 %%% @end
 %%% ----------------------------------------------------------------------------
--module(peculium_core_peer_sup).
+-module(peculium_core_peer_manager).
 
 %% Behaviour.
--behaviour(supervisor).
+-behaviour(gen_server).
 
 %% API.
 -export([start_link/0]).
 
-%% Supervisor callbacks.
--export([init/1]).
+%% Gen_server Callbacks.
+-export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
--define(CHILD(I, Type), {I, {I, start_link, []}, permanent, 5000, Type, [I]}).
+%% Types.
+-record(state, {}).
+
 -define(SERVER, ?MODULE).
 
-%% From supervisor.
--type startlink_err() :: {already_started, pid()} | shutdown | term().
--type startlink_ret() :: {ok, pid()} | ignore | {error, startlink_err()}.
+%% Tests.
+-include("peculium_core_test.hrl").
 
--spec start_link() -> startlink_ret().
+%% @doc Start the peer management server.
+-spec start_link() -> {ok, pid()} | ignore | {error, any()}.
 start_link() ->
-    supervisor:start_link({local, ?SERVER}, ?MODULE, []).
+    gen_server:start_link({local, ?SERVER}, ?MODULE, [], []).
 
--spec init([]) -> {ok, {{one_for_all, non_neg_integer(), non_neg_integer()}, []}}.
-init(_State) ->
-    {ok, {{one_for_all, 5, 60}, [
-        ?CHILD(peculium_core_peer_pool, supervisor),
-        ?CHILD(peculium_core_peer_manager, worker),
-        ?CHILD(peculium_core_peer_nonce_manager, worker)
-    ]}}.
+%% @private
+init([]) ->
+    lager:info("Starting Peer Management Server"),
+    {ok, #state {}}.
+
+%% @private
+handle_call(_Request, _From, State) ->
+    Reply = ok,
+    {reply, Reply, State}.
+
+%% @private
+handle_cast(_Message, State) ->
+    {noreply, State}.
+
+%% @private
+handle_info(_Info, State) ->
+    {noreply, State}.
+
+%% @private
+terminate(_Reason, _State) ->
+    lager:info("Stopping Peer Management Server"),
+    ok.
+
+%% @private
+code_change(_OldVersion, State, _Extra) ->
+    {ok, State}.
