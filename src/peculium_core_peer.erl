@@ -218,7 +218,7 @@ handle_info({tcp, Socket, Packet}, #state { socket = Socket } = State) ->
     handle_transport_packet(State, Packet);
 
 handle_info({tcp_closed, Socket}, #state { socket = Socket } = State) ->
-    log(State, "Closed by remote peer"),
+    log(State, "Remote peer closed the connection"),
     {stop, normal, State};
 
 handle_info({tcp_error, Socket, Reason}, #state { socket = Socket } = State) ->
