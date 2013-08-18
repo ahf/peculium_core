@@ -160,6 +160,7 @@ block(Peer, Version, PreviousBlock, MerkleRoot, Timestamp, Bits, Nonce, Transact
 -spec init(Arguments :: [term()]) -> {ok, term()} | {ok, term(), non_neg_integer() | infinity} | {ok, term(), hibernate} | {stop, any()} | ignore.
 init([Address, Port]) ->
     connect(self(), Address, Port),
+    peculium_core_peer_manager:register_peer(self()),
     {ok, #state {
         inbound = false,
         nonce = peculium_core_peer_nonce_manager:create_nonce()
@@ -168,6 +169,7 @@ init([Address, Port]) ->
 init([ListenerPid, Socket, _Options]) ->
     %% Note: The timeout.
     %% See handle_info(timeout, ...) for more information.
+    peculium_core_peer_manager:register_peer(self()),
     {ok, Peername} = inet:peername(Socket),
     {ok, #state {
         listener = ListenerPid,
@@ -232,6 +234,7 @@ handle_info(_Info, State) ->
 terminate(_Reason, #state { nonce = Nonce } = State) ->
     log(State, "Shutting down"),
     peculium_core_peer_nonce_manager:remove_nonce(Nonce),
+    peculium_core_peer_manager:unregister_peer(self()),
     ok.
 
 code_change(_OldVersion, State, _Extra) ->
