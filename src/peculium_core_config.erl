@@ -31,8 +31,9 @@
 -behaviour(gen_server).
 
 %% API.
--export([start_link/0, data_dir/0, block_chain_dir/0, block_store_dir/0,
-        block_index_dir/0, cache_size/0, network/0, use_upnp/0, bootstrap/0]).
+-export([start_link/0, data_dir/0, block_chain_dir/0,
+        block_store_dir/0, block_index_dir/0, cache_size/0,
+        network/0, use_upnp/0, bootstrap/0, max_peers/0]).
 
 %% Callbacks.
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
@@ -83,6 +84,11 @@ use_upnp() ->
 -spec bootstrap() -> [term()].
 bootstrap() ->
     call(bootstrap).
+
+%% @doc Max peers.
+-spec max_peers() -> non_neg_integer().
+max_peers() ->
+    call(max_peers).
 
 %% @doc Start the configuration server.
 start_link() ->

@@ -53,7 +53,11 @@ start(_, _) ->
     {ok, Port} = peculium_core_network:port_number(peculium_core_config:network()),
 
     %% Start listener.
-    {ok, _} = ranch:start_listener(peculium_core_peer, 100, ranch_tcp, [{port, Port}], peculium_core_peer_pool, []),
+    {ok, _} = ranch:start_listener(peculium_core_peer, 100,
+        ranch_tcp, [
+            {port, Port},
+            {max_connections, peculium_core_config:max_peers()}
+        ], peculium_core_peer_pool, []),
 
     Result.
 
