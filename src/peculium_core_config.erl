@@ -32,7 +32,8 @@
 
 %% API.
 -export([start_link/0, data_dir/0, block_chain_dir/0, block_store_dir/0,
-        block_index_dir/0, mnesia_dir/0, cache_size/0, network/0]).
+        block_index_dir/0, mnesia_dir/0, cache_size/0, network/0,
+        use_upnp/0, bootstrap/0]).
 
 %% Callbacks.
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
@@ -78,6 +79,16 @@ cache_size() ->
 -spec network() -> network().
 network() ->
     call(network).
+
+%% @doc Use UPnP.
+-spec use_upnp() -> boolean().
+use_upnp() ->
+    call(use_upnp).
+
+%% @doc Bootstrap methods.
+-spec bootstrap() -> [term()].
+bootstrap() ->
+    call(bootstrap).
 
 %% @doc Start the configuration server.
 start_link() ->
