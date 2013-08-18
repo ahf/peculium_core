@@ -102,6 +102,7 @@ init([]) ->
 %% @private
 handle_call({value, Key}, _From, State) ->
     {reply, value(Key), State};
+
 handle_call(_Request, _From, State) ->
     Reply = ok,
     {reply, Reply, State}.
