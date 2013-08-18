@@ -163,6 +163,7 @@ init([Address, Port]) ->
     peculium_core_peer_manager:register_peer(self()),
     {ok, #state {
         inbound = false,
+        peername = {Address, Port},
         nonce = peculium_core_peer_nonce_manager:create_nonce()
     }};
 
@@ -185,14 +186,13 @@ handle_call(_Request, _From, State) ->
 
 handle_cast({connect, Address, Port}, #state { nonce = Nonce } = State) ->
     log(State, "Connecting to ~s:~b", [inet_parse:ntoa(Address), Port]),
-    case gen_tcp:connect(Address, Port, [binary, {packet, 0}, {active, once}]) of
+    case gen_tcp:connect(Address, Port, [binary, {packet, 0}, {active, once}], 10000) of
         {ok, Socket} ->
             version(self(), Nonce),
-            {ok, Peername} = inet:peername(Socket),
-            {noreply, State#state { socket = Socket, peername = Peername }};
+            {noreply, State#state { socket = Socket }};
         {error, Reason} ->
-            log(State, "Unable to connect to peer: ~p", Reason),
-            {stop, normal}
+            log(State, "Unable to connect to peer: ~p", [Reason]),
+            {stop, normal, State}
     end;
 
 handle_cast(stop, State) ->
@@ -282,8 +282,8 @@ process_messages(State, []) ->
 
 process_one_message(State, #message { body = #inv_message { inventory = Invs } }) ->
 %%    LastBlockInv = peculium_core_utilities:find_last(fun peculium_core_inv:is_block/1, Invs),
-    getdata(self(), peculium_core_inv:unknown_invs(Invs)),
-    getblocks(self(), peculium_core_block_locator:from_best_block(), <<0:256>>),
+%%    getdata(self(), peculium_core_inv:unknown_invs(Invs)),
+%%    getblocks(self(), peculium_core_block_locator:from_best_block(), <<0:256>>),
     State;
 %%    lists:foldl(fun (Inv, StateCont) ->
 %%            StateCont2 = case Inv of
@@ -311,6 +311,10 @@ process_one_message(State, #message { body = #version_message { nonce = Nonce } 
             getaddr(self()),
             State#state { received_version = Version }
     end;
+
+process_one_message(#state { network = Network } = State, #message { body = #addr_message { addresses = Addresses }}) ->
+    lists:foreach(fun (#network_address { address = Address }) -> peculium_core_address_manager:remember(Address, Network) end, Addresses),
+    State;
 
 process_one_message(State, #message { body = #verack_message {} }) ->
 %%    getblocks(self(), peculium_core_block_locator:from_best_block(), <<0:256>>),

@@ -28,63 +28,66 @@
 %%% @copyright  2013 Alexander Færøy
 %%% @end
 %%% ----------------------------------------------------------------------------
-%%% @doc Peer Server Manager.
+%%% @doc Peculium's Address Manager.
 %%% @end
 %%% ----------------------------------------------------------------------------
--module(peculium_core_peer_manager).
+-module(peculium_core_address_manager).
 
 %% Behaviour.
 -behaviour(gen_server).
 
 %% API.
--export([start_link/0, register_peer/1, unregister_peer/1, peer_count/0]).
+-export([start_link/0, remember/2, get_address/1]).
 
 %% Gen_server Callbacks.
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
 %% Types.
--type peer() :: pid().
+-type network() :: peculium_core_types:network().
 
--record(state, {
-    peers :: set()
+-record(state, {}).
+
+-record(address, {
+    ip :: inet:ip_address(),
+    network :: network()
 }).
 
 -define(SERVER, ?MODULE).
 
-%% Tests.
--include("peculium_core_test.hrl").
-
-%% @doc Start the peer management server.
+%% @doc Start the address management server.
 -spec start_link() -> {ok, pid()} | ignore | {error, any()}.
 start_link() ->
     gen_server:start_link({local, ?SERVER}, ?MODULE, [], []).
 
-%% @doc Register peer.
--spec register_peer(Peer :: peer()) -> ok.
-register_peer(Peer) when is_pid(Peer) ->
-    gen_server:cast(?SERVER, {register_peer, Peer}).
+%% @doc Remember a given address.
+-spec remember(Address :: inet:ip_address(), Network :: network()) -> ok.
+remember(Address, Network) ->
+    gen_server:cast(?SERVER, {remember, Address, Network}).
 
-%% @doc Unregister peer.
--spec unregister_peer(Peer :: peer()) -> ok.
-unregister_peer(Peer) when is_pid(Peer) ->
-    gen_server:cast(?SERVER, {unregister_peer, Peer}).
-
-%% @doc Get number of active peers.
--spec peer_count() -> non_neg_integer().
-peer_count() ->
-    gen_server:call(?SERVER, peer_count).
+%% @doc Get address.
+-spec get_address(Network :: network()) -> {Address :: inet:ip_address()}.
+get_address(Network) ->
+    gen_server:call(?SERVER, {get_address, Network}).
 
 %% @private
 init([]) ->
-    lager:info("Starting Peer Management Server"),
-    schedule_trigger(),
-    {ok, #state {
-        peers = sets:new()
-    }}.
+    lager:info("Starting Address Management Server"),
+    Options = [
+        {disc_copies, [node()]},
+        {attributes, record_info(fields, address)}
+    ],
+    case mnesia:create_table(address, Options) of
+        {atomic, ok} ->
+            {ok, #state {}};
+        {aborted, {already_exists, address}} ->
+            {ok, #state {}};
+        {aborted, Reason} ->
+            {stop, Reason}
+    end.
 
 %% @private
-handle_call(peer_count, _From, #state { peers = Peers } = State) ->
-    Reply = sets:size(Peers),
+handle_call({get_address, Network}, _From, State) ->
+    Reply = random_address(),
     {reply, Reply, State};
 
 handle_call(_Request, _From, State) ->
@@ -92,27 +95,22 @@ handle_call(_Request, _From, State) ->
     {reply, Reply, State}.
 
 %% @private
-handle_cast({register_peer, Peer}, #state { peers = Peers } = State) ->
-    {noreply, State#state { peers = sets:add_element(Peer, Peers) }};
-
-handle_cast({unregister_peer, Peer}, #state { peers = Peers } = State) ->
-    {noreply, State#state { peers = sets:del_element(Peer, Peers) }};
+handle_cast({remember, Address, Network}, State) ->
+    {atomic, _} = mnesia:transaction(fun() ->
+        mnesia:write(#address{ ip = Address, network = Network })
+    end),
+    {noreply, State};
 
 handle_cast(_Message, State) ->
     {noreply, State}.
 
 %% @private
-handle_info(check_peers, #state { peers = Peers } = State) ->
-    maybe_spawn_peers(Peers),
-    schedule_trigger(),
-    {noreply, State};
-
 handle_info(_Info, State) ->
     {noreply, State}.
 
 %% @private
 terminate(_Reason, _State) ->
-    lager:info("Stopping Peer Management Server"),
+    lager:info("Stopping Address Management Server"),
     ok.
 
 %% @private
@@ -120,23 +118,9 @@ code_change(_OldVersion, State, _Extra) ->
     {ok, State}.
 
 %% @private
--spec schedule_trigger() -> ok.
-schedule_trigger() ->
-    erlang:send_after(timer:seconds(5), self(), check_peers).
-
-%% @private
--spec maybe_spawn_peers(Peers :: set()) -> ok.
-maybe_spawn_peers(Peers) ->
-    MaxPeers = peculium_core_config:max_peers(),
-    case sets:size(Peers) of
-        Count when Count >= MaxPeers ->
-            ok;
-        Count ->
-            MissingPeerCount = MaxPeers - Count,
-            PeerCount = peculium_core_math:ceil(MissingPeerCount / 2.0),
-            peculium_core_utilities:repeat(PeerCount, fun () ->
-                Address = peculium_core_address_manager:get_address(mainnet),
-                peculium_core_peer_pool:spawn_peer(Address, 8333)
-            end),
-            ok
-    end.
+-spec random_address() -> {Address :: inet:ip_address(), Network :: network()}.
+random_address() ->
+    Keys = mnesia:dirty_all_keys(address),
+    Key = lists:nth(random:uniform(length(Keys)), Keys),
+    [#address{ ip = Address }] = mnesia:dirty_read({address, Key}),
+    Address.
