@@ -107,6 +107,7 @@ start_link(Address, Port) ->
 
 %% @private
 %% Used by Ranch to start listener server.
+-spec start_link(ListenerPid :: pid(), Socket :: inet:socket(), Transport :: term(), Options :: term()) -> {ok, peer()} | ignore | {error, any()}.
 start_link(ListenerPid, Socket, _Transport, Options) ->
     gen_server:start_link(?MODULE, [ListenerPid, Socket, Options], []).
 
