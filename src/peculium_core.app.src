@@ -14,7 +14,7 @@
         stdlib,
         syntax_tools,
         triq,
-        upnp,
+        nat_upnp,
         ucrypto
     ]},
     {mod, { peculium_core_app, []}},

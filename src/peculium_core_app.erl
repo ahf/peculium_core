@@ -59,6 +59,7 @@ start(_, _) ->
             {max_connections, peculium_core_config:max_peers()}
         ], peculium_core_peer_pool, []),
 
+    %% Return result from the supervisor.
     Result.
 
 -spec stop([]) -> ok.
