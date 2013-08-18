@@ -37,13 +37,17 @@
 -behaviour(gen_server).
 
 %% API.
--export([start_link/0]).
+-export([start_link/0, register_peer/1, unregister_peer/1]).
 
 %% Gen_server Callbacks.
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
 %% Types.
--record(state, {}).
+-type peer() :: pid().
+
+-record(state, {
+    peers :: set()
+}).
 
 -define(SERVER, ?MODULE).
 
@@ -55,10 +59,23 @@
 start_link() ->
     gen_server:start_link({local, ?SERVER}, ?MODULE, [], []).
 
+%% @doc Register peer.
+-spec register_peer(Peer :: peer()) -> ok.
+register_peer(Peer) when is_pid(Peer) ->
+    gen_server:cast(?SERVER, {register_peer, Peer}).
+
+%% @doc Unregister peer.
+-spec unregister_peer(Peer :: peer()) -> ok.
+unregister_peer(Peer) when is_pid(Peer) ->
+    gen_server:cast(?SERVER, {unregister_peer, Peer}).
+
 %% @private
 init([]) ->
     lager:info("Starting Peer Management Server"),
-    {ok, #state {}}.
+    schedule_trigger(),
+    {ok, #state {
+        peers = sets:new()
+    }}.
 
 %% @private
 handle_call(_Request, _From, State) ->
@@ -66,10 +83,21 @@ handle_call(_Request, _From, State) ->
     {reply, Reply, State}.
 
 %% @private
+handle_cast({register_peer, Peer}, #state { peers = Peers } = State) ->
+    {noreply, State#state { peers = sets:add_element(Peer, Peers) }};
+
+handle_cast({unregister_peer, Peer}, #state { peers = Peers } = State) ->
+    {noreply, State#state { peers = sets:del_element(Peer, Peers) }};
+
 handle_cast(_Message, State) ->
     {noreply, State}.
 
 %% @private
+handle_info(check_peers, #state { peers = Peers } = State) ->
+    maybe_spawn_peers(Peers),
+    schedule_trigger(),
+    {noreply, State};
+
 handle_info(_Info, State) ->
     {noreply, State}.
 
@@ -81,3 +109,21 @@ terminate(_Reason, _State) ->
 %% @private
 code_change(_OldVersion, State, _Extra) ->
     {ok, State}.
+
+%% @private
+-spec schedule_trigger() -> ok.
+schedule_trigger() ->
+    erlang:send_after(timer:seconds(5), self(), check_peers).
+
+%% @private
+-spec maybe_spawn_peers(Peers :: set()) -> ok.
+maybe_spawn_peers(Peers) ->
+    MaxPeers = peculium_core_config:max_peers(),
+    case sets:size(Peers) of
+        Count when Count >= MaxPeers ->
+            ok;
+        Count ->
+            MissingPeerCount = MaxPeers - Count,
+            PeerCount = peculium_core_math:ceil(MissingPeerCount / 2.0),
+            ok
+    end.
