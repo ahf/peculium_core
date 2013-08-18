@@ -40,7 +40,10 @@
 -behaviour(ranch_protocol).
 
 %% API.
--export([start_link/0, spawn_peer/2, spawn_peer/4]).
+-export([start_link/0, spawn_peer/2]).
+
+%% Ranch callbacks.
+-export([start_link/4]).
 
 %% Supervisor callbacks.
 -export([init/1]).
@@ -52,18 +55,23 @@
 -type startlink_err() :: {already_started, pid()} | shutdown | term().
 -type startlink_ret() :: {ok, pid()} | ignore | {error, startlink_err()}.
 
+%% @doc Start Pool supervisor.
 -spec start_link() -> startlink_ret().
 start_link() ->
     supervisor:start_link({local, ?SERVER}, ?MODULE, []).
 
+%% @doc Start new outgoing peer.
 -spec spawn_peer(Address :: inet:ip_address(), Port :: inet:port_number()) -> {ok, pid()} | {error, term()}.
 spawn_peer(Address, Port) ->
     supervisor:start_child(?SERVER, [Address, Port]).
 
--spec spawn_peer(ListenerPid :: pid(), Socket :: inet:socket(), Transport :: term(), Options :: [term()]) -> {ok, pid()} | {error, term()}.
-spawn_peer(ListenerPid, Socket, Transport, Options) ->
+%% @private
+%% Ranch incoming peer callback.
+-spec start_link(ListenerPid :: pid(), Socket :: inet:socket(), Transport :: term(), Options :: [term()]) -> {ok, pid()} | {error, term()}.
+start_link(ListenerPid, Socket, Transport, Options) ->
     supervisor:start_child(?SERVER, [ListenerPid, Socket, Transport, Options]).
 
+%% @private
 -spec init([]) -> {ok, {{simple_one_for_one, non_neg_integer(), non_neg_integer()}, []}}.
 init(_State) ->
     {ok, {{simple_one_for_one, 60, 60}, [
