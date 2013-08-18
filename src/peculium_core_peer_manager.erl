@@ -37,7 +37,7 @@
 -behaviour(gen_server).
 
 %% API.
--export([start_link/0, register_peer/1, unregister_peer/1]).
+-export([start_link/0, register_peer/1, unregister_peer/1, peer_count/0]).
 
 %% Gen_server Callbacks.
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
@@ -69,6 +69,11 @@ register_peer(Peer) when is_pid(Peer) ->
 unregister_peer(Peer) when is_pid(Peer) ->
     gen_server:cast(?SERVER, {unregister_peer, Peer}).
 
+%% @doc Get number of active peers.
+-spec peer_count() -> non_neg_integer().
+peer_count() ->
+    gen_server:call(?SERVER, peer_count).
+
 %% @private
 init([]) ->
     lager:info("Starting Peer Management Server"),
@@ -78,6 +83,10 @@ init([]) ->
     }}.
 
 %% @private
+handle_call(peer_count, _From, #state { peers = Peers } = State) ->
+    Reply = sets:size(Peers),
+    {reply, Reply, State};
+
 handle_call(_Request, _From, State) ->
     Reply = ok,
     {reply, Reply, State}.
