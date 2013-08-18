@@ -188,7 +188,8 @@ handle_cast({connect, Address, Port}, #state { nonce = Nonce } = State) ->
             {ok, Peername} = inet:peername(Socket),
             {noreply, State#state { socket = Socket, peername = Peername }};
         {error, Reason} ->
-            {stop, Reason}
+            log(State, "Unable to connect to peer: ~p", Reason),
+            {stop, normal}
     end;
 
 handle_cast(stop, State) ->
@@ -217,7 +218,8 @@ handle_info({tcp, Socket, Packet}, #state { socket = Socket } = State) ->
     handle_transport_packet(State, Packet);
 
 handle_info({tcp_closed, Socket}, #state { socket = Socket } = State) ->
-    {stop, closed, State};
+    log(State, "Closed by remote peer"),
+    {stop, normal, State};
 
 handle_info({tcp_error, Socket, Reason}, #state { socket = Socket } = State) ->
     {stop, Reason, State};
