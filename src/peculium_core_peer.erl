@@ -182,6 +182,7 @@ handle_call(_Request, _From, State) ->
     {reply, Reply, State}.
 
 handle_cast({connect, Address, Port}, #state { nonce = Nonce } = State) ->
+    log(State, "Connecting to ~s:~b", [inet_parse:ntoa(Address), Port]),
     case gen_tcp:connect(Address, Port, [binary, {packet, 0}, {active, once}]) of
         {ok, Socket} ->
             version(self(), Nonce),
@@ -207,7 +208,8 @@ handle_cast({message, Message, Arguments}, #state { network = Network } = State)
 handle_cast(_Message, State) ->
     {noreply, State}.
 
-handle_info(timeout, #state { listener = ListenerPid, socket = Socket, nonce = Nonce } = State) ->
+handle_info(timeout, #state { listener = ListenerPid, socket = Socket, nonce = Nonce, peername = {Address, Port} } = State) ->
+    log(State, "Incoming connection from: ~s:~b", [inet_parse:ntoa(Address), Port]),
     ok = ranch:accept_ack(ListenerPid),
     ack_socket(Socket),
     %% FIXME: We should only talk once someone has talked to us.
