@@ -94,7 +94,7 @@ bin2hex(Bin) when is_binary(Bin) ->
 %% @doc Repeat a function N times and return the list of return values.
 -spec repeat(N :: non_neg_integer(), Fun :: fun (() -> term())) -> [term()].
 repeat(N, Fun) ->
-    repeat(N, Fun, []).
+    [Fun() || _ <- lists:seq(1, N)].
 
 %% @doc Applies the function, Fun, to each element of List in parallel and
 %% returns the result. The result shares the same order as the input list.
@@ -117,13 +117,6 @@ parallel_map_gather_results([Pid | Rest]) ->
     end;
 parallel_map_gather_results([]) ->
     [].
-
-%% @private
--spec repeat(N :: non_neg_integer(), Fun :: fun (() -> term()), Result :: [term()]) -> [term()].
-repeat(0, _Fun, Result) ->
-    lists:reverse(Result);
-repeat(N, Fun, Result) ->
-    repeat(N - 1, Fun, [Fun() | Result]).
 
 %% @private
 -spec find_homedir() -> string().
