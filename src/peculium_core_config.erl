@@ -32,8 +32,7 @@
 
 %% API.
 -export([start_link/0, data_dir/0, block_chain_dir/0, block_store_dir/0,
-        block_index_dir/0, mnesia_dir/0, cache_size/0, network/0,
-        use_upnp/0, bootstrap/0]).
+        block_index_dir/0, cache_size/0, network/0, use_upnp/0, bootstrap/0]).
 
 %% Callbacks.
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
@@ -64,11 +63,6 @@ block_store_dir() ->
 -spec block_index_dir() -> string().
 block_index_dir() ->
     filename:join([block_chain_dir(), "index"]).
-
-%% @doc Get the Mnesia directory.
--spec mnesia_dir() -> string().
-mnesia_dir() ->
-    filename:join([data_dir(), "mnesia"]).
 
 %% @doc Get the cache size in bytes.
 -spec cache_size() -> non_neg_integer().

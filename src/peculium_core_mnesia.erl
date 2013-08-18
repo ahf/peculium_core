@@ -41,10 +41,12 @@
 init() ->
     %% Overwrite Mnesia directory. This must be called after we have started
     %% the peculium_core_config process.
-    application:set_env(mnesia, dir, peculium_core_config:mnesia_dir()),
+    {ok, DataDir} = application:get_env(peculium_core, data_dir),
+    MnesiaDir = peculium_core_utilities:expand_homedir(filename:join([DataDir, "mnesia"])),
+    application:set_env(mnesia, dir, MnesiaDir),
 
     %% Ensure that our data directory is available.
-    ok = ensure_mnesia_dir(),
+    ok = ensure_mnesia_dir(MnesiaDir),
 
     %% Stop Mnesia.
     ok = stop_mnesia(),
@@ -78,9 +80,8 @@ stop_mnesia() ->
     ensure_mnesia_stopped().
 
 %% @private
--spec ensure_mnesia_dir() -> ok.
-ensure_mnesia_dir() ->
-    Directory = peculium_core_config:mnesia_dir(),
+-spec ensure_mnesia_dir(Directory :: string()) -> ok.
+ensure_mnesia_dir(Directory) ->
     case filelib:ensure_dir(Directory) of
         {error, Reason} ->
             throw({error, {unable_to_create_mnesia_dir, Directory, Reason}});

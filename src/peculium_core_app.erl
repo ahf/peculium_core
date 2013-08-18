@@ -39,11 +39,11 @@ start() ->
 
 -spec start(normal | {takeover, node()} | {failover, node()}, term()) -> {ok, pid()}.
 start(_, _) ->
-    %% Start the supervisor.
-    Result = peculium_core_sup:start_link(),
-
     %% Initialize Mnesia.
     ok = peculium_core_mnesia:init(),
+
+    %% Start the supervisor.
+    Result = peculium_core_sup:start_link(),
 
     %% FIXME: Test code.
     %% Insert Genesis block into the index.
