@@ -50,15 +50,25 @@ init() ->
     ok = stop_mnesia(),
 
     %% Create schema.
-    ok = mnesia:create_schema([node()]),
+    ok = create_schema(),
 
     %% Start Mnesia again.
     ok = start_mnesia().
 
 %% @private
+-spec create_schema() -> ok.
+create_schema() ->
+    case mnesia:system_info(use_dir) of
+        true ->
+            ok;
+        false ->
+            mnesia:create_schema([node()])
+    end.
+
+%% @private
 -spec start_mnesia() -> ok.
 start_mnesia() ->
-    running = mnesia:start(),
+    ok = mnesia:start(),
     ensure_mnesia_running().
 
 %% @private

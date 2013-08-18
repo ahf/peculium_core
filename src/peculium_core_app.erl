@@ -42,12 +42,12 @@ start(_, _) ->
     %% Start the supervisor.
     Result = peculium_core_sup:start_link(),
 
+    %% Initialize Mnesia.
+    ok = peculium_core_mnesia:init(),
+
     %% FIXME: Test code.
     %% Insert Genesis block into the index.
     peculium_core_block_index:insert(peculium_core_block:genesis_block(mainnet)),
-
-    %% Initialize Mnesia.
-    peculium_core_mnesia:init(),
 
     %% Given a Bitcoin network, which port should we listen to?
     {ok, Port} = peculium_core_network:port_number(peculium_core_config:network()),
