@@ -69,6 +69,7 @@
 -type uint32_t() :: peculium_core_types:uint32_t().
 -type version_message() :: peculium_core_types:version_message().
 -type peer() :: pid().
+-type peername() :: {Address :: inet:ip_address(), Port :: inet:port_number()}.
 
 -record(state, {
     listener = undefined :: undefined | pid(),
@@ -79,7 +80,8 @@
     received = 0 :: non_neg_integer(),
     received_version = undefined :: undefined | version_message(),
     network = mainnet :: network(),
-    nonce :: binary()
+    nonce :: binary(),
+    peername = undefined :: undefined | peername()
 }).
 
 -define(SERVER, ?MODULE).
@@ -165,11 +167,13 @@ init([Address, Port]) ->
 init([ListenerPid, Socket, _Options]) ->
     %% Note: The timeout.
     %% See handle_info(timeout, ...) for more information.
+    {ok, Peername} = inet:peername(Socket),
     {ok, #state {
         listener = ListenerPid,
         socket = Socket,
         inbound = true,
-        nonce = peculium_core_peer_nonce_manager:create_nonce()
+        nonce = peculium_core_peer_nonce_manager:create_nonce(),
+        peername = Peername
     }, 0}.
 
 handle_call(_Request, _From, State) ->
@@ -180,7 +184,8 @@ handle_cast({connect, Address, Port}, #state { nonce = Nonce } = State) ->
     case gen_tcp:connect(Address, Port, [binary, {packet, 0}, {active, once}]) of
         {ok, Socket} ->
             version(self(), Nonce),
-            {noreply, State#state { socket = Socket }};
+            {ok, Peername} = inet:peername(Socket),
+            {noreply, State#state { socket = Socket, peername = Peername }};
         {error, Reason} ->
             {stop, Reason}
     end;
@@ -188,10 +193,10 @@ handle_cast({connect, Address, Port}, #state { nonce = Nonce } = State) ->
 handle_cast(stop, State) ->
     {stop, normal, stopped, State};
 
-handle_cast({message, version, [Nonce]}, #state { network = Network, socket = Socket } = State) ->
+handle_cast({message, version, [Nonce]}, #state { network = Network, socket = Socket, peername = Peername } = State) ->
     %% FIXME: sockname should be the local network address and not the socket name.
     {ok, {SourceAddress, SourcePort}} = inet:sockname(Socket),
-    {ok, {DestinationAddress, DestinationPort}} = inet:peername(Socket),
+    {DestinationAddress, DestinationPort} = Peername,
     {noreply, send(State, version, [Network, SourceAddress, SourcePort, DestinationAddress, DestinationPort, Nonce])};
 
 handle_cast({message, Message, Arguments}, #state { network = Network } = State) ->
@@ -322,8 +327,8 @@ log(State, Format) ->
 
 %% @private
 -spec log(State :: term(), Format :: string(), Arguments :: [any()]) -> ok.
-log(State, Format, Arguments) ->
-    {ok, {Address, Port}} = inet:peername(State#state.socket),
+log(#state { peername = Peername }, Format, Arguments) ->
+    {Address, Port} = Peername,
     lager:debug([{peer, Address, Port}], "[Peer ~s:~b] -> " ++ Format, [inet_parse:ntoa(Address), Port | Arguments]).
 
 %% @private
