@@ -150,6 +150,7 @@ invalid because of this.
 <tr><td><a href="peculium_core_network.md" class="module">peculium_core_network</a></td></tr>
 <tr><td><a href="peculium_core_network_address.md" class="module">peculium_core_network_address</a></td></tr>
 <tr><td><a href="peculium_core_peer.md" class="module">peculium_core_peer</a></td></tr>
+<tr><td><a href="peculium_core_peer_manager.md" class="module">peculium_core_peer_manager</a></td></tr>
 <tr><td><a href="peculium_core_peer_nonce_manager.md" class="module">peculium_core_peer_nonce_manager</a></td></tr>
 <tr><td><a href="peculium_core_peer_pool.md" class="module">peculium_core_peer_pool</a></td></tr>
 <tr><td><a href="peculium_core_peer_sup.md" class="module">peculium_core_peer_sup</a></td></tr>

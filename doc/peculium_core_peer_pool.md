@@ -10,7 +10,7 @@
 Peer Pool.
 Copyright (c)  2013 Alexander Færøy
 
-__Behaviours:__ [`supervisor`](supervisor.md).
+__Behaviours:__ [`ranch_protocol`](ranch_protocol.md), [`supervisor`](supervisor.md).
 
 __Authors:__ Alexander Færøy ([`ahf@0x90.dk`](mailto:ahf@0x90.dk)).
 <a name="description"></a>
