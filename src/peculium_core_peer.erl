@@ -185,13 +185,13 @@ handle_call(_Request, _From, State) ->
     {reply, Reply, State}.
 
 handle_cast({connect, Address, Port}, #state { nonce = Nonce } = State) ->
-    log(State, "Connecting"),
+    log(State, info, "Connecting"),
     case gen_tcp:connect(Address, Port, [binary, {packet, 0}, {active, once}], 10000) of
         {ok, Socket} ->
             version(self(), Nonce),
             {noreply, State#state { socket = Socket }};
         {error, Reason} ->
-            log(State, "Unable to connect to peer: ~p", [Reason]),
+            log(State, info, "Unable to connect to peer: ~p", [Reason]),
             {stop, normal, State}
     end;
 
@@ -211,7 +211,7 @@ handle_cast(_Message, State) ->
     {noreply, State}.
 
 handle_info(timeout, #state { listener = ListenerPid, socket = Socket, nonce = Nonce, peername = {Address, Port} } = State) ->
-    log(State, "Incoming connection from: ~s:~b", [inet_parse:ntoa(Address), Port]),
+    log(State, info, "Incoming connection from: ~s:~b", [inet_parse:ntoa(Address), Port]),
     ok = ranch:accept_ack(ListenerPid),
     ack_socket(Socket),
     %% FIXME: We should only talk once someone has talked to us.
@@ -222,7 +222,7 @@ handle_info({tcp, Socket, Packet}, #state { socket = Socket } = State) ->
     handle_transport_packet(State, Packet);
 
 handle_info({tcp_closed, Socket}, #state { socket = Socket } = State) ->
-    log(State, "Remote peer closed the connection"),
+    log(State, info, "Remote peer closed the connection"),
     {stop, normal, State};
 
 handle_info({tcp_error, Socket, Reason}, #state { socket = Socket } = State) ->
@@ -232,7 +232,7 @@ handle_info(_Info, State) ->
     {noreply, State}.
 
 terminate(_Reason, #state { nonce = Nonce } = State) ->
-    log(State, "Shutting down"),
+    log(State, info, "Shutting down"),
     peculium_core_peer_nonce_manager:remove_nonce(Nonce),
     peculium_core_peer_manager:unregister_peer(self()),
     ok.
@@ -251,7 +251,7 @@ handle_transport_packet(#state { socket = Socket, continuation = Cont, received 
         {messages, Messages, NewCont} ->
             process_messages(State#state { continuation = NewCont }, Messages);
         {error, Reason} ->
-            log(State, "Error: ~p", [Reason]),
+            log(State, error, "Error: ~p", [Reason]),
             {stop, normal, State}
     end.
 
@@ -272,7 +272,7 @@ process_stream_chunk(Cont, Packet, Messages) ->
     end.
 
 process_messages(#state { network = Network } = State, [#message { header = #message_header { network = MessageNetwork, length = Length, valid = Valid }, body = Body } = Message | Messages]) ->
-    log(State, "Received ~p on ~p (~b bytes)", [element(1, Body), Network, Length]),
+    log(State, info, "Received ~p on ~p (~b bytes)", [element(1, Body), Network, Length]),
     NewState = case Valid andalso Network =:= MessageNetwork of
         true ->
             process_one_message(State, Message);
@@ -293,7 +293,7 @@ process_one_message(State, #message { body = #version_message { nonce = Nonce } 
     %% FIXME: Check if we have already received a version message.
     case peculium_core_peer_nonce_manager:has_nonce(Nonce) of
         true ->
-            log(State, "Attempt to connect to ourself was prevented"),
+            log(State, warning, "Attempt to connect to ourself was prevented"),
             {stop, normal, State};
 
         false ->
@@ -318,25 +318,25 @@ process_one_message(State, _) ->
 send(#state { socket = Socket, sent = Sent } = State, Message, Arguments) ->
     Packet = apply(peculium_core_messages, Message, Arguments),
     PacketLength = iolist_size(Packet),
-    log(State, "Sending ~p (~b bytes)", [Message, PacketLength]),
+    log(State, info, "Sending ~p (~b bytes)", [Message, PacketLength]),
     case gen_tcp:send(Socket, Packet) of
         ok ->
             State#state { sent = Sent + PacketLength };
         {error, Reason} ->
-            log(State, "Error: ~p", [Reason]),
+            log(State, error, "Error: ~p", [Reason]),
             {stop, normal, State}
     end.
 
 %% @private
--spec log(State :: term(), Format :: string()) -> ok.
-log(State, Format) ->
-    log(State, Format, []).
+-spec log(State :: term(), LogLevel :: atom(), Format :: string()) -> ok.
+log(State, LogLevel, Format) ->
+    log(State, LogLevel, Format, []).
 
 %% @private
--spec log(State :: term(), Format :: string(), Arguments :: [any()]) -> ok.
-log(#state { peername = Peername }, Format, Arguments) ->
+-spec log(State :: term(), LogLevel :: atom(), Format :: string(), Arguments :: [any()]) -> ok.
+log(#state { peername = Peername }, LogLevel, Format, Arguments) ->
     {Address, Port} = Peername,
-    lager:debug([{peer, Address, Port}], "[Peer ~s:~b]: " ++ Format, [peculium_core_utilities:format_ip_address(Address), Port | Arguments]).
+    lager:log(LogLevel, [{peer, Address, Port}], "[Peer ~s:~b]: " ++ Format, [peculium_core_utilities:format_ip_address(Address), Port | Arguments]).
 
 %% @private
 -spec send_message(Peer :: peer(), Message :: command()) -> ok.
