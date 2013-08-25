@@ -104,7 +104,7 @@ handle_cast(_Message, State) ->
 
 %% @private
 handle_info(check_peers, #state { peers = Peers } = State) ->
-    maybe_spawn_peers(Peers),
+    spawn_peers(Peers),
     schedule_trigger(?INTERVAL),
     {noreply, State};
 
@@ -126,8 +126,8 @@ schedule_trigger(Seconds) ->
     erlang:send_after(timer:seconds(Seconds), self(), check_peers).
 
 %% @private
--spec maybe_spawn_peers(Peers :: set()) -> ok.
-maybe_spawn_peers(Peers) ->
+-spec spawn_peers(Peers :: set()) -> ok.
+spawn_peers(Peers) ->
     MaxPeers = peculium_core_config:max_peers(),
     case sets:size(Peers) of
         Count when Count >= MaxPeers ->
