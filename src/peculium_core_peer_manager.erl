@@ -134,7 +134,7 @@ maybe_spawn_peers(Peers) ->
             ok;
         Count ->
             MissingPeerCount = MaxPeers - Count,
-            PeerCount = peculium_core_math:ceil(MissingPeerCount / 2.0),
+            PeerCount = peculium_core_math:ceil(MissingPeerCount / 4.0),
             peculium_core_utilities:repeat(PeerCount, fun () ->
                 Address = peculium_core_address_manager:get_address(mainnet),
                 peculium_core_peer_pool:spawn_peer(Address, 8333)
