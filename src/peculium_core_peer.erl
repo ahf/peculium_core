@@ -240,6 +240,7 @@ terminate(_Reason, #state { nonce = Nonce } = State) ->
 code_change(_OldVersion, State, _Extra) ->
     {ok, State}.
 
+-spec ack_socket(Socket :: inet:socket()) -> ok.
 ack_socket(Socket) ->
     inet:setopts(Socket, [{active, once}]).
 
