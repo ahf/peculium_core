@@ -50,6 +50,7 @@
 }).
 
 -define(SERVER, ?MODULE).
+-define(INTERVAL, 5).
 
 %% Tests.
 -include("peculium_core_test.hrl").
@@ -77,7 +78,7 @@ peer_count() ->
 %% @private
 init([]) ->
     lager:info("Starting Peer Management Server"),
-    schedule_trigger(),
+    schedule_trigger(5),
     {ok, #state {
         peers = sets:new()
     }}.
@@ -104,7 +105,7 @@ handle_cast(_Message, State) ->
 %% @private
 handle_info(check_peers, #state { peers = Peers } = State) ->
     maybe_spawn_peers(Peers),
-    schedule_trigger(),
+    schedule_trigger(?INTERVAL),
     {noreply, State};
 
 handle_info(_Info, State) ->
@@ -120,9 +121,9 @@ code_change(_OldVersion, State, _Extra) ->
     {ok, State}.
 
 %% @private
--spec schedule_trigger() -> ok.
-schedule_trigger() ->
-    erlang:send_after(timer:seconds(5), self(), check_peers).
+-spec schedule_trigger(Seconds :: non_neg_integer()) -> ok.
+schedule_trigger(Seconds) ->
+    erlang:send_after(timer:seconds(Seconds), self(), check_peers).
 
 %% @private
 -spec maybe_spawn_peers(Peers :: set()) -> ok.
