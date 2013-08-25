@@ -334,8 +334,13 @@ send(#state { socket = Socket, sent = Sent } = State, Message, Arguments) ->
     Packet = apply(peculium_core_messages, Message, Arguments),
     PacketLength = iolist_size(Packet),
     log(State, "Sending ~p (~b bytes)", [Message, PacketLength]),
-    ok = gen_tcp:send(Socket, Packet),
-    State#state { sent = Sent + PacketLength }.
+    case gen_tcp:send(Socket, Packet) of
+        ok ->
+            State#state { sent = Sent + PacketLength };
+        {error, Reason} ->
+            log(State, "Error: ~p", [Reason]),
+            {stop, normal, State}
+    end.
 
 %% @private
 -spec log(State :: term(), Format :: string()) -> ok.
