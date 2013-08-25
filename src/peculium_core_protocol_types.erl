@@ -162,7 +162,7 @@ var_string(String) when is_list(String) ->
 
 -spec map_to_v6(inet:ip_address()) -> {ok, inet:ip6_address()} | {error, any()}.
 map_to_v6({A, B, C, D}) ->
-    {ok, {0, 0, 0, 0, 16#ffff, 16#ffff, (A bsl 8) + B, (C bsl 8) + D}};
+    {ok, {0, 0, 0, 0, 0, 16#ffff, (A bsl 8) + B, (C bsl 8) + D}};
 map_to_v6(Address) when is_tuple(Address), tuple_size(Address) == 8 ->
     {ok, Address};
 map_to_v6(X) ->
