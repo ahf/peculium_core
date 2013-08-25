@@ -322,7 +322,7 @@ process_one_message(#state { network = Network } = State, #message { body = #add
     State;
 
 process_one_message(State, #message { body = #verack_message {} }) ->
-%%    getblocks(self(), peculium_core_block_locator:from_best_block(), <<0:256>>),
+    peculium_core_peer_manager:register_connected_peer(self()),
     State;
 
 process_one_message(State, _) ->

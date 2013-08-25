@@ -37,7 +37,9 @@
 -behaviour(gen_server).
 
 %% API.
--export([start_link/0, register_peer/1, unregister_peer/1, peer_count/0]).
+-export([start_link/0, register_peer/1, unregister_peer/1,
+        register_connected_peer/1, peer_count/0, connected_peer_count/0,
+        peers/0, connected_peers/0]).
 
 %% Gen_server Callbacks.
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
@@ -46,7 +48,8 @@
 -type peer() :: pid().
 
 -record(state, {
-    peers :: set()
+    peers :: set(),
+    connected_peers :: set()
 }).
 
 -define(SERVER, ?MODULE).
@@ -70,22 +73,55 @@ register_peer(Peer) when is_pid(Peer) ->
 unregister_peer(Peer) when is_pid(Peer) ->
     gen_server:cast(?SERVER, {unregister_peer, Peer}).
 
-%% @doc Get number of active peers.
+%% @doc Register peer as being connected.
+-spec register_connected_peer(Peer :: peer()) -> ok.
+register_connected_peer(Peer) when is_pid(Peer) ->
+    gen_server:cast(?SERVER, {register_connected_peer, Peer}).
+
+%% @doc Get number of peers.
 -spec peer_count() -> non_neg_integer().
 peer_count() ->
     gen_server:call(?SERVER, peer_count).
 
+%% @doc Get number of connected peers.
+-spec connected_peer_count() -> non_neg_integer().
+connected_peer_count() ->
+    gen_server:call(?SERVER, connected_peer_count).
+
+%% @doc Get peers.
+-spec peers() -> Peers :: [peer()].
+peers() ->
+    gen_server:call(?SERVER, peers).
+
+%% @doc Get connected peers.
+-spec connected_peers() -> Peers :: [peer()].
+connected_peers() ->
+    gen_server:call(?SERVER, connected_peers).
+
 %% @private
 init([]) ->
-    lager:info("Starting Peer Management Server"),
+    lager:notice("Starting Peer Management Server"),
     schedule_trigger(5),
     {ok, #state {
-        peers = sets:new()
+        peers = sets:new(),
+        connected_peers = sets:new()
     }}.
 
 %% @private
 handle_call(peer_count, _From, #state { peers = Peers } = State) ->
     Reply = sets:size(Peers),
+    {reply, Reply, State};
+
+handle_call(connected_peer_count, _From, #state { connected_peers = ConnectedPeers } = State) ->
+    Reply = sets:size(ConnectedPeers),
+    {reply, Reply, State};
+
+handle_call(peers, _From, #state { peers = Peers } = State) ->
+    Reply = sets:to_list(Peers),
+    {reply, Reply, State};
+
+handle_call(connected_peers, _From, #state { connected_peers = ConnectedPeers } = State) ->
+    Reply = sets:to_list(ConnectedPeers),
     {reply, Reply, State};
 
 handle_call(_Request, _From, State) ->
@@ -94,10 +130,22 @@ handle_call(_Request, _From, State) ->
 
 %% @private
 handle_cast({register_peer, Peer}, #state { peers = Peers } = State) ->
+    lager:info("Registering peer: ~p", [Peer]),
     {noreply, State#state { peers = sets:add_element(Peer, Peers) }};
 
-handle_cast({unregister_peer, Peer}, #state { peers = Peers } = State) ->
-    {noreply, State#state { peers = sets:del_element(Peer, Peers) }};
+handle_cast({unregister_peer, Peer}, #state { peers = Peers, connected_peers = ConnectedPeers } = State) ->
+    lager:info("Unregistering peer: ~p", [Peer]),
+    NewPeers = sets:del_element(Peer, Peers),
+    case sets:is_element(Peer, ConnectedPeers) of
+        true ->
+            {noreply, State#state { peers = NewPeers, connected_peers = sets:del_element(Peer, ConnectedPeers) }};
+        false ->
+            {noreply, State#state { peers = NewPeers }}
+    end;
+
+handle_cast({register_connected_peer, Peer}, #state { connected_peers = ConnectedPeers } = State) ->
+    lager:info("Registering connected peer: ~p", [Peer]),
+    {noreply, State#state { connected_peers = sets:add_element(Peer, ConnectedPeers) }};
 
 handle_cast(_Message, State) ->
     {noreply, State}.
@@ -113,7 +161,7 @@ handle_info(_Info, State) ->
 
 %% @private
 terminate(_Reason, _State) ->
-    lager:info("Stopping Peer Management Server"),
+    lager:notice("Stopping Peer Management Server"),
     ok.
 
 %% @private
