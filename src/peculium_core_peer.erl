@@ -47,7 +47,7 @@
 
 %% API.
 -export([start_link/2, stop/1, ping/1, verack/1, getaddr/1, version/2,
-        getdata/2, getblocks/3, getheaders/3, block/8]).
+        getdata/2, getblocks/3, getheaders/3, block/8, check_timeout/1]).
 
 %% Test API.
 %% FIXME: Kill, with fire.
@@ -81,7 +81,9 @@
     received_version = undefined :: undefined | version_message(),
     network = mainnet :: network(),
     nonce :: binary(),
-    peername = undefined :: undefined | peername()
+    peername = undefined :: undefined | peername(),
+    ping_timer = undefined :: undefined | pid(),
+    ping_timestamp :: calendar:datetime()
 }).
 
 -define(SERVER, ?MODULE).
@@ -157,28 +159,35 @@ getheaders(Peer, BlockLocator, BlockStop) ->
 block(Peer, Version, PreviousBlock, MerkleRoot, Timestamp, Bits, Nonce, Transactions) ->
     send_message(Peer, block, [Version, PreviousBlock, MerkleRoot, Timestamp, Bits, Nonce, Transactions]).
 
+%% @doc Check if a given peer is inactive.
+-spec check_timeout(Peer :: peer()) -> ok.
+check_timeout(Peer) ->
+    gen_server:cast(Peer, check_timeout).
+
 -spec init(Arguments :: [term()]) -> {ok, term()} | {ok, term(), non_neg_integer() | infinity} | {ok, term(), hibernate} | {stop, any()} | ignore.
 init([Address, Port]) ->
     connect(self(), Address, Port),
     peculium_core_peer_manager:register_peer(self()),
-    {ok, #state {
+    {ok, start_ping_timer(#state {
         inbound = false,
         peername = {Address, Port},
-        nonce = peculium_core_peer_nonce_manager:create_nonce()
-    }};
+        nonce = peculium_core_peer_nonce_manager:create_nonce(),
+        ping_timestamp = erlang:localtime()
+    })};
 
 init([ListenerPid, Socket, _Options]) ->
     %% Note: The timeout.
     %% See handle_info(timeout, ...) for more information.
     peculium_core_peer_manager:register_peer(self()),
     {ok, Peername} = inet:peername(Socket),
-    {ok, #state {
+    {ok, start_ping_timer(#state {
         listener = ListenerPid,
         socket = Socket,
         inbound = true,
         nonce = peculium_core_peer_nonce_manager:create_nonce(),
-        peername = Peername
-    }, 0}.
+        peername = Peername,
+        ping_timestamp = erlang:localtime()
+    }), 0}.
 
 handle_call(_Request, _From, State) ->
     Reply = ok,
@@ -193,6 +202,23 @@ handle_cast({connect, Address, Port}, #state { nonce = Nonce } = State) ->
         {error, Reason} ->
             log(State, info, "Unable to connect to peer: ~p", [Reason]),
             {stop, normal, State}
+    end;
+
+handle_cast(check_timeout, #state { ping_timestamp = PingTimeout, received_version = ReceivedVersion } = State) ->
+    TimeDelta = calendar:datetime_to_gregorian_seconds(erlang:localtime()) - calendar:datetime_to_gregorian_seconds(PingTimeout),
+    PeerTimeout = peculium_core_config:peer_timeout(),
+    if
+        TimeDelta >= PeerTimeout ->
+            log(State, info, "Timeout: ~b seconds", [TimeDelta]),
+            {stop, normal, State};
+
+        ReceivedVersion =:= undefined ->
+            % Do not ping unless we have received a version message already.
+            {noreply, reset_ping_timer(State)};
+
+        true ->
+            ping(self()),
+            {noreply, reset_ping_timer(State)}
     end;
 
 handle_cast(stop, State) ->
@@ -235,6 +261,7 @@ terminate(_Reason, #state { nonce = Nonce } = State) ->
     log(State, info, "Shutting down"),
     peculium_core_peer_nonce_manager:remove_nonce(Nonce),
     peculium_core_peer_manager:unregister_peer(self()),
+    stop_ping_timer(State),
     ok.
 
 code_change(_OldVersion, State, _Extra) ->
@@ -246,14 +273,15 @@ ack_socket(Socket) ->
 
 handle_transport_packet(#state { socket = Socket, continuation = Cont, received = Received } = State, Packet) ->
     ack_socket(Socket),
+    NewState = reset_ping_timestamp(State),
     case process_stream_chunk(Cont, Packet) of
         {ok, NewCont} ->
-            {noreply, State#state { continuation = NewCont, received = byte_size(Packet) + Received }};
+            {noreply, NewState#state { continuation = NewCont, received = byte_size(Packet) + Received }};
         {messages, Messages, NewCont} ->
-            process_messages(State#state { continuation = NewCont }, Messages);
+            process_messages(NewState#state { continuation = NewCont }, Messages);
         {error, Reason} ->
-            log(State, error, "Error: ~p", [Reason]),
-            {stop, normal, State}
+            log(NewState, error, "Error: ~p", [Reason]),
+            {stop, normal, NewState}
     end.
 
 process_stream_chunk(Cont, Packet) ->
@@ -353,3 +381,40 @@ send_message(Peer, Message, Arguments) ->
 -spec connect(Peer :: peer(), Address :: inet:ip_address(), Port :: inet:port_number()) -> ok.
 connect(Peer, Address, Port) ->
     gen_server:cast(Peer, {connect, Address, Port}).
+
+%% @private
+-spec start_ping_timer(State :: term()) -> NewState :: term().
+start_ping_timer(State) ->
+    case peculium_core_timer:start_link(timer:seconds(peculium_core_config:peer_timeout() div 2), peculium_core_peer, check_timeout, [self()]) of
+        {ok, TimerPid} ->
+            State#state { ping_timer = TimerPid };
+        {error, Reason} ->
+            log(State, error, "Unable to create timer: ~p", [Reason]),
+            State
+    end.
+
+%% @private
+-spec reset_ping_timer(State :: term()) -> NewState :: term().
+reset_ping_timer(#state { ping_timer = PingTimer } = State) ->
+    case PingTimer of
+        PingTimer when is_pid(PingTimer) ->
+            peculium_core_timer:reset(PingTimer);
+        undefined ->
+            ok
+    end,
+    State.
+
+%% @private
+-spec stop_ping_timer(State :: term()) -> ok.
+stop_ping_timer(#state { ping_timer = PingTimer }) ->
+    case PingTimer of
+        PingTimer when is_pid(PingTimer) ->
+            peculium_core_timer:stop(PingTimer);
+        undefined ->
+            ok
+    end.
+
+%% @private
+-spec reset_ping_timestamp(State :: term()) -> NewState :: term().
+reset_ping_timestamp(State) ->
+    State#state { ping_timestamp = erlang:localtime() }.
