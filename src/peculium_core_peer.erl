@@ -249,7 +249,10 @@ handle_transport_packet(#state { socket = Socket, continuation = Cont, received 
         {ok, NewCont} ->
             {noreply, State#state { continuation = NewCont, received = byte_size(Packet) + Received }};
         {messages, Messages, NewCont} ->
-            process_messages(State#state { continuation = NewCont }, Messages)
+            process_messages(State#state { continuation = NewCont }, Messages);
+        {error, Reason} ->
+            log(State, "Error: ~p", [Reason]),
+            {stop, normal, State}
     end.
 
 process_stream_chunk(Cont, Packet) ->
@@ -263,7 +266,9 @@ process_stream_chunk(Cont, Packet, Messages) ->
         {ok, Message, Rest} ->
             process_stream_chunk(<<>>, Rest, [Message | Messages]);
         {error, insufficient_data} ->
-            {messages, lists:reverse(Messages), Data}
+            {messages, lists:reverse(Messages), Data};
+        {error, Reason, _} ->
+            {error, Reason}
     end.
 
 process_messages(#state { network = Network } = State, [#message { header = #message_header { network = MessageNetwork, length = Length, valid = Valid }, body = Body } = Message | Messages]) ->
