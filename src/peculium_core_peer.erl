@@ -273,7 +273,7 @@ ack_socket(Socket) ->
 
 handle_transport_packet(#state { socket = Socket, continuation = Cont, received = Received } = State, Packet) ->
     ack_socket(Socket),
-    NewState = reset_ping_timestamp(State),
+    NewState = reset_ping_timer(reset_ping_timestamp(State)),
     case process_stream_chunk(Cont, Packet) of
         {ok, NewCont} ->
             {noreply, NewState#state { continuation = NewCont, received = byte_size(Packet) + Received }};
