@@ -285,21 +285,6 @@ process_messages(#state { network = Network } = State, [#message { header = #mes
 process_messages(State, []) ->
     {noreply, State}.
 
-process_one_message(State, #message { body = #inv_message { inventory = Invs } }) ->
-%%    LastBlockInv = peculium_core_utilities:find_last(fun peculium_core_inv:is_block/1, Invs),
-%%    getdata(self(), peculium_core_inv:unknown_invs(Invs)),
-%%    getblocks(self(), peculium_core_block_locator:from_best_block(), <<0:256>>),
-    State;
-%%    lists:foldl(fun (Inv, StateCont) ->
-%%            StateCont2 = case Inv of
-%%                LastBlockInv ->
-%%                    send(StateCont, getblocks, [Network, peculium_core_block_locator:from_best_block(), <<0:256>>]);
-%%                _Otherwise ->
-%%                    StateCont
-%%            end,
-%%            send(StateCont2, getdata, [Network, [Inv]])
-%%        end, State, Invs);
-
 process_one_message(State, #message { body = #block_message { block = Block } }) ->
     peculium_core_block_index:insert(Block),
     State;
