@@ -185,7 +185,7 @@ handle_call(_Request, _From, State) ->
     {reply, Reply, State}.
 
 handle_cast({connect, Address, Port}, #state { nonce = Nonce } = State) ->
-    log(State, info, "Connecting"),
+    log(State, info, "Connecting to peer"),
     case gen_tcp:connect(Address, Port, [binary, {packet, 0}, {active, once}], 10000) of
         {ok, Socket} ->
             version(self(), Nonce),
