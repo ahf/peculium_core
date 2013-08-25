@@ -35,8 +35,9 @@
 -module(peculium_core_utilities).
 
 %% API.
--export([expand_homedir/1, find_last/2, strip/2, timestamp/0, hex2bin/1,
-        bin2hex/1, repeat/2, reverse/1, parallel_map/2]).
+-export([expand_homedir/1, find_last/2, strip/2, timestamp/0,
+        hex2bin/1, bin2hex/1, repeat/2, reverse/1,
+        parallel_map/2, format_ip_address/1]).
 
 -include("peculium_core_test.hrl").
 
@@ -95,6 +96,21 @@ bin2hex(Bin) when is_binary(Bin) ->
 -spec repeat(N :: non_neg_integer(), Fun :: fun (() -> term())) -> [term()].
 repeat(N, Fun) ->
     [Fun() || _ <- lists:seq(1, N)].
+
+%% @doc Format a given IP address This function takes into
+%% account that the IP address might be an IPv6 mapped IPv4
+%% address and format it like an IPv4 address.
+-spec format_ip_address(Address :: inet:ip_address()) -> string().
+format_ip_address(Address) ->
+    case Address of
+        % IPv6 mapped IPv4 address.
+        {0, 0, 0, 0, 0, 16#ffff, A, B} ->
+            inet_parse:ntoa({A bsr 8, A - ((A bsr 8) bsl 8), B bsr 8, B - ((B bsr 8) bsl 8)});
+
+        % IPv6 or IPv address.
+        _Otherwise ->
+            inet_parse:ntoa(Address)
+    end.
 
 %% @doc Applies the function, Fun, to each element of List in parallel and
 %% returns the result. The result shares the same order as the input list.

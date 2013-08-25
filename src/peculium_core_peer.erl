@@ -185,7 +185,7 @@ handle_call(_Request, _From, State) ->
     {reply, Reply, State}.
 
 handle_cast({connect, Address, Port}, #state { nonce = Nonce } = State) ->
-    log(State, "Connecting to ~s:~b", [inet_parse:ntoa(Address), Port]),
+    log(State, "Connecting"),
     case gen_tcp:connect(Address, Port, [binary, {packet, 0}, {active, once}], 10000) of
         {ok, Socket} ->
             version(self(), Nonce),
@@ -346,7 +346,7 @@ log(State, Format) ->
 -spec log(State :: term(), Format :: string(), Arguments :: [any()]) -> ok.
 log(#state { peername = Peername }, Format, Arguments) ->
     {Address, Port} = Peername,
-    lager:debug([{peer, Address, Port}], "[Peer ~s:~b] -> " ++ Format, [inet_parse:ntoa(Address), Port | Arguments]).
+    lager:debug([{peer, Address, Port}], "[Peer ~s:~b]: " ++ Format, [peculium_core_utilities:format_ip_address(Address), Port | Arguments]).
 
 %% @private
 -spec send_message(Peer :: peer(), Message :: command()) -> ok.
