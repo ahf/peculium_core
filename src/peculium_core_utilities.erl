@@ -107,7 +107,7 @@ format_ip_address(Address) ->
         {0, 0, 0, 0, 0, 16#ffff, A, B} ->
             inet_parse:ntoa({A bsr 8, A - ((A bsr 8) bsl 8), B bsr 8, B - ((B bsr 8) bsl 8)});
 
-        % IPv6 or IPv address.
+        % IPv6 or IPv4 address.
         _Otherwise ->
             inet_parse:ntoa(Address)
     end.
