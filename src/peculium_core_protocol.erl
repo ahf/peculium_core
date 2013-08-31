@@ -41,49 +41,11 @@
 -type message() :: peculium_core_types:message().
 -type message_types() :: peculium_core_types:message_types().
 -type network() :: peculium_core_types:network().
--type transaction_input() :: peculium_core_types:transaction_input().
--type transaction_output() :: peculium_core_types:transaction_output().
 
 -include_lib("peculium_core/include/peculium_core.hrl").
 
 %% Tests.
 -include("peculium_core_test.hrl").
-
--spec decode_transaction_input_vector(binary()) -> {ok, [transaction_input()], binary()}.
-decode_transaction_input_vector(X) ->
-    case peculium_core_protocol_types:var_int(X) of
-        {ok, Count, Rest} ->
-            peculium_core_protocol_utilities:decode_dynamic_vector(Rest, Count, fun peculium_core_protocol_types:transaction_input/1);
-        Error ->
-            Error
-    end.
-
--spec decode_transaction_output_vector(binary()) -> {ok, [transaction_output()], binary()}.
-decode_transaction_output_vector(X) ->
-    case peculium_core_protocol_types:var_int(X) of
-        {ok, Count, Rest} ->
-            peculium_core_protocol_utilities:decode_dynamic_vector(Rest, Count, fun peculium_core_protocol_types:transaction_output/1);
-        Error ->
-            Error
-    end.
-
-decode_transaction(<<Version:4/binary, X/binary>>) ->
-    case decode_transaction_input_vector(X) of
-        {ok, TransactionInputs, Rest} ->
-            case decode_transaction_output_vector(Rest) of
-                {ok, TransactionOutputs, <<LockTime:4/binary, Rest1/binary>>} ->
-                    {ok, #transaction {
-                        version = peculium_core_protocol_types:uint32_t(Version),
-                        transaction_inputs = TransactionInputs,
-                        transaction_outputs = TransactionOutputs,
-                        lock_time = peculium_core_protocol_types:uint32_t(LockTime)
-                    }, Rest1};
-                Error ->
-                    Error
-            end;
-        Error ->
-            Error
-    end.
 
 %% @doc Try to decode a binary into a message.
 -spec decode(Data :: binary()) -> {ok, Message :: message()} | {error, term()}.
@@ -172,6 +134,7 @@ decode_message_payload(version, <<Version:4/binary, Services:8/binary, Timestamp
                 relay = peculium_core_protocol_types:bool(Relay),
                 nonce = Nonce
             } };
+
         {error, _} = Error ->
             Error
     end;
@@ -323,8 +286,8 @@ decode_message_payload(getheaders, <<RawVersion:4/binary, X/binary>>) ->
     end;
 
 decode_message_payload(transaction, X) ->
-    case decode_transaction(X) of
-        {ok, Transaction, <<>>} ->
+    case peculium_core_protocol_types:transaction(X) of
+        {ok, Transaction} ->
             {ok, #transaction_message {
                 transaction = Transaction
             }};
@@ -332,25 +295,13 @@ decode_message_payload(transaction, X) ->
             Error
     end;
 
-decode_message_payload(block, <<Version:4/binary, PreviousBlock:32/binary, MerkleRoot:32/binary, Timestamp:4/binary, Bits:4/binary, Nonce:4/binary, X/binary>>) ->
-    case peculium_core_protocol_types:var_int(X) of
-        {ok, Count, Rest} ->
-            case peculium_core_protocol_utilities:decode_dynamic_vector(Rest, Count, fun decode_transaction/1) of
-                {ok, Transactions, <<>>} ->
-                    {ok, #block_message {
-                        block = #block {
-                            version = peculium_core_protocol_types:uint32_t(Version),
-                            previous_block = PreviousBlock,
-                            merkle_root = MerkleRoot,
-                            timestamp = peculium_core_protocol_types:uint32_t(Timestamp),
-                            bits = peculium_core_protocol_types:uint32_t(Bits),
-                            nonce = peculium_core_protocol_types:uint32_t(Nonce),
-                            transactions = Transactions
-                        }
-                    }};
-                {error, _} = Error ->
-                    Error
-            end;
+decode_message_payload(block, X) ->
+    case peculium_core_protocol_types:block(X) of
+        {ok, Block} ->
+            {ok, #block_message {
+                block = Block
+            }};
+
         {error, _} = Error ->
             Error
     end;

@@ -160,7 +160,7 @@ var_string(String) when is_list(String) ->
     {ok, VarInt} = var_int(string:len(String)),
     [VarInt, String].
 
--spec map_to_v6(inet:ip_address()) -> {ok, inet:ip6_address()} | {error, any()}.
+-spec map_to_v6(inet:ip_address()) -> {ok, inet:ip6_address()} | {error, term()}.
 map_to_v6({A, B, C, D}) ->
     {ok, {0, 0, 0, 0, 0, 16#ffff, (A bsl 8) + B, (C bsl 8) + D}};
 map_to_v6(Address) when is_tuple(Address), tuple_size(Address) == 8 ->
@@ -211,7 +211,7 @@ inv(#inv { type = Type, hash = Hash }) ->
     {ok, IntType} = peculium_core_protocol_utilities:atom_to_inv(Type),
     [uint32_t(IntType), Hash].
 
--spec block_header(binary()) -> {ok, block_header()}.
+-spec block_header(binary()) -> {ok, block_header()} | {error, term()}.
 block_header(<<RawVersion:4/binary, PreviousBlock:32/binary, MerkleRoot:32/binary, RawTimestamp:4/binary, RawBits:4/binary, RawNonce:4/binary, RawTransactionCount:1/binary>>) ->
     {ok, #block_header {
         version = uint32_t(RawVersion),
@@ -233,7 +233,7 @@ transaction_outpoint(<<Hash:32/binary, Index:4/binary>>) ->
 transaction_outpoint(#transaction_outpoint { index = Index, hash = Hash }) ->
     [Hash, uint32_t(Index)].
 
--spec transaction_input(binary()) -> {ok, transaction_input()};
+-spec transaction_input(binary()) -> {ok, transaction_input()} | {error, term()};
                        (transaction_input()) -> iolist().
 transaction_input(<<RawOutpoint:36/binary, X/binary>>) ->
     {ok, Outpoint} = transaction_outpoint(RawOutpoint),
@@ -256,7 +256,7 @@ transaction_input(#transaction_input { previous_output = PreviousOutput, script 
     {ok, ScriptLength} = var_int(byte_size(Script)),
     [transaction_outpoint(PreviousOutput), ScriptLength, Script, uint32_t(Sequence)].
 
--spec transaction_output(binary()) -> {ok, transaction_output()};
+-spec transaction_output(binary()) -> {ok, transaction_output()} | {error, term()};
                         (transaction_output()) -> iolist().
 transaction_output(<<Value:8/binary, X/binary>>) ->
     case var_int(X) of
@@ -278,26 +278,92 @@ transaction_output(#transaction_output { value = Value, script = Script }) ->
     [int64_t(Value), ScriptLength, Script].
 
 %% @doc Encode transaction.
--spec transaction(transaction()) -> iolist().
+-spec transaction(Transaction :: transaction()) -> iolist();
+                 (WireTransaction :: binary()) -> {ok, transaction()} | {error, term()}.
 transaction(#transaction { version = Version, transaction_inputs = Inputs, transaction_outputs = Outputs, lock_time = LockTime }) ->
     {ok, InputsLength} = var_int(length(Inputs)),
     {ok, OutputsLength} = var_int(length(Outputs)),
-    [uint32_t(Version), InputsLength, lists:map(fun transaction_input/1, Inputs), OutputsLength, lists:map(fun transaction_output/1, Outputs), uint32_t(LockTime)].
+    [uint32_t(Version), InputsLength, lists:map(fun transaction_input/1, Inputs), OutputsLength, lists:map(fun transaction_output/1, Outputs), uint32_t(LockTime)];
+
+transaction(WireTransaction) ->
+    case decode_transaction(WireTransaction) of
+        {ok, Transaction, <<>>} ->
+            {ok, Transaction};
+
+        {error, _} = Error ->
+            Error
+    end.
 
 %% @doc Encode or decode block.
 -spec block(Block :: block()) -> iolist();
-           (RawBlock :: binary()) -> {ok, block()} | {error, any()}.
+           (RawBlock :: binary()) -> {ok, block()} | {error, term()}.
 block(#block { version = Version, previous_block = PreviousBlock, merkle_root = MerkleRoot, timestamp = Timestamp, bits = Bits, nonce = Nonce, transactions = Transactions }) ->
     {ok, TransactionsLength} = var_int(length(Transactions)),
     [uint32_t(Version), PreviousBlock, MerkleRoot, uint32_t(Timestamp), uint32_t(Bits), uint32_t(Nonce), TransactionsLength, lists:map(fun transaction/1, Transactions)];
-block(X) ->
-    %% FIXME: We should move all the block encoding and decoding logic out of
-    %% peculium_core_protocol and into here.
-    case peculium_core_protocol:decode_message_payload(block, X) of
-        {ok, #block_message { block = Block} } ->
-            {ok, Block};
-        _Otherwise ->
-            {error, invalid_block}
+block(WireBlock) ->
+    decode_block(WireBlock).
+
+%% @private
+-spec decode_block(binary()) -> {ok, block()} | {error, term()}.
+decode_block(<<Version:4/binary, PreviousBlock:32/binary, MerkleRoot:32/binary, Timestamp:4/binary, Bits:4/binary, Nonce:4/binary, X/binary>>) ->
+    case peculium_core_protocol_types:var_int(X) of
+        {ok, Count, Rest} ->
+            case peculium_core_protocol_utilities:decode_dynamic_vector(Rest, Count, fun decode_transaction/1) of
+                {ok, Transactions, <<>>} ->
+                    {ok, #block {
+                        version = peculium_core_protocol_types:uint32_t(Version),
+                        previous_block = PreviousBlock,
+                        merkle_root = MerkleRoot,
+                        timestamp = peculium_core_protocol_types:uint32_t(Timestamp),
+                        bits = peculium_core_protocol_types:uint32_t(Bits),
+                        nonce = peculium_core_protocol_types:uint32_t(Nonce),
+                        transactions = Transactions
+                    }};
+
+                {error, _} = Error ->
+                    Error
+            end;
+        {error, _} = Error ->
+            Error
+    end.
+
+%% @private
+decode_transaction(<<Version:4/binary, X/binary>>) ->
+    case decode_transaction_input_vector(X) of
+        {ok, TransactionInputs, Rest} ->
+            case decode_transaction_output_vector(Rest) of
+                {ok, TransactionOutputs, <<LockTime:4/binary, Rest1/binary>>} ->
+                    {ok, #transaction {
+                        version = peculium_core_protocol_types:uint32_t(Version),
+                        transaction_inputs = TransactionInputs,
+                        transaction_outputs = TransactionOutputs,
+                        lock_time = peculium_core_protocol_types:uint32_t(LockTime)
+                    }, Rest1};
+                {error, _} = Error ->
+                    Error
+            end;
+        {error, _} = Error ->
+            Error
+    end.
+
+%% @private
+-spec decode_transaction_input_vector(binary()) -> {ok, [transaction_input()], binary()}.
+decode_transaction_input_vector(X) ->
+    case peculium_core_protocol_types:var_int(X) of
+        {ok, Count, Rest} ->
+            peculium_core_protocol_utilities:decode_dynamic_vector(Rest, Count, fun transaction_input/1);
+        {error, _} = Error ->
+            Error
+    end.
+
+%% @private
+-spec decode_transaction_output_vector(binary()) -> {ok, [transaction_output()], binary()}.
+decode_transaction_output_vector(X) ->
+    case peculium_core_protocol_types:var_int(X) of
+        {ok, Count, Rest} ->
+            peculium_core_protocol_utilities:decode_dynamic_vector(Rest, Count, fun transaction_output/1);
+        {error, _} = Error ->
+            Error
     end.
 
 -ifdef(TEST).

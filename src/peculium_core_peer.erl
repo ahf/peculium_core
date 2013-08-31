@@ -335,6 +335,10 @@ process_one_message(#state { network = Network } = State, #message { body = #add
     lists:foreach(fun (#network_address { address = Address }) -> peculium_core_address_manager:remember(Address, Network) end, Addresses),
     State;
 
+process_one_message(State, #message { body = #inv_message { inventory = Invs }}) ->
+    getdata(self(), Invs),
+    State;
+
 process_one_message(State, #message { body = #verack_message {} }) ->
     peculium_core_peer_manager:register_connected_peer(self()),
     State;
