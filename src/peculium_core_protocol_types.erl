@@ -153,7 +153,7 @@ var_string(X) when is_binary(X) ->
                 _Otherwise ->
                     {error, {invalid_var_int, insufficient_data}}
             end;
-        Error ->
+        {error, _} = Error ->
             Error
     end;
 var_string(String) when is_list(String) ->
@@ -246,10 +246,10 @@ transaction_input(<<RawOutpoint:36/binary, X/binary>>) ->
                         script = Script,
                         sequence = uint32_t(Sequence)
                     }, Rest1};
-                Error ->
+                {error, _} = Error ->
                     Error
             end;
-        Error ->
+        {error, _} = Error ->
             Error
     end;
 transaction_input(#transaction_input { previous_output = PreviousOutput, script = Script, sequence = Sequence }) ->
@@ -267,10 +267,10 @@ transaction_output(<<Value:8/binary, X/binary>>) ->
                         value = int64_t(Value),
                         script = Script
                     }, Rest1};
-                Error ->
+                {error, _} = Error ->
                     Error
             end;
-        Error ->
+        {error, _} = Error ->
             Error
     end;
 transaction_output(#transaction_output { value = Value, script = Script }) ->
