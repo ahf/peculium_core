@@ -36,11 +36,9 @@
 %% API.
 -export([decode/1]).
 
-%% FIXME: We really shouldn't expose this.
--export([decode_message_payload/2]).
-
 %% Types.
 -type command() :: peculium_core_types:command().
+-type message() :: peculium_core_types:message().
 -type message_types() :: peculium_core_types:message_types().
 -type network() :: peculium_core_types:network().
 -type transaction_input() :: peculium_core_types:transaction_input().
@@ -87,15 +85,13 @@ decode_transaction(<<Version:4/binary, X/binary>>) ->
             Error
     end.
 
--spec decode(Data :: binary()) -> ok.
+%% @doc Try to decode a binary into a message.
+-spec decode(Data :: binary()) -> {ok, Message :: message()} | {error, term()}.
 decode(Data) ->
-    decode_one_message(Data).
+    decode_magic_value(Data).
 
--spec decode_one_message(binary()) -> any().
-decode_one_message(X) ->
-    decode_magic_value(X).
-
--spec decode_magic_value(binary()) -> any().
+%% @private
+-spec decode_magic_value(binary()) -> {ok, message()} | {error, term()}.
 decode_magic_value(<<249, 190, 180, 217, Rest/binary>>) ->
     decode_message_frame(mainnet, Rest);
 decode_magic_value(<<250, 191, 181, 218, Rest/binary>>) ->
@@ -107,7 +103,8 @@ decode_magic_value(<<Magic:4/binary, Rest/binary>>) ->
 decode_magic_value(_X) ->
     {error, insufficient_data}.
 
--spec decode_message_frame(network(), binary()) -> any().
+%% @private
+-spec decode_message_frame(Network :: network(), Data :: binary()) -> {ok, message()} | {error, term()}.
 decode_message_frame(Network, <<RawCommand:12/binary, Size:32/little-unsigned-integer, Checksum:4/binary, Rest/binary>> = X) ->
     {ok, Command} = peculium_core_protocol_utilities:command_to_atom(RawCommand),
     case Rest of
@@ -133,10 +130,10 @@ decode_message_frame(Network, <<RawCommand:12/binary, Size:32/little-unsigned-in
             {error, insufficient_data}
     end;
 
-decode_message_frame(_Network, _X) ->
+decode_message_frame(_Network, _Data) ->
     {error, insufficient_data}.
 
--spec decode_message_payload(Command :: command(), Data :: binary()) -> {ok, message_types()} | {error, any()}.
+-spec decode_message_payload(Command :: command(), Data :: binary()) -> {ok, message_types()} | {error, term()}.
 decode_message_payload(verack, <<>>) ->
     {ok, #verack_message {} };
 
@@ -175,7 +172,7 @@ decode_message_payload(version, <<Version:4/binary, Services:8/binary, Timestamp
                 relay = peculium_core_protocol_types:bool(Relay),
                 nonce = Nonce
             } };
-        Error ->
+        {error, _} = Error ->
             Error
     end;
 
@@ -188,10 +185,10 @@ decode_message_payload(alert, X) ->
                         payload = Payload,
                         signature = Signature
                     } };
-                Error ->
+                {error, _} = Error ->
                     Error
             end;
-        Error ->
+        {error, _} = Error ->
             Error
     end;
 
@@ -206,10 +203,10 @@ decode_message_payload(inv, X) ->
                     {ok, #inv_message {
                         inventory = Inventory
                     }};
-                Error ->
+                {error, _} = Error ->
                     Error
             end;
-        Error ->
+        {error, _} = Error ->
             Error
     end;
 
@@ -224,10 +221,10 @@ decode_message_payload(getdata, X) ->
                     {ok, #getdata_message {
                         inventory = Inventory
                     }};
-                Error ->
+                {error, _} = Error ->
                     Error
             end;
-        Error ->
+        {error, _} = Error ->
             Error
     end;
 
@@ -242,10 +239,10 @@ decode_message_payload(notfound, X) ->
                     {ok, #notfound_message {
                         inventory = Inventory
                     }};
-                Error ->
+                {error, _} = Error ->
                     Error
             end;
-        Error ->
+        {error, _} = Error ->
             Error
     end;
 
@@ -260,10 +257,10 @@ decode_message_payload(addr, X) ->
                     {ok, #addr_message {
                         addresses = Addresses
                     }};
-                Error ->
+                {error, _} = Error ->
                     Error
             end;
-        Error ->
+        {error, _} = Error ->
             Error
     end;
 
@@ -278,10 +275,10 @@ decode_message_payload(headers, X) ->
                     {ok, #headers_message {
                         headers = BlockHeaders
                     }};
-                Error ->
+                {error, _} = Error ->
                     Error
             end;
-        Error ->
+        {error, _} = Error ->
             Error
     end;
 
@@ -298,10 +295,10 @@ decode_message_payload(getblocks, <<RawVersion:4/binary, X/binary>>) ->
                         block_locator = BlockLocatorHashes,
                         hash_stop = HashStop
                     }};
-                Error ->
+                {error, _} = Error ->
                     Error
             end;
-        Error ->
+        {error, _} = Error ->
             Error
     end;
 
@@ -318,10 +315,10 @@ decode_message_payload(getheaders, <<RawVersion:4/binary, X/binary>>) ->
                         block_locator = BlockLocatorHashes,
                         hash_stop = HashStop
                     }};
-                Error ->
+                {error, _} = Error ->
                     Error
             end;
-        Error ->
+        {error, _} = Error ->
             Error
     end;
 
@@ -331,7 +328,7 @@ decode_message_payload(transaction, X) ->
             {ok, #transaction_message {
                 transaction = Transaction
             }};
-        Error ->
+        {error, _} = Error ->
             Error
     end;
 
@@ -351,10 +348,10 @@ decode_message_payload(block, <<Version:4/binary, PreviousBlock:32/binary, Merkl
                             transactions = Transactions
                         }
                     }};
-                Error ->
+                {error, _} = Error ->
                     Error
             end;
-        Error ->
+        {error, _} = Error ->
             Error
     end;
 
