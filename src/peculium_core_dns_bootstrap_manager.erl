@@ -61,7 +61,7 @@ bootstrap(Config) ->
 
 %% @private
 init([]) ->
-    lager:notice("Starting DNS Bootstrap Management Server"),
+    lager:info("Starting DNS Bootstrap Management Server"),
     {ok, #state {}}.
 
 %% @private
@@ -88,7 +88,7 @@ handle_info(_Info, State) ->
 
 %% @private
 terminate(_Reason, _State) ->
-    lager:notice("Stopping DNS Bootstrap Management Server"),
+    lager:info("Stopping DNS Bootstrap Management Server"),
     ok.
 
 %% @private
@@ -131,7 +131,7 @@ flatten_servers([], Result) ->
 
 %% @private
 do_one_ipv4_host(Hostname) ->
-    lager:info("Trying to discover IPv4 peers via DNS: ~s", [Hostname]),
+    lager:notice("Trying to discover IPv4 peers via DNS: ~s", [Hostname]),
     case inet_res:getbyname(Hostname, a) of
         {ok, #hostent { h_addrtype = inet, h_addr_list = IPs }} ->
             IPs;
@@ -142,7 +142,7 @@ do_one_ipv4_host(Hostname) ->
 
 %% @private
 do_one_ipv6_host(Hostname) ->
-    lager:info("Trying to discover IPv6 peers via DNS: ~s", [Hostname]),
+    lager:notice("Trying to discover IPv6 peers via DNS: ~s", [Hostname]),
     case inet_res:getbyname(Hostname, aaaa) of
         {ok, #hostent { h_addrtype = inet6, h_addr_list = IPs }} ->
             IPs;

@@ -100,7 +100,7 @@ connected_peers() ->
 
 %% @private
 init([]) ->
-    lager:notice("Starting Peer Management Server"),
+    lager:info("Starting Peer Management Server"),
     schedule_trigger(5),
     {ok, #state {
         peers = sets:new(),
@@ -158,7 +158,7 @@ handle_info(_Info, State) ->
 
 %% @private
 terminate(_Reason, _State) ->
-    lager:notice("Stopping Peer Management Server"),
+    lager:info("Stopping Peer Management Server"),
     ok.
 
 %% @private

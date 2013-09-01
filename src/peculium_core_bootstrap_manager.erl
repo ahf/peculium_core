@@ -59,7 +59,7 @@ bootstrap() ->
 
 %% @private
 init([]) ->
-    lager:notice("Starting Bootstrap Management Server"),
+    lager:info("Starting Bootstrap Management Server"),
     bootstrap(),
     {ok, #state {}}.
 
@@ -83,7 +83,7 @@ handle_info(_Info, State) ->
 
 %% @private
 terminate(_Reason, _State) ->
-    lager:notice("Stopping Bootstrap Management Server"),
+    lager:info("Stopping Bootstrap Management Server"),
     ok.
 
 %% @private
