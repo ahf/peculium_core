@@ -72,7 +72,7 @@ strip(Subject, Pattern) ->
 %% @doc Returns current UNIX epoch timestamp.
 -spec timestamp() -> non_neg_integer().
 timestamp() ->
-    {MegaSeconds, Seconds, _MicroSeconds} = now(),
+    {MegaSeconds, Seconds, _MicroSeconds} = os:timestamp(),
     MegaSeconds * 1000000 + Seconds.
 
 %% @doc Convert hex to binary.
