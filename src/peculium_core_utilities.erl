@@ -37,7 +37,7 @@
 %% API.
 -export([expand_homedir/1, find_last/2, strip/2, timestamp/0,
         hex2bin/1, bin2hex/1, repeat/2, reverse/1,
-        parallel_map/2, format_ip_address/1]).
+        parallel_map/2, format_ip_address/1, format_ip_port/2]).
 
 -include("peculium_core_test.hrl").
 
@@ -110,6 +110,20 @@ format_ip_address(Address) ->
         % IPv6 or IPv4 address.
         _Otherwise ->
             inet_parse:ntoa(Address)
+    end.
+
+%% @doc Format a given IP address and port.
+-spec format_ip_port(Address :: inet:ip_address(), Port :: inet:port_number()) -> string().
+format_ip_port(Address, Port) ->
+    case Address of
+        {_, _, _, _} ->
+            io_lib:format("~s:~b", [format_ip_address(Address), Port]);
+
+        {0, 0, 0, 0, 0, 16#ffff, _, _} ->
+            io_lib:format("~s:~b", [format_ip_address(Address), Port]);
+
+        {_, _, _, _, _, _, _, _} ->
+            io_lib:format("[~s]:~b", [format_ip_address(Address), Port])
     end.
 
 %% @doc Applies the function, Fun, to each element of List in parallel and

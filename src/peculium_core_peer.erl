@@ -370,7 +370,7 @@ log(State, LogLevel, Format) ->
 -spec log(State :: term(), LogLevel :: atom(), Format :: string(), Arguments :: [any()]) -> ok.
 log(#state { peername = Peername }, LogLevel, Format, Arguments) ->
     {Address, Port} = Peername,
-    lager:log(LogLevel, [{peer, Address, Port}], "Peer(~s:~b): " ++ Format, [peculium_core_utilities:format_ip_address(Address), Port | Arguments]).
+    lager:log(LogLevel, [{peer, Address, Port}], "Peer(~s): " ++ Format, [peculium_core_utilities:format_ip_port(Address, Port) | Arguments]).
 
 %% @private
 -spec send_message(Peer :: peer(), Message :: command()) -> ok.
