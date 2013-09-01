@@ -76,7 +76,6 @@
     socket = undefined :: undefined | inet:socket(),
     continuation = <<>> :: binary(),
     inbound :: boolean(),
-    received = 0 :: non_neg_integer(),
     received_version = undefined :: undefined | version_message(),
     network = mainnet :: network(),
     nonce :: binary(),
@@ -270,12 +269,12 @@ code_change(_OldVersion, State, _Extra) ->
 ack_socket(Socket) ->
     inet:setopts(Socket, [{active, once}]).
 
-handle_transport_packet(#state { socket = Socket, continuation = Cont, received = Received } = State, Packet) ->
+handle_transport_packet(#state { socket = Socket, continuation = Cont } = State, Packet) ->
     ack_socket(Socket),
     NewState = reset_ping_timer(reset_ping_timestamp(State)),
     case process_stream_chunk(Cont, Packet) of
         {ok, NewCont} ->
-            {noreply, NewState#state { continuation = NewCont, received = byte_size(Packet) + Received }};
+            {noreply, NewState#state { continuation = NewCont }};
         {messages, Messages, NewCont} ->
             process_messages(NewState#state { continuation = NewCont }, Messages);
         {error, Reason} ->
