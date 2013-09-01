@@ -37,7 +37,8 @@
 -module(peculium_core_messages).
 
 %% API.
--export([verack/1, getaddr/1, ping/1, version/6, getdata/2, getblocks/3, getheaders/3, block/8]).
+-export([verack/1, getaddr/1, ping/1, version/6, getdata/2, getblocks/3,
+        getheaders/3, block/8]).
 
 %% Types.
 -type block_locator() :: peculium_core_types:block_locator().

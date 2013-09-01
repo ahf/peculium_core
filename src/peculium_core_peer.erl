@@ -194,7 +194,7 @@ handle_call(_Request, _From, State) ->
     {reply, Reply, State}.
 
 handle_cast({connect, Address, Port}, #state { nonce = Nonce } = State) ->
-    log(State, info, "Connecting to peer"),
+    log(State, info, "Connecting to peer ..."),
     case gen_tcp:connect(Address, Port, [binary, {packet, 0}, {active, once}], 10000) of
         {ok, Socket} ->
             version(self(), Nonce),
@@ -300,8 +300,9 @@ process_stream_chunk(Cont, Packet, Messages) ->
             {error, Reason}
     end.
 
-process_messages(#state { network = Network } = State, [#message { header = #message_header { network = MessageNetwork, length = Length, valid = Valid }, body = Body } = Message | Messages]) ->
-    log(State, info, "Received ~p on ~p (~b bytes)", [element(1, Body), Network, Length]),
+process_messages(#state { network = Network } = State, [#message { header = #message_header { network = MessageNetwork, length = Length, valid = Valid } } = Message | Messages]) ->
+    {ok, Format} = peculium_core_message_formatters:format(Message),
+    log(State, info, "Received ~s on ~p (~b bytes)", [Format, Network, Length]),
     NewState = case Valid andalso Network =:= MessageNetwork of
         true ->
             process_one_message(State, Message);
@@ -369,7 +370,7 @@ log(State, LogLevel, Format) ->
 -spec log(State :: term(), LogLevel :: atom(), Format :: string(), Arguments :: [any()]) -> ok.
 log(#state { peername = Peername }, LogLevel, Format, Arguments) ->
     {Address, Port} = Peername,
-    lager:log(LogLevel, [{peer, Address, Port}], "Peer (~p) [~s (~b)]: " ++ Format, [self(), peculium_core_utilities:format_ip_address(Address), Port | Arguments]).
+    lager:log(LogLevel, [{peer, Address, Port}], "Peer(~s:~b): " ++ Format, [peculium_core_utilities:format_ip_address(Address), Port | Arguments]).
 
 %% @private
 -spec send_message(Peer :: peer(), Message :: command()) -> ok.
