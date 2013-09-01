@@ -76,7 +76,6 @@
     socket = undefined :: undefined | inet:socket(),
     continuation = <<>> :: binary(),
     inbound :: boolean(),
-    sent = 0 :: non_neg_integer(),
     received = 0 :: non_neg_integer(),
     received_version = undefined :: undefined | version_message(),
     network = mainnet :: network(),
@@ -349,13 +348,13 @@ process_one_message(State, _) ->
 
 %% @private
 -spec send(State :: term(), Message :: command(), Arguments :: [any()]) -> term().
-send(#state { socket = Socket, sent = Sent } = State, Message, Arguments) ->
+send(#state { socket = Socket } = State, Message, Arguments) ->
     Packet = apply(peculium_core_messages, Message, Arguments),
     PacketLength = iolist_size(Packet),
     log(State, info, "Sending ~p (~b bytes)", [Message, PacketLength]),
     case gen_tcp:send(Socket, Packet) of
         ok ->
-            State#state { sent = Sent + PacketLength };
+            State;
         {error, Reason} ->
             log(State, error, "Error: ~p", [Reason]),
             {stop, normal, State}
