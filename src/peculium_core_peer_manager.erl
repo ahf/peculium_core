@@ -130,11 +130,9 @@ handle_call(_Request, _From, State) ->
 
 %% @private
 handle_cast({register_peer, Peer}, #state { peers = Peers } = State) ->
-    lager:info("Registering peer: ~p", [Peer]),
     {noreply, State#state { peers = sets:add_element(Peer, Peers) }};
 
 handle_cast({unregister_peer, Peer}, #state { peers = Peers, connected_peers = ConnectedPeers } = State) ->
-    lager:info("Unregistering peer: ~p", [Peer]),
     NewPeers = sets:del_element(Peer, Peers),
     case sets:is_element(Peer, ConnectedPeers) of
         true ->
@@ -144,7 +142,6 @@ handle_cast({unregister_peer, Peer}, #state { peers = Peers, connected_peers = C
     end;
 
 handle_cast({register_connected_peer, Peer}, #state { connected_peers = ConnectedPeers } = State) ->
-    lager:info("Registering connected peer: ~p", [Peer]),
     {noreply, State#state { connected_peers = sets:add_element(Peer, ConnectedPeers) }};
 
 handle_cast(_Message, State) ->
