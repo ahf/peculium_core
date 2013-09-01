@@ -52,6 +52,8 @@ init(_State) ->
     {ok, {{one_for_one, 5, 10}, [
         ?CHILD(peculium_core_config, worker),
         ?CHILD(peculium_core_address_manager, worker),
+        ?CHILD(peculium_core_bootstrap_manager, worker),
+        ?CHILD(peculium_core_dns_bootstrap_manager, worker),
         ?CHILD(peculium_core_block_index, worker),
         ?CHILD(peculium_core_block_store, worker),
         ?CHILD(peculium_core_peer_sup, supervisor)
