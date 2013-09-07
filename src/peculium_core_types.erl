@@ -45,7 +45,7 @@
         getdata_message/0, notfound_message/0, addr_message/0,
         headers_message/0, getblocks_message/0, getheaders_message/0,
         transaction_message/0, block_message/0, message/0, block_index_entry/0,
-        block_locator/0, message_types/0]).
+        block_locator/0, message_types/0, unix_epoch/0]).
 
 -include_lib("peculium_core/include/peculium_core.hrl").
 
@@ -165,3 +165,7 @@
                        | getheaders_message()
                        | transaction_message()
                        | block_message().
+
+-type unix_epoch() :: non_neg_integer().
+
+-type address() :: #address {}.

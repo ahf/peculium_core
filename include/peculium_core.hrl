@@ -154,6 +154,8 @@
     body :: peculium_types:message_types()
 }).
 
+-record(address, {}).
+
 %% NOTE: We are going to keep one block_index_entry for every block in the
 %% block chain in memory all the time.
 %%
