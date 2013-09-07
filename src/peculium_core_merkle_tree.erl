@@ -53,7 +53,7 @@
 
 -opaque merkle_tree_node() :: #merkle_tree_node {} | hash() | undefined.
 
--include_lib("peculium_core/include/peculium_core.hrl").
+-include("peculium_core.hrl").
 
 %% Tests.
 -include("peculium_core_test.hrl").

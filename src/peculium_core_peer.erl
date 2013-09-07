@@ -43,7 +43,7 @@
 -behaviour(ranch_protocol).
 
 %% Global records.
--include_lib("peculium_core/include/peculium_core.hrl").
+-include("peculium_core.hrl").
 
 %% API.
 -export([start_link/2, stop/1, ping/1, verack/1, getaddr/1, version/2,

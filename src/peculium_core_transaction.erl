@@ -45,7 +45,7 @@
 -type transaction_output() :: peculium_core_types:transaction_output().
 -type uint32_t() :: peculium_core_types:uint32_t().
 
--include_lib("peculium_core/include/peculium_core.hrl").
+-include("peculium_core.hrl").
 
 %% @doc Returns the hash of a given transaction.
 -spec hash(Transaction :: transaction()) -> hash().

@@ -46,7 +46,7 @@
 -type block_header() :: peculium_core_types:block_header().
 -type block_index_entry() :: peculium_core_types:block_index_entry().
 
--include_lib("peculium_core/include/peculium_core.hrl").
+-include("peculium_core.hrl").
 
 %% @doc Create a new block index entry from a Block.
 -spec from_block(Block :: block()) -> block_index_entry().

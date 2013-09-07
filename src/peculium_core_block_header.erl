@@ -46,7 +46,7 @@
 -type uint8_t() :: peculium_core_types:uint8_t().
 -type uint32_t() :: peculium_core_types:uint32_t().
 
--include_lib("peculium_core/include/peculium_core.hrl").
+-include("peculium_core.hrl").
 
 %% @doc Create Bitcoin Block Header from a given Block.
 -spec from_block(Block :: block()) -> block_header().

@@ -43,7 +43,7 @@
 -type transaction_outpoint() :: peculium_core_types:transaction_outpoint().
 -type uint32_t() :: peculium_core_types:uint32_t().
 
--include_lib("peculium_core/include/peculium_core.hrl").
+-include("peculium_core.hrl").
 
 %% @doc Returns the index of a given outpoint.
 -spec index(Outpoint :: transaction_outpoint()) -> uint32_t().

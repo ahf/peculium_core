@@ -43,7 +43,7 @@
 -type transaction_input() :: peculium_core_types:transaction_input().
 -type transaction_outpoint() :: peculium_core_types:transaction_outpoint().
 
--include_lib("peculium_core/include/peculium_core.hrl").
+-include("peculium_core.hrl").
 
 %% @doc Returns the previous output of a given transaction input.
 -spec previous_output(TransactionInput :: transaction_input()) -> transaction_outpoint().

@@ -46,7 +46,7 @@
 -type version_message() :: peculium_core_types:version_message().
 -type network_address() :: peculium_core_types:network_address().
 
--include_lib("peculium_core/include/peculium_core.hrl").
+-include("peculium_core.hrl").
 
 %% @doc Returns the version of a given version message.
 -spec version(VersionMessage :: version_message()) -> int32_t().

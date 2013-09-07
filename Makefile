@@ -1,52 +1,15 @@
-REPOSITORY = peculium_core
-APPS = crypto kernel stdlib sasl inets syntax_tools mnesia eunit release
+PROJECT = peculium_core
 
-all: compile
+DEPS = lager ucrypto edown eleveldb \
+	   gproc ranch nat_upnp triq
 
-test: eunit
+dep_lager = https://github.com/basho/lager.git master
+dep_ucrypto = https://github.com/ahf/erlang-ucrypto.git master
+dep_edown = https://github.com/esl/edown.git master
+dep_eleveldb = https://github.com/basho/eleveldb.git master
+dep_gproc = https://github.com/esl/gproc.git master
+dep_ranch = https://github.com/extend/ranch.git master
+dep_nat_upnp = https://github.com/benoitc/nat_upnp.git master
+dep_triq = https://github.com/krestenkrab/triq.git master
 
-compile:
-	rebar compile skip_deps=true
-
-get-deps:
-	rebar get-deps
-
-build-deps:
-	rebar compile
-
-clean:
-	rebar clean
-
-release: compile
-	rebar -v skip_deps=true generate
-
-console: release
-	./rel/peculium_core/bin/peculium_core console
-
-eunit:
-	rebar skip_deps=true eunit
-
-quickcheck:
-	rebar skip_deps=true qc
-
-qc: quickcheck
-
-doc:
-	rebar skip_deps=true doc
-
-PLT = $(HOME)/.$(REPOSITORY)_dialyzer_plt
-
-check_plt: compile
-	dialyzer --check_plt --plt $(PLT) --apps $(APPS) deps/*/ebin
-
-build_plt: compile
-	dialyzer --build_plt --output_plt $(PLT) --apps $(APPS) deps/*/ebin
-
-dialyzer:
-	dialyzer --fullpath --plt $(PLT) ebin/
-
-clean_plt:
-	rm $PLT
-
-.PHONY: all get-deps build-deps compile clean eunit doc test dialyzer \
-	check_plt build_plt clean_plt
+include erlang.mk

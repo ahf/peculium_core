@@ -60,7 +60,8 @@
 -type transaction_input() :: peculium_core_types:transaction_input().
 -type transaction_output() :: peculium_core_types:transaction_output().
 
--include_lib("peculium_core/include/peculium_core.hrl").
+-include("peculium_core.hrl").
+
 -include_lib("kernel/include/inet.hrl").
 
 %% Tests.

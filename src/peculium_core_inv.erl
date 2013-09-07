@@ -42,7 +42,7 @@
 -type inv_type() :: peculium_core_types:inv_type().
 -type hash() :: peculium_core_types:hash().
 
--include_lib("peculium_core/include/peculium_core.hrl").
+-include("peculium_core.hrl").
 
 %% @doc Returns the type of a given inv.
 -spec type(Inv :: inv()) -> inv_type().

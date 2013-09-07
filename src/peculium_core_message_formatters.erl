@@ -40,7 +40,7 @@
 -type message() :: peculium_core_types:message().
 -type message_types() :: peculium_core_types:message_types().
 
--include_lib("peculium_core/include/peculium_core.hrl").
+-include("peculium_core.hrl").
 
 -spec format(Message :: message()) -> {ok, string()} | {error, term()};
             (Message :: message_types()) -> {ok, string()} | {error, term()}.

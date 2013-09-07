@@ -41,8 +41,7 @@
 %% Types.
 -type unit_type() :: peculium_core_types:unit_type().
 
--include_lib("peculium_core/include/peculium_core.hrl").
-
+-include("peculium_core.hrl").
 -include("peculium_core_test.hrl").
 
 %% @doc Returns the factor of a given unit.

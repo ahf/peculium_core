@@ -42,7 +42,7 @@
 -type transaction_output() :: peculium_core_types:transaction_output().
 -type int64_t() :: peculium_core_types:int64_t().
 
--include_lib("peculium_core/include/peculium_core.hrl").
+-include("peculium_core.hrl").
 
 %% @doc Returns the value of a given transaction output.
 -spec value(TransactionOutput :: transaction_output()) -> int64_t().

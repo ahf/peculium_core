@@ -44,8 +44,6 @@
 
 %% Types.
 -type network() :: peculium_core_types:network().
--type peer_identifier() :: {inet:ip_address(), inet:port_number()}.
--type unix_epoch() :: peculium_core_types:unix_epoch().
 
 -record(state, {}).
 
@@ -88,7 +86,7 @@ init([]) ->
     end.
 
 %% @private
-handle_call({get_address, Network}, _From, State) ->
+handle_call({get_address, _Network}, _From, State) ->
     Reply = random_address(),
     {reply, Reply, State};
 

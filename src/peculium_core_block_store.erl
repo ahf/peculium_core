@@ -42,7 +42,7 @@
 -type block() :: peculium_core_types:block().
 -type hash() :: peculium_core_types:hash().
 
--include_lib("peculium_core/include/peculium_core.hrl").
+-include("peculium_core.hrl").
 
 %% Callbacks.
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).

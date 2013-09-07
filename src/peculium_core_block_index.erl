@@ -54,7 +54,7 @@
     best_block_hash = undefined :: hash() | undefined
 }).
 
--include_lib("peculium_core/include/peculium_core.hrl").
+-include("peculium_core.hrl").
 
 -define(SERVER, ?MODULE).
 

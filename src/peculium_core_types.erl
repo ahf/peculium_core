@@ -45,9 +45,9 @@
         getdata_message/0, notfound_message/0, addr_message/0,
         headers_message/0, getblocks_message/0, getheaders_message/0,
         transaction_message/0, block_message/0, message/0, block_index_entry/0,
-        block_locator/0, message_types/0, unix_epoch/0]).
+        block_locator/0, message_types/0, unix_epoch/0, address/0]).
 
--include_lib("peculium_core/include/peculium_core.hrl").
+-include("peculium_core.hrl").
 
 -type unit_type() :: megabitcoin | kilobitcoin | hectobitcoin | decabitcoin
                    | bitcoin | decibitcoin | centibitcoin | millibitcoin

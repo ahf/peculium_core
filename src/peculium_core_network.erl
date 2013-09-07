@@ -39,7 +39,7 @@
 %% Types.
 -type network() :: peculium_core_types:network().
 
--include_lib("peculium_core/include/peculium_core.hrl").
+-include("peculium_core.hrl").
 
 %% Tests.
 -include("peculium_core_test.hrl").

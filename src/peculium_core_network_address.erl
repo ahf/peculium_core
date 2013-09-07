@@ -44,7 +44,7 @@
 -type uint64_t() :: peculium_core_types:uint64_t().
 -type network_address() :: peculium_core_types:network_address().
 
--include_lib("peculium_core/include/peculium_core.hrl").
+-include("peculium_core.hrl").
 
 %% @doc Returns the timestamp of a given network address.
 -spec time(NetworkAddress :: network_address()) -> uint32_t().
